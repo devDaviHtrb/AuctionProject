@@ -1,1 +1,0 @@
-#eventos dos sockets
