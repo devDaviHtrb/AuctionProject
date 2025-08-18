@@ -1,15 +1,15 @@
-from flask import *
+from flask import blueprints, Flask
+from flask_socketio import SocketIO
+def create_app():
 
-
-#inicializar extensoes do db, migrate e sockets aqui
-
-def createApp():
-    #inicialização de extenções
     app = Flask(__name__)
+    app.secret_key = 'senha'
+    socketIo = SocketIO(app, cors_allowed_origins="*")  
+    
+    #Listing blueprints
+    
 
-    #reistro de rotas via blue print
-    #retornando a intancia
-    return app
+    #Returning instance
+    return {"app":app, "socket":socketIo}
 
-   
 

@@ -1,7 +1,7 @@
 from app import createApp
 
 
-app = createApp()
+instance = createApp()
 
 if __name__ =="__main__":
-    app.run(debug=True)
+    instance["socket"].run(instance["app"], debug=True)
