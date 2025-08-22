@@ -1,4 +1,4 @@
-from flask import blueprints, Flask
+from flask import Flask
 from flask_socketio import SocketIO
 from config import Config
 
@@ -10,6 +10,9 @@ def create_app():
     socketIo = SocketIO(app)  
     
     #Listing blueprints
+    from app.routes.Home import home
+    app.register_blueprint(home)
+
     #Importing sockets events
     from app import sockets
 
