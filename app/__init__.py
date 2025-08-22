@@ -7,7 +7,8 @@ def create_app():
     socketIo = SocketIO(app, cors_allowed_origins="*")  
     
     #Listing blueprints
-    
+    #Importing sockets events
+    from app import sockets
 
     #Returning instance
     return {"app":app, "socket":socketIo}
