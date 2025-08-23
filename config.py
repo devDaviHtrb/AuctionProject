@@ -1,6 +1,5 @@
 from secrets import token_hex
-from flask_socketio import *
-from flask import *
+
 
 class Config:
     #The constructor method isn't necessary because this class is only a container of static attributes for the server.
