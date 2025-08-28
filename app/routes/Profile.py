@@ -1,4 +1,4 @@
-from flask import redirect, render_template, Blueprint, request, make_response, url_for
+from flask import render_template, Blueprint
 
 profile = Blueprint("profile", __name__)
 
