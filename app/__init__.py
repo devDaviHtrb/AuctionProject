@@ -10,7 +10,7 @@ def create_app():
     socketIo = SocketIO(app)  
     
     #Listing blueprints
-    from app.registerRoutes import register_routes
+    from app.setup.registerRoutes import register_routes
     register_routes(app)
 
     #Importing sockets events

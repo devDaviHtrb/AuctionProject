@@ -17,5 +17,4 @@ def register_routes(app):
         for ignore, obj in instance:
             #verifying the type of members
             if isinstance(obj, Blueprint):
-                print(f"var {ignore}")
                 app.register_blueprint(obj)
