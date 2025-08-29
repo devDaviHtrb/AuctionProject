@@ -1,22 +1,24 @@
 from flask import Flask
 from flask_socketio import SocketIO
+from myapp.setup.InitSocket import init_socket
 from config import Config
+
 
 def create_app():
 
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    socketIo = SocketIO(app)  
+    #Socket initialization
+    socketIo = init_socket(app) 
     
     #Listing blueprints
-    from app.setup.registerRoutes import register_routes
+    from myapp.setup.registerRoutes import register_routes
     register_routes(app)
 
-    #Importing sockets events
-    from app import sockets
+    import myapp.sockets.Connect
 
     #Returning instance
-    return {"app":app, "socket":socketIo}
+    return app, socketIo
 
 

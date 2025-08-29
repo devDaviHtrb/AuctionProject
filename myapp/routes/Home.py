@@ -5,7 +5,7 @@ home = Blueprint("home", __name__)
 
 @home.route("/")
 def Home():
-    if session["User"] == None:
+    if session.get("User") == None:
         return redirect(url_for("login.Login"))
     
     return render_template("index.html")

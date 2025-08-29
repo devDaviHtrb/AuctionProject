@@ -11,6 +11,13 @@
         <input type="password" name="password" >
         <button type="submit">Enviar</button>
     </form>
-    
+     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+          const socket = io()
+          
+          socket.on("connect", ()=>{
+            socket.send("oi")
+          })
+    </script>
 </body>
 </html>

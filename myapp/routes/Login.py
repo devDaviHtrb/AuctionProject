@@ -1,6 +1,6 @@
 from flask import redirect, render_template, Blueprint, request, make_response, url_for
 
-from app.services.InitSession import init_session
+from myapp.services.InitSession import init_session
 
 login = Blueprint("login", __name__)
 
