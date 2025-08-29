@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, redirect, request, url_for
+from flask import Blueprint, make_response, redirect, request, session, url_for
 
 
 logout = Blueprint("logout", __name__)
@@ -6,7 +6,5 @@ logout = Blueprint("logout", __name__)
 
 @logout.route("/logout", methods=["POST"])
 def Logout():
-    if request.method =="POST":
-        response = make_response(redirect(url_for("login.Login")))
-        response.delete_cookie("User")
-        return response
+    session.clear()
+    return redirect(url_for("home.Home"))
