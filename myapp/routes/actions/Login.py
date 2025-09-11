@@ -1,4 +1,7 @@
 from flask import redirect, render_template, Blueprint, request, make_response, url_for
+from flask import Response
+
+from typing import Union
 
 from myapp.services.InitSession import init_session
 from myapp.services.setCookies import set_cookies
@@ -6,7 +9,7 @@ from myapp.services.setCookies import set_cookies
 login = Blueprint("login", __name__)
 
 @login.route("/login", methods=["POST", "GET"])
-def Login():
+def Login() -> Union[Response, str]:
     
     msg = "asdasa"
 

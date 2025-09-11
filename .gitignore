@@ -25,6 +25,7 @@ __pycache__/
 # =========================
 instance/
 config_local.py
+*.env
 
 # =========================
 # Banco de Dados

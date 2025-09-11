@@ -1,12 +1,12 @@
 import pkgutil
 from importlib import import_module
 from inspect import getmembers
-from flask import Blueprint
+from flask import Blueprint, Flask
 import os
 
 
 
-def register_routes(app, folder="myapp/routes", package="myapp.routes"):
+def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.routes") -> None:
     folder = os.path.abspath(folder)
     for item in os.listdir(folder):
 
