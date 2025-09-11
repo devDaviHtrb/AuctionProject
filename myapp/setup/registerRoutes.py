@@ -14,10 +14,14 @@ def register_routes(app, folder="myapp/routes", package="myapp.routes"):
             #verifying if is a module
             if item.endswith(".py") == False:
                 #opening the folder
-                register_routes(app, f"{folder}/{item}", f"{package}.{item}")
-            else:
 
-                module = import_module(f"{package}.{item[:-3]}")
+                SubDirectory = f"{folder}/{item}"
+                SubDirectoryPackage = f"{package}.{item}"
+
+                register_routes(app, SubDirectory, SubDirectoryPackage)
+            else:
+                module_name = f"{package}.{item[:-3]}" #removing: .py
+                module = import_module(module_name)
 
                 for ignore1, obj in getmembers(module):
                     if isinstance(obj, Blueprint):
