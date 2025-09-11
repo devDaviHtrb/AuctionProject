@@ -8,7 +8,7 @@ login = Blueprint("login", __name__)
 @login.route("/login", methods=["POST", "GET"])
 def Login():
     
-    msg = ""
+    msg = "asdasa"
 
     if request.method == "POST":
         
@@ -28,4 +28,4 @@ def Login():
         
         return response
         
-    return render_template("Login.html", message = msg)
+    return redirect(url_for("loginPage.LoginPage", msg=msg))

@@ -2,19 +2,18 @@ import pkgutil
 from importlib import import_module
 from inspect import getmembers
 from flask import Blueprint
+import os
 
-def register_routes(app):
-    folder = "myapp/routes"
 
-    #Using pkgutil for read all modules in the folder
-    for ignore1, route, ignore2 in pkgutil.iter_modules([folder]):
-        #importing the module with import_module
-        module = import_module(f"myapp.routes.{route}")
 
-        #Returning members(variables, objects, functions and etc)
-        instance = getmembers(module)
-
-        for ignore, obj in instance:
-            #verifying the type of members
-            if isinstance(obj, Blueprint):
-                app.register_blueprint(obj)
+def register_routes(app, folder="myapp/routes", package="myapp.routes"):
+    folder = os.path.abspath(folder)
+    for item in os.listdir(folder):
+        if  item!="__pycache__":
+            if item.endswith(".py") == False:
+                register_routes(app, f"myapp/routes/{item}", f"{package}.{item}")
+            else:
+                module = import_module(f"{package}.{item[:-3]}")
+                for ignore1, obj in getmembers(module):
+                    if isinstance(obj, Blueprint):
+                        app.register_blueprint(obj)

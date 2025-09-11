@@ -7,5 +7,5 @@ def create_SocketEvents():
     #Using pkgutil for read all modules in the folder
     for ignore1, module, ignore2 in pkgutil.iter_modules([folder]):
         #importing the event with import_module
-        event = import_module(f"myapp.sockets.{module}")
+        import_module(f"myapp.sockets.{module}")
         
