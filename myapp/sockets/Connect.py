@@ -1,7 +1,7 @@
 
-from myapp.setup.InitSocket import socketIo
+from myapp.setup.InitSocket import socket_io
 from typing import Dict, Any
 
-@socketIo.on("message")
+@socket_io.on("message")
 def Connect(data:Dict[str, Any]) -> None:
     print("Connected")

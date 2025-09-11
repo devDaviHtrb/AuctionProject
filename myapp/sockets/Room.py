@@ -1,7 +1,6 @@
-from flask import request
-from flask_socketio import emit, join_room, leave_room
+from flask_socketio import emit, join_room
 from typing import Dict, Any
-from app import socket_io
+from myapp.setup.InitSocket import socket_io
 
 @socket_io.on("join_room")
 def handle_join(data: Dict[str, Any]) -> None:
