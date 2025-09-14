@@ -17,7 +17,7 @@ def handle_join(data: Dict[str, Any]) -> None:
     emit("server_content", {"response": response}, to=room_id)
 
 
-@socket_io.on("client_content")
+@socket_io.on("bid_content")
 def handle_content(data: Dict[str, Any]) -> None:
     room_id = data.get("to_room_id")
     user_id = data.get("user_id"),

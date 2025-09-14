@@ -38,7 +38,7 @@ def close_auction(auction_id:int) -> None:
 
         auction_timers.pop(auction_id)
 
-def restart() -> None:
+def start() -> None:
     # active_auctions = auctions that are active
     # for auction in active_auctions:
     #   delta = auction.end() - datetime.utcnow()
