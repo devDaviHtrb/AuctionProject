@@ -1,9 +1,17 @@
 # AuctionProject
 This repository is an academic project focused on the integration of database concepts, front and back-end web development and design, using technologies such as HTML, CSS, Python, JavaScript and MariaDB, which we will use to develop a fictitious auction website.
 
+## Sumary
+
+## Project Architecture
+
 ## Models
 
-## Notification
+## Notification 
+
+- ### Send ```/myapp/services/routes```
+  The function ```send_email(email, subject ,content)``` receives as parameters the user's email, subject and content of the message, and sends it to the user, notification management is done by 
+
 
 ## Asaas
 - ### Customer ```/services/CreateAsaasCustomer```
@@ -213,4 +221,8 @@ This repository is an academic project focused on the integration of database co
 
   To time it, there is the function ```start_auction_timer(auction_id, seconds)``` which calls the function ```close_auction()``` after giving the time, for the occasion in which a bid is made in the final minutes the function ```add_time_to_action(id_auction, seconds)``` will be called. In extreme cases or exceptions, for example a server crash, the function ```start()``` must be called in this case putting all the auctions in the database on timer again.
 
+## Configuration and Deployment
 
+## Security
+
+## The Team
