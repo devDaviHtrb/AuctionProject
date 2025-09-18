@@ -1,29 +1,31 @@
 from flask import redirect, render_template, Blueprint, request, make_response, url_for
 
-from myapp.services.InitSession import init_session
+from myapp.models.User import User
 from myapp.services.setCookies import set_cookies
+from flask_login import login_user
+from werkzeug.security import check_password_hash
 
 login = Blueprint("login", __name__)
 
 @login.route("/login", methods=["POST", "GET"])
-def Login():
-    
-    msg = "asdasa"
-
+def Login(msg=""):
     if request.method == "POST":
-        
         name = request.form["username"]
         password = request.form["password"]
 
         if not name or not password:
             msg = "Fill in all fields"
-            return render_template("Login.html", message = msg)
+            return redirect(url_for("loginPage.LoginPage", msg=msg))
         
-        #awaiting the DB creation
-        #if username and password in DB:
+        user = User.query.filter_by(username=name).first()
+
+        if not user or not check_password_hash(user.password, password):
+            msg = "The username or password is  wrong or don't exists"
+            return redirect(url_for("loginPage.LoginPage", msg=msg))
+
+        login_user(user, remember=True)
+
         response = make_response(redirect(url_for("profile.Profile")))
-        
-        init_session(name)
         set_cookies(request, response)
         
         return response
