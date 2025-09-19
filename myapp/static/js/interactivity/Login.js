@@ -7,7 +7,7 @@ fetch("/login", {
     username: document.getElementById("username").value,
     password: document.getElementById("password").value
   }),
-  credentials: "include"  // necessário pros cookies
+  credentials: "include" 
 })
   .then(res => res.json())
   .then(data => {

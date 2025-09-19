@@ -12,7 +12,7 @@ fetch("/singIn", {
     userType: "company"
 
   }),
-  credentials: "include"  // necessário pros cookies
+  credentials: "include"  
 })
   .then(res => res.json())
   .then(data => {

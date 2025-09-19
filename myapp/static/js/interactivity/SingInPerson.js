@@ -10,7 +10,7 @@ fetch("/singIn", {
     cpf: document.getElementById("password").value,
     userType: "natural person"
   }),
-  credentials: "include"  // necessário pros cookies
+  credentials: "include" 
 })
   .then(res => res.json())
   .then(data => {

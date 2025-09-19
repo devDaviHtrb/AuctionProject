@@ -2,7 +2,7 @@ from importlib import import_module
 from inspect import getmembers
 from flask import Blueprint
 import os
-from myapp.setup.PermissionRequire import communRoutes, publicRoutes, adminRoutes
+from myapp.setup.PermissionRequire import commonRoutes, publicRoutes, adminRoutes
 
 def register_routes(app, folder="myapp/routes", package="myapp.routes"):
     folder = os.path.abspath(folder)
@@ -29,4 +29,4 @@ def register_routes(app, folder="myapp/routes", package="myapp.routes"):
                         elif os.path.basename(folder) == "admin":
                             adminRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
                         else:
-                            communRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
+                            commonRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
