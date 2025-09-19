@@ -9,7 +9,21 @@ fetch("/singIn", {
     email: document.getElementById("email").value,
     cpf: document.getElementById("password").value,
     cnpj: document.getElementById("password").value,
-    userType: "company"
+    userType: "company",
+    photo: document.getElementById("photo"),
+    cellphone1: document.getElementById("cellphone1"),
+    cellphone2: document.getElementById("cellphone2"),
+    street_name:document.getElementById("street_name"),
+    street_number:document.getElementById("street_number"),
+    apt:document.getElementById("apt"),
+    zip_code:document.getElementById("zip_code"),
+    district:document.getElementById("district"),
+    city:document.getElementById("city"),
+    state:document.getElementById("state"),
+    trade_name: document.getElementById("trade_name"),
+    state_tax_registration: document.getElementById("state_tax_registration"),
+    legal_business_name: document.getElementById("legal_business_name"),
+    scrap_purchase_authorization:  document.getElementById("scrap_purchase_authorization")
 
   }),
   credentials: "include"  

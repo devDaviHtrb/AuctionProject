@@ -13,13 +13,13 @@ def SingIn():
     user_type = request.form["userType"]#company or natural person
 
     #required data
-    datakey = get_columns_names(User)
-    datakey += get_columns_names(NaturalPerson) if user_type == "person" else  get_columns_names(LegalEntity)
+    datakey = ["username","password","email","cp","name","userType","cellphone1","cellphone2","photo", "street_name", "street_number", "apt", "zip_code", "district", "city", "state"]
+    datakey += ["rg", "birth_date", "gender"] if user_type == "person" else ["cnpj", "state_tax_registration", "legal_business_name", "trade_name", "scrap_purchase_authorization"]
     data = {}
 
     for requiredData in datakey:
         value = request.form[requiredData]
-        if value == "":
+        if value == "" and requiredData!="cellphone2" or  value == "" and requiredData!="photo":
             msg = "Complete all the inputs"
             return jsonify({"InputError": msg})
         data[requiredData] = value
