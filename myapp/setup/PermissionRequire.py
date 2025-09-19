@@ -15,9 +15,8 @@ def init_authDecorator(app):
         elif not current_user.is_authenticated and request.endpoint in communRoutes:
             abort(401)
             #adicionar o login reuqired
-        elif request.endpoint in adminRoutes:
-            if not getattr(current_user, "admin", False):
-                abort(403)
+        elif not current_user.admin and request.endpoint in adminRoutes:
+            abort(403) 
         
            
 
