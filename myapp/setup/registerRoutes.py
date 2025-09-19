@@ -1,4 +1,3 @@
-import pkgutil
 from importlib import import_module
 from inspect import getmembers
 from flask import Blueprint

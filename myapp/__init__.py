@@ -1,3 +1,4 @@
+
 from .extensions import *
 
 def create_app():
@@ -17,6 +18,8 @@ def create_app():
     create_tables(app, db)
 
     init_loginManager(app)
+
+    init_LoginManager(app)
 
     #Returning instance
     return app, socketIo

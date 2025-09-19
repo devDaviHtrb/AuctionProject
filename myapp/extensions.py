@@ -6,3 +6,5 @@ from myapp.setup.InitSqlAlchemy import init_db
 from myapp.setup.createSocketEvents import create_SocketEvents
 from myapp.setup.createTables import create_tables
 from myapp.setup.registerRoutes import register_routes
+from myapp.setup.authMng.InitLoginManager import init_LoginManager
+from myapp.setup.authMng.methods.loader import *

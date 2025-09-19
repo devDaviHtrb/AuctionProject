@@ -1,3 +1,4 @@
+
 from flask import Blueprint, make_response, redirect, request, session, url_for
 from flask_login import logout_user, current_user
 logout = Blueprint("logout", __name__)
