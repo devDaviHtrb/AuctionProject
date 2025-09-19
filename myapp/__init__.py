@@ -14,8 +14,10 @@ def create_app():
     create_SocketEvents()
     
     #Db initialization
-    #db = init_db(app)
-    #create_tables(app, db)
+    db = init_db(app)
+    create_tables(app, db)
+
+    init_loginManager(app)
 
     init_LoginManager(app)
 
