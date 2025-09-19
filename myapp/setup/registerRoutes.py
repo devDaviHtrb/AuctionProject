@@ -17,6 +17,7 @@ def register_routes(app, folder="myapp/routes", package="myapp.routes"):
 
                 register_routes(app, SubDirectory, SubDirectoryPackage)
             else:
+                # "{blueprint name}.{blueprint arquive name}"
                 module_name = f"{package}.{item[:-3]}" #removing: .py
                 module = import_module(module_name)
                 

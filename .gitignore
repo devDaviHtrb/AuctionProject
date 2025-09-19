@@ -8,8 +8,6 @@ __pycache__/
 *.pdb
 *.egg-info/
 *.log
-
-
 .venv
 
 # =========================
@@ -25,6 +23,8 @@ __pycache__/
 # =========================
 instance/
 config_local.py
+markdown.py
+*.env
 
 # =========================
 # Banco de Dados
@@ -33,7 +33,11 @@ config_local.py
 *.sqlite3
 
 # =========================
+# Docker
+# =========================
+docker-compose.yml
+
+# =========================
 # Migrations
 # =========================
 migrations/versions/
-

@@ -10,7 +10,8 @@ class Config:
   
     DEBUG = True
 
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:1234@127.0.0.1:3306/AuctionDb" #meu banco local
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:abc2109@localhost:5432/auction"
+
 
     # Evita warnings desnecessários do SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
