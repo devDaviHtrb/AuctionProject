@@ -1,29 +1,29 @@
-# Servidor e Framework
+
 Flask==2.3.5
 Flask-Login==0.6.3
 Flask-SQLAlchemy==3.0.5
 Flask-Migrate==4.1.2
 Flask-WTF==1.1.1
 
-# Banco de dados
+
 psycopg2-binary==2.9.9
 
-# Validações
+
 email-validator==2.1.2
 validate-docbr==1.11.0  # CPF/CNPJ
 
-# Websockets
+
 Flask-SocketIO==5.3.3
 python-socketio==5.9.1
 python-engineio==5.3.1
 
-# Criptografia e segurança
+
 bcrypt==4.1.1
 cryptography==41.0.3
 
-# Outras utilidades
+
 requests==2.31.0
 python-dotenv==1.0.0
 
-# Tipagem (opcional, mas mencionada)
+
 mypy==1.5.1
