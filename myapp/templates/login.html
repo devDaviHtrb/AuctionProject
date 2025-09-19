@@ -6,12 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/login" method="POST">
-        <p>{{message}}</p>
-        <input type="text" name="username"  required>
-        <input type="password" name="password" >
-        <button type="submit">Enviar</button>
-    </form>
+        <p id="msg"></p>
+        <input type="text" name="username" id="username"  required>
+        <input type="password" name="password" id="password" >
+        <button id="loginButton">Enviar</button>
      <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script>
           const socket = io()
@@ -20,5 +18,7 @@
             socket.send("oi")
           })
     </script>
+
+<script type="module" src="{{ url_for('static', filename='js/JsClass/LoginButton.js') }}"></script>
 </body>
 </html>
