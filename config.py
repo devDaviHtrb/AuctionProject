@@ -29,9 +29,7 @@ class Config:
     
     #FLASK
     SECRET_KEY = token_hex(16)
-    SOCKETIO_ASYNC_MODE = "threading"
-<<<<<<< HEAD
-  
+    SOCKETIO_ASYNC_MODE = "threading"  
     DEBUG = True
 
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:abc2109@localhost:5432/auction"
@@ -40,9 +38,8 @@ class Config:
     # Evita warnings desnecessários do SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-=======
+
     FLASK_ENV = os.getenv("FLASK_ENV")
     HOST = os.getenv("HOST", "0.0.0.0")
     PORT = os.getenv("PORT", "5000")
     DEBUG = os.getenv("DEBUG", False)
->>>>>>> WebSocketIO
