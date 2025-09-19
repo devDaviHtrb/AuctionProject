@@ -1,7 +1,9 @@
 import pkgutil
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from importlib import import_module
 
-def create_tables(app, db):
+def create_tables(app:Flask, db:SQLAlchemy) -> None:
     folder = "myapp/models"
 
     #Using pkgutil for read all modules in the folder

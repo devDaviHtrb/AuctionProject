@@ -1,7 +1,7 @@
 import pkgutil
 from importlib import import_module
 
-def create_SocketEvents():
+def create_SocketEvents() -> None:
     folder = "myapp/sockets"
 
     #Using pkgutil for read all modules in the folder
