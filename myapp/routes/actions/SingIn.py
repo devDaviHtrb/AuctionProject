@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request
+from flask import Blueprint, jsonify, redirect, url_for, request
 
 from myapp.models.LegalEntity import LegalEntity
 from myapp.models.NaturalPerson import NaturalPerson
@@ -20,25 +20,32 @@ def SingIn():
     for requiredData in datakey:
         value = request.form[requiredData]
         if value == "":
-            return redirect(url_for("singInPage.singInPage", msg = "Complete all the inputs"))
+            msg = "Complete all the inputs"
+            return jsonify({"InputError": msg})
         data[requiredData] = value
-
-
+        
+    #validations
     if not is_email(data["email"]):
-        return redirect(url_for("singInPage.singInPage", msg = "Invalid email"))
+        msg = "Invalid email"
+        return jsonify({"InputError": msg})
+    
     if user_type == "person":
         if is_cpf(data["cpf"]):
             if not User_validation(data["username"], data["email"], data["cpf"]):
-                return redirect(url_for("singInPage.singInPage", msg = "There is already a user with that name, email or CPF"))
+                msg = "There is already a user with that name, email or CPF"
+                return  jsonify({"InputError": msg})
         else:
-            return redirect(url_for("singInPage.singInPage", msg = "Invalid CPF"))
+            msg = "Invalid CPF"
+            return  jsonify({"InputError": msg})
     else:
         if is_cnpj(data["cnpj"]):
             if not User_validation(data["username"], data["email"], data["cpf"], data["cnpj"]):
-                return redirect(url_for("singInPage.singInPage", msg = "There is already a user with that name, email or CNPJ"))
+                msg = "There is already a user with that name, email or CNPJ"
+                return  jsonify({"InputError": msg})
         else:
-            return redirect(url_for("singInPage.singInPage", msg = "Invalid CNPJ"))
+            msg = "Invalid CNPJ"
+            return  jsonify({"InputError": msg})
         
 
-    #validations
-    return redirect(url_for("loginPage.LoginPage"))
+    
+    return jsonify({"redirect":url_for("loginPage.LoginPage")})
