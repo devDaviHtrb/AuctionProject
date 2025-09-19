@@ -1,10 +1,10 @@
-from flask import blueprints, jsonify, request
+from flask import Blueprint, jsonify, request
 
 from typing import  Dict
 from config import Config
 
 INTERNAL_TOKEN_API = Config.INTERNAL_TOKEN_API
-webhook = blueprints("payment", __name__, url_prefix = "/payment")
+webhook = Blueprint("payment", __name__, url_prefix = "/payment")
 
 
 @webhook.route('/webhook', methods=['POST'])
