@@ -4,5 +4,5 @@ singInPage = Blueprint("singInPagePerson", __name__)
 
 @singInPage.route("/singInPage", methods=["GET"])
 @singInPage.route("/singInPage/<msg>", methods=["GET"])
-def SingInPage(msg=""):
+def SingInPagePerson(msg=""):
     return render_template("SingInPerson.html", message = msg)

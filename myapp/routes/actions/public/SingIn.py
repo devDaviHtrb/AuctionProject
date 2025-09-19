@@ -49,3 +49,4 @@ def SingIn():
 
     
     return jsonify({"redirect":url_for("loginPage.LoginPage")})
+

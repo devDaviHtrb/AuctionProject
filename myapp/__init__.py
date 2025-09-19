@@ -5,10 +5,11 @@ def create_app():
 
     app = Flask(__name__)
     app.config.from_object(Config)
-
+    
+    
     #Listing blueprints
     register_routes(app)
-
+    register_handlers(app)
     #Socket initialization
     socketIo = init_socket(app) 
     create_SocketEvents()
@@ -18,6 +19,9 @@ def create_app():
     create_tables(app, db)
 
     init_loginManager(app)
+
+    init_authDecorator(app)
+    
 
     #Returning instance
     return app, socketIo
