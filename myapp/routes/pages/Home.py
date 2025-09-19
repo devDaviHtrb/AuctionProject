@@ -6,7 +6,7 @@ from flask_login import login_required
 home = Blueprint("home", __name__)
 
 @home.route("/")
-@login_required
+
 def Home():
     if session.get("User") == None:
         return redirect(url_for("loginPage.LoginPage"))

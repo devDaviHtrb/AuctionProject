@@ -19,7 +19,7 @@ def create_app():
 
     init_loginManager(app)
 
-    init_LoginManager(app)
+    init_loginManager(app)
 
     #Returning instance
     return app, socketIo
