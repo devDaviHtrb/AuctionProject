@@ -32,7 +32,7 @@ class Config:
     SOCKETIO_ASYNC_MODE = "threading"  
     DEBUG = True
 
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:abc2109@localhost:5432/auction"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:1234@127.0.0.1:3306/AuctionDb"
 
 
     # Evita warnings desnecessários do SQLAlchemy
