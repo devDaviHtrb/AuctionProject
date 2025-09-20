@@ -2,7 +2,7 @@ from myapp.models.LegalEntity import LegalEntity
 from myapp.models.User import User
 
 
-def User_validation(username, email, cpf=None, cnpj=None):
+def User_validation(username:str, email:str, cpf:str=None, cnpj:str=None) -> bool:
     if User.query.filter_by(username=username).first():
         return False
     if User.query.filter_by(email=email).first():

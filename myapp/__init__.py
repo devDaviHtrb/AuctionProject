@@ -1,7 +1,10 @@
 
 from .extensions import *
+from flask import Flask
+from flask_socketio import SocketIO
+from typing import Tuple
 
-def create_app():
+def create_app() -> Tuple[Flask, SocketIO]:
 
     app = Flask(__name__)
     app.config.from_object(Config)

@@ -1,10 +1,10 @@
-from flask import Blueprint, request, url_for, redirect, make_response
+from flask import Blueprint, request, url_for, redirect, make_response, Response
 
 styleMode = Blueprint("styleMode", __name__)
 
 
 @styleMode.route("/styleMode")
-def StyleMode():
+def StyleMode() -> Response:
     response = make_response(redirect(url_for("profile.Profile")))
     if request.cookies.get("StyleMode") == "light":
         response.set_cookie("StyleMode", "dark")

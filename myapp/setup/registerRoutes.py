@@ -7,27 +7,28 @@ from myapp.setup.PermissionRequire import commonRoutes, publicRoutes, adminRoute
 def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.routes") -> None:
     folder = os.path.abspath(folder)
     for item in os.listdir(folder):
-        if  item!="__pycache__":
+        if  item =="__pycache__":
+            continue
             #verifying if is a module
-            if item.endswith(".py") == False:
-                #opening the folder
+        if item.endswith(".py") == False:
+            #opening the folder
 
-                SubDirectory = f"{folder}/{item}"
-                SubDirectoryPackage = f"{package}.{item}"
+            SubDirectory = f"{folder}/{item}"
+            SubDirectoryPackage = f"{package}.{item}"
 
-                register_routes(app, SubDirectory, SubDirectoryPackage)
-            else:
-                # "{blueprint name}.{blueprint arquive name}"
-                module_name = f"{package}.{item[:-3]}" #removing: .py
-                module = import_module(module_name)
-                
-                for ignore1, obj in getmembers(module):
-                    if isinstance(obj, Blueprint):
-                        app.register_blueprint(obj)
+            register_routes(app, SubDirectory, SubDirectoryPackage)
+        else:
+            # "{blueprint name}.{blueprint arquive name}"
+            module_name = f"{package}.{item[:-3]}" #removing: .py
+            module = import_module(module_name)
+            
+            for ignore1, obj in getmembers(module):
+                if isinstance(obj, Blueprint):
+                    app.register_blueprint(obj)
 
-                        if os.path.basename(folder) == "public":
-                            publicRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
-                        elif os.path.basename(folder) == "admin":
-                            adminRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
-                        else:
-                            commonRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
+                    if os.path.basename(folder) == "public":
+                        publicRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
+                    elif os.path.basename(folder) == "admin":
+                        adminRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
+                    else:
+                        commonRoutes.append(f"{obj.name}.{obj.name.capitalize()}")

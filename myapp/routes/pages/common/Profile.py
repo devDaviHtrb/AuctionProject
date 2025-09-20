@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, Response
 
 
 profile = Blueprint("profile", __name__)
@@ -6,5 +6,5 @@ profile = Blueprint("profile", __name__)
 
 @profile.route("/profile")
 
-def Profile():
+def Profile() -> Response:
     return render_template("Profile.html")

@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, redirect, url_for, request
+from flask import Blueprint, jsonify, redirect, url_for, request, Response
 
 from myapp.models.LegalEntity import LegalEntity
 from myapp.models.NaturalPerson import NaturalPerson
@@ -9,7 +9,7 @@ from myapp.utils.utils import get_columns_names, is_cpf, is_cnpj, is_email, User
 singIn = Blueprint("singIn", __name__)
 
 @singIn.route("/singIn", methods=["POST"])
-def SingIn():
+def SingIn() -> Response:
     user_type = request.form["userType"]#company or natural person
 
     #required data

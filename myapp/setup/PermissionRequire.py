@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import abort, current_app, request
+from flask import Flask, abort, current_app, request
 #from flask_login import current_user
 
 publicRoutes = []
@@ -8,7 +8,7 @@ adminRoutes = []
 
 current_user = True
 
-def init_authDecorator(app):
+def init_authDecorator(app: Flask) -> None:
     @app.before_request
     def VerifyPermission():
         print(publicRoutes, commonRoutes, adminRoutes)

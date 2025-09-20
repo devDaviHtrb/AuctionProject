@@ -1,4 +1,4 @@
-from flask import jsonify, Blueprint, request, make_response, url_for
+from flask import jsonify, Blueprint, request, make_response, url_for, Response
 
 from myapp.models.User import User
 from myapp.services.setCookies import set_cookies
@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash
 login = Blueprint("login", __name__)
 
 @login.route("/login", methods=["POST", "GET"])
-def Login():
+def Login() -> Response:
     if request.method == "POST":
         name = request.form["username"]
         password = request.form["password"]
