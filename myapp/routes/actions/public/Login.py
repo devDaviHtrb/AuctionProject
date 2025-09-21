@@ -1,6 +1,6 @@
 from flask import jsonify, Blueprint, request, make_response, url_for, Response
 
-from myapp.models.User import users
+from myapp.models.Users import users
 from myapp.services.setCookies import set_cookies
 from flask_login import login_user
 

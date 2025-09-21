@@ -13,6 +13,7 @@ fetch("/singIn", {
     photo: document.getElementById("photo"),
     cellphone1: document.getElementById("cellphone1"),
     cellphone2: document.getElementById("cellphone2"),
+    landline: document.getElementById("landline").value,
     street_name:document.getElementById("street_name"),
     street_number:document.getElementById("street_number"),
     apt:document.getElementById("apt"),
@@ -21,7 +22,7 @@ fetch("/singIn", {
     city:document.getElementById("city"),
     state:document.getElementById("state"),
     trade_name: document.getElementById("trade_name"),
-     landline: document.getElementById("landline").value,
+    landline: document.getElementById("landline").value,
     state_tax_registration: document.getElementById("state_tax_registration"),
     legal_business_name: document.getElementById("legal_business_name"),
     scrap_purchase_authorization:  document.getElementById("scrap_purchase_authorization")

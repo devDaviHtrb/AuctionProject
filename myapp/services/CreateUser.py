@@ -1,7 +1,7 @@
 
 from myapp.models.PhysicalPerson import physical_persons
 from myapp.setup.InitSqlAlchemy import db
-from myapp.models.User import users
+from myapp.models.Users import users
 from myapp.models.LegalPerson import legal_persons
 from datetime import datetime
 

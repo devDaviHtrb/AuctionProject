@@ -2,9 +2,10 @@ from flask import Blueprint, jsonify, redirect, url_for, request, Response
 
 from myapp.models.LegalPerson import legal_persons
 from myapp.models.PhysicalPerson import physical_persons
-from myapp.models.User import users
+from myapp.models.Users import users
 
 from myapp.services.CreateUser import create_user
+from myapp.utils.Validations.UserValidation import User_validation
 from myapp.utils.utils import get_columns_names, is_cpf, is_cnpj, is_email, User_validation
 
 singIn = Blueprint("singIn", __name__)
@@ -16,13 +17,14 @@ def SingIn():
 
 
     #required data
-    datakey = ["username","password","email","cp","name","userType","cellphone1","cellphone2","photo", "street_name", "street_number", "apt", "zip_code", "district", "city", "state"]
+    datakey = ["username","password","email","cp","name","userType","cellphone1","cellphone2", "landline","photo", "street_name", "street_number", "apt", "zip_code", "district", "city", "state"]
     datakey += ["rg", "birth_date", "gender"] if user_type == "physical_person" else ["cnpj", "state_tax_registration", "legal_business_name", "trade_name", "scrap_purchase_authorization"]
     data = {}
+    nullAbleValues = ["cellphone2", "photo", "landline", "scrap_purchase_authorization"]
 
     for requiredData in datakey:
         value = request.form[requiredData]
-        if value == "" and requiredData!="cellphone2" or  value == "" and requiredData!="photo":
+        if value == "" and requiredData not in nullAbleValues:
             msg = "Complete all the inputs"
             return jsonify({"InputError": msg})
         data[requiredData] = value
