@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, redirect, url_for, request
+from flask import Blueprint, jsonify, redirect, url_for, request, Response
 
 from myapp.models.LegalPerson import legal_persons
 from myapp.models.PhysicalPerson import physical_persons
@@ -9,8 +9,10 @@ from myapp.utils.utils import get_columns_names, is_cpf, is_cnpj, is_email, User
 singIn = Blueprint("singIn", __name__)
 
 @singIn.route("/singIn", methods=["POST"])
+
 def SingIn():
     user_type = request.form["userType"]#legal_person or physical_person
+
 
     #required data
     datakey = ["username","password","email","cp","name","userType","cellphone1","cellphone2","photo", "street_name", "street_number", "apt", "zip_code", "district", "city", "state"]

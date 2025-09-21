@@ -28,12 +28,10 @@ python-dotenv==1.0.0
 
 
 mypy==1.5.1
-=======
-flask==3.1.1
-flask-socketio==5.5.1
-flask-sqlalchemy==3.1.1
+psycopg2-binary==2.9.10
+
+
 eventlet==0.40.2
 python-dotenv==1.0.1
-email-validator==2.3.0
-psycopg2-binary==2.9.10
->>>>>>> WebSocketIO
+
+

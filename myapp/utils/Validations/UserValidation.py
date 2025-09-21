@@ -1,7 +1,6 @@
 from myapp.models.LegalPerson import legal_persons
 from myapp.models.User import users
 
-
 def User_validation(username, email, cpf=None, cnpj=None):
     if users.query.filter_by(username=username).first():
         return False
