@@ -15,10 +15,13 @@ def init_authDecorator(app: Flask) -> None:
         print(publicRoutes, commonRoutes, adminRoutes)
         if request.endpoint in publicRoutes:
             return
-        elif not current_user and request.endpoint in commonRoutes:
+        if not current_user.is_authenticated and request.endpoint in commonRoutes:
             abort(401)
-        elif not current_user.admin_user and request.endpoint in adminRoutes:
-            abort(403) 
+            return
+        if  current_user.is_authenticated:
+            if not current_user.admin_user and request.endpoint in adminRoutes:
+                abort(403) 
+                return
         
            
 
