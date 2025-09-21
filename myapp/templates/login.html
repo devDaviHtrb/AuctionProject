@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-        <p id="msg"></p>
-        <input type="text" name="username" id="username"  required>
-        <input type="password" name="password" id="password" >
-        <button id="loginButton">Enviar</button>
-     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  </head>
+  <body>
+    <p id="msg"></p>
+    <input type="text" name="username" id="username" required />
+    <input type="password" name="password" id="password" />
+    <button id="loginButton">Enviar</button>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script>
-          const socket = io()
-          
-          socket.on("connect", ()=>{
-            socket.send("oi")
-          })
+      const socket = io();
+
+      socket.on("connect", () => {
+        socket.send("oi");
+      });
     </script>
 
-<script type="module" src="{{ url_for('static', filename='js/JsClass/LoginButton.js') }}"></script>
-</body>
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/JsClass/LoginButton.js') }}"
+    ></script>
+  </body>
 </html>

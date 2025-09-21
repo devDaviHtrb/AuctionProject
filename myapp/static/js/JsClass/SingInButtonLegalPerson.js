@@ -1,10 +1,10 @@
-import { singInLegalEntity } from "../interactivity/SingInLegalEntity"
+import { singInLegalPerson } from "../interactivity/SingInLegalPerson"
 class LoginButton{
     constructor(id){
         this.button = document.getElementById(id)
         
         this.button.addEventListener("click", (event)=>{
-            singInPerson()
+            singInLegalPerson()
         })
     }
 }

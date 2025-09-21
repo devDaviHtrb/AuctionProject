@@ -1,20 +1,22 @@
 from flask import Blueprint, jsonify, redirect, url_for, request, Response
 
-from myapp.models.LegalEntity import LegalEntity
-from myapp.models.NaturalPerson import NaturalPerson
-from myapp.models.User import User
+from myapp.models.LegalPerson import legal_persons
+from myapp.models.PhysicalPerson import physical_persons
+from myapp.models.User import users
 
 from myapp.utils.utils import get_columns_names, is_cpf, is_cnpj, is_email, User_validation
 
 singIn = Blueprint("singIn", __name__)
 
 @singIn.route("/singIn", methods=["POST"])
-def SingIn() -> Response:
-    user_type = request.form["userType"]#company or natural person
+
+def SingIn():
+    user_type = request.form["userType"]#legal_person or physical_person
+
 
     #required data
     datakey = ["username","password","email","cp","name","userType","cellphone1","cellphone2","photo", "street_name", "street_number", "apt", "zip_code", "district", "city", "state"]
-    datakey += ["rg", "birth_date", "gender"] if user_type == "person" else ["cnpj", "state_tax_registration", "legal_business_name", "trade_name", "scrap_purchase_authorization"]
+    datakey += ["rg", "birth_date", "gender"] if user_type == "physical_person" else ["cnpj", "state_tax_registration", "legal_business_name", "trade_name", "scrap_purchase_authorization"]
     data = {}
 
     for requiredData in datakey:
@@ -29,7 +31,7 @@ def SingIn() -> Response:
         msg = "Invalid email"
         return jsonify({"InputError": msg})
     
-    if user_type == "person":
+    if user_type == "physical_person":
         if is_cpf(data["cpf"]):
             if not User_validation(data["username"], data["email"], data["cpf"]):
                 msg = "There is already a user with that name, email or CPF"
