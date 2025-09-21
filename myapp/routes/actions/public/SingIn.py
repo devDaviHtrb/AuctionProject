@@ -4,6 +4,7 @@ from myapp.models.LegalPerson import legal_persons
 from myapp.models.PhysicalPerson import physical_persons
 from myapp.models.User import users
 
+from myapp.services.CreateUser import create_user
 from myapp.utils.utils import get_columns_names, is_cpf, is_cnpj, is_email, User_validation
 
 singIn = Blueprint("singIn", __name__)
@@ -48,6 +49,7 @@ def SingIn():
             msg = "Invalid CNPJ"
             return  jsonify({"InputError": msg})
         
+    create_user(data)
 
     
     return jsonify({"redirect":url_for("loginPage.LoginPage")})

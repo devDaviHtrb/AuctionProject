@@ -21,6 +21,7 @@ fetch("/singIn", {
     city:document.getElementById("city"),
     state:document.getElementById("state"),
     trade_name: document.getElementById("trade_name"),
+     landline: document.getElementById("landline").value,
     state_tax_registration: document.getElementById("state_tax_registration"),
     legal_business_name: document.getElementById("legal_business_name"),
     scrap_purchase_authorization:  document.getElementById("scrap_purchase_authorization")

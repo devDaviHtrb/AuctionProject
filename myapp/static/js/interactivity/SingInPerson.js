@@ -19,7 +19,8 @@ fetch("/singIn", {
     zip_code:document.getElementById("zip_code"),
     district:document.getElementById("district"),
     city:document.getElementById("city"),
-    state:document.getElementById("state")
+    state:document.getElementById("state"),
+    landline: document.getElementById("landline").value,
   }),
   credentials: "include" 
 })
