@@ -9,7 +9,7 @@ fetch("/singIn", {
     email: document.getElementById("email").value,
     cpf: document.getElementById("password").value,
     name: document.getElementById("name").value,
-    userType: "natural person",
+    userType: "physical_person",
     photo: document.getElementById("photo"),
     cellphone1: document.getElementById("cellphone1"),
     cellphone2: document.getElementById("cellphone2"),

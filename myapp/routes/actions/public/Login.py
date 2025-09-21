@@ -1,6 +1,6 @@
 from flask import jsonify, Blueprint, request, make_response, url_for
 
-from myapp.models.User import User
+from myapp.models.User import users
 from myapp.services.setCookies import set_cookies
 from flask_login import login_user
 
@@ -17,13 +17,13 @@ def Login():
             msg = "Fill in all fields"
             return jsonify({"InputError": msg})
         
-        user = User.query.filter_by(username=name).first()
+        user = users.query.filter_by(username=name).first()
         
         if not user or not check_password_hash(user.password, password):
             msg = "The username or password is  wrong or don't exists"
             return jsonify({"InputError": msg})
     
-        login_user(User.query.filter_by(username=name).first(), remember=True)
+        login_user(users.query.filter_by(username=name).first(), remember=True)
         
         response = make_response(jsonify({"redirect":url_for("profile.Profile")})) 
         set_cookies(request, response)

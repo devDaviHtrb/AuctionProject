@@ -16,7 +16,7 @@ def init_authDecorator(app):
             return
         elif not current_user and request.endpoint in commonRoutes:
             abort(401)
-        elif not current_user and request.endpoint in adminRoutes:
+        elif not current_user.admin_user and request.endpoint in adminRoutes:
             abort(403) 
         
            

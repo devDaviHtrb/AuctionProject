@@ -1,6 +1,6 @@
 export 
 
-function singInLegalEntity(){
+function singInLegalPerson(){
 fetch("/singIn", {
   method: "POST",
   body: new URLSearchParams({
@@ -9,7 +9,7 @@ fetch("/singIn", {
     email: document.getElementById("email").value,
     cpf: document.getElementById("password").value,
     cnpj: document.getElementById("password").value,
-    userType: "company",
+    userType: "legal_person",
     photo: document.getElementById("photo"),
     cellphone1: document.getElementById("cellphone1"),
     cellphone2: document.getElementById("cellphone2"),
