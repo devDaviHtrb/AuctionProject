@@ -7,3 +7,4 @@ from myapp.utils.Validations.CellphoneValidation import cellphone_validation as 
 from myapp.utils.Validations.RgValidation import validate_rg as is_rg
 from myapp.utils.Validations.AdressValidation import adress_validation
 from myapp.utils.Validations.StateTaxRegistration import state_tax_registration_validation
+from myapp.utils.Validations.UserValidation import User_validation

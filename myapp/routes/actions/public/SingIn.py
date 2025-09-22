@@ -5,8 +5,7 @@ from myapp.models.PhysicalPerson import physical_persons
 from myapp.models.Users import users
 
 from myapp.services.CreateUser import create_user
-from myapp.utils.Validations.UserValidation import User_validation
-from myapp.utils.utils import get_columns_names, is_cpf, is_cnpj, is_email, User_validation, is_phone_number, is_rg, adress_validation, state_tax_registration_validation
+from myapp.utils.utils import is_cpf, is_cnpj, is_email, User_validation, is_phone_number, is_rg, adress_validation, state_tax_registration_validation
 
 
 singIn = Blueprint("singIn", __name__)
