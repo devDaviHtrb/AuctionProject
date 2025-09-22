@@ -1,4 +1,4 @@
-from validate_docbr import CNPJ
+from PYBRDOC import Cnpj
 
 def CNPJ_validation(cnpj:str) -> bool:
-    return CNPJ().validate(cnpj) #Without mask
+    return Cnpj(cnpj).isValid #Without mask

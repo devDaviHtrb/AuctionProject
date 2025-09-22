@@ -1,4 +1,4 @@
-from validate_docbr import CPF
+from PYBRDOC import CPF
 
 def CPF_validation(cpf:str) -> bool:
-    return CPF().validate(cpf) #Without mask
+    return CPF(cpf).isValid #Without mask
