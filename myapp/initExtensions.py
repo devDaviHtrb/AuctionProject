@@ -1,4 +1,4 @@
-from extensions import *
+from myapp.extensions import *
 
 def init_extensions(app):
     #Listing blueprints

@@ -10,7 +10,7 @@ def create_app() -> Tuple[Flask, SocketIO]:
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    socketIo = init_extensions() #return socket object
+    socketIo = init_extensions(app) #return socket object
 
     #Returning instance
     return app, socketIo
