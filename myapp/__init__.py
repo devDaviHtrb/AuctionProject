@@ -1,30 +1,16 @@
-
-from .extensions import *
+from config import Config
 from flask import Flask
 from flask_socketio import SocketIO
 from typing import Tuple
+
+from myapp.initExtensions import init_extensions
 
 def create_app() -> Tuple[Flask, SocketIO]:
 
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    
-    #Listing blueprints
-    register_routes(app)
-    register_handlers(app)
-    #Socket initialization
-    socketIo = init_socket(app) 
-    create_SocketEvents()
-    
-    #Db initialization
-    db = init_db(app)
-    create_tables(app, db)
-
-    init_loginManager(app)
-
-    init_authDecorator(app)
-    
+    socketIo = init_extensions() #return socket object
 
     #Returning instance
     return app, socketIo
