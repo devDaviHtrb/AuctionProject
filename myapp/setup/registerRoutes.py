@@ -14,8 +14,8 @@ def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.ro
         pathRoute = os.path.join(folder, item) 
 
         #opening the folder
-        if os.path.isdir(pathRoute): register_routes(app, pathRoute, f"{package}.{item}")
-        if item.endswith(".py") == False:
+        if os.path.isdir(pathRoute): 
+            register_routes(app, pathRoute, f"{package}.{item}")
             continue
 
         # "{blueprint name}.{blueprint arquive name}"
