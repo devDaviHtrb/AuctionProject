@@ -10,25 +10,26 @@ def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.ro
         if  item =="__pycache__":
             continue
             #verifying if is a module
+
+        pathRoute = os.path.join(folder, item) 
+
+        #opening the folder
+        if os.path.isdir(pathRoute): register_routes(app, pathRoute, f"{package}.{item}")
         if item.endswith(".py") == False:
-            #opening the folder
+            continue
 
-            SubDirectory = f"{folder}/{item}"
-            SubDirectoryPackage = f"{package}.{item}"
-
-            register_routes(app, SubDirectory, SubDirectoryPackage)
-        else:
-            # "{blueprint name}.{blueprint arquive name}"
-            module_name = f"{package}.{item[:-3]}" #removing: .py
-            module = import_module(module_name)
+        # "{blueprint name}.{blueprint arquive name}"
+        module_name = f"{package}.{item[:-3]}" #removing: .py
+        module = import_module(module_name)
             
-            for ignore1, obj in getmembers(module):
-                if isinstance(obj, Blueprint):
-                    app.register_blueprint(obj)
-
-                    if os.path.basename(folder) == "public":
-                        publicRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
-                    elif os.path.basename(folder) == "admin":
-                        adminRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
-                    else:
-                        commonRoutes.append(f"{obj.name}.{obj.name.capitalize()}")
+        for ignore1, obj in getmembers(module):
+            if isinstance(obj, Blueprint):
+                app.register_blueprint(obj)
+                route_name = f"{obj.name}.{obj.name.capitalize()}"
+                match os.path.basename(folder):
+                    case "public":
+                        publicRoutes.append(route_name)
+                    case "admin":
+                        adminRoutes.append(route_name)
+                    case "common":
+                        commonRoutes.append(route_name)
