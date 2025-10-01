@@ -23,7 +23,9 @@ def Paginate():
                  "description":product.description,
                  "min_bid": str(product.min_bid) if product.min_bid is not None else None,
                 "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
-                 "category":  categories_list.get(product.category_id)} for product in products_list.items]
+                 "category":  categories_list.get(product.category_id),
+                 "room": product.product_room} for product in products_list.items]
+                
     response = {
         "products": products_response,
         "current_page": products_list.page,

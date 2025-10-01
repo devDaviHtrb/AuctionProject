@@ -3,6 +3,7 @@ from sqlalchemy import ForeignKey
 class products(db.Model):
     product_id =  db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String(255), nullable=False)
+    product_room = db.Column(db.String(255),nullable=False)
     description =  db.Column(db.Text, nullable=True)
     min_bid = db.Column(db.DECIMAL(12, 2), nullable=True)
     start_datetime =  db.Column(db.DateTime, nullable=True)

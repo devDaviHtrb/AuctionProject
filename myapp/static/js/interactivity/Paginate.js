@@ -14,7 +14,10 @@ async function loadProducts(page = 1, filter = '') {
       auctions.innerHTML += `<h3>${product.product_name}</h3>
                        <p>${product.description}</p>
                        <p>Min Bid: ${product.min_bid}</p>
-                       <p>Category: ${product.category}</p>`
+                       <p>Category: ${product.category}</p>
+                        <button class="join-auction" data-room-token="${product.product_room}">
+                        Join Auction
+                         </button>`
     });
 
     if (currentPage == 1){
