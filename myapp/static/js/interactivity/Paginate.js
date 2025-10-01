@@ -22,9 +22,9 @@ async function loadProducts(page = 1, filter = "") {
     });
     document.querySelectorAll(".join-auction").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        const roomToken = e.target.dataset.roomToken;
-        socket.emit("join_room", roomToken);
-        window.location.href = `/auction`;
+        const room = e.target.dataset.roomToken;
+        socket.emit("join_room", room);
+        window.location.href = `/auction/${room}`;
       });
     });
 
