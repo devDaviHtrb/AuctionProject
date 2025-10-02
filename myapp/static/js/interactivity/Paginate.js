@@ -1,5 +1,5 @@
 let currentPage = 1;
-let currentFilter = "";
+let currentFilter = document.getElementById("categories");
 
 async function loadProducts(page = 1, filter = "") {
   try {
@@ -12,13 +12,13 @@ async function loadProducts(page = 1, filter = "") {
     auctions.innerHTML = "";
 
     data.products.forEach((product) => {
-      auctions.innerHTML += `<h3>${product.product_name}</h3>
+      auctions.innerHTML += `<div><h3>${product.product_name}</h3>
                        <p>${product.description}</p>
                        <p>Min Bid: ${product.min_bid}</p>
                        <p>Category: ${product.category}</p>
                         <button class="join-auction" data-room-token="${product.product_room}">
                         Join Auction
-                         </button>`;
+                         </button></div>`;
     });
     document.querySelectorAll(".join-auction").forEach((btn) => {
       btn.addEventListener("click", (e) => {
@@ -51,14 +51,18 @@ async function loadProducts(page = 1, filter = "") {
 document
   .getElementById("prev-btn")
   .addEventListener("click", () =>
-    loadProducts(currentPage - 1, currentFilter)
+    loadProducts(currentPage - 1, currentFilter.value)
   );
 document
   .getElementById("next-btn")
   .addEventListener("click", () =>
-    loadProducts(currentPage + 1, currentFilter)
+    loadProducts(currentPage + 1, currentFilter.value)
   );
+currentFilter.addEventListener("change", (e) => {
+  currentPage = 1;
+  loadProducts(currentPage, e.target.value);
+});
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadProducts(currentPage, currentFilter);
+  loadProducts(currentPage, currentFilter.value);
 });
