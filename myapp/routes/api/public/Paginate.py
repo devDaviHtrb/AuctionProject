@@ -8,7 +8,6 @@ paginate = Blueprint("paginate", __name__)
 def Paginate(page, filter_select=None):
     current_page = page
     auctions_per_page = 10 #this value needs to be defined
-    filter_select = filter_select
     products_list = products.query.order_by(products.product_id).paginate(page=current_page, per_page=auctions_per_page)
     categories_list = {current_category.category_id:current_category.category_name for current_category in categories.query.order_by(categories.category_id).all()}
 
@@ -17,7 +16,7 @@ def Paginate(page, filter_select=None):
         if category:
             products_list = products.query.filter_by(category_id=category.category_id).paginate(page=current_page, per_page=auctions_per_page)
         else:
-            return jsonify("query error")
+            return jsonify("query error, this category not exists")
     
     products_response = [{"product_name": product.product_name,
                  "description":product.description,
