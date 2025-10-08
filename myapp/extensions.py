@@ -9,3 +9,4 @@ from myapp.setup.InitiLoginManager import init_loginManager
 from myapp.setup.PermissionRequire import init_authDecorator
 from myapp.setup.registerHandlers import register_handlers
 from myapp.setup.InitSqlAlchemy import db
+from myapp.setup.InitImageDb import init_image_db

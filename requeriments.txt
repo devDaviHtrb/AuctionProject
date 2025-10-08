@@ -34,4 +34,6 @@ psycopg2-binary==2.9.10
 eventlet==0.40.2
 python-dotenv==1.0.1
 
+cloudinary=1.44.1
 
+pillow=11.3.0

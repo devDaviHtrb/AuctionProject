@@ -1,6 +1,9 @@
 from myapp.extensions import *
 
 def init_extensions(app):
+
+    init_image_db()
+    
     #Listing blueprints
     register_routes(app)
     register_handlers(app)
@@ -15,5 +18,7 @@ def init_extensions(app):
 
     init_loginManager(app)
     init_authDecorator(app)
+
+
 
     return socketIo

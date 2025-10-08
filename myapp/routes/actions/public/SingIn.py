@@ -1,11 +1,8 @@
-from flask import Blueprint, jsonify, redirect, url_for, request, Response
-
-from myapp.models.LegalPerson import legal_persons
-from myapp.models.PhysicalPerson import physical_persons
-from myapp.models.Users import users
+from flask import Blueprint, jsonify, url_for, request, Response
 
 from myapp.services.CreateUser import create_user
-from myapp.utils.utils import is_cpf, is_cnpj, is_email, User_validation, is_phone_number, is_rg, adress_validation, state_tax_registration_validation
+from myapp.utils.Validations.validations import *
+from myapp.utils.utils import uploadImage
 
 
 singIn = Blueprint("singIn", __name__)
@@ -40,6 +37,19 @@ def SingIn():
     if not adress_validation(data["zip_code"], data["district"], data["state"], data["city"]): #without contractions
         msg = "Invalid location data"
         return jsonify({"InputError": msg})
+    if data.get("photo"):
+        if validateImg(data["photo"]):
+            photo_url = uploadImage(data["photo"], "Users_photos")
+            if not photo_url:
+                msg = "Image db connection error, sorry, try the submit without img"
+                print("Db connection error")
+            else: data["photo_url"] = photo_url
+        else:
+            msg = "Invalid file "
+            return jsonify({"InputError": msg})
+
+           
+
     
     if user_type == "physical_person":
         if is_cpf(data["cpf"]) and is_rg(data["rg"]):

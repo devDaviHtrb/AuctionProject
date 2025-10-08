@@ -16,7 +16,7 @@ def create_user(data: dict):
         email = data.get("email"),
         cpf = data.get("cpf"),
         name = data.get("name"),
-        photo = data.get("photo", None),
+        photo = data.get("photo_url", None),
         cellphone1 = data.get("cellphone1"),
         cellphone2 = data.get("cellphone2", None),
         landline = data.get("landline", None),
