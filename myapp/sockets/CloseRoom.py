@@ -1,32 +1,33 @@
 import threading as thread
 from datetime import datetime, timedelta
 from myapp.setup.InitSocket import socket_io
-#from myapp.setup.InitSqlAlchemy import db
-#from myapp.models.Auction import Auction
+from myapp.models.Products import products
+from myapp.models.ProductStatuses import product_statuses
 
-auction_timers = {}      # {auction_id, thread.Timer}
+products_timers = {}      # {auction_id, thread.Timer}
 
-def close_auction(auction_id:int) -> None:
+def close_auction(product_id:int) -> None:
     '''
     delete in Database
     verify if auction status is != closed
     verify the winner
     #cmp
     '''
-    # auction = db.query(Auction).get(auction_id)
+    product = products.query.get(product_id)
 
-    cmp = True
-    if (cmp): # if(auction and auction.status != "closed")
+    status = product.get_status().upper() == "OCCURRING"
+    if (product and status): 
         """
         set as closed
         """
         #acution.status = "closed"
-        room_id = auction_id #pesquisa
+        room_id = product_id #pesquisa
+        # win
         socket_io.emit(
             "auctin_closed",
             {
-                "auction_id": auction_id,
-                "message": "Fish Auction",
+                "product_id": product_id,
+                "message": "Finish Auction",
             },
             room = room_id
         )
@@ -36,37 +37,40 @@ def close_auction(auction_id:int) -> None:
             for client in clients:
                 socket_io.leave_room(client, room_id)
 
-        auction_timers.pop(auction_id)
+        products_timers.pop(product_id)
 
 def restart() -> None:
-    # active_auctions = auctions that are active
-    # for auction in active_auctions:
-    #   delta = auction.end() - datetime.utcnow()
-    #   if delta < 0:
-    #       close_auction(auction.id)
-    #   else:
-    #       start_auction_timer(auction.id, delta.total_seconds())  
-    pass
+    active_products = products.get_actives()
+    products_timers.clear()
+    for product in active_products:
+        delta = product.end() - datetime.utcnow()
+        if delta < 0:
+            close_auction(product.product_id)
+        else:
+            start_auction_timer(product.product_id, delta.total_seconds())  
 
-def add_time_to_auction(auction_id: int, seconds:int) -> None:
-    if auction_id not in auction_timers:
+
+def add_time_to_auction(product_id: int, seconds:int) -> None:
+    if product_id not in products_timers:
         return 
     
-    auction_timers[auction_timers].cancel()
-    # auction = db.query(Auction).get(auction_id)
-    # acution.end += timedelta(seconds = seconds)
-    # remaining_seconds = (auction.end - datetime.utcnow()).total_seconds()
-    ##total_seconds is for timedelta class
-    # if remaining_seconds < 0:
-    #   return
-    # timer = thread.Timer(remaining_seconds, close_auction, args=[auction_id])
-    # timer.start()
-    # auction_timers[auction_id] = timer
+    products_timers[product_id].cancel()
+    product = products.query.get(product_id)
+    product.end_datetime += timedelta(seconds = seconds)
 
-def start_auction_timer(auction_id:int, seconds:int) -> None:
-    end_time = datetime.now() + timedelta(seconds=seconds)
-    # auction = db.query(Auction).get(auction_id)
-    # acutin.end = end_time
-    timer = thread.Timer(seconds, close_auction, args=[auction_id])
+    #obs ->>>>
+    remaining_seconds = (product.end_datetime.end - datetime.utcnow()).total_seconds()
+    ##total_seconds is for timedelta class
+    if remaining_seconds < 0:
+       return
+    timer = thread.Timer(remaining_seconds, close_auction, args=[product_id])
     timer.start()
-    auction_timers[auction_timers] = timer
+    products_timers[product_id] = timer
+
+def start_auction_timer(product_id:int, seconds:int) -> None:
+    end_time = datetime.now() + timedelta(seconds=seconds)
+    product = products.query.get(product_id).first()
+    product.end = end_time
+    timer = thread.Timer(seconds, close_auction, args=[product_id])
+    timer.start()
+    products_timers[product_id] = timer
