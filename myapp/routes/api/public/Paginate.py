@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify
 from myapp.models.Categories import categories
 from myapp.models.Products import products
+from flask import Response
 
 paginate = Blueprint("paginate", __name__)
 @paginate.route("/paginate/<int:page>", methods=["GET"])
 @paginate.route("/paginate/<int:page>/<filter_select>", methods=["GET"])
-def Paginate(page, filter_select=None):
+def Paginate(page:int, filter_select:str=None) -> Response:
     current_page = page
     auctions_per_page = 10 #this value needs to be defined
     products_list = products.query.order_by(products.product_id).paginate(page=current_page, per_page=auctions_per_page)
@@ -16,14 +17,18 @@ def Paginate(page, filter_select=None):
         if category:
             products_list = products.query.filter_by(category_id=category.category_id).paginate(page=current_page, per_page=auctions_per_page)
         else:
-            return jsonify("query error, this category not exists")
+            return jsonify({"Error": "query error, this category not exists"})
     
-    products_response = [{"product_name": product.product_name,
-                 "description":product.description,
-                 "min_bid": str(product.min_bid) if product.min_bid is not None else None,
-                "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
-                 "category":  categories_list.get(product.category_id),
-                 "room": product.product_room} for product in products_list.items]
+    products_response = [
+                {
+                    "product_name": product.product_name,
+                    "description":product.description,
+                    "min_bid": str(product.min_bid) if product.min_bid is not None else None,
+                    "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
+                    "category":  categories_list.get(product.category_id),
+                    "room": product.product_room
+                } for product in products_list.items
+            ]
                 
     response = {
         "products": products_response,

@@ -24,6 +24,8 @@ __pycache__/
 instance/
 config_local.py
 markdown.py
+test.py
+obs.txt
 *.env
 
 # =========================

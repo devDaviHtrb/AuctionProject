@@ -7,10 +7,12 @@ def User_validation(username:str, email:str, cpf:str=None, cnpj:str=None, rg=Non
         return False
     if users.query.filter_by(email=email).first():
         return False
+    """ 
     if cpf and users.query.filter_by(CPF=cpf).first():
         return False
     if users.query.filter_by(rg=rg).first():
         return False
     if cnpj and legal_persons.query.filter_by(CNPJ=cnpj).first():
         return False
+    """
     return True #Create this user is possible

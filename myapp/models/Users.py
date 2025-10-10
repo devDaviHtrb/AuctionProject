@@ -8,9 +8,9 @@ class users(db.Model, UserMixin):
     username = db.Column(db.String(50), nullable= False)
     password = db.Column(db.String(400), nullable=False)
     email = db.Column(db.String(255), nullable=False)
-    cpf =  db.Column(db.CHAR(11), nullable=False)
+    cpf =  db.Column(db.CHAR(11), nullable=True) #False
     photo = db.Column(db.String(255), nullable=True)
-    cellphone1 = db.Column(db.CHAR(14), nullable=False)
+    cellphone1 = db.Column(db.CHAR(14), nullable=True) #False
     cellphone2 = db.Column(db.CHAR(14), nullable=True)
     landline = db.Column(db.CHAR(13), nullable=True)
     wallet = db.Column(db.DECIMAL(precision=10, scale=2), nullable=False)
