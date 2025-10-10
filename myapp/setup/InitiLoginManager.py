@@ -7,6 +7,7 @@ from myapp.models.Users import users
 login_manager =  LoginManager()
 login_manager.login_view = None
 
+
 @login_manager.user_loader
 def user_loader(usersId: int) -> Optional[Any]:
     return users.query.get(int(usersId))

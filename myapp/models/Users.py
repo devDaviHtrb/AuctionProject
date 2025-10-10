@@ -24,3 +24,6 @@ class users(db.Model, UserMixin):
     active = True
     anonymous = False
 
+    def get_id(self):
+        return str(self.user_id)
+
