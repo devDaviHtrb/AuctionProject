@@ -1,27 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <p id="msg"></p>
-    <input type="text" name="username" id="username" required />
-    <input type="password" name="password" id="password" />
-    <button id="loginButton">Enviar</button>
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <script>
-      const socket = io();
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Leilão</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleLogIn.html') }}"></script>">
+</head>
+<body>
 
-      socket.on("connect", () => {
-        socket.send("oi");
-      });
-    </script>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">Placeholder</div>
+    <ul>
+      <li><a href="#">Quem somos</a></li>
+      <li><a href="#">Como Comprar</a></li>
+      <li><a href="#">Quero vender</a></li>
+      <li><a href="#">Nota de venda</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <div class="right">
+      <span>🛒</span>
+      <span>👤</span>
+    </div>
+  </div>
 
-    <script
-      type="module"
-      src="{{ url_for('static', filename='js/JsClass/LoginButton.js') }}"
-    ></script>
-  </body>
+  <!-- Caixa de Login -->
+  <div class="login-container">
+    <h2>Fazer Login</h2>
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="email">Login</label>
+        <input type="text" id="email" placeholder="E-mail ou CPF/CNPJ">
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" placeholder="Digite sua senha">
+        <div class="forgot"><a href="#" id="forgotPassword">Esqueceu a senha</a></div>
+      </div>
+
+      <div class="captcha">
+        <input type="checkbox" id="notRobot"> <label for="notRobot">Não sou um robô</label>
+      </div>
+
+      <button type="submit" class="btn btn-login">Entrar</button>
+      <div class="no-account">Não tem cadastro?</div>
+      <button type="button" class="btn btn-create">Criar conta</button>
+
+      <div id="message"></div>
+    </form>
+  </div>
+
+  <hr>
+
+  <!-- Rodapé -->
+  <footer>
+    <div>
+      <h4>Mais buscados</h4>
+      <ul>
+        <li><a href="#">Leilão de Imóveis</a></li>
+        <li><a href="#">Leilão de Curitiba</a></li>
+        <li><a href="#">Leilão de Móveis</a></li>
+        <li><a href="#">Leilão de Máquinas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Marcas mais buscadas</h4>
+      <ul>
+        <li><a href="#">Leilão Volkswagen</a></li>
+        <li><a href="#">Leilão Fiat</a></li>
+        <li><a href="#">Leilão BMW</a></li>
+        <li><a href="#">Leilão Ford</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Veículos</h4>
+      <ul>
+        <li><a href="#">Leilão de Carros</a></li>
+        <li><a href="#">Leilão de Caminhões</a></li>
+        <li><a href="#">Leilão de Motos</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Materiais</h4>
+      <ul>
+        <li><a href="#">Leilão de Eletrônicos</a></li>
+        <li><a href="#">Leilão de Notebook</a></li>
+        <li><a href="#">Leilão de Informática</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Imóveis</h4>
+      <ul>
+        <li><a href="#">Leilão de Apartamento</a></li>
+        <li><a href="#">Leilão de Casas</a></li>
+        <li><a href="#">Leilão de Terreno</a></li>
+      </ul>
+    </div>
+
+  </footer>
+  <footer class="rodape">
+    &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.<br>
+  </footer>
+  <script src="{{ url_for('static', filename='js/validations/LogIn.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/validations/ForgotPassword.js') }}"></script>
+</body>
 </html>
