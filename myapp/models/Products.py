@@ -1,8 +1,8 @@
+from __future__ import annotations
 import secrets
 from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey, select
 from myapp.models.ProductStatuses import product_statuses
-from __future__ import annotations
 from typing import List
 
 class products(db.Model):
@@ -25,7 +25,7 @@ class products(db.Model):
 
     #changes
     end_datetime = db.Column(db.DateTime, nullable=True)
-    duration = db(db.Integer, nullable = True) # In Seconds
+    duration = db.Column(db.Integer, nullable = False) # In Seconds
 
     
     def get_status(self) -> str:
@@ -34,6 +34,14 @@ class products(db.Model):
         )
         result = db.session.execute(stmt).scalar()
         return result.product_status  # integrity never return None
+    
+    def set_status(self, new_status:str) -> None:
+        new_fk = select(product_statuses.product_status_id).where(
+            product_statuses.product_status == new_status.lower()
+        ).first()
+
+        if (new_fk):
+            self.product_status = new_fk
 
     @classmethod
     def get_actives(cls) -> List[products]:
@@ -41,7 +49,7 @@ class products(db.Model):
             product_statuses,
             cls.product_status == product_statuses.product_status_id
         ).filter(
-            product_statuses.status_name == "ACTIVE"
+            product_statuses.status_name == "active"
         )
 
         return query.all()

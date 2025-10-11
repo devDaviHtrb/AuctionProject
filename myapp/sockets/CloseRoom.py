@@ -4,32 +4,29 @@ from myapp.setup.InitSocket import socket_io
 from myapp.models.Products import products
 from myapp.models.ProductStatuses import product_statuses
 
-products_timers = {}      # {auction_id, thread.Timer}
+# Estrutura para armazenar timer + end_datetime em cache
+products_timers = {}
+"""{product_id: {
+        "timer": thread.Timer,
+        "end_datetime": datetime
+    }}"""
 
-def close_auction(product_id:int) -> None:
-    '''
-    delete in Database
-    verify if auction status is != closed
-    verify the winner
-    #cmp
-    '''
+def close_auction(product_id: int) -> None:
     product = products.query.get(product_id)
 
-    status = product.get_status().upper() == "OCCURRING"
-    if (product and status): 
-        """
-        set as closed
-        """
-        #acution.status = "closed"
-        room_id = product_id #pesquisa
-        # win
+    if not product:
+        return
+
+    status = product.get_status().lower() == "occurring"
+    if status:
+        room_id = product_id
         socket_io.emit(
-            "auctin_closed",
+            "auction_closed",
             {
                 "product_id": product_id,
-                "message": "Finish Auction",
+                "message": "Finish Auction"
             },
-            room = room_id
+            room=room_id
         )
 
         if room_id in socket_io.server.manager.rooms["/"]:
@@ -37,40 +34,52 @@ def close_auction(product_id:int) -> None:
             for client in clients:
                 socket_io.leave_room(client, room_id)
 
-        products_timers.pop(product_id)
+        product.end_datetime = products_timers[product_id]["end_datetime"]
+        product.set_status("finished")
+        products_timers.pop(product_id, None)
+
+
+def start_auction_timer(product_id: int, seconds: int) -> None:
+    end_time = datetime.utcnow() + timedelta(seconds=seconds)
+    timer = thread.Timer(seconds, close_auction, args=[product_id])
+    timer.start()
+
+    products_timers[product_id] = {
+        "timer": timer,
+        "end_datetime": end_time
+    }
+
 
 def restart() -> None:
     active_products = products.get_actives()
     products_timers.clear()
+
     for product in active_products:
-        delta = product.end() - datetime.utcnow()
-        if delta < 0:
-            close_auction(product.product_id)
-        else:
-            start_auction_timer(product.product_id, delta.total_seconds())  
+        remaining_seconds = max(
+            product.start_datetime + timedelta(seconds=product.duration) - datetime.utcnow(),
+            timedelta(seconds=60*10),
+        ).total_seconds()
+        
+        start_auction_timer(product.product_id, remaining_seconds)
 
 
-def add_time_to_auction(product_id: int, seconds:int) -> None:
+def add_time_to_auction(product_id: int, seconds: int) -> None:
     if product_id not in products_timers:
-        return 
-    
-    products_timers[product_id].cancel()
-    product = products.query.get(product_id)
-    product.end_datetime += timedelta(seconds = seconds)
+        return
 
-    #obs ->>>>
-    remaining_seconds = (product.end_datetime.end - datetime.utcnow()).total_seconds()
-    ##total_seconds is for timedelta class
-    if remaining_seconds < 0:
-       return
+    products_timers[product_id]["timer"].cancel()
+
+    products_timers[product_id]["end_datetime"] += timedelta(seconds=seconds)
+
+
+    remaining_seconds = (
+        products_timers[product_id]["end_datetime"] - datetime.utcnow()
+    ).total_seconds()
+
+    if remaining_seconds <= 0:
+        close_auction(product_id)
+        return
+
     timer = thread.Timer(remaining_seconds, close_auction, args=[product_id])
     timer.start()
-    products_timers[product_id] = timer
-
-def start_auction_timer(product_id:int, seconds:int) -> None:
-    end_time = datetime.now() + timedelta(seconds=seconds)
-    product = products.query.get(product_id).first()
-    product.end = end_time
-    timer = thread.Timer(seconds, close_auction, args=[product_id])
-    timer.start()
-    products_timers[product_id] = timer
+    products_timers[product_id]["timer"] = timer

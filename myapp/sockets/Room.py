@@ -1,6 +1,7 @@
 from flask_socketio import emit, join_room, rooms
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 from myapp.setup.InitSocket import socket_io
+from myapp.services.MakeBid import make_bid
 from flask import request
 from flask_login import current_user
 
@@ -21,22 +22,33 @@ def handle_join(data: Dict[str, Any]) -> None:
     anonymous_users_number+=1
     emit("server_content", {"response": response}, to=room_id)
 
+def get_room_id(auction_rooms: List[str], sid:str) -> Optional[str]:
+    if not auction_rooms: 
+        return
+    if auction_rooms[0] == sid:
+        return auction_rooms[1] if len(auction_rooms) > 1 else None
+    else:
+        return auction_rooms[0]
 
 @socket_io.on("emit_bid")
-def handle_content(data: Dict[str, Any]) -> None:
-    auction_rooms = [r for r in rooms() if r != request.sid]
-    room_id = auction_rooms[0] if auction_rooms else None
+def handle_emit(data: Dict[str, Any]) -> None:
+    room_id = get_room_id()
  
     value = data.get("value", None)
     product_id = data.get("product_id", None)
     product_name = data.get("product_name", None)
 
-    if None in [room_id, value, product_id, product_name]:
-        return
-    
-    """if not bid():
-        return """
-    response = {
+    missingInfo = [i for i in [room_id, value, product_id, product_name] if i == None]
+
+    if missingInfo:
+        response = {
+            "type": "error",
+            "Error": "Missing Information",
+            "MissingInformation": missingInfo  
+        }
+        return emit("server_content", {"response":response}, to=request.sid)
+
+    data = {
         "type": "bid",
         "room_id": room_id,
         "user_id": current_user.user_id,
@@ -46,5 +58,9 @@ def handle_content(data: Dict[str, Any]) -> None:
         "product_name": product_name
     }
 
-    if room_id:
-        emit("server_content", {"response": response}, to=room_id)
+    out = make_bid(data)
+    if (out):
+        response = data
+        return emit("server_content", {"response": {"type": "error", "Error":out}}, to=request.sid)
+
+    return emit("server_content", {"response": response}, to=room_id)
