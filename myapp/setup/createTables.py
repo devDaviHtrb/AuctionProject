@@ -11,7 +11,7 @@ def write_file(src:str, content:str) -> None:
 
 def create_tables(app:Flask, db:SQLAlchemy) -> None:
     FOLDER = "myapp/models"
-    DATABASE_SRC = "Database.sql"
+    DATABASE_SRC = "database.sql"
 
     #Using pkgutil for read all modules in the FOLDER
     for ignore1, model, ignore2 in pkgutil.iter_modules([FOLDER]):
