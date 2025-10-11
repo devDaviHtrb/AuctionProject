@@ -25,7 +25,7 @@ def create_tables(app:Flask, db:SQLAlchemy) -> None:
     with app.app_context():
         db.create_all()
         dialect = postgresql.dialect()
-        write_file(DATABASE_SRC,"\n=== SQL CREATE TABLES ===\n")
+        write_file(DATABASE_SRC,"\n-- === SQL CREATE TABLES ===\n")
         for table in db.metadata.sorted_tables:
             if dialect:
                 sql = str(CreateTable(table).compile(dialect=dialect))
