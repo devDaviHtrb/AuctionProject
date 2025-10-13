@@ -1,7 +1,7 @@
 from flask_socketio import emit, join_room, rooms
 from typing import Dict, Any, List, Optional
 from myapp.setup.InitSocket import socket_io
-from myapp.services.MakeBid import make_bid
+from myapp.services.BidService import make_bid
 from flask import request
 from flask_login import current_user
 

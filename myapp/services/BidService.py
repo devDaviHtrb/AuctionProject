@@ -2,17 +2,16 @@ from typing import Optional, Dict, Any
 from myapp.models.Bids import bids
 from myapp.models.Users import users
 
-winners = {}
+winners: Dict[int, bids] = {}
 """
 {
-    product : {
-        product_name
-        value,
-        user_id,
-        username
-    }
+    product : bid -> It's a bid class of alchemy
 }
 """
+
+def restart() -> None:
+    pass
+
 
 def make_bid(bid: Dict[str, Any]) -> Optional[str]:
     user_id = bid.get("user_id")
@@ -25,7 +24,7 @@ def make_bid(bid: Dict[str, Any]) -> Optional[str]:
     user = users.query.get(user_id)
     if (user.wallet < value):
         return "Don't Have Enough Money"
-    if(bid <= winners[product_id]["value"]):
+    if(bid <= winners[product_id].value):
         return "Bid Amount Must Be Greater Than Minimum Amount"
     
     data = {
@@ -34,5 +33,7 @@ def make_bid(bid: Dict[str, Any]) -> Optional[str]:
         "product_id":   product_id
     }
     
-    bids.add_item(data)
+    new_bid = bids.add_item(data)
+    winners[product_id] = new_bid
+
     return 

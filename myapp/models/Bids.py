@@ -1,5 +1,6 @@
+from __future__ import annotations
 from myapp.setup.InitSqlAlchemy import db
-from typing import Dict, Any
+from typing import Dict, Any, List
 from datetime import datetime
 from sqlalchemy import ForeignKey
 class bids(db.Model):
@@ -11,8 +12,20 @@ class bids(db.Model):
 
     product_id = db.Column(db.Integer, ForeignKey("products.product_id"))
 
-    def add_item(cls, data: Dict[str, Any]) -> None:
-        new_bid = cls(data)
+    def add_item(cls, data: Dict[str, Any]) -> bids:
+        new_bid = cls(**data)
         db.session.add(new_bid)
         db.session.flush()
         db.session.commit()
+        return new_bid
+    
+    def get_bids_filter(product_id: int, offset:int, chunk_size:int) -> List[bids]:
+        return db.session.query(bids).filter(
+            bids.product_id == product_id
+        ).order_by(
+            bids.bid_datetime.desc()
+        ).offset(
+            offset
+        ).limit(
+            chunk_size
+        ).all()

@@ -8,32 +8,50 @@ from typing import Tuple
 
 
 singIn = Blueprint("singIn", __name__)
+datakey = [
+    "username",
+    "password",
+    "email",
+    "cpf",
+    "name",
+    "userType",
+    "cellphone1",
+    "cellphone2",
+    "landline",
+    "photo", 
+    "street_name", 
+    "street_number", 
+    "apt",
+    "zip_code",
+    "district",
+    "city",
+    "state"
+]
+nullAbleValues = [
+    "cellphone2",
+    "cnpj",
+    "cpf", 
+    "rg", 
+    "photo",
+    "landline",
+    "scrap_purchase_authorization"
+]
+nullAbleValues += [
+    "cellphone1",
+    "landline",
+    "street_name",
+    "street_number",
+    "apt",
+    "zip_code",
+    "district",
+    "city",
+    "state"
+]
 
 @singIn.route("/singIn", methods=["POST"])
 def SingIn() -> Tuple[Response, int]:
     user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
     
-
-    #required data
-    datakey = [
-        "username",
-        "password",
-        "email",
-        "cpf",
-        "name",
-        "userType",
-        "cellphone1",
-        "cellphone2",
-        "landline",
-        "photo", 
-        "street_name", 
-        "street_number", 
-        "apt",
-        "zip_code",
-        "district",
-        "city",
-        "state"
-    ]
     datakey += [
         "rg",
         "birth_date",
@@ -45,28 +63,9 @@ def SingIn() -> Tuple[Response, int]:
         "trade_name",
         "scrap_purchase_authorization"
     ]
-    data = {}
-    nullAbleValues = [
-        "cellphone2",
-        "cnpj",
-        "cpf", 
-        "rg", 
-        "photo",
-        "landline",
-        "scrap_purchase_authorization"
-    ]
-    nullAbleValues += [
-        "cellphone1",
-        "landline",
-        "street_name",
-        "street_number",
-        "apt",
-        "zip_code",
-        "district",
-        "city",
-        "state"
-    ]
+    
 
+    data = {}
     missingInfo = []
     for requiredData in datakey:
         value = request.form.get(requiredData, None)

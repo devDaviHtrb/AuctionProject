@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from typing import Tuple
 from myapp.setup.InitSqlAlchemy import db
 
 class users(db.Model, UserMixin):
@@ -26,4 +27,13 @@ class users(db.Model, UserMixin):
 
     def get_id(self):
         return str(self.user_id)
+    
+    def delete(self) -> Tuple[bool, str]:
+        try:
+            db.session.delete(self)
+            db.session.commit()
+            return True, "ok"
+        except Exception as e:
+            db.session.rollback()
+            return False, e
 

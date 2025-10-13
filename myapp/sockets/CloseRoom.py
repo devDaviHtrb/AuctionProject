@@ -2,6 +2,7 @@ import threading as thread
 from datetime import datetime, timedelta
 from myapp.setup.InitSocket import socket_io
 from myapp.models.Products import products
+from myapp.services.Win import set_winner
 from myapp.models.ProductStatuses import product_statuses
 
 # Estrutura para armazenar timer + end_datetime em cache
@@ -34,6 +35,7 @@ def close_auction(product_id: int) -> None:
             for client in clients:
                 socket_io.leave_room(client, room_id)
 
+        set_winner(product)
         product.end_datetime = products_timers[product_id]["end_datetime"]
         product.set_status("finished")
         products_timers.pop(product_id, None)
