@@ -1,55 +1,57 @@
+import myapp.services.Messages as msgs
 from flask import Blueprint, jsonify, url_for, request, Response
-
+from myapp.models.Users import users
+from myapp.utils.AuthPending import add_in
 from myapp.services.CreateUser import create_user
 from myapp.utils.Validations.validations import *
 from myapp.utils.utils import uploadImage
-
 from typing import Tuple
 
 
 singIn = Blueprint("singIn", __name__)
-datakey = [
-    "username",
-    "password",
-    "email",
-    "cpf",
-    "name",
-    "userType",
-    "cellphone1",
-    "cellphone2",
-    "landline",
-    "photo", 
-    "street_name", 
-    "street_number", 
-    "apt",
-    "zip_code",
-    "district",
-    "city",
-    "state"
-]
-nullAbleValues = [
-    "cellphone2",
-    "cnpj",
-    "cpf", 
-    "rg", 
-    "photo",
-    "landline",
-    "scrap_purchase_authorization"
-]
-nullAbleValues += [
-    "cellphone1",
-    "landline",
-    "street_name",
-    "street_number",
-    "apt",
-    "zip_code",
-    "district",
-    "city",
-    "state"
-]
+
 
 @singIn.route("/singIn", methods=["POST"])
 def SingIn() -> Tuple[Response, int]:
+    datakey = [
+        "username",
+        "password",
+        "email",
+        "cpf",
+        "name",
+        "userType",
+        "cellphone1",
+        "cellphone2",
+        "landline",
+        "photo", 
+        "street_name", 
+        "street_number", 
+        "apt",
+        "zip_code",
+        "district",
+        "city",
+        "state"
+    ]
+    nullAbleValues = [
+        "cellphone2",
+        "cnpj",
+        "cpf", 
+        "rg", 
+        "photo",
+        "landline",
+        "scrap_purchase_authorization"
+    ]
+    nullAbleValues += [
+        "cellphone1",
+        "landline",
+        "street_name",
+        "street_number",
+        "apt",
+        "zip_code",
+        "district",
+        "city",
+        "state"
+    ]
     user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
     
     datakey += [
@@ -79,7 +81,7 @@ def SingIn() -> Tuple[Response, int]:
         return jsonify({"InputError": msg, "MissingInformation": missingInfo}), 400
         
     #validations
-    if not is_email(data["email"]):
+    if not is_email(data["email"]) or users.get_by_email(data["email"]):
         msg = "Invalid email"
         return jsonify({"InputError": msg}), 400
     
@@ -122,9 +124,12 @@ def SingIn() -> Tuple[Response, int]:
         else:
             msg = "Invalid CNPJ or state_tax_registration"
             return  jsonify({"InputError": msg}), 400
-        
-    create_user(data)
 
-    
-    return jsonify({"redirect":url_for("loginPage.LoginPage"), "Data": data}), 201
+    token = add_in(data)
+    msgs.auth_message(
+        email = data.get("email"),
+        content = url_for("auth.auth", token=token, _external=True)
+    )
+
+    return jsonify({"redirect":url_for("waitingPage.WaitingPage"), "Data": data}), 201
 

@@ -106,7 +106,7 @@ CREATE TABLE legal_persons (
 	trade_name VARCHAR(255) NOT NULL, 
 	scrap_purchase_authorization BOOLEAN NOT NULL, 
 	PRIMARY KEY (user_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id)
+	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 )
 
 
@@ -136,7 +136,7 @@ CREATE TABLE physical_persons (
 	birth_date DATE NOT NULL, 
 	gender VARCHAR(20) NOT NULL, 
 	PRIMARY KEY (user_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id)
+	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 )
 
 
@@ -146,7 +146,7 @@ CREATE TABLE products (
 	product_name VARCHAR(255) NOT NULL, 
 	product_room VARCHAR(64) NOT NULL, 
 	description TEXT, 
-	min_bid DECIMAL(12, 2), 
+	min_bid DECIMAL(12, 2) NOT NULL, 
 	start_datetime TIMESTAMP WITHOUT TIME ZONE, 
 	product_status INTEGER, 
 	street_name VARCHAR(255), 
@@ -157,14 +157,12 @@ CREATE TABLE products (
 	city VARCHAR(80), 
 	state CHAR(2), 
 	user_id INTEGER, 
-	category_id INTEGER, 
 	end_datetime TIMESTAMP WITHOUT TIME ZONE, 
 	duration INTEGER NOT NULL, 
 	PRIMARY KEY (product_id), 
 	UNIQUE (product_room), 
 	FOREIGN KEY(product_status) REFERENCES product_statuses (product_status_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id), 
-	FOREIGN KEY(category_id) REFERENCES categories (category_id)
+	FOREIGN KEY(user_id) REFERENCES users (user_id)
 )
 
 

@@ -1,5 +1,6 @@
+from __future__ import annotations
 from flask_login import UserMixin
-from typing import Tuple
+from typing import Tuple, Optional
 from myapp.setup.InitSqlAlchemy import db
 
 class users(db.Model, UserMixin):
@@ -27,6 +28,12 @@ class users(db.Model, UserMixin):
 
     def get_id(self):
         return str(self.user_id)
+    
+    @classmethod
+    def get_by_email(cls, wanted_email:str) -> Optional[users]:
+        return db.session.query(cls).filter(
+            cls.email == wanted_email
+        ).first()
     
     def delete(self) -> Tuple[bool, str]:
         try:
