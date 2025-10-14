@@ -20,10 +20,5 @@ class users(db.Model, UserMixin):
     api_token = db.Column(db.String(255), nullable=True)
     password_token = db.Column(db.String(255), nullable=True)
 
-    authenticated = True
-    active = True
-    anonymous = False
-
-    def get_id(self):
-        return str(self.user_id)
+    
 
