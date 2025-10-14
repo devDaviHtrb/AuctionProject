@@ -4,17 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Auction Leilões</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleIndex.html') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleIndex.css') }}">
 
 </head>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auction Leilões</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+
 <body>
   <div class="navbar">
     <div class="logo">Placeholder</div>
@@ -33,7 +26,7 @@
 
   <!-- Carrossel -->
   <section class="carousel">
-    <button class="arrow left" onclick="prevSlide()">❮</button>
+    <button class="arrow left" id="prev">❮</button>
     <div class="slides">
       <div class="slide active">
         <img src="https://placehold.co/1000x300/1f3b70/ffffff?text=Leilão+de+Veículos" alt="Leilão de Veículos">
@@ -45,7 +38,7 @@
         <img src="https://placehold.co/1000x300/003366/ffffff?text=Leilão+de+Sucatas" alt="Leilão de Sucatas">
       </div>
     </div>
-    <button class="arrow right" onclick="nextSlide()">❯</button>
+    <button class="arrow right" id="next">❯</button>
   </section>
 
   <!-- Categorias -->
@@ -159,5 +152,6 @@
 </body>
 </html>
 </body>
-  <script src="{{ url_for('static', filename='js/interactivity/IndexSlides') }}"></script>
+  <script src="../static/js/mains/IndexMain.js" type="module"></script>
 </html>
+<!DOCTYPE html>
