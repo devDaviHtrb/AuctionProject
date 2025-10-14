@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Cadastro</title>
-  <link rel="stylesheet" href="AuctionProject-front/myapp/static/styles/StyleSignIn.css">
+  <link rel="stylesheet" href="../styles/StyleSignIn.css">
 </head>
 <body>
 
@@ -25,55 +25,58 @@
 
   <!-- Formulário -->
   <main>
+    <p id="message"></p>
 
     <form id="signInForm">
-          {%if user_type=="physical_person"%}
-          <h2>Cadastro</h2>
-
-      <label>Nome:</label>
-      <input type="text" name="nome" required>
-
-      <label>CPF:</label>
-      <input type="text" name="cpf" required>
-
-      <label>RG:</label>
-      <input type="text" name="rg" required>
-
-      <label>Telefone:</label>
-      <input type="tel" name="telefone" required>
-
-      <label>Email:</label>
-      <input type="email" name="email" required>
-
-      <label>CEP:</label>
-      <input type="text" name="cep" id="cep" required>
-
-      <label>Rua:</label>
-      <input type="text" name="rua" id="rua" required>
-
-      <label>Bairro:</label>
-      <input type="text" name="bairro" id="bairro" required>
-
-      <label>Cidade:</label>
-      <input type="text" name="cidade" id="cidade" required>
-
-      <label>Estado:</label>
-      <input type="text" name="estado" id="estado" required>
-
-      <label>Número:</label>
-      <input type="text" name="numero" required>
-
-      <label>Data de Nascimento:</label>
-      <input type="date" name="dataNascimento" required>
-
-      <label>Celular 1:</label>
-      <input type="tel" name="cellphone1" required>
+          <label>Username:</label>
+      <input type="text" name="Username" id="username" required>
+             
+    <label>Password:</label>
+      <input type="password" name="password" id="password" required>
+    <label>Email:</label>
+      <input type="email" name="email" id="email" required>
+     <label>Celular 1:</label>
+      <input type="tel" name="cellphone1" id="cellphone1" >
 
       <label>Celular 2:</label>
-      <input type="tel" name="cellphone2" required>
+      <input type="tel" name="cellphone2" id="cellphone2">
+
+       <label>CEP:</label>
+      <input type="text" name="cep" id="zip_code" >
+
+      <label>Rua:</label>
+      <input type="text" name="rua" id="street_name" >
+
+      <label>Bairro:</label>
+      <input type="text" name="bairro" id="district" >
+
+      <label>Cidade:</label>
+      <input type="text" name="cidade" id="city" >
+
+      <label>Estado:</label>
+      <input type="text" name="estado" id="state" >
+
+      <label>Número:</label>
+      <input type="text" name="street_number" id="street_number">
+
+      <label>Telefone:</label>
+      <input type="tel" name="landline" id="landline">
+        <label>CPF:</label>
+      <input type="text" name="cpf" id="cpf">
+
+      <input type="text" name="" id="photo">
+          {%if user_type=="physical_person"%}
+          <h2>Cadastro</h2>
+          <label>name:</label>
+      <input type="text" name="Username" id="name" required>
+
+      <label>Data de Nascimento:</label>
+      <input type="date" name="dataNascimento" id="birth_date" required>
+      <label>Rg:</label>
+      <input type="text" name="rg" id="rg">
 
       <label>Gênero:</label>
-      <select name="genero" required>
+      <select name="genero" id="gender" required>
         <option value="">Selecione</option>
         <option value="feminino">Feminino</option>
         <option value="masculino">Masculino</option>
@@ -82,9 +85,10 @@
 
     {%else%}
     <!--Colocar o formulario pra empresa-->
+
     {%endif%}
 
-      <button type="submit" class="btn btn-login">Cadastrar</button>
+      <button type="button" id="singInBtn" class="btn btn-login">Cadastrar</button>
     </form>
   </main>
 
@@ -92,9 +96,10 @@
   <footer>
     &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.
   </footer>
-    <script src="AuctionProject/myapp/js/validations/CPFmask"></script>
-    <script src="AuctionProject/myapp/js/validations/CPFvalidation"></script>
-    <script src="AuctionProject/myapp/js/api/GetCEP"></script>
-    <script src="AuctionProject/myapp/js/validations/SignIn.js"></script>
+
+    <script src="{{ url_for('static', filename='js/validations/CPFmask.js') }}" type="module"></script>>
+    <script src="{{ url_for('static', filename='js/validations/CPFvalidation.js') }}" type="module"></script>>
+    <script src="{{ url_for('static', filename='js/api/GetCEP.js') }}" type="module"></script>>
+    <script src="{{ url_for('static', filename='js/mains/SingInMain.js') }}" type="module"></script>>
 </body>
 </html> 

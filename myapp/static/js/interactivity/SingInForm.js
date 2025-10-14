@@ -3,7 +3,7 @@ export function getSingInForm(route) {
     username: document.getElementById("username").value,
     password: document.getElementById("password").value,
     email: document.getElementById("email").value,
-    cpf: document.getElementById("password").value,
+    cpf: document.getElementById("cpf").value,
 
     photo: document.getElementById("photo").value,
     cellphone1: document.getElementById("cellphone1").value,
@@ -17,14 +17,20 @@ export function getSingInForm(route) {
     city: document.getElementById("city").value,
     state: document.getElementById("state").value,
   };
+  var form = {};
   if (route.includes("physical")) {
-    const form = {
+    console.log("dsfs");
+    form = {
       ...commomForm,
+      name: document.getElementById("name").value,
+      birth_date: document.getElementById("birth_date").value,
+      gender: document.getElementById("gender").value,
+      rg: document.getElementById("rg").value,
       userType: "physical_person",
     };
   } else {
     if (route.includes("legal")) {
-      const form = {
+      form = {
         ...commomForm,
         trade_name: document.getElementById("trade_name").value,
         landline: document.getElementById("landline").value,

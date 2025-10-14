@@ -70,9 +70,10 @@ def SingIn() -> Tuple[Response, int]:
     missingInfo = []
     for requiredData in datakey:
         value = request.form.get(requiredData, None)
-        if value == "" or value is None and requiredData not in nullAbleValues:
+        if (value == "" or value is None) and requiredData not in nullAbleValues:
             msg = "Complete all the inputs"
             missingInfo.append(requiredData)
+            print(missingInfo)
         else:
             data[requiredData] = value
 
