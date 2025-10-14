@@ -43,7 +43,7 @@
 
   <!-- Categorias -->
   <section class="categorias">
-    <h2>Navegar por Categoria</h2>
+    <h2>Categorias mais comuns</h2>
     <div class="icons">
       <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=🚗"><p>Carros</p></div>
       <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=💼"><p>Materiais e Equipamentos</p></div>
@@ -57,46 +57,19 @@
   <!-- Destaques -->
   <section class="destaques">
     <h2>Destaques <a href="#" class="ver-todos">Ver todos</a></h2>
-    <div class="cards">
+      {%for auction in top_auctiona%}
+    
+      <div class="cards">
       <a href="#" class="card">
-        <img src="https://placehold.co/300x200" alt="Apartamento">
+        <img src="{{auction.image}}" alt="{{Auction.category}}">
         <div class="info">
-          <h3>Direitos sobre Apartamento - Vila Sanches</h3>
-          <p>Lance inicial R$ 699.630,00</p>
+          <h3>{{auction.name}}</h3>
+          <p>Initial bid: R$ {{auction.min_bid}}</p>
         </div>
       </a>
+    {%endfor%}
 
-      <a href="#" class="card">
-        <img src="https://placehold.co/300x200" alt="Equipamentos">
-        <div class="info">
-          <h3>11 Chanceladoras e Equipamentos</h3>
-          <p>Lance inicial R$ 13.334,50</p>
-        </div>
-      </a>
-
-      <a href="#" class="card">
-        <img src="https://placehold.co/300x200" alt="Carro">
-        <div class="info">
-          <h3>Toyota Yaris HA XL15</h3>
-          <p>Lance atual R$ 42.500,00</p>
-        </div>
-      </a>
-
-        <a href="#" class="card">
-        <img src="https://placehold.co/300x200" alt="Carro">
-        <div class="info">
-          <h3>Toyota Yaris HA XL15</h3>
-          <p>Lance atual R$ 42.500,00</p>
-        </div>
-      </a>
-
-        <a href="#" class="card">
-        <img src="https://placehold.co/300x200" alt="Carro">
-        <div class="info">
-          <h3>Toyota Yaris HA XL15</h3>
-          <p>Lance atual R$ 42.500,00</p>
-        </div>
-      </a>
+   
     </div>
     
   </section>
