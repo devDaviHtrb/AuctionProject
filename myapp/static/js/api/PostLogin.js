@@ -1,6 +1,6 @@
-export async function postSingIn(form) {
+export async function postLogin(form) {
   try {
-    const request = await fetch("/singIn", {
+    const request = await fetch("/login", {
       method: "POST",
       body: new URLSearchParams(form),
       credentials: "include",
