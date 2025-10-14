@@ -4,37 +4,40 @@ export function getSingInForm(route) {
     password: document.getElementById("password").value,
     email: document.getElementById("email").value,
     cpf: document.getElementById("password").value,
-    userType: "legal_person",
-    photo: document.getElementById("photo"),
-    cellphone1: document.getElementById("cellphone1"),
-    cellphone2: document.getElementById("cellphone2"),
+
+    photo: document.getElementById("photo").value,
+    cellphone1: document.getElementById("cellphone1").value,
+    cellphone2: document.getElementById("cellphone2").value,
     landline: document.getElementById("landline").value,
-    street_name: document.getElementById("street_name"),
-    street_number: document.getElementById("street_number"),
+    street_name: document.getElementById("street_name").value,
+    street_number: document.getElementById("street_number").value,
     apt: document.getElementById("apt"),
-    zip_code: document.getElementById("zip_code"),
-    district: document.getElementById("district"),
-    city: document.getElementById("city"),
-    state: document.getElementById("state"),
+    zip_code: document.getElementById("zip_code").value,
+    district: document.getElementById("district").value,
+    city: document.getElementById("city").value,
+    state: document.getElementById("state").value,
   };
   if (route.includes("physical")) {
     const form = {
       ...commomForm,
+      userType: "physical_person",
     };
   } else {
     if (route.includes("legal")) {
       const form = {
         ...commomForm,
-        trade_name: document.getElementById("trade_name"),
+        trade_name: document.getElementById("trade_name").value,
         landline: document.getElementById("landline").value,
         state_tax_registration: document.getElementById(
           "state_tax_registration"
-        ),
-        legal_business_name: document.getElementById("legal_business_name"),
+        ).value,
+        legal_business_name: document.getElementById("legal_business_name")
+          .value,
         scrap_purchase_authorization: document.getElementById(
           "scrap_purchase_authorization"
-        ),
+        ).value,
         cnpj: document.getElementById("password").value,
+        userType: "physical_person",
       };
     } else {
       console.log("error, this route not exists");
