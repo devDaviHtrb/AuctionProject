@@ -6,6 +6,7 @@ export async function postLogin(form) {
       credentials: "include",
     });
     const response = await request.json();
+    console.log("login enviado");
     return response;
   } catch (err) {
     console.error("Error on sing in:", err);

@@ -10,6 +10,7 @@ login = Blueprint("login", __name__)
 
 @login.route("/login", methods=["POST", "GET"])
 def Login() -> Tuple[Response, int]:
+    print("dsjfsdkjfhkds")
     if request.method == "POST":
         name = request.form["username"]
         password = request.form["password"]
@@ -19,7 +20,7 @@ def Login() -> Tuple[Response, int]:
             return jsonify({"InputError": msg}), 400
         
         user = users.query.filter_by(username=name).first()
-        print(user)
+        
         
         if not user or not check_password_hash(user.password, password):
             msg = "This user is wrong or don't exists"
