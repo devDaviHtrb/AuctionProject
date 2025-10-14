@@ -3,16 +3,16 @@ import secrets
 from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey, select
 from myapp.models.ProductStatuses import product_statuses
-from typing import List
+from typing import List, Dict, Any
 
 class products(db.Model):
     product_id =  db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String(255), nullable=False)
     product_room = db.Column(db.String(64), unique=True, nullable=False, default=lambda:secrets.token_urlsafe(16))
     description =  db.Column(db.Text, nullable=True)
-    min_bid = db.Column(db.DECIMAL(12, 2), nullable=True)
+    min_bid = db.Column(db.DECIMAL(12, 2), nullable=False, default = float(0))
     start_datetime =  db.Column(db.DateTime, nullable=True)
-    product_status = db.Column(db.Integer, ForeignKey("product_statuses.product_status_id")) # delete this shit hlfck my brothers
+    product_status = db.Column(db.Integer, ForeignKey("product_statuses.product_status_id"), default = 1) #sorry :/ ..........
     street_name = db.Column(db.String(255), nullable=True)
     street_number = db.Column(db.String(6), nullable=True)
     apt = db.Column(db.String(80), nullable=True)
@@ -21,11 +21,13 @@ class products(db.Model):
     city = db.Column(db.String(80), nullable=True)
     state = db.Column(db.CHAR(2), nullable=True)
     user_id = db.Column(db.Integer, ForeignKey("users.user_id"))
-    category_id = db.Column(db.Integer, ForeignKey("categories.category_id"))
+    #category_technical_feature_id = db.Column(db.Integer, ForeignKey("category_technical_features.technical_feature_id"))
 
     #changes
     end_datetime = db.Column(db.DateTime, nullable=True)
     duration = db.Column(db.Integer, nullable = False) # In Seconds
+
+    
 
     
     def get_status(self) -> str:
@@ -53,4 +55,3 @@ class products(db.Model):
         )
 
         return query.all()
-

@@ -4,10 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from importlib import import_module
 from sqlalchemy.schema import CreateTable
 from sqlalchemy.dialects import postgresql
+from myapp.utils.File import erase_file, write_file
 
-def write_file(src:str, content:str) -> None:
-    with open(src, 'a') as file:
-        file.write(content)
 
 def create_tables(app:Flask, db:SQLAlchemy) -> None:
     FOLDER = "myapp/models"
@@ -19,8 +17,7 @@ def create_tables(app:Flask, db:SQLAlchemy) -> None:
         import_module(f"myapp.models.{model}")
     
     #using the db in app
-    with open(DATABASE_SRC, 'w') as file:
-        file.write('')
+    erase_file(DATABASE_SRC)
 
     with app.app_context():
         db.create_all()

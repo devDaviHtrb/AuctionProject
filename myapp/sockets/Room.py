@@ -1,23 +1,25 @@
 from flask_socketio import emit, join_room, rooms
 from typing import Dict, Any, List, Optional
 from myapp.setup.InitSocket import socket_io
-from myapp.services.MakeBid import make_bid
+from myapp.services.BidService import make_bid
 from flask import request, session
-
+from flask_login import current_user
 
 anonymous_users_number = 0
 
 @socket_io.on("join_room")
 def handle_join(data: Dict[str, Any]) -> None:
     room_id = data["room_id"]
-    if (None in [room_id, session.get("id")]):
+    user_id = session.get("id", None)
+    username = session.get("username", None)
+    if (None in [room_id, user_id]):
         return
     join_room(room_id)
     response = {
         "type": "entry",
         "room_id": room_id,
-        "user_id": session.get("id"),
-        "username": session.get("username") if not request.cookies.get("anonymous") else f"AnonymousUser{anonymous_users_number}",
+        "user_id": user_id,
+        "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser{anonymous_users_number}",
     }
     anonymous_users_number+=1
     emit("server_content", {"response": response}, to=room_id)
@@ -37,6 +39,8 @@ def handle_emit(data: Dict[str, Any]) -> None:
     value = data.get("value", None)
     product_id = data.get("product_id", None)
     product_name = data.get("product_name", None)
+    user_id = session.get("id", None)
+    username = session.get("username", None)
 
     missingInfo = [i for i in [room_id, value, product_id, product_name] if i == None]
 
@@ -51,8 +55,8 @@ def handle_emit(data: Dict[str, Any]) -> None:
     data = {
         "type": "bid",
         "room_id": room_id,
-        "user_id": session.get("id"),
-        "username": session.get("username") if not request.cookies.get("anonymous") else f"AnonymousUser{anonymous_users_number}",
+        "user_id": user_id,
+        "username": username if not request.cookies.get("anonymous") else f"AnonymousUser{anonymous_users_number}",
         "value": value,
         "product_id": product_id,
         "product_name": product_name
