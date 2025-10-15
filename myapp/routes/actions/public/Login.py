@@ -1,8 +1,9 @@
 from flask import jsonify, Blueprint, request, make_response, url_for, Response
 
 from myapp.models.Users import users
+from myapp.services.InitSession import init_session
 from myapp.services.setCookies import set_cookies
-from flask_login import login_user
+
 from typing import Tuple
 from werkzeug.security import check_password_hash
 
@@ -27,7 +28,7 @@ def Login() -> Tuple[Response, int]:
             return jsonify({"InputError": msg}), 400
         
     
-        login_user(users.query.filter_by(username=name).first(), remember=True)
+        init_session(user)
         
         data = {
             "user_id": user.user_id,
