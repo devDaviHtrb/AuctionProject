@@ -39,35 +39,52 @@ body {
 /* Carrossel */
 .carousel {
   position: relative;
-  max-width: 1000px;
-  margin: 30px auto;
-  border-radius: 20px;
+  width: 1000px;
   overflow: hidden;
+  margin: auto;
 }
+
 .slides {
   display: flex;
   transition: transform 0.5s ease;
+  width: 100%;
 }
+
 .slide {
   min-width: 100%;
+  flex-shrink: 0;
 }
+
 .slide img {
   width: 100%;
   display: block;
 }
+
 .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #ffffffcc;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
   border: none;
   font-size: 2rem;
   cursor: pointer;
-  padding: 5px 12px;
+  z-index: 10; /* <- garante que fica acima dos slides */
+  padding: 0.3em 0.6em;
   border-radius: 50%;
 }
-.left { left: 10px; }
-.right { right: 10px; }
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
 
 /* Categorias */
 .categorias {
