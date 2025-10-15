@@ -135,6 +135,9 @@ def SingIn() -> Tuple[Response, int]:
         else:
             msg = "Invalid CNPJ or state_tax_registration"
             return  jsonify({"InputError": msg}), 400
+        if not User_validation(data["username"], data["email"], data["cpf"], cnpj=data["cnpj"]):
+                msg = "There is already a user with that name, email"
+                return  jsonify({"InputError": msg}), 400
         
     create_user(data)
 
