@@ -14,3 +14,11 @@ prevButton.addEventListener("click", () => {
 nextButton.addEventListener("click", () => {
   index = nextSlide(index, slides); // 👈 idem
 });
+
+document.querySelectorAll(".slide").forEach((slide) => {
+  slide.addEventListener("click", () => {
+    const filter = slide.dataset.filter || "";
+    sessionStorage.setItem("filterCarrousel", filter);
+    window.location.href = "/auctions";
+  });
+});
