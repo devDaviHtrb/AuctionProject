@@ -43,7 +43,7 @@ export function getSingInForm(route) {
           "scrap_purchase_authorization"
         ).value,
         cnpj: document.getElementById("password").value,
-        userType: "physical_person",
+        userType: "legal_person",
       };
     } else {
       console.log("error, this route not exists");

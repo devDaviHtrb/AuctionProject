@@ -12,7 +12,7 @@ singIn = Blueprint("singIn", __name__)
 @singIn.route("/singIn", methods=["POST"])
 def SingIn() -> Tuple[Response, int]:
     user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
-    
+    print(user_type)
 
     #required data
     datakey = [
@@ -64,7 +64,10 @@ def SingIn() -> Tuple[Response, int]:
         "zip_code",
         "district",
         "city",
-        "state"
+        "state",
+        "rg",
+        "birth_date",
+        "gender"
     ]
 
     missingInfo = []
@@ -107,14 +110,22 @@ def SingIn() -> Tuple[Response, int]:
             return jsonify({"InputError": msg}), 400
 
     
-    if user_type == "physical_person" and data.get("cpf", None) and data.get("rg", None):
-            if is_cpf(data["cpf"]) and is_rg(data["rg"]):
-                if not User_validation(data["username"], data["email"], data["cpf"],rg=data["rg"]):
-                    msg = "There is already a user with that name, email, CPF or Rg"
+    if user_type == "physical_person":
+            if data.get("cpf", None) and data.get("rg", None):
+                if is_cpf(data["cpf"]) and is_rg(data["rg"]):
+                    if not User_validation(data["username"], data["email"], data["cpf"],rg=data["rg"]):
+                        msg = "There is already a user with that name, email, CPF or Rg"
+                        return  jsonify({"InputError": msg}), 400
+                else:
+                    msg = "Invalid CPF"
                     return  jsonify({"InputError": msg}), 400
-            else:
-                msg = "Invalid CPF"
-                return  jsonify({"InputError": msg}), 400
+            if not User_validation(data["username"], data["email"]):
+                        msg = "There is already a user with that name, email"
+                        return  jsonify({"InputError": msg}), 400
+            print("oi")
+            
+               
+           
             
     elif data.get("cnpj", None):
         if is_cnpj(data["cnpj"]) and state_tax_registration_validation(data["state_tax_registration"], data["state"]):
