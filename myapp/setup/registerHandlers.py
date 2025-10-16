@@ -4,13 +4,11 @@ from flask import Flask, render_template
 from typing import Tuple
 
 def register_handlers(app: Flask) -> None:
-    folder = "myapp/handlers"
+    error_codes = [403, 404, 401]
     error_pages = {}
     
-    for _, module_name, _ in pkgutil.iter_modules([folder]):
-        if module_name[:3].isdigit():
-            code = int(module_name[:3])
-            error_pages[code] = f"{code}.html"
+    for code in error_codes:
+        error_pages[code] = f"{code}.html"
 
     def handle_error(err: object) -> Tuple[str, int]:
         code = getattr(err, "code")

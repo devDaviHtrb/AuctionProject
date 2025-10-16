@@ -3,8 +3,9 @@ from myapp.utils.LinksUrl import wait_login
 from myapp.utils.AuthPending import add_in
 from myapp.models.Users import users
 from myapp.services.Messages import auth_message
+from myapp.services.InitSession import init_session
 from myapp.services.setCookies import set_cookies
-from flask_login import login_user
+
 from typing import Tuple
 from werkzeug.security import check_password_hash
 
@@ -27,6 +28,9 @@ def Login() -> Tuple[Response, int]:
         if not user or not check_password_hash(user.password, password):
             msg = "This user is wrong or don't exists"
             return jsonify({"InputError": msg}), 400
+        
+    
+        init_session(user)
         
         data = {
             "user_id":          user.user_id,
