@@ -3,6 +3,7 @@ from myapp.models.PhysicalPerson import physical_persons
 from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Users import users
 from myapp.models.LegalPerson import legal_persons
+from myapp.models.Settings import settings
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 from typing import Dict, Any
@@ -11,7 +12,6 @@ def create_user(data: Dict[str, Any]) -> Dict[str, Any]:
 
     user_type = data.get("userType", "physical_person")
     
-
     user = users(
         username = data.get("username"),
         password = generate_password_hash(data.get("password")),
@@ -61,6 +61,8 @@ def create_user(data: Dict[str, Any]) -> Dict[str, Any]:
             state_tax_registration = data.get("state_tax_registration")
         )
         db.session.add(legal_person)
+    
+    settings.save_item(user.user_id)
     
     db.session.commit()
     return user

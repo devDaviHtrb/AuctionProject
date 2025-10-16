@@ -1,6 +1,8 @@
 from __future__ import annotations
 from flask_login import UserMixin
 from typing import Tuple, Optional
+from werkzeug.security import generate_password_hash
+from myapp.models.Settings import settings
 from myapp.setup.InitSqlAlchemy import db
 
 class users(db.Model, UserMixin):
@@ -35,6 +37,14 @@ class users(db.Model, UserMixin):
             cls.email == wanted_email
         ).first()
     
+    def get_two_factor_auth(self) -> Optional[bool]:
+        setting = db.session.query(settings).filter_by(user_id = self.user_id).first()
+        return setting.two_factor_auth if setting else None
+
+    def save_password(self, new_password: str) -> None:
+        self.password = generate_password_hash(new_password)
+        db.session.commit()
+    
     def delete(self) -> Tuple[bool, str]:
         try:
             db.session.delete(self)
@@ -43,4 +53,5 @@ class users(db.Model, UserMixin):
         except Exception as e:
             db.session.rollback()
             return False, e
+    
 

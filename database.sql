@@ -169,11 +169,11 @@ CREATE TABLE products (
 
 CREATE TABLE settings (
 	setting_id SERIAL NOT NULL, 
-	anonymous_mode INTEGER NOT NULL, 
-	user_id INTEGER, 
-	two_factor_auth INTEGER NOT NULL, 
+	user_id INTEGER NOT NULL, 
+	anonymous_mode BOOLEAN NOT NULL, 
+	two_factor_auth BOOLEAN NOT NULL, 
 	PRIMARY KEY (setting_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id)
+	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 )
 
 

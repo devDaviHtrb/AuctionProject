@@ -128,8 +128,8 @@ def SingIn() -> Tuple[Response, int]:
     token = add_in(data)
     msgs.auth_message(
         email = data.get("email"),
-        content = url_for("auth.auth", token=token, _external=True)
+        content = url_for("auth.auth",type = "create" ,token=token, _external=True)
     )
 
-    return jsonify({"redirect":url_for("waitingPage.WaitingPage"), "Data": data}), 201
+    return jsonify({"redirect":url_for("waitingPage.WaitingPage"), "Data": data}), 200
 

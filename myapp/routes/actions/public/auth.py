@@ -1,77 +1,73 @@
-from flask import Blueprint, Response, url_for, redirect, request
+from flask import Blueprint, Response, url_for, redirect, request, make_response
 from myapp.services.CreateUser import create_user
 from myapp.services.Messages import auth_message
 from myapp.utils.AuthPending import *
 from myapp.models.Users import users
 from werkzeug.security import generate_password_hash
-from secrets import token_hex
-from typing import Dict, Any, Tuple
+from myapp.services.setCookies import set_cookies
+from myapp.utils.LinksUrl import *
+from flask_login import login_user
 
 auth_bp = Blueprint("auth", __name__)
-SING_IN = "/singIn"
-RESEND = "/auth/change/"
 
-def wait_sing_in() -> Response:
-    return redirect(
-        url_for(
-            "waitingPage.WaitingPage",
-            link=SING_IN,
-            _external=True
-        )
-    )
+@auth_bp.route("/auth/<string:type>/<string:token>", methods = ["POST", "GET"])
+def auth(type:str, token:str) -> Response:
+    token_data = get_by_pending(token)
 
-def wait_resend(email:str) -> Response:
-    return redirect(
-        url_for(
-            "waitingPage.WaitingPage",
-            link= RESEND + email,
-            _external=True
-            )
-        )
-
-def login() -> Response:
-    return redirect(url_for("loginPage.LoginPage"))
-
-def sing_in() -> Response:
-    return redirect(url_for("singInPage.SingInPage"))
-
-
-@auth_bp.route("/auth/set/<string:token>", methods = ["POST", "GET"])
-def auth(token:str) -> Response:
-    data = get_by_pending(token)
-    new_passord = request.form.get("new_password", None)
-    if (not data): #not token
+    if (not token_data): #not token
         return sing_in()
     
-    #change password
-    if (new_passord):
+    if(type == "login"):       
+        response = make_response(login_user(users.query.filter_by(user_id = token_data.get("user_id")).first(), remember=True))
+        set_cookies(request, response)
+        pop_by_pending(token)
+        return profile()
+    
+    elif(type == "create"):
+        create_user(token_data)
+
+    elif(type == "reset"):
         user = users.get_by_email(
-            data.get("email")
+            token_data.get("email")
         )
-        if (not user):
+        new_password = request.form.get("new_password", None)
+        if (not user or not new_password):
             return sing_in()
-        user.password = generate_password_hash(new_passord)
-    #new user
+        user.save_password(new_password)
+
     else:
-        create_user(data)
+        return sing_in()
+    
     pop_by_pending(token)
     return login()
 
+@auth_bp.route("/auth/resend/<string:email>")
+def resend(email:str) -> Response:
+    token = get_by_emails_dict(email)
+    if (not token):
+        return login()
+    auth_message(
+        email = email,
+        content = url_for("auth.auth", type = "login", token = token)
+    )
+    return wait_login(email)
+
 @auth_bp.route("/auth/change/<string:email>")
 def changePassword(email:str) -> Response:
-    data = get_by_emails_dict(email)
-
-    if (not data):
-        if(not users.get_by_email(email)):
+    token_data = get_by_emails_dict(email)
+    if (not token_data):
+        if(not users.get_by_email(email)): # no have users with this email
             return sing_in()
         
+        #add in token
         token = add_in({"email": email})
-        auth_message(email = email, content = url_for("auth.auth", token=token, _external=True))
-        return wait_resend(email)
-    
-    token = data.get(email)
-    auth_message(email = email, content = url_for("auth.auth", token=token, _external=True))
-    return wait_resend(email)
+        auth_message(email = email, content = url_for("auth.auth", type = "reset",token=token, _external=True))
+        return wait_change(email)
+
+    # if token exists resend email   
+    token = token_data.get(email)
+    auth_message(email = email, content = url_for("auth.auth", type = "reset", token=token, _external=True))
+    return wait_change(email)
 
         
 
