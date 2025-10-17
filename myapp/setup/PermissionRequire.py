@@ -19,7 +19,7 @@ def init_authDecorator(app: Flask) -> None:
             print(session.get("user_id"))
             abort(401)
             return
-        if  session.get("id"):
+        if  session.get("user_id"):
             if not session.get("admin") == False and request.endpoint in adminRoutes:
                 abort(403) 
                 return

@@ -30,10 +30,6 @@ def Login() -> Tuple[Response, int]:
             msg = "This user is wrong or don't exists"
             return jsonify({"InputError": msg}), 400
         
-    
-        init_session(user)
-        print("sessao iniciada")
-        
         data = {
             "user_id":          user.user_id,
             "email":            user.email,
@@ -55,11 +51,9 @@ def Login() -> Tuple[Response, int]:
                 "Data":data
             }), 200
 
+        init_session(user)
+        print("sessao iniciada")
         
-    
-        
-        
-
         response = make_response(jsonify({"redirect":url_for("profile.Profile"), "Data":data})) 
         set_cookies(request, response)
 

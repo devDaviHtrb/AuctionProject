@@ -1,4 +1,5 @@
 from flask import *
+from flask_socketio import SocketIO
 from myapp.setup.InitSocket import init_socket
 
 from myapp.setup.InitSqlAlchemy import init_db

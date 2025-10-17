@@ -18,11 +18,13 @@ def auth(type:str, token:str) -> Response:
     if (not token_data): #not token
         return sing_in()
     
-    if(type == "login"):       
-        response = make_response(init_session(users.query.filter_by(user_id = token_data.get("user_id")).first()))
+    if(type == "login"):
+        user = users.query.get(token_data.get("user_id"))       
+        response = make_response(profile())
+        init_session(user) ## <--
         set_cookies(request, response)
         pop_by_pending(token)
-        return profile()
+        return response
     
     elif(type == "create"):
         create_user(token_data)
