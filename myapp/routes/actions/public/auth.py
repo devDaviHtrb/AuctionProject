@@ -53,7 +53,7 @@ def auth(token:str) -> Response:
             return sing_in()
         if (not new_password):
             return change(token=token)
-        user.save_password(new_password)
+        user.set_password(new_password)
 
     else:
         return sing_in()

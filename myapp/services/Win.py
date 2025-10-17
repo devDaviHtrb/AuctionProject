@@ -1,5 +1,6 @@
 from myapp.services.GetLastBid import last_bid
 from myapp.models.Products import products
+from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Users import users
 from myapp.models.Bids import bids
 from typing import Optional
@@ -9,6 +10,19 @@ def set_winner(product: products) -> Optional[str]:
     if(not winner_bid or not winner_user):
         return
 
+    #get seller
+    seller_user = product.get_user()
+
+    #get value
     bid_value = winner_bid.bid_value
+
+    # transference
     winner_user.wallet -= bid_value 
     winner_bid.winner = True
+    seller_user.wallet += bid_value
+
+    # changing owner
+    product.user_id = winner_user.user_id
+
+    db.session.commit()
+

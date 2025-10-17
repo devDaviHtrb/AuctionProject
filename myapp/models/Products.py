@@ -1,9 +1,10 @@
 from __future__ import annotations
 import secrets
+from myapp.models.Users import users
 from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey, select
 from myapp.models.ProductStatuses import product_statuses
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 class products(db.Model):
     product_id =  db.Column(db.Integer, primary_key=True)
@@ -21,14 +22,17 @@ class products(db.Model):
     city = db.Column(db.String(80), nullable=True)
     state = db.Column(db.CHAR(2), nullable=True)
     user_id = db.Column(db.Integer, ForeignKey("users.user_id"))
-    #category_technical_feature_id = db.Column(db.Integer, ForeignKey("category_technical_features.technical_feature_id"))
+    #FK 
+    category_technical_feature_id = db.Column(db.Integer, ForeignKey("category_technical_features.technical_feature_id"))
+    category = db.Column(db.Integer, ForeignKey("categories.category_id"))
 
     #changes
     end_datetime = db.Column(db.DateTime, nullable=True)
     duration = db.Column(db.Integer, nullable = False) # In Seconds
 
     
-
+    def get_user(self) -> Optional[users]:
+        return users.query.get(self.user_id)
     
     def get_status(self) -> str:
         stmt = select(product_statuses).where(
@@ -44,6 +48,7 @@ class products(db.Model):
 
         if (new_fk):
             self.product_status = new_fk
+            db.session.commit()
 
     @classmethod
     def get_actives(cls) -> List[products]:

@@ -20,7 +20,7 @@ def restart() -> int:
 
 
 def set_winner(data:Dict[str, Any], product_id:int) -> None:
-    new_bid = bids.add_item(data)
+    new_bid = bids.save_item(data)
     winners[product_id] = new_bid
 
 def make_bid(bid: Dict[str, Any]) -> Optional[str]:

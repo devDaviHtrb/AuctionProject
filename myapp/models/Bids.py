@@ -16,7 +16,7 @@ class bids(db.Model):
     product_id = db.Column(db.Integer, ForeignKey("products.product_id"))
 
     @classmethod
-    def add_item(cls, data: Dict[str, Any]) -> bids:
+    def save_item(cls, data: Dict[str, Any]) -> bids:
         new_bid = cls(**data)
         db.session.add(new_bid)
         db.session.flush()

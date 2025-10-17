@@ -41,7 +41,7 @@ class users(db.Model, UserMixin):
         setting = db.session.query(settings).filter_by(user_id = self.user_id).first()
         return setting.two_factor_auth if setting else None
 
-    def save_password(self, new_password: str) -> None:
+    def set_password(self, new_password: str) -> None:
         self.password = generate_password_hash(new_password)
         db.session.commit()
     
