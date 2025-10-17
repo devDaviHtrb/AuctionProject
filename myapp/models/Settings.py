@@ -2,6 +2,14 @@ from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey
 class settings(db.Model):
     setting_id = db.Column(db.Integer, primary_key=True)
-    anonymous_mode =  user_id = db.Column(db.Integer, nullable= False)
-    two_factor_auth = user_id = db.Column(db.Integer, nullable= False)
-    user_id =  user_id = db.Column(db.Integer, ForeignKey("users.user_id"))
+    user_id = db.Column(db.Integer, ForeignKey("users.user_id", ondelete = "CASCADE"),  nullable = False)
+    anonymous_mode = db.Column(db.Boolean, nullable = False, default = False)
+    two_factor_auth = db.Column(db.Boolean, nullable = False, default = False)
+
+    @classmethod
+    def save_item(cls, user_id:int) -> None:
+        new_setting = cls(user_id = user_id)
+        db.session.add(new_setting)
+        db.session.flush()
+        db.session.commit()
+

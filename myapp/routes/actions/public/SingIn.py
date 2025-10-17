@@ -1,13 +1,15 @@
+import myapp.services.Messages as msgs
 from flask import Blueprint, jsonify, url_for, request, Response
-
+from myapp.models.Users import users
+from myapp.utils.AuthPending import add_in
 from myapp.services.CreateUser import create_user
 from myapp.utils.Validations.validations import *
 from myapp.utils.utils import uploadImage
-
 from typing import Tuple
 
 
 singIn = Blueprint("singIn", __name__)
+
 
 @singIn.route("/singIn", methods=["POST"])
 def SingIn() -> Tuple[Response, int]:
@@ -34,18 +36,6 @@ def SingIn() -> Tuple[Response, int]:
         "city",
         "state"
     ]
-    datakey += [
-        "rg",
-        "birth_date",
-        "gender"
-    ] if user_type == "physical_person" else [
-        "cnpj", 
-        "state_tax_registration",
-        "legal_business_name",
-        "trade_name",
-        "scrap_purchase_authorization"
-    ]
-    data = {}
     nullAbleValues = [
         "cellphone2",
         "cnpj",
@@ -69,7 +59,22 @@ def SingIn() -> Tuple[Response, int]:
         "birth_date",
         "gender"
     ]
+    user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
+    
+    datakey += [
+        "rg",
+        "birth_date",
+        "gender"
+    ] if user_type == "physical_person" else [
+        "cnpj", 
+        "state_tax_registration",
+        "legal_business_name",
+        "trade_name",
+        "scrap_purchase_authorization"
+    ]
+    
 
+    data = {}
     missingInfo = []
     for requiredData in datakey:
         value = request.form.get(requiredData, None)
@@ -84,7 +89,7 @@ def SingIn() -> Tuple[Response, int]:
         return jsonify({"InputError": msg, "MissingInformation": missingInfo}), 400
         
     #validations
-    if not is_email(data["email"]):
+    if not is_email(data["email"]) or users.get_by_email(data["email"]):
         msg = "Invalid email"
         return jsonify({"InputError": msg}), 400
     
@@ -141,6 +146,11 @@ def SingIn() -> Tuple[Response, int]:
         
     create_user(data)
 
-    
-    return jsonify({"redirect":url_for("loginPage.LoginPage"), "Data": data}), 201
+    token = add_in(data)
+    msgs.auth_message(
+        email = data.get("email"),
+        content = url_for("auth.auth",type = "create" ,token=token, _external=True)
+    )
+
+    return jsonify({"redirect":url_for("waitingPage.WaitingPage"), "Data": data}), 200
 

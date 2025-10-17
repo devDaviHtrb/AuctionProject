@@ -1,6 +1,6 @@
 from functools import wraps
-from flask import Flask, abort, request
-from flask_login import current_user
+from flask import Flask, abort, request, session
+
 #from flask_login import current_user
 
 publicRoutes = []
@@ -15,12 +15,11 @@ def init_authDecorator(app: Flask) -> None:
         print(publicRoutes, commonRoutes, adminRoutes)
         if request.endpoint in publicRoutes:
             return
-        if not current_user.is_authenticated and request.endpoint in commonRoutes:
-            
+        if not session.get("id") and request.endpoint in commonRoutes:
             abort(401)
             return
-        if  current_user.is_authenticated:
-            if not current_user.admin_user and request.endpoint in adminRoutes:
+        if  session.get("id"):
+            if not session.get("admin") == False and request.endpoint in adminRoutes:
                 abort(403) 
                 return
         

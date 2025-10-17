@@ -14,9 +14,9 @@ def init_extensions(app):
     
     #Db initialization
     db = init_db(app)
+
     create_tables(app, db)
 
-    init_loginManager(app)
     init_authDecorator(app)
 
 

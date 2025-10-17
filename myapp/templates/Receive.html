@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Test</title>
+  <style>
+    div {
+      border: 1px solid #ccc;   /* borda cinza clara */
+      margin: 10px;             /* separa as divs entre si */
+      padding: 10px;            /* espaço interno */
+    }
+  </style>
+</head>
+<body>
+
+  <input type="text" placeholder="Room ID" id="room_id">
+  <button id="joinBtn">Join Room</button>
+  <button id="emitBtn">Emit Test</button>
+
+  <div id="content"></div>
+  
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script>
+    const socket = io();
+    const div = document.getElementById("content");
+    const roomInput = document.getElementById("room_id");
+
+    // --- botão "Join Room"
+    document.getElementById("joinBtn").addEventListener("click", () => {
+      const roomId = roomInput.value.trim();
+      if (!roomId) return alert("Digite o Room ID primeiro!");
+      
+      socket.emit("join_test", { room_id: roomId });
+    });
+
+    // --- botão "Emit Test"
+    document.getElementById("emitBtn").addEventListener("click", () => {
+      const roomId = roomInput.value.trim();
+      if (!roomId) return alert("Digite o Room ID primeiro!");
+      
+      socket.emit("emit_test", { room_id: roomId });
+    });
+
+    // --- recebendo mensagem do servidor
+    socket.on("server_content", (data) => {
+      const response = data.response;
+
+      if (response.type === "join") {
+        div.innerHTML += `
+          <div>JOIN IN ${response.room_id}</div><br>
+        `;
+      } 
+      else if (response.type === "emit") {
+        div.innerHTML += `
+          <div>
+            <div>EMIT IN ${response.room_id}</div>
+            <div>ROOMS: ${response.rooms.join(" ")}</div>
+            <div>SID: ${response.sid}</div>
+          </div><br>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
