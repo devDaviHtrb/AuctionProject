@@ -15,7 +15,6 @@ login = Blueprint("login", __name__)
 
 @login.route("/login", methods=["POST", "GET"])
 def Login() -> Tuple[Response, int]:
-    print("dsjfsdkjfhkds")
     if request.method == "POST":
         name = request.form["username"]
         password = request.form["password"]
@@ -38,15 +37,19 @@ def Login() -> Tuple[Response, int]:
         }
         
         if(user.get_two_factor_auth()):
-            token = add_in(data)
+            token = add_in(
+                data=   data,
+                type=   "login"
+            )
             auth_message(
-                email =user.email,
-                content = url_for("auth.auth",type = "login" ,token = token, _external = True)
+                email =     user.email,
+                content =   url_for("auth.auth", token = token, _external = True)
             )
             return jsonify({
                 "redirect":url_for(
                     "waitingPage.WaitingPage",
-                    link = wait_login(user.email)
+                    link = "auth.resend",
+                    email = user.email
                 ),
                 "Data":data
             }), 200
@@ -55,7 +58,7 @@ def Login() -> Tuple[Response, int]:
         print("sessao iniciada")
         
         response = make_response(jsonify({"redirect":url_for("profile.Profile"), "Data":data})) 
-        set_cookies(request, response)
+        set_cookies(request, response, user_id = user.user_id)
 
         
         return response, 200

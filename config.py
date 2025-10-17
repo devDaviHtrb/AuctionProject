@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from secrets import token_hex
+from cryptography.fernet import Fernet
 import os
 
 load_dotenv()
@@ -28,12 +29,14 @@ class Config:
     CORPORATION_PASSWORD = os.getenv("CORPORATION_PASSWORD")
     
     #FLASK
-    SECRET_KEY = token_hex(16)
     SOCKETIO_ASYNC_MODE = "threading"  
     DEBUG = True
 
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
 
+    # KEYS
+    SECRET_KEY = token_hex(32)
+    FERNET_KEY = Fernet.generate_key()
 
     # Evita warnings desnecessários do SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False

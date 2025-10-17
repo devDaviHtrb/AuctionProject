@@ -2,13 +2,22 @@ from secrets import token_hex
 import threading as thread
 from typing import Dict, Any, Optional
 
-pending = {} #{token: user_data}
+pending = {} 
+"""{
+    token: {
+        "type":         str(sing_in | login | reset)
+        "user_data":    {str: Any}
+    }
+}"""
 emails = {} # {email: token}
 
 
-def add_in(data:Dict[str, Any]) -> str:
+def add_in(data:Dict[str, Any], type: str) -> str:
     token = token_hex(16)
-    pending[token] = data
+    pending[token] = {
+        "type":         type,
+        "user_data":    data
+    }
 
     emails[data.get("email")] = token
 
@@ -25,10 +34,10 @@ def get_by_emails_dict(key:str) -> Optional[str]:
     return emails.get(key, None)
 
 def pop_by_pending(key:str) -> None:
+    print("::::::::::", pending, emails)
     if (not key in pending):
         return
-    data = pending.get(key)
-
+    data = pending.get(key).get("user_data")
     pending.pop(key)
     emails.pop(data.get("email"))
     

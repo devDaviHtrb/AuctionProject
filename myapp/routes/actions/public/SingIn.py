@@ -127,11 +127,7 @@ def SingIn() -> Tuple[Response, int]:
             if not User_validation(data["username"], data["email"]):
                         msg = "There is already a user with that name, email"
                         return  jsonify({"InputError": msg}), 400
-            print("oi")
-            
-               
-           
-            
+                       
     elif data.get("cnpj", None):
         if is_cnpj(data["cnpj"]) and state_tax_registration_validation(data["state_tax_registration"], data["state"]):
             if not User_validation(data["username"], data["email"], data["cpf"], cnpj=data["cnpj"]):
@@ -144,12 +140,13 @@ def SingIn() -> Tuple[Response, int]:
                 msg = "There is already a user with that name, email"
                 return  jsonify({"InputError": msg}), 400
         
-    create_user(data)
-
-    token = add_in(data)
+    token = add_in(
+         data = data,
+         type = "create"
+    )
     msgs.auth_message(
-        email = data.get("email"),
-        content = url_for("auth.auth",type = "create" ,token=token, _external=True)
+        email =     data.get("email"),
+        content =   url_for("auth.auth", token=token, _external=True)
     )
 
     return jsonify({"redirect":url_for("waitingPage.WaitingPage"), "Data": data}), 200

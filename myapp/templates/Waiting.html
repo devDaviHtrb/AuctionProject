@@ -8,7 +8,8 @@
 <body>
     <p>VOCE RECEBERA UM EMAIL</p>
 
-    <a href="/{{link}}">Não recebeu? clique aqui</a>
+    <a href="{{url_for(link, email = email) if email else url_for(link)}}">
+        Não recebeu? clique aqui</a>
 
 </body>
 </html>
