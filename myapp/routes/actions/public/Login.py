@@ -55,7 +55,7 @@ def Login() -> Tuple[Response, int]:
 
         
     
-        login_user(user, remember=True)
+        
         
 
         response = make_response(jsonify({"redirect":url_for("profile.Profile"), "Data":data})) 

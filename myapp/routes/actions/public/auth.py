@@ -1,12 +1,13 @@
 from flask import Blueprint, Response, url_for, redirect, request, make_response
 from myapp.services.CreateUser import create_user
+from myapp.services.InitSession import init_session
 from myapp.services.Messages import auth_message
 from myapp.utils.AuthPending import *
 from myapp.models.Users import users
 from werkzeug.security import generate_password_hash
 from myapp.services.setCookies import set_cookies
 from myapp.utils.LinksUrl import *
-from flask_login import login_user
+
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -18,7 +19,7 @@ def auth(type:str, token:str) -> Response:
         return sing_in()
     
     if(type == "login"):       
-        response = make_response(login_user(users.query.filter_by(user_id = token_data.get("user_id")).first(), remember=True))
+        response = make_response(init_session(users.query.filter_by(user_id = token_data.get("user_id")).first()))
         set_cookies(request, response)
         pop_by_pending(token)
         return profile()
