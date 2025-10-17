@@ -17,7 +17,7 @@ nextButton.addEventListener("click", () => {
 
 document.querySelectorAll(".slide").forEach((slide) => {
   slide.addEventListener("click", () => {
-    const filter = slide.dataset.filter || "";
+    const filter = slide.dataset.filter;
     sessionStorage.setItem("filterCarrousel", filter);
     window.location.href = "/auctions";
   });

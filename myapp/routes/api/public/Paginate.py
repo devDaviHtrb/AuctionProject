@@ -13,6 +13,7 @@ def Paginate(page:int, filter_select:str=None) -> Response:
     categories_list = {current_category.category_id:current_category.category_name for current_category in categories.query.order_by(categories.category_id).all()}
 
     if filter_select:
+        print(filter_select)
         category = categories.query.filter_by(category_name=filter_select).first()
         if category:
             products_list = products.query.filter_by(category_id=category.category_id).paginate(page=current_page, per_page=auctions_per_page)

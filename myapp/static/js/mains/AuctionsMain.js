@@ -1,24 +1,24 @@
-import { loadProducts } from "../interactivity/Paginate";
+import { loadProducts } from "../interactivity/Paginate.js";
 
 let currentPage = 1;
 let currentFilter = document.getElementById("categories");
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const filterCarrousel = sessionStorage.getItem("filterCarrousel");
-
-  if (filtroCarrossel) {
+  const filterCarroussel = sessionStorage.getItem("filterCarrousel"); //
+  console.log(filterCarroussel);
+  if (filterCarroussel) {
     sessionStorage.removeItem("filterCarrousel");
 
     if (currentFilter) {
       const option = [...currentFilter.options].find(
-        (opt) => opt.value === filterCarrousel
+        (opt) => opt.value === filterCarroussel
       );
       if (option) option.selected = true;
     }
 
-    await loadProducts(1, filterCarrousel);
+    await loadProducts(1, filterCarroussel);
   } else {
-    await loadProducts(currentPage, currentFilter.value);
+    await loadProducts(currentPage);
   }
 });
 
