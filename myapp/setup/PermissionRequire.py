@@ -15,7 +15,8 @@ def init_authDecorator(app: Flask) -> None:
         print(publicRoutes, commonRoutes, adminRoutes)
         if request.endpoint in publicRoutes:
             return
-        if not session.get("id") and request.endpoint in commonRoutes:
+        if not session.get("user_id") and request.endpoint in commonRoutes:
+            print(session.get("user_id"))
             abort(401)
             return
         if  session.get("id"):

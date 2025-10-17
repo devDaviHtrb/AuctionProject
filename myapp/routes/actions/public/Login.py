@@ -32,6 +32,7 @@ def Login() -> Tuple[Response, int]:
         
     
         init_session(user)
+        print("sessao iniciada")
         
         data = {
             "user_id":          user.user_id,
