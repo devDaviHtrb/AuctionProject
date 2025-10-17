@@ -1,16 +1,26 @@
-import { joinRoom } from "../sockets/JoinRoom";
 export function renderProducts(data) {
-  let auctions = document.getElementById("auctions");
+  const auctions = document.getElementById("auctions");
   auctions.innerHTML = "";
+  console.log(data.Error);
+
+  if (data.Error) {
+    console.log("odf");
+    auctions.innerHTML = `<p>${data.Error}</p>`;
+  }
+
   data.products.forEach((product) => {
-    auctions.innerHTML += `<div><h3>${product.product_name}</h3>
-                       <p>${product.description}</p>
-                       <p>Min Bid: ${product.min_bid}</p>
-                       <p>Category: ${product.category}</p>
-                        <button class="join-auction" data-room-token="${product.product_room}">
-                        Join Auction
-                         </button></div>`;
+    auctions.innerHTML += `
+      <div>
+        <h3>${product.product_name}</h3>
+        <p>${product.description || "Sem descrição"}</p>
+        <p>Min Bid: ${product.min_bid ?? "N/A"}</p>
+        <p>Category: ${product.category || "Sem categoria"}</p>
+        <button class="join-auction" data-room-token="${product.room}">
+          Join Auction
+        </button>
+      </div>`;
   });
+
   document.querySelectorAll(".join-auction").forEach((btn) => {
     btn.addEventListener("click", (e) => joinRoom(e));
   });

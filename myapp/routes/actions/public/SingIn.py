@@ -13,6 +13,10 @@ singIn = Blueprint("singIn", __name__)
 
 @singIn.route("/singIn", methods=["POST"])
 def SingIn() -> Tuple[Response, int]:
+    user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
+    print(user_type)
+
+    #required data
     datakey = [
         "username",
         "password",
@@ -50,7 +54,10 @@ def SingIn() -> Tuple[Response, int]:
         "zip_code",
         "district",
         "city",
-        "state"
+        "state",
+        "rg",
+        "birth_date",
+        "gender"
     ]
     user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
     
@@ -71,9 +78,10 @@ def SingIn() -> Tuple[Response, int]:
     missingInfo = []
     for requiredData in datakey:
         value = request.form.get(requiredData, None)
-        if value == "" or value is None and requiredData not in nullAbleValues:
+        if (value == "" or value is None) and requiredData not in nullAbleValues:
             msg = "Complete all the inputs"
             missingInfo.append(requiredData)
+            print(missingInfo)
         else:
             data[requiredData] = value
 
@@ -107,14 +115,22 @@ def SingIn() -> Tuple[Response, int]:
             return jsonify({"InputError": msg}), 400
 
     
-    if user_type == "physical_person" and data.get("cpf", None) and data.get("rg", None):
-            if is_cpf(data["cpf"]) and is_rg(data["rg"]):
-                if not User_validation(data["username"], data["email"], data["cpf"],rg=data["rg"]):
-                    msg = "There is already a user with that name, email, CPF or Rg"
+    if user_type == "physical_person":
+            if data.get("cpf", None) and data.get("rg", None):
+                if is_cpf(data["cpf"]) and is_rg(data["rg"]):
+                    if not User_validation(data["username"], data["email"], data["cpf"],rg=data["rg"]):
+                        msg = "There is already a user with that name, email, CPF or Rg"
+                        return  jsonify({"InputError": msg}), 400
+                else:
+                    msg = "Invalid CPF"
                     return  jsonify({"InputError": msg}), 400
-            else:
-                msg = "Invalid CPF"
-                return  jsonify({"InputError": msg}), 400
+            if not User_validation(data["username"], data["email"]):
+                        msg = "There is already a user with that name, email"
+                        return  jsonify({"InputError": msg}), 400
+            print("oi")
+            
+               
+           
             
     elif data.get("cnpj", None):
         if is_cnpj(data["cnpj"]) and state_tax_registration_validation(data["state_tax_registration"], data["state"]):
@@ -124,6 +140,11 @@ def SingIn() -> Tuple[Response, int]:
         else:
             msg = "Invalid CNPJ or state_tax_registration"
             return  jsonify({"InputError": msg}), 400
+        if not User_validation(data["username"], data["email"], data["cpf"], cnpj=data["cnpj"]):
+                msg = "There is already a user with that name, email"
+                return  jsonify({"InputError": msg}), 400
+        
+    create_user(data)
 
     token = add_in(data)
     msgs.auth_message(

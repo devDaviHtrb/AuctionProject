@@ -15,6 +15,7 @@ login = Blueprint("login", __name__)
 
 @login.route("/login", methods=["POST", "GET"])
 def Login() -> Tuple[Response, int]:
+    print("dsjfsdkjfhkds")
     if request.method == "POST":
         name = request.form["username"]
         password = request.form["password"]

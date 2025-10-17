@@ -1,4 +1,4 @@
-export function manageSingInResponse(data) {
+export function manageLoginResponse(data) {
   if (data.InputError) {
     document.getElementById("message").innerText = data.InputError;
   } else if (data.redirect) {
