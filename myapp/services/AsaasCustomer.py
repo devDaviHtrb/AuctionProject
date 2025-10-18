@@ -12,6 +12,10 @@ ASAAS_WALLET_ID = Config.ASAAS_WALLET_ID
 
 INTERNAL_TOKEN_API = Config.INTERNAL_TOKEN_API
 
+# to do
+def get_payment_link():
+    pass
+
 
 #HELP func create_asaas_customer
 def create_asaas_customer(user: Dict[str, Any]) -> Tuple[int, Dict[str, Any]]:

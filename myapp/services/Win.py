@@ -8,7 +8,7 @@ from typing import Optional
 def set_winner(product: products) -> Optional[str]:
     winner_bid, winner_user = last_bid(product.product_id, chunk_size=10)
     if(not winner_bid or not winner_user):
-        return
+        return "No bids available"
 
     #get seller
     seller_user = product.get_user()

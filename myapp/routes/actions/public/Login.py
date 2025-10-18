@@ -1,10 +1,10 @@
 from flask import jsonify, Blueprint, request, make_response, url_for, Response
 from myapp.utils.LinksUrl import wait_login
-from myapp.utils.AuthPending import add_in
+from myapp.services.auth_tokens import add_token
 from myapp.models.Users import users
 from myapp.services.Messages import auth_message
 from myapp.services.InitSession import init_session
-from myapp.services.setCookies import set_cookies
+from myapp.services.CookiesService import set_cookies
 
 from typing import Tuple
 from werkzeug.security import check_password_hash
@@ -37,7 +37,7 @@ def Login() -> Tuple[Response, int]:
         }
         
         if(user.get_two_factor_auth()):
-            token = add_in(
+            token = add_token(
                 data=   data,
                 type=   "login"
             )

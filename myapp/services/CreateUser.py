@@ -1,4 +1,4 @@
-
+# transfer to model
 from myapp.models.PhysicalPerson import physical_persons
 from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Users import users

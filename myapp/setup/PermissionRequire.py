@@ -2,7 +2,7 @@ from functools import wraps
 from flask import Flask, request, session, abort
 from myapp.models.Users import users
 from myapp.services.InitSession import init_session
-from myapp.services.setCookies import fernet
+from myapp.services.CookiesService import fernet
 
 publicRoutes = []
 commonRoutes = []

@@ -1,7 +1,7 @@
 import myapp.services.Messages as msgs
 from flask import Blueprint, jsonify, url_for, request, Response
 from myapp.models.Users import users
-from myapp.utils.AuthPending import add_in
+from myapp.services.auth_tokens import add_token
 from myapp.services.CreateUser import create_user
 from myapp.utils.Validations.validations import *
 from myapp.utils.utils import uploadImage
@@ -59,7 +59,6 @@ def SingIn() -> Tuple[Response, int]:
         "birth_date",
         "gender"
     ]
-    user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
     
     datakey += [
         "rg",
@@ -140,7 +139,7 @@ def SingIn() -> Tuple[Response, int]:
                 msg = "There is already a user with that name, email"
                 return  jsonify({"InputError": msg}), 400
         
-    token = add_in(
+    token = add_token(
          data = data,
          type = "create"
     )

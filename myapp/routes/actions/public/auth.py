@@ -2,20 +2,23 @@ from flask import Blueprint, Response, url_for, session, request, make_response
 from myapp.services.CreateUser import create_user
 from myapp.services.InitSession import init_session
 from myapp.services.Messages import auth_message
-from myapp.utils.AuthPending import *
+from myapp.services.auth_tokens import *
 from myapp.models.Users import users
 from werkzeug.security import generate_password_hash
-from myapp.services.setCookies import set_cookies
+from myapp.services.CookiesService import set_cookies
 from myapp.utils.LinksUrl import *
 
 auth_bp = Blueprint("auth", __name__)
 
+"""
+for tests
 @auth_bp.route("/auth/set/adm")
 def setAdm():
     session["user_id"] = 3
     session["admin"] = True
     #if 
     return "", 200
+"""
 
 @auth_bp.route("/auth/<string:token>", methods = ["POST", "GET"])
 def auth(token:str) -> Response:
@@ -83,7 +86,7 @@ def changePassword(email:str) -> Response:
         if(not users.get_by_email(email)): # no have users with this email
             return sing_in()
         #add in token
-        token = add_in(
+        token = add_token(
             type = "reset",
             data = {"email": email}
         )

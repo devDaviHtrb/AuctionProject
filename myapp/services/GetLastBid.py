@@ -1,3 +1,4 @@
+# transfer to models
 from myapp.models.Bids import bids
 from myapp.models.Users import users
 from typing import Tuple, Optional

@@ -12,8 +12,8 @@ pending = {}
 emails = {} # {email: token}
 
 
-def add_in(data:Dict[str, Any], type: str) -> str:
-    token = token_hex(16)
+def add_token(data:Dict[str, Any], type: str) -> str:
+    token = token_hex(32)
     pending[token] = {
         "type":         type,
         "user_data":    data
