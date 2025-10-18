@@ -19,6 +19,7 @@ def setAdm():
 
 @auth_bp.route("/auth/<string:token>", methods = ["POST", "GET"])
 def auth(token:str) -> Response:
+    print("auth")
     token_data = get_by_pending(token)
 
     if (not token_data): #not token
@@ -38,6 +39,7 @@ def auth(token:str) -> Response:
         return response
     
     elif(type == "create"):
+       
         user = users.get_by_email(
             data.get("email")
         )

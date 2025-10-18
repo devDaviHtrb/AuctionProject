@@ -5,7 +5,7 @@ export function getSingInForm(route) {
     email: document.getElementById("email").value,
     cpf: document.getElementById("cpf").value,
 
-    photo: document.getElementById("photo").value,
+    photo: document.getElementById("photo").files[0],
     cellphone1: document.getElementById("cellphone1").value,
     cellphone2: document.getElementById("cellphone2").value,
     landline: document.getElementById("landline").value,

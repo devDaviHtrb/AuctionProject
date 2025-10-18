@@ -77,7 +77,7 @@ def SingIn() -> Tuple[Response, int]:
     data = {}
     missingInfo = []
     for requiredData in datakey:
-        value = request.form.get(requiredData, None)
+        value = request.form.get(requiredData, None) if requiredData != "photo" else request.files.get("photo")
         if (value == "" or value is None) and requiredData not in nullAbleValues:
             msg = "Complete all the inputs"
             missingInfo.append(requiredData)
@@ -105,6 +105,7 @@ def SingIn() -> Tuple[Response, int]:
     
     if data.get("photo"):
         if validateImg(data["photo"]):
+            print(data["photo"])
             photo_url = uploadImage(data["photo"], "Users_photos")
             if not photo_url:
                 msg = "Image db connection error, sorry, try the submit without img"
@@ -148,6 +149,8 @@ def SingIn() -> Tuple[Response, int]:
         email =     data.get("email"),
         content =   url_for("auth.auth", token=token, _external=True)
     )
+    if "photo" in data:
+        del data["photo"]
 
     return jsonify({"redirect":url_for("waitingPage.WaitingPage"), "Data": data}), 200
 

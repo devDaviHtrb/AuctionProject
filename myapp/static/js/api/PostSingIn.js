@@ -1,14 +1,14 @@
 export async function postSingIn(form) {
-  try {
-    const request = await fetch("/singIn", {
-      method: "POST",
-      body: new URLSearchParams(form),
-      credentials: "include",
-    });
-    const response = await request.json();
-    return response;
-  } catch (err) {
-    console.error("Error on sing in:", err);
-    return { error: "Server connection error." };
+  const formData = new FormData();
+  for (const key in form) {
+    formData.append(key, form[key]);
   }
+
+  const request = await fetch("/singIn", {
+    method: "POST",
+    body: formData,
+    credentials: "include",
+  });
+
+  return await request.json();
 }
