@@ -1,7 +1,7 @@
 from myapp.extensions import *
 
 def init_extensions(app: Flask) -> SocketIO:
-    init_image_db()
+  
     
     #Listing blueprints
     register_routes(app)

@@ -15,7 +15,7 @@ def auth_message(email:str, content:str) -> str:
     send_email(
         recipient_email = email,
         subject = "NOTHINK",
-        content = "Esse é seu link de autenticação " + content
+        content = "Clique aqui para autenticar: " + content
     )
 
 def change_password_message() -> str:

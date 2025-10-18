@@ -10,4 +10,4 @@ from myapp.setup.registerRoutes import register_routes
 from myapp.setup.PermissionRequire import init_authDecorator
 from myapp.setup.registerHandlers import register_handlers
 from myapp.setup.InitSqlAlchemy import db
-from myapp.setup.InitImageDb import init_image_db
+from myapp.setup.InitImageDb import cloudinary

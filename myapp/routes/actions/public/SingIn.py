@@ -7,150 +7,87 @@ from myapp.utils.Validations.validations import *
 from myapp.utils.utils import uploadImage
 from typing import Tuple
 
-
 singIn = Blueprint("singIn", __name__)
-
 
 @singIn.route("/singIn", methods=["POST"])
 def SingIn() -> Tuple[Response, int]:
-    user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
-    print(user_type)
+    user_type = request.form.get("userType", "physical_person")  # legal_person or physical_person
 
-    #required data
+
     datakey = [
-        "username",
-        "password",
-        "email",
-        "cpf",
-        "name",
-        "userType",
-        "cellphone1",
-        "cellphone2",
-        "landline",
-        "photo", 
-        "street_name", 
-        "street_number", 
-        "apt",
-        "zip_code",
-        "district",
-        "city",
-        "state"
+        "username", "password", "email", "cpf", "name", "userType",
+        "cellphone1", "cellphone2", "landline", "photo",
+        "street_name", "street_number", "apt", "zip_code",
+        "district", "city", "state"
     ]
+
+
     nullAbleValues = [
-        "cellphone2",
-        "cnpj",
-        "cpf", 
-        "rg", 
-        "photo",
-        "landline",
-        "scrap_purchase_authorization"
+        "cellphone2", "cnpj", "cpf", "rg", "photo", "landline",
+        "scrap_purchase_authorization", "cellphone1", "street_name",
+        "street_number", "apt", "zip_code", "district", "city",
+        "state", "rg", "birth_date", "gender", "state_tax_registration", "legal_business_name", "trade_name", "scrap_purchase_authorization"
     ]
-    nullAbleValues += [
-        "cellphone1",
-        "landline",
-        "street_name",
-        "street_number",
-        "apt",
-        "zip_code",
-        "district",
-        "city",
-        "state",
-        "rg",
-        "birth_date",
-        "gender"
-    ]
-    user_type = request.form.get("userType", "physical_person")#legal_person or physical_person
-    
-    datakey += [
-        "rg",
-        "birth_date",
-        "gender"
-    ] if user_type == "physical_person" else [
-        "cnpj", 
-        "state_tax_registration",
-        "legal_business_name",
-        "trade_name",
-        "scrap_purchase_authorization"
-    ]
-    
 
     data = {}
     missingInfo = []
+
     for requiredData in datakey:
-        value = request.form.get(requiredData, None) if requiredData != "photo" else request.files.get("photo")
-        if (value == "" or value is None) and requiredData not in nullAbleValues:
-            msg = "Complete all the inputs"
+        value = request.form.get(requiredData) if requiredData != "photo" else request.files.get("photo")
+        if (value is None or value == "") and requiredData not in nullAbleValues:
             missingInfo.append(requiredData)
-            print(missingInfo)
         else:
-            data[requiredData] = value
+            data[requiredData] = value if value != "" else None
 
     if missingInfo:
-        return jsonify({"InputError": msg, "MissingInformation": missingInfo}), 400
-        
-    #validations
-    if not is_email(data["email"]) or users.get_by_email(data["email"]):
-        msg = "Invalid email"
-        return jsonify({"InputError": msg}), 400
+        return jsonify({"InputError": "Complete all the inputs", "MissingInformation": missingInfo}), 400
+    print(f"Email raw: {repr(data['email'])}")
+    print(users.get_by_email(data["email"]))
+    if not is_email(data["email"]) :
+        print("error")
+        return jsonify({"InputError": "Invalid email"}), 400
+
+
+    for phone in ["cellphone1", "cellphone2", "landline"]:
+        if data.get(phone) and not is_phone_number(data[phone]):
+            return jsonify({"InputError": f"Invalid {phone}"}), 400
+
+    if all(data.get(key) for key in ["zip_code", "district", "state", "city"]):
+        if not adress_validation(data["zip_code"], data["district"], data["state"], data["city"]):
+            return jsonify({"InputError": "Invalid location data"}), 400
     
-    if data.get("cellphone1", None):
-        if not is_phone_number(data["cellphone1"]) or ( not is_phone_number(data["cellphone2"]) and data["cellphone2"] != "") or (not is_phone_number(data["landline"]) and data["landline"]!= ""):
-            msg = "Invalid chellphone"
-            return jsonify({"InputError": msg}), 400
-        
-    if data.get("zip_code", None) and data.get("district", None) and data.get("state", None) and data.get("city", None):
-        if not adress_validation(data["zip_code"], data["district"], data["state"], data["city"]): #without contractions
-            msg = "Invalid location data"
-            return jsonify({"InputError": msg}), 400
-    
+
     if data.get("photo"):
         if validateImg(data["photo"]):
-            print(data["photo"])
             photo_url = uploadImage(data["photo"], "Users_photos")
-            if not photo_url:
-                msg = "Image db connection error, sorry, try the submit without img"
-                print("Db connection error")
-            else: data["photo_url"] = photo_url
+            if photo_url:
+                data["photo_url"] = photo_url
+            else:
+                return jsonify({"InputError": "Image DB connection error"}), 400
         else:
-            msg = "Invalid file "
-            return jsonify({"InputError": msg}), 400
+            return jsonify({"InputError": "Invalid file"}), 400
 
-    
     if user_type == "physical_person":
-            if data.get("cpf", None) and data.get("rg", None):
-                if is_cpf(data["cpf"]) and is_rg(data["rg"]):
-                    if not User_validation(data["username"], data["email"], data["cpf"],rg=data["rg"]):
-                        msg = "There is already a user with that name, email, CPF or Rg"
-                        return  jsonify({"InputError": msg}), 400
-                else:
-                    msg = "Invalid CPF"
-                    return  jsonify({"InputError": msg}), 400
-            if not User_validation(data["username"], data["email"]):
-                        msg = "There is already a user with that name, email"
-                        return  jsonify({"InputError": msg}), 400
-                       
-    elif data.get("cnpj", None):
-        if is_cnpj(data["cnpj"]) and state_tax_registration_validation(data["state_tax_registration"], data["state"]):
-            if not User_validation(data["username"], data["email"], data["cpf"], cnpj=data["cnpj"]):
-                msg = "There is already a user with that name, email or CNPJ"
-                return  jsonify({"InputError": msg}), 400
-        else:
-            msg = "Invalid CNPJ or state_tax_registration"
-            return  jsonify({"InputError": msg}), 400
-        if not User_validation(data["username"], data["email"], data["cpf"], cnpj=data["cnpj"]):
-                msg = "There is already a user with that name, email"
-                return  jsonify({"InputError": msg}), 400
-        
-    token = add_in(
-         data = data,
-         type = "create"
-    )
-    msgs.auth_message(
-        email =     data.get("email"),
-        content =   url_for("auth.auth", token=token, _external=True)
-    )
+        if data.get("cpf") and not is_cpf(data["cpf"]):
+            return jsonify({"InputError": "Invalid CPF"}), 400
+        if data.get("rg") and not is_rg(data["rg"]):
+            return jsonify({"InputError": "Invalid RG"}), 400
+        if not User_validation(data["username"], data["email"], data["cpf"], rg=data.get("rg")):
+            return jsonify({"InputError": "User with same name, email, CPF, or RG exists"}), 400
+    else:
+        if data.get("cnpj") and not is_cnpj(data["cnpj"]):
+            return jsonify({"InputError": "Invalid CNPJ"}), 400
+        if not User_validation(data["username"], data["email"], data.get("cpf"), cnpj=data.get("cnpj")):
+            return jsonify({"InputError": "User with same name, email, or CNPJ exists"}), 400
+
+
+    token = add_in(data=data, type="create")
+
+
+    msgs.auth_message(email=data["email"], content=url_for("auth.auth", token=token, _external=True))
+
+
     if "photo" in data:
         del data["photo"]
 
-    return jsonify({"redirect":url_for("waitingPage.WaitingPage"), "Data": data}), 200
-
+    return jsonify({"redirect": url_for("waitingPage.WaitingPage"), "Data": data}), 200

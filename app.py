@@ -1,6 +1,4 @@
 from myapp import create_app
-from myapp.services.Messages import auth_message
-
 
 app, socketIo = create_app()
 
