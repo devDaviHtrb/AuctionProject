@@ -1,4 +1,4 @@
-export function getSingInForm(route) {
+export function getSingUpForm(route) {
   const commomForm = {
     username: document.getElementById("username").value,
     password: document.getElementById("password").value,

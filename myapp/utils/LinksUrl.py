@@ -42,4 +42,4 @@ def login() -> Response:
     return redirect(url_for("loginPage.LoginPage"), code = 302)
 
 def sing_in() -> Response:
-    return redirect(url_for("singInPage.SingInPage"), code = 302)
+    return redirect(url_for("singUpPage.SingUpPage"), code = 302)

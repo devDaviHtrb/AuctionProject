@@ -8,10 +8,10 @@ from myapp.utils.Validations.validations import *
 from typing import Tuple
 from threading import Thread
 
-singIn = Blueprint("singIn", __name__)
+singUp = Blueprint("singUp", __name__)
 
-@singIn.route("/singIn", methods=["POST"])
-def SingIn() -> Tuple[Response, int]:
+@singUp.route("/singUp", methods=["POST"])
+def SingUp() -> Tuple[Response, int]:
     user_type = request.form.get("userType", "physical_person")  # legal_person or physical_person
 
     datakey = [

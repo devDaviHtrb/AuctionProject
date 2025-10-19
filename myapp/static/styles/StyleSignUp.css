@@ -1,0 +1,130 @@
+    * { 
+        box-sizing: border-box; 
+        margin: 0; 
+        padding: 0; 
+        font-family: Arial, sans-serif; 
+    }
+
+    body { 
+        background: #f7fafd; 
+        display: flex; 
+        flex-direction: column; 
+        min-height: 100vh; 
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px; 
+      background: #eaf2fb; 
+      flex-shrink: 0;
+    }
+    .navbar .logo { 
+      font-weight: bold;
+      color: #004080; 
+      font-size: 20px; 
+    }
+
+    .navbar ul {
+         list-style: none; 
+         display: flex; 
+         gap: 20px; 
+    }
+
+    .navbar ul li a { 
+        text-decoration: none; 
+        color: #333; 
+        font-size: 14px; 
+    }
+    .navbar .right {
+         display: flex; 
+         gap: 15px; 
+         align-items: center; 
+         font-size: 14px;
+        }
+
+    /* Formulário */
+    main { 
+        flex: 1; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        padding: 40px 20px; 
+    }
+
+    form {
+      background: #fff; 
+      padding: 30px 40px; 
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+      width: 100%; 
+      max-width: 500px;
+    }
+
+    h2 { 
+        text-align: center; 
+        margin-bottom: 20px; 
+        color: #333; 
+    }
+
+    label { display: block; 
+        margin-top: 15px; 
+        font-weight: bold; 
+        color: #555; 
+    }
+
+    input, select {
+      width: 100%; 
+      padding: 10px 12px; 
+      margin-top: 5px;
+      border: 1px solid #ccc; 
+      border-radius: 8px; 
+      font-size: 14px; 
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus { 
+        border-color: rgb(178, 182, 202); 
+        outline: none; 
+    }
+
+
+    /* button */ 
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 20px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .btn-login {
+      background: rgb(140, 155, 165);
+      color: white;
+      margin-bottom: 15px;
+      margin-top: 30px
+    }
+
+    .btn-create {
+      background:rgb(140, 155, 165);
+      color: white;
+    }
+
+    /* Footer */
+    footer {
+      background: #eaf2fb; padding: 20px 30px; text-align: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+    footer .highlight { font-weight: bold; color: #004080; }
+
+    /* Responsividade inicial*/
+    @media(max-width: 600px) {
+      form { padding: 20px; }
+      input, select, button { font-size: 14px; }
+      .navbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .navbar ul { flex-direction: column; gap: 10px; }
+    }

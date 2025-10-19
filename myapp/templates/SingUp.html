@@ -27,7 +27,7 @@
   <main>
     <p id="message"></p>
 
-    <form id="signInForm">
+    <form id="singUpForm">
           <label>Username:</label>
       <input type="text" name="Username" id="username" required>
              
@@ -88,7 +88,7 @@
 
     {%endif%}
 
-      <button type="button" id="singInBtn" class="btn btn-login">Cadastrar</button>
+      <button type="button" id="singUpBtn" class="btn btn-login">Cadastrar</button>
     </form>
   </main>
 
@@ -100,6 +100,6 @@
     <script src="{{ url_for('static', filename='js/validations/CPFmask.js') }}" type="module"></script>>
     <script src="{{ url_for('static', filename='js/validations/CPFvalidation.js') }}" type="module"></script>>
     <script src="{{ url_for('static', filename='js/api/GetCEP.js') }}" type="module"></script>>
-    <script src="{{ url_for('static', filename='js/mains/SingInMain.js') }}" type="module"></script>>
+    <script src="{{ url_for('static', filename='js/mains/SingUpMain.js') }}" type="module"></script>>
 </body>
 </html> 
