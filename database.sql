@@ -133,8 +133,8 @@ CREATE TABLE payments (
 CREATE TABLE physical_persons (
 	user_id INTEGER NOT NULL, 
 	rg VARCHAR(12), 
-	birth_date DATE NOT NULL, 
-	gender VARCHAR(20) NOT NULL, 
+	birth_date DATE, 
+	gender VARCHAR(20), 
 	PRIMARY KEY (user_id), 
 	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 )

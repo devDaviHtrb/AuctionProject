@@ -41,8 +41,6 @@ def SingIn() -> Tuple[Response, int]:
 
     if missingInfo:
         return jsonify({"InputError": "Complete all the inputs", "MissingInformation": missingInfo}), 400
-    print(f"Email raw: {repr(data['email'])}")
-    print(users.get_by_email(data["email"]))
     if not is_email(data["email"]) :
         print("error")
         return jsonify({"InputError": "Invalid email"}), 400
