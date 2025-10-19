@@ -7,7 +7,7 @@ fernet = Fernet(FERNET_KEY)
 
 HOUR = 3600
 DAY = HOUR*24
-COOKIES_DEFAULT = {"StyleMode":{"value":"light", "max_age":DAY},"AcessibilityMode":{"value":"off", "max_age":DAY}, "AnonymousMode":{"value":"off", "max_age":HOUR*3} }
+COOKIES_DEFAULT = {"StyleMode":{"value":"light", "max_age":DAY},"AccessibilityMode":{"value":"off", "max_age":DAY}, "AnonymousMode":{"value":"off", "max_age":HOUR*3} }
 
 def set_cookies(request: Request, response: Response, user_id:int = None) -> None:
     if user_id:
