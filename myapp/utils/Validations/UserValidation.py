@@ -2,15 +2,17 @@ from myapp.models.LegalPerson import legal_persons
 from myapp.models.Users import users
 
 
-def User_validation(username:str, email:str, cpf:str=None, cnpj:str=None, rg=None) -> bool:
-    if users.query.filter_by(username=username).first():
-        return False
-    if users.query.filter_by(email=email).first():
-        return False
-    if cpf and users.query.filter_by(CPF=cpf).first():
-        return False
-    if rg and users.query.filter_by(rg=rg).first():
-        return False
-    if cnpj and legal_persons.query.filter_by(CNPJ=cnpj).first():
-        return False
-    return True #Create this user is possible
+from sqlalchemy import or_
+
+def User_validation(username, email, cpf=None, rg=None, cnpj=None):
+    filters = [users.username == username, users.email == email]
+
+    if cpf:
+        filters.append(users.cpf == cpf)
+    if rg:
+        filters.append(users.rg == rg)
+    if cnpj:
+        filters.append(users.cnpj == cnpj)
+
+    existing_user = users.query.filter(or_(*filters)).first()
+    return not existing_user 
