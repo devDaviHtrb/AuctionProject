@@ -1,10 +1,10 @@
-from flask import jsonify, Blueprint, request, make_response, url_for, Response
-from myapp.utils.LinksUrl import wait_login
-from myapp.services.auth_tokens import add_token
+from flask import jsonify, Blueprint, request, url_for, Response
+from myapp.services.AuthTokens import add_token
 from myapp.models.Users import users
 from myapp.services.Messages import auth_message
 from myapp.services.InitSession import init_session
 from myapp.services.CookiesService import set_cookies
+from myapp.utils.LinksUrl import profile, AUTH_CONFIRM, AUTH_RESEND
 
 from typing import Tuple
 from werkzeug.security import check_password_hash
@@ -14,7 +14,7 @@ from datetime import datetime
 login = Blueprint("login", __name__)
 
 @login.route("/login", methods=["POST", "GET"])
-def Login() -> Tuple[Response, int]:
+def login() -> Tuple[Response, int]:
     if request.method == "POST":
         name = request.form["username"]
         password = request.form["password"]
@@ -43,23 +43,20 @@ def Login() -> Tuple[Response, int]:
             )
             auth_message(
                 email =     user.email,
-                content =   url_for("auth.auth", token = token, _external = True)
+                content =   url_for( AUTH_CONFIRM, token = token, _external = True)
             )
             return jsonify({
                 "redirect":url_for(
-                    "waitingPage.WaitingPage",
-                    link = "auth.resend",
+                    AUTH_CONFIRM,
+                    link = AUTH_RESEND,
                     email = user.email
                 ),
                 "Data":data
             }), 200
 
         init_session(user)
-        print("sessao iniciada")
-        
-        response = make_response(jsonify({"redirect":url_for("profile.Profile"), "Data":data})) 
+        response = profile() 
         set_cookies(request, response, user_id = user.user_id)
 
-        
-        return response, 200
+        return response, 303
         

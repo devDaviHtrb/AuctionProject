@@ -27,6 +27,10 @@ class Config:
     #EMAIL
     CORPORATION_EMAIL = os.getenv("CORPORATION_EMAIL")
     CORPORATION_PASSWORD = os.getenv("CORPORATION_PASSWORD")
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+    GOOGLE_SECRECT = os.getenv("GOOGLE_SECRECT")
+    GOOGLE_PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
+    GOOGLE_REDIRECT_URIS = os.getenv("GOOGLE_REDIRECT_URIS")
     
     #FLASK
     SOCKETIO_ASYNC_MODE = "threading"  
@@ -38,7 +42,7 @@ class Config:
     SECRET_KEY = token_hex(32)
     FERNET_KEY = Fernet.generate_key()
 
-    # Evita warnings desnecessários do SQLAlchemy
+    # Avoid unnecessary warnings from SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 

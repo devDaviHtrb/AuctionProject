@@ -1,3 +1,4 @@
+from flask import url_for
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -40,16 +41,29 @@ def buy_message() -> str:
 def payment_message() -> str:
     pass
 
-def auth_message(email:str, content:str) -> str:
+def auth_message(email:str, content:str) -> None:
     send_email(
-        recipient_email = email,
-        subject = "NOTHINK",
-        content = "Esse é seu link de autenticação " + content
+        recipient_email =   email,
+        subject =           "AUTENTICAÇÃO - LANCIARE",
+        content =           "Esse é seu link de autenticação " + content
     )
 
-def change_password_message() -> str:
-    pass
+def welcome_message(email:str, content:str, flag:bool = False) -> None:
+    msg = content
+    if (flag):
+        msg += " ".join([
+            ",te encaminhamos para uma pagina",
+            "em que voce pode criar uma senha," ,
+            "caso tenha perdido o link voce pode",
+            "a qualquer momento configurar ela novamente",
+            "em na aba esqueci minha senha ou o link",
+            url_for('auth.resend', email = email)
+        ])
+    send_email(
+        recipient_email =   email,
+        subject =           "SEJA BEM VINDO - LANCIARE" ,
+        content =           f"Seja bem vindo a Lanciare {msg}"
+        
+    )
 
-def welcome_message() -> str:
-    pass
 

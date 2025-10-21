@@ -141,6 +141,17 @@ CREATE TABLE physical_persons (
 
 
 
+CREATE TABLE settings (
+	setting_id SERIAL NOT NULL, 
+	user_id INTEGER NOT NULL, 
+	anonymous_mode BOOLEAN NOT NULL, 
+	two_factor_auth BOOLEAN NOT NULL, 
+	PRIMARY KEY (setting_id), 
+	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
+)
+
+
+
 CREATE TABLE products (
 	product_id SERIAL NOT NULL, 
 	product_name VARCHAR(255) NOT NULL, 
@@ -157,23 +168,16 @@ CREATE TABLE products (
 	city VARCHAR(80), 
 	state CHAR(2), 
 	user_id INTEGER, 
+	category_technical_feature_id INTEGER, 
+	category INTEGER, 
 	end_datetime TIMESTAMP WITHOUT TIME ZONE, 
 	duration INTEGER NOT NULL, 
 	PRIMARY KEY (product_id), 
 	UNIQUE (product_room), 
 	FOREIGN KEY(product_status) REFERENCES product_statuses (product_status_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id)
-)
-
-
-
-CREATE TABLE settings (
-	setting_id SERIAL NOT NULL, 
-	user_id INTEGER NOT NULL, 
-	anonymous_mode BOOLEAN NOT NULL, 
-	two_factor_auth BOOLEAN NOT NULL, 
-	PRIMARY KEY (setting_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
+	FOREIGN KEY(user_id) REFERENCES users (user_id), 
+	FOREIGN KEY(category_technical_feature_id) REFERENCES category_technical_features (technical_feature_id), 
+	FOREIGN KEY(category) REFERENCES categories (category_id)
 )
 
 

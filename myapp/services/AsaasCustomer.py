@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify, blueprints
+from myapp.models.Users import users
 import requests
-from typing import Tuple, Dict ,Any
+from typing import Tuple, Dict ,Any, Optional
 from config import Config
 
 URL_API = Config.URL_API
@@ -12,57 +12,57 @@ ASAAS_WALLET_ID = Config.ASAAS_WALLET_ID
 
 INTERNAL_TOKEN_API = Config.INTERNAL_TOKEN_API
 
-# to do
-def get_payment_link():
-    pass
-
-
 #HELP func create_asaas_customer
-def create_asaas_customer(user: Dict[str, Any]) -> Tuple[int, Dict[str, Any]]:
-
-    if (not user["customer_id"] is None):
-        return 400, {
-            "errors": "user already has asaas_id"
-        }
-
-    required = [
-        ("usename", user["username"]),
-        ("cpf", user["cpf"]),
-    ]
-    undefined = [key for key, value in required if value is None]
-    if undefined:
-        return 400, {
-            "status": 400,
+def create_asaas_customer(user_id:int) -> Tuple[Dict[str, Any], int]:
+    user = users.query.get(user_id)
+    if (not user):
+        return {
+            "description": "user does not exist"
+        }, 400 
+    customer_id = user.api_token
+    if (customer_id):
+        return {
+            "description": "user already has asaas_id"
+        }, 400
+    user_document = user.cpf
+    if (not user_document):
+        return {
             "description": "user parameter not defined", 
-            "errors": undefined
-        }
+        }, 400
+    
+    username = user.username
+    email = user.email
     
     payload = {
-        "name": user["username"],
-        "email": user["email"],
-        "cpfCnpj": user["cpf"],
+        "name":     username,
+        "email":    email,
+        "cpfCnpj":  user_document,
     }
 
     header = {
-        "accept": "application/json",
+        "accept":       "application/json",
         "content-type": "application/json",
         "access_token": SANDBOX_API_TOKEN
     }
 
     URL = SANDBOX_URL_API + "/customers"
 
-    response = requests.post(URL, json = payload, headers = header)
+    response = requests.post(
+        URL,
+        json =      payload,
+        headers =   header
+    )
 
 
     if (response.status_code != 200):
-        return response.status_code, {
-            "status": response.status_code, "description": response.errors
-        }
+        return {
+            "description": response.errors
+        }, response.status_code, 
 
     response_data = response.json()
-    user["customer_id"] = response_data.get("id")
-    return response.status_code, {
-        "status": response.status_code, "description": response_data
-    }
+    user.set_api_token(response_data.get("id"))
+    return {
+        "description": response_data
+    }, response.status_code, 
 
 

@@ -1,9 +1,10 @@
 from __future__ import annotations
+from myapp.models.Settings import settings
+from myapp.models.LegalPerson import legal_persons
+from myapp.setup.InitSqlAlchemy import db
 from flask_login import UserMixin
 from typing import Tuple, Optional
 from werkzeug.security import generate_password_hash
-from myapp.models.Settings import settings
-from myapp.setup.InitSqlAlchemy import db
 
 class users(db.Model, UserMixin):
     
@@ -30,6 +31,13 @@ class users(db.Model, UserMixin):
 
     def get_id(self):
         return str(self.user_id)
+    
+    def get_type(self) -> str:
+        return "legal_person" if (legal_persons.query.get(self.user_id)) else "physical_person"
+    
+    def set_api_token(self, new_api_token:str) -> None:
+        self.api_token = new_api_token
+        db.session.commit()
     
     @classmethod
     def get_by_email(cls, wanted_email:str) -> Optional[users]:
