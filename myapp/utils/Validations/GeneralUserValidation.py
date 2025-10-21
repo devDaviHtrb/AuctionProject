@@ -1,5 +1,6 @@
 from myapp.utils.Validations.validations import *
 from flask import Request
+from myapp.utils.GetMissingInfo import get_missing_info
 from myapp.utils.utils import uploadImage
 from typing import Dict, Any, Tuple
 
@@ -46,8 +47,8 @@ nullAbleValues += [
     "gender"
 ]
 
-def get_missing_info(user_type:str, request:Request) -> Tuple[Dict[str, Any], int]:
-    datakey += [
+def set_type(user_type:str) -> None:
+     datakey += [
         "rg",
         "birth_date",
         "gender"
@@ -58,28 +59,14 @@ def get_missing_info(user_type:str, request:Request) -> Tuple[Dict[str, Any], in
         "trade_name",
         "scrap_purchase_authorization"
     ]
-        
-    data = {}
-    missingInfo = []
-    for requiredData in datakey:
-        value = request.form.get(requiredData, None)
-        if (value == "" or value is None) and requiredData not in nullAbleValues:
-            missingInfo.append(requiredData)
-            print(missingInfo)
-        else:
-            data[requiredData] = value
-
-    if missingInfo:
-        return {
-             "Type":                "InputError",
-             "content":             "Complete all the inputs",
-             "MissingInformation":  missingInfo
-        }, 400
-    return data, 200
 
 def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     user_type = request.form.get("userType", "physical_person")
-    data, code = get_missing_info(user_type, request)
+    data, code = get_missing_info(
+        request,
+        datakey,
+        nullAbleValues
+    )
     if (code != 200):
          return data, code
     
