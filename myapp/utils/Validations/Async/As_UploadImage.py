@@ -1,8 +1,8 @@
-from myapp.utils.UploadImage import uploadImage
+from myapp.utils.UploadImage import upload_image
 
 def async_upload_image(file, data_dict, folder):
     try:
-        photo_url = uploadImage(file, folder)
+        photo_url = upload_image(file, folder)
         if photo_url:
             data_dict["photo_url"] = photo_url
         else:

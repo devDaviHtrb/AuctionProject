@@ -136,25 +136,19 @@ def resend(email:str = None) -> Tuple[Response, int]:
 
 @auth_bp.route("/auth/change/<string:email>")
 def change_password(email:str) -> Response:
-    token = get_by_emails_dict(email)
-    ## get token
-    if (not token):
-        if(not users.get_by_email(email)): # no have users with this email
-            return links.sing_up(), 400
-        #add in token
-        token = add_token(
-            type = "reset",
-            data = {"email": email}
-        )
-        msgs.auth_message(
-            email =     email,
-            content =   url_for(AUTH_CONFIRM,token=token, _external=True)
-        )
-        return links.wait_change(email), 303 
+    if(not users.get_by_email(email)): # no have users with this email
+        return links.sing_up(), 400
+    #add in token
+    token = add_token(
+        type = "reset",
+        data = {"email": email}
+    )
+    msgs.auth_message(
+        email =     email,
+        content =   url_for(AUTH_CONFIRM,token=token, _external=True)
+    )
+    return links.wait_change(email), 303 
 
-    # if token exists resend email   
-    pop_by_pending(token)
-    return links.change_password(email), 303
 
         
 

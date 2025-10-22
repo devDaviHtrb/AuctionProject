@@ -7,10 +7,10 @@ from myapp.utils.Validations.GeneralUserValidation import general_validation
 from myapp.utils.LinksUrl import wait_sing_up, AUTH_CONFIRM
 from typing import Tuple
 
-singUp = Blueprint("singUp", __name__)
+sing_up_bp = Blueprint("singUp", __name__)
 
-@singUp.route("/singUp", methods=["POST"])
-def SingUp() -> Tuple[Response, int]:
+@sing_up_bp.route("/singUp", methods=["POST"])
+def sing_up() -> Tuple[Response, int]:
 
     resp, code = general_validation(request)
     data = resp.get("data")

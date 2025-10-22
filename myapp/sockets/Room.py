@@ -16,9 +16,8 @@ def handle_join(data: Dict[str, Any]) -> None:
         return
     join_room(room_id)
     response = {
-        "type": "entry",
-        "room_id": room_id,
-        "user_id": user_id,
+        "type":     "entry",
+        "room_id":  room_id,
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser{anonymous_users_number}",
     }
     anonymous_users_number+=1
@@ -37,12 +36,10 @@ def handle_emit(data: Dict[str, Any]) -> None:
     room_id = get_room_id(rooms(), request.sid)
  
     value = max(float(data.get("value", 0)), 0)
-    product_id = data.get("product_id", None)
-    product_name = data.get("product_name", None)
     user_id = session.get("id", None)
     username = session.get("username", None)
 
-    missingInfo = [i for i in [room_id, value, product_id, product_name] if i is None]
+    missingInfo = [i for i in [room_id, value] if i is None]
 
     if missingInfo:
         response = {
@@ -55,11 +52,8 @@ def handle_emit(data: Dict[str, Any]) -> None:
     data = {
         "type": "bid",
         "room_id": room_id,
-        "user_id": user_id,
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser{anonymous_users_number}",
-        "value": value,
-        "product_id": product_id,
-        "product_name": product_name
+        "value": value
     }
 
     out = make_bid(data)

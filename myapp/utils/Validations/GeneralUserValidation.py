@@ -1,7 +1,7 @@
 from myapp.utils.Validations.validations import *
 from flask import Request
 from myapp.utils.GetMissingInfo import get_missing_info
-from myapp.utils.utils import uploadImage
+from myapp.utils.utils import upload_image
 from typing import Dict, Any, Tuple
 
 datakey = [
@@ -92,7 +92,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     
     if data.get("photo"):
         if validateImg(data["photo"]):
-            photo_url = uploadImage(data["photo"], "Users_photos")
+            photo_url = upload_image(data["photo"], "Users_photos")
             if not photo_url:
                 msg = "Image db connection error, sorry, try the submit without img"
                 print("Db connection error")

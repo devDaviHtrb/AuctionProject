@@ -1,7 +1,7 @@
 from flask import Request
 from myapp.utils.Validations.validations import *
 from myapp.utils.GetMissingInfo import get_missing_info
-from myapp.utils.UploadImage import uploadImage
+from myapp.utils.UploadImage import upload_image
 from typing import Dict, Tuple, Any
 
 datakey = [

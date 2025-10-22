@@ -11,9 +11,9 @@ from werkzeug.security import check_password_hash
 
 from datetime import datetime
 
-login = Blueprint("login", __name__)
+login_bp = Blueprint("login", __name__)
 
-@login.route("/login", methods=["POST", "GET"])
+@login_bp.route("/login", methods=["POST", "GET"])
 def login() -> Tuple[Response, int]:
     if request.method == "POST":
         name = request.form["username"]

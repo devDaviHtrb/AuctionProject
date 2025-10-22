@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint
 
-auctions = Blueprint("auctions", __name__)
+auctions = Blueprint("auctionsPage", __name__)
 
 @auctions.route("/auctions")
-def Auctions():
+def AuctionsPage():
     return render_template("Auction.html")

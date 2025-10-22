@@ -4,10 +4,10 @@ from myapp.models.TechnicalFeaturesValues import technical_features_values
 from myapp.utils.Validations.GeneralProductValidation import general_validation
 from typing import Tuple
 
-newAuction = Blueprint("newAuction", __name__)
+newAuction_bp = Blueprint("newAuction", __name__)
 
-@newAuction.route("/newAuction", methods=["POST"])
-def NewAuction() -> Tuple[Response, int]:
+@newAuction_bp.route("/newAuction", methods=["POST"])
+def new_auction() -> Tuple[Response, int]:
     data, code = general_validation(request)
     print("foi validado")
     if(code != 200):

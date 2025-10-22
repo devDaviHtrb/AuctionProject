@@ -6,6 +6,8 @@ WAITING_PAGE =          "waitingPage.WaitingPage"
 CHANGE_PASSWORD_PAGE =  "changePasswordPage.ChangePasswordPage"
 LOGIN_PAGE =            "loginPage.LoginPage"
 SING_UP_PAGE =          "singUpPage.SingUpPage"
+CONFIG_PAGE =           "configPage.ConfigPage"
+HOME_PAGE =             "homePage.HomePage"
 
 # -- set consts of back-end--
 AUTH_GOOGLE_REDIRECT =  "auth.google_redirect"
@@ -13,7 +15,6 @@ AUTH_GOOGLE_VALIDATE =  "auth.google_validate"
 AUTH_CONFIRM =          "auth.auth"
 AUTH_RESEND =           "auth.resend"
 AUTH_CHANGE_PASSWORD =  "auth.change_password"
-
 
 def wait_sing_up() -> Response:
     return redirect(
@@ -65,4 +66,14 @@ def login() -> Response:
 def sing_up() -> Response:
     return redirect(
         url_for(SING_UP_PAGE)
+    )
+
+def configPage() -> Response:
+    return redirect(
+        url_for(CONFIG_PAGE)
+    )
+
+def home() -> Response:
+    return redirect(
+        url_for(HOME_PAGE)
     )

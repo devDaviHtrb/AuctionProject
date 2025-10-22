@@ -1,9 +1,9 @@
 from flask import render_template, Blueprint,redirect, session, url_for
 
-home = Blueprint("home", __name__)
+home = Blueprint("homePage", __name__)
 
 @home.route("/")
-def Home():
+def HomePage():
     if session.get("User") == None:
         return redirect(url_for("loginPage.LoginPage"))
     

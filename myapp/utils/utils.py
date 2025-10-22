@@ -1,2 +1,2 @@
-from myapp.utils.UploadImage import uploadImage
+from myapp.utils.UploadImage import upload_image
 
