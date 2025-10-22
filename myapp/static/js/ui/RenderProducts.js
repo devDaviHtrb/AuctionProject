@@ -8,8 +8,10 @@ export function renderProducts(data) {
     auctions.innerHTML = `<p>${data.Error}</p>`;
   }
 
-  data.products.forEach((product) => {
-    auctions.innerHTML += `
+  const route = window.location.pathname;
+  if (!route.includes("my")) {
+    data.products.forEach((product) => {
+      auctions.innerHTML += `
       <div>
         <h3>${product.product_name}</h3>
         <p>${product.description || "Sem descrição"}</p>
@@ -19,7 +21,17 @@ export function renderProducts(data) {
           Join Auction
         </button>
       </div>`;
-  });
+    });
+  } else {
+    data.products.forEach((product) => {
+      auctions.innerHTML += `
+      <div>
+        <h3>${product.product_name}</h3>
+        <p>${product.description || "Sem descrição"}</p>
+        <p>Date: ${product.start_datetime ?? "N/A"}</p>
+      </div>`;
+    });
+  }
 
   document.querySelectorAll(".join-auction").forEach((btn) => {
     btn.addEventListener("click", (e) => joinRoom(e));

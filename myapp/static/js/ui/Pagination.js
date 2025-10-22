@@ -3,5 +3,5 @@ export function pagination_interface_render(data) {
   document.getElementById("next-btn").disabled = !data.has_next;
   document.getElementById(
     "page-info"
-  ).textContent = `Page ${data.current_page}} of ${data.total_pages}`;
+  ).textContent = `Page ${data.current_page} of ${data.total_pages}`;
 }

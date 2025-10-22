@@ -1,18 +1,30 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, abort, jsonify, session
 from myapp.models.Categories import categories
 from myapp.models.Products import products
 from flask import Response
 
+from myapp.models.Users import users
+from myapp.models.Images import images
+
 paginate = Blueprint("paginate", __name__)
-@paginate.route("/paginate/<int:page>", methods=["GET"])
-@paginate.route("/paginate/<int:page>/<filter_select>", methods=["GET"])
-def Paginate(page:int, filter_select:str=None) -> Response:
+@paginate.route("/paginate/<type>/<int:page>", methods=["GET"])
+@paginate.route("/paginate/<type>/<int:page>/<filter_select>", methods=["GET"])
+def Paginate(type:str, page:int, filter_select:str=None) -> Response:
     current_page = page
     auctions_per_page = 10 #this value needs to be defined
-    products_list = products.query.order_by(products.product_id).paginate(page=current_page, per_page=auctions_per_page)
+    if type == "auctions":
+        products_list = products.query.order_by(products.product_id).paginate(page=current_page, per_page=auctions_per_page)
+    elif type=="myItens":
+        user = users.query.filter_by(user_id = session.get("user_id", None)).first() 
+        if user:
+            products_list = products.query.filter_by(user_id=user.user_id).paginate(page=current_page, per_page=auctions_per_page)
+        else:
+            return abort(401)
+    else:
+        return jsonify({"Error": "query error, this route not exists"})
     categories_list = {current_category.category_id:current_category.category_name for current_category in categories.query.order_by(categories.category_id).all()}
 
-    if filter_select:
+    if filter_select and type=="auctions":
         print(filter_select)
         category = categories.query.filter_by(category_name=filter_select).first()
         if category:
@@ -27,9 +39,10 @@ def Paginate(page:int, filter_select:str=None) -> Response:
                     "min_bid": str(product.min_bid) if product.min_bid is not None else None,
                     "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
                     "category":  categories_list.get(product.category_id),
-                    "room": product.product_room
+                    "room": product.product_room,
+                    "photo": images.query.filter_by(product_id = product.product_id).first()
                 } for product in products_list.items
-            ]
+                ]
                 
     response = {
         "products": products_response,

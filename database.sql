@@ -114,18 +114,19 @@ CREATE TABLE legal_persons (
 CREATE TABLE payments (
 	payment_id SERIAL NOT NULL, 
 	amount DECIMAL(10, 2) NOT NULL, 
+	opening_datetime TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	due_datetime DATE NOT NULL, 
+	confirmation_datetime TIMESTAMP WITHOUT TIME ZONE, 
+	payer_user_id INTEGER, 
+	payee_user_id INTEGER, 
 	payment_method INTEGER, 
 	payment_status INTEGER, 
-	payer VARCHAR(255) NOT NULL, 
-	payee VARCHAR(255) NOT NULL, 
-	opening_datetime TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
-	due_datetime TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
-	confirmation_datetime TIMESTAMP WITHOUT TIME ZONE, 
-	user_id INTEGER, 
+	asaas_payment_id INTEGER, 
 	PRIMARY KEY (payment_id), 
+	FOREIGN KEY(payer_user_id) REFERENCES users (user_id), 
+	FOREIGN KEY(payee_user_id) REFERENCES users (user_id), 
 	FOREIGN KEY(payment_method) REFERENCES payment_methods (payment_method_id), 
-	FOREIGN KEY(payment_status) REFERENCES payment_statuses (payment_status_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id)
+	FOREIGN KEY(payment_status) REFERENCES payment_statuses (payment_status_id)
 )
 
 
@@ -136,17 +137,6 @@ CREATE TABLE physical_persons (
 	birth_date DATE, 
 	gender VARCHAR(20), 
 	PRIMARY KEY (user_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
-)
-
-
-
-CREATE TABLE settings (
-	setting_id SERIAL NOT NULL, 
-	user_id INTEGER NOT NULL, 
-	anonymous_mode BOOLEAN NOT NULL, 
-	two_factor_auth BOOLEAN NOT NULL, 
-	PRIMARY KEY (setting_id), 
 	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 )
 
@@ -168,7 +158,6 @@ CREATE TABLE products (
 	city VARCHAR(80), 
 	state CHAR(2), 
 	user_id INTEGER, 
-	category_technical_feature_id INTEGER, 
 	category INTEGER, 
 	end_datetime TIMESTAMP WITHOUT TIME ZONE, 
 	duration INTEGER NOT NULL, 
@@ -176,8 +165,18 @@ CREATE TABLE products (
 	UNIQUE (product_room), 
 	FOREIGN KEY(product_status) REFERENCES product_statuses (product_status_id), 
 	FOREIGN KEY(user_id) REFERENCES users (user_id), 
-	FOREIGN KEY(category_technical_feature_id) REFERENCES category_technical_features (technical_feature_id), 
 	FOREIGN KEY(category) REFERENCES categories (category_id)
+)
+
+
+
+CREATE TABLE settings (
+	setting_id SERIAL NOT NULL, 
+	user_id INTEGER NOT NULL, 
+	anonymous_mode BOOLEAN NOT NULL, 
+	two_factor_auth BOOLEAN NOT NULL, 
+	PRIMARY KEY (setting_id), 
+	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 )
 
 

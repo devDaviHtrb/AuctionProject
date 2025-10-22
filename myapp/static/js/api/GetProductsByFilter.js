@@ -1,7 +1,7 @@
 export async function getProductsByFilter(page = 1, Filter = "") {
   const endpoint = Filter
-    ? `/paginate/${page}/${encodeURIComponent(Filter)}`
-    : `/paginate/${page}`;
+    ? `/paginate/auctions/${page}/${encodeURIComponent(Filter)}`
+    : `/paginate/auctions/${page}`;
 
   const response = await fetch(endpoint);
 
