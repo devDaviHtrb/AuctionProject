@@ -1,10 +1,10 @@
 from flask import render_template, Blueprint, Response
 
 
-profile = Blueprint("profile", __name__)
+profile = Blueprint("profilePage", __name__)
 
 
 @profile.route("/profile")
 
-def Profile() -> Response:
+def ProfilePage() -> Response:
     return render_template("Profile.html")

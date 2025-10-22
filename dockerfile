@@ -1,6 +1,9 @@
 #IMAGE
 FROM python:3.12-slim
 
+#apt-get update && apt-get install -y ntpdate
+#ntpdate -s time.google.com
+
 #DIRECTORY
 WORKDIR /app
 

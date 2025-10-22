@@ -1,3 +1,4 @@
+# use lock for bids in same time
 from typing import Optional, Dict, Any
 from myapp.models.Bids import bids
 from myapp.models.Users import users
@@ -37,14 +38,13 @@ def make_bid(bid: Dict[str, Any]) -> Optional[str]:
         "product_id":   product_id
     }
 
-    if(not product_id in winners):
-
-        product = products.query.get(product_id)
-        if(not product or product.get_status() != "active"):
+    product = products.query.get(product_id)
+    if(not product or product.get_status() != "active"):
             return "Invalid Product"
-        
+
+    if(not product_id in winners):
         min_bid = product.min_bid
-        if(not min_bid or wallet >= min_bid):
+        if(not min_bid or (value >= min_bid and wallet >= value)):
             set_winner(data, product_id)
             return 
         
@@ -52,7 +52,8 @@ def make_bid(bid: Dict[str, Any]) -> Optional[str]:
     
     if (wallet < value):
         return "Don't Have Enough Money"
-    if(bid <= winners[product_id].value):
+    #bid value < minimun bid value
+    if(value <= winners[product_id].value):
         return "Bid Amount Must Be Greater Than Minimum Amount"
     
     set_winner(data, product_id)

@@ -1,9 +1,12 @@
 from __future__ import annotations
 import secrets
 from myapp.models.Users import users
-from myapp.setup.InitSqlAlchemy import db
-from sqlalchemy import ForeignKey, select
 from myapp.models.ProductStatuses import product_statuses
+from myapp.models.Categories import categories
+from myapp.models.TechnicalFeatures import technical_features
+from myapp.models.CategoryTechnicalFeatures import category_technical_features
+from sqlalchemy import ForeignKey, select
+from myapp.setup.InitSqlAlchemy import db
 from typing import List, Dict, Any, Optional
 
 class products(db.Model):
@@ -23,13 +26,31 @@ class products(db.Model):
     state = db.Column(db.CHAR(2), nullable=True)
     user_id = db.Column(db.Integer, ForeignKey("users.user_id"))
     #FK 
-    category_technical_feature_id = db.Column(db.Integer, ForeignKey("category_technical_features.technical_feature_id"))
-    category = db.Column(db.Integer, ForeignKey("categories.category_id"))
+    category = db.Column(db.Integer, ForeignKey("categories.category_id"), default = 1)
 
     #changes
     end_datetime = db.Column(db.DateTime, nullable=True)
     duration = db.Column(db.Integer, nullable = False) # In Seconds
 
+    @classmethod
+    def save_item(cls, data:Dict[str, Any]) -> products:
+        if(data.get("product_status", None)):
+            data["product_status"] = select(
+                product_statuses.product_status_id
+            ).where(
+                product_statuses.product_status == data["product_status"]
+            )
+        if(data.get("category", None)):
+            data["category"] = select(
+                categories.category_id
+            ).where(
+                categories.category_name == data["category"]
+            )
+        new_product = cls(**data)
+        db.session.add(new_product)
+        db.session.flush()
+        db.session.commit()
+        return new_product
     
     def get_user(self) -> Optional[users]:
         return users.query.get(self.user_id)
@@ -60,3 +81,11 @@ class products(db.Model):
         )
 
         return query.all()
+    
+    def get_technical_feature_id(self) -> List[technical_features]:
+        return technical_features.query.join(
+            category_technical_features,
+            category_technical_features.technical_feature_id == technical_features.technical_feature_id
+        ).filter(
+            self.category == category_technical_features.category_id
+        ).all()

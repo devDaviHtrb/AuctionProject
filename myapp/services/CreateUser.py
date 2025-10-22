@@ -1,4 +1,4 @@
-
+# transfer to model
 from myapp.models.PhysicalPerson import physical_persons
 from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Users import users
@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 from typing import Dict, Any
 
-def create_user(data: Dict[str, Any]) -> Dict[str, Any]:
+def create_user(data: Dict[str, Any]) -> users:
 
     user_type = data.get("userType", "physical_person")
     

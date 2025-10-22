@@ -1,29 +1,85 @@
-from flask import Blueprint, Response, url_for, session, request, make_response
+import myapp.services.Messages as msgs
 from myapp.services.CreateUser import create_user
 from myapp.services.InitSession import init_session
-from myapp.services.Messages import auth_message
-from myapp.utils.AuthPending import *
+from myapp.services.GoogleAuth import create_flow, get_id_info
+from myapp.services.AuthTokens import *
 from myapp.models.Users import users
+from myapp.services.CookiesService import set_cookies
+import myapp.utils.LinksUrl as links
+from typing import Tuple
+import google.auth.transport.requests
 from werkzeug.security import generate_password_hash
-from myapp.services.setCookies import set_cookies
-from myapp.utils.LinksUrl import *
+from secrets import token_urlsafe
+from flask import *
+
+AUTH_CONFIRM = links.AUTH_CONFIRM
 
 auth_bp = Blueprint("auth", __name__)
 
-@auth_bp.route("/auth/set/adm")
-def setAdm():
-    session["user_id"] = 3
-    session["admin"] = True
-    #if 
-    return "", 200
+@auth_bp.route("/auth/google/redirect")
+def google_redirect() -> Tuple[Response, int]:
+    flow = create_flow()
+    authorization_url, state = flow.authorization_url()
+    session["state"] = state
+    return redirect(authorization_url), 303
 
-@auth_bp.route("/auth/<string:token>", methods = ["POST", "GET"])
-def auth(token:str) -> Response:
-    print("auth")
+@auth_bp.route("/auth/google/validate")
+def google_validate() -> Tuple[Response, int]:
+    flow = create_flow()
+    flow.fetch_token(authorization_response = request.url)
+
+    if(session.get("state") != request.args.get("state")):
+        return links.profile(), 400
+    
+    credentials = flow.credentials
+    request_session = google.auth.transport.requests.Request()
+
+    id_info = get_id_info(
+        credentials,
+        request_session
+    )
+
+    email = id_info.get("email", None)
+    if(not email):
+        return links.sing_up(), 400
+    
+    user = users.get_by_email(email)
+    if(user):
+        response = links.profile()
+        init_session(user)
+        set_cookies(request, response, user.user_id)
+        return response, 303
+
+    name =      id_info.get("name")
+    username =  email.split("@")[0]
+    password =  generate_password_hash(token_urlsafe(32))
+
+    data ={
+        "email":    email,
+        "name":     name,
+        "username": username,
+        "password": password
+    }
+
+    user = create_user(data)
+    response = links.profile()
+
+    init_session(user)
+    set_cookies(request, response, user.user_id)
+
+    msgs.welcome_message(
+        email =     email,
+        content =   name,
+        flag =      True
+    )
+    return response, 303
+
+@auth_bp.route("/auth/confirm/<string:token>", methods = ["POST", "GET"])
+def auth(token:str) -> Tuple[Response, int]:
     token_data = get_by_pending(token)
 
     if (not token_data): #not token
-        return sing_in()
+        return links.sing_up(), 400
 
     type = token_data.get("type")
     data = token_data.get("user_data")
@@ -31,12 +87,13 @@ def auth(token:str) -> Response:
     if(type == "login"):
         user = users.query.get(data.get("user_id"))       
         if (not user):
-            return sing_in()
-        response = make_response(profile())
+            return links.sing_up(), 400
+
+        response = links.profile()
         init_session(user) ## <--
         set_cookies(request, response, user_id = user.user_id)
         pop_by_pending(token)
-        return response
+        return response, 303
     
     elif(type == "create"):
        
@@ -52,52 +109,52 @@ def auth(token:str) -> Response:
         )
         new_password = request.form.get("new_password", None)
         if (not user):
-            return sing_in()
+            return links.sing_up(), 400
         if (not new_password):
-            return change(token=token)
+            return links.change_password(token=token), 400
         user.set_password(new_password)
 
     else:
-        return sing_in()
+        return links.sing_up(), 400
     
     pop_by_pending(token)
-    return login()
+    return links.login(), 303
 
 @auth_bp.route("/auth/resend")
 @auth_bp.route("/auth/resend/<string:email>")
-def resend(email:str = None) -> Response:
+def resend(email:str = None) -> Tuple[Response, int]:
     if(not email):
-        return sing_in()
+        return links.sing_up(), 400
     token = get_by_emails_dict(email)
-    auth_message(
+    msgs.auth_message(
         email = email,
-        content = url_for("auth.auth", token = token)
+        content = url_for(AUTH_CONFIRM, token = token)
     )
     if (not token):
-        return login()
-    return wait_login(email)
+        return links.login(), 400
+    return links.wait_login(email), 303
 
 @auth_bp.route("/auth/change/<string:email>")
-def changePassword(email:str) -> Response:
+def change_password(email:str) -> Response:
     token = get_by_emails_dict(email)
     ## get token
     if (not token):
         if(not users.get_by_email(email)): # no have users with this email
-            return sing_in()
+            return links.sing_up(), 400
         #add in token
-        token = add_in(
+        token = add_token(
             type = "reset",
             data = {"email": email}
         )
-        auth_message(
+        msgs.auth_message(
             email =     email,
-            content =   url_for("auth.auth",token=token, _external=True)
+            content =   url_for(AUTH_CONFIRM,token=token, _external=True)
         )
-        return wait_change(email)
+        return links.wait_change(email), 303 
 
     # if token exists resend email   
     pop_by_pending(token)
-    return changePassword(email)
+    return links.change_password(email), 303
 
         
 

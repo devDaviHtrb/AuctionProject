@@ -1,45 +1,68 @@
 from flask import Response, redirect, url_for
 
-def wait_sing_in() -> Response:
+# -- set consts of pages--
+PROFILE_PAGE =          "profilePage.ProfilePage"
+WAITING_PAGE =          "waitingPage.WaitingPage"
+CHANGE_PASSWORD_PAGE =  "changePasswordPage.ChangePasswordPage"
+LOGIN_PAGE =            "loginPage.LoginPage"
+SING_UP_PAGE =          "singUpPage.SingUpPage"
+
+# -- set consts of back-end--
+AUTH_GOOGLE_REDIRECT =  "auth.google_redirect"
+AUTH_GOOGLE_VALIDATE =  "auth.google_validate"
+AUTH_CONFIRM =          "auth.auth"
+AUTH_RESEND =           "auth.resend"
+AUTH_CHANGE_PASSWORD =  "auth.change_password"
+
+
+def wait_sing_up() -> Response:
     return redirect(
         url_for(
-            "waitingPage.WaitingPage",
-            link = "auth.resend",
-            _external=True
-        ),
-        code = 303
+                WAITING_PAGE,
+            link =      AUTH_RESEND,
+            _external=  True
+        )
     )
 
 
 def wait_change(email:str) -> Response:
     return redirect(
         url_for(
-            "waitingPage.WaitingPage",
-            link = "auth.resend",
-            email = email,
-            _external=True
-            ),
-            code = 303
+                WAITING_PAGE,
+            link =      AUTH_RESEND,
+            email =     email,
+            _external=  True
+            )
         )
-def wait_login(email:str) -> Response:
+def wait_login(email:str, ) -> Response:
     return redirect(
         url_for(
-            "waitingPage.WaitingPage",
-            link = "auth.resend",
-            email = email,
-            _external=True
-            ),
-            code = 303
+                WAITING_PAGE,
+            link =      AUTH_RESEND,
+            email =     email,
+            _external=  True
+            )
         )
 
-def change(token:str) -> Response:
-    return redirect(url_for("changePassword.changePassword", token = token), code = 303)
+def change_password(token:str) -> Response:
+    return redirect(
+        url_for(
+            CHANGE_PASSWORD_PAGE,
+            token = token
+        )
+    )
 
 def profile() -> Response: #user created
-    return redirect(url_for("profile.Profile"), code = 303)
+    return redirect(
+        url_for(PROFILE_PAGE)
+    )
 
 def login() -> Response:
-    return redirect(url_for("loginPage.LoginPage"), code = 302)
+    return redirect(
+        url_for(LOGIN_PAGE)
+    )
 
-def sing_in() -> Response:
-    return redirect(url_for("singUpPage.SingUpPage"), code = 302)
+def sing_up() -> Response:
+    return redirect(
+        url_for(SING_UP_PAGE)
+    )
