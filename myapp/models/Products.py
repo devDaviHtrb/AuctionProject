@@ -82,5 +82,10 @@ class products(db.Model):
 
         return query.all()
     
-    def get_technical_feature_id_by_category_id(self) -> List[technical_features]:
-        return 
+    def get_technical_feature_id(self) -> List[technical_features]:
+        return technical_features.query.join(
+            category_technical_features,
+            category_technical_features.technical_feature_id == technical_features.technical_feature_id
+        ).filter(
+            self.category == category_technical_features.category_id
+        ).all()
