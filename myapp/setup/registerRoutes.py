@@ -10,6 +10,13 @@ permissionLevel_list = {
     "common": commonRoutes,
 }
 
+def get_blueprint_endPoints(obj):
+    temp_app = Flask("temp_app")
+    temp_app.register_blueprint(obj)
+    endpoints = [rule.endpoint for rule in temp_app.url_map.iter_rules()]
+    del temp_app
+    return endpoints
+
 def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.routes") -> None:
     #folder = os.path.abspath(folder)
     
@@ -29,17 +36,11 @@ def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.ro
         
         module_name = f"{package}.{item[:-3]}" #removing: .py print(  )
         module = import_module(module_name)
-            
+        # *****too expansive, fix later*****
         for _, obj in getmembers(module):
             if isinstance(obj, Blueprint):
                 app.register_blueprint(obj)
-                route_name = f"{obj.name}.{obj.name.capitalize()}"
                 folder_permission_level = os.path.basename(folder)
-                blueprint_endpoints = [
-                    rule.endpoint for rule in app.url_map.iter_rules()
-                    if rule.endpoint.startswith(f"{obj.name}.")
-                ]
+                permissionLevel_list[folder_permission_level].extend(get_blueprint_endPoints(obj))
 
-                permissionLevel_list[folder_permission_level].extend(blueprint_endpoints)
-        
-        print(f"Admin {adminRoutes} \n Comum:{commonRoutes} \n publicas: {publicRoutes}")
+        print(f"Admin:{adminRoutes} \nPublicas:{publicRoutes}\nComuns:{commonRoutes}")
