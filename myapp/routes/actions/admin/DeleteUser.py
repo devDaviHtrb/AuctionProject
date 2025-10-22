@@ -2,7 +2,7 @@ from flask import Blueprint, request, Response, jsonify
 from myapp.models.Users import users
 from typing import Tuple
 
-delete_user = Blueprint("DelUser", __name__)
+delete_user = Blueprint("deleteUser", __name__)
 
 @delete_user.route("/delete/user/<int:user_id>", methods = ["DELETE"])
 def del_user(user_id:int) -> Tuple[Response, int]:
