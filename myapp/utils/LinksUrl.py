@@ -23,56 +23,50 @@ def wait_sing_up() -> Response:
         _external=True
     )
 
-    return jsonify({"redirect": redirect_url}), 200
+    return jsonify({"redirect": redirect_url})
 
 
 def wait_change(email:str) -> Response:
-    return redirect(
-        url_for(
+    redirect_url = url_for(
+            WAITING_PAGE,
+        link =      AUTH_RESEND,
+        email =     email,
+        _external=  True
+    )
+    return jsonify({"redirect": redirect_url})
+        
+def wait_login(email:str) -> Response:
+    redirect_url = url_for(
                 WAITING_PAGE,
             link =      AUTH_RESEND,
             email =     email,
             _external=  True
             )
-        )
-def wait_login(email:str, ) -> Response:
-    redirect_url =url_for(
-                WAITING_PAGE,
-            link =      AUTH_RESEND,
-            email =     email,
-            _external=  True
-            )
-    return jsonify({"redirect": redirect_url}), 200
+    return jsonify({"redirect": redirect_url})
 
 def change_password(token:str) -> Response:
-    return redirect(
-        url_for(
+    redirect_url = url_for(
             CHANGE_PASSWORD_PAGE,
             token = token
         )
-    )
+    return jsonify({"redirect": redirect_url})
 
 def profile() -> Response: #user created
-    redirect_url=url_for(PROFILE_PAGE)
-
+    redirect_url = url_for(PROFILE_PAGE)
     return jsonify({"redirect": redirect_url}), 200
 
 def login() -> Response:
-    return redirect(
-        url_for(LOGIN_PAGE)
-    )
+    redirect_url = url_for(LOGIN_PAGE)
+    return jsonify({"redirect": redirect_url})
 
 def sing_up() -> Response:
-    return redirect(
-        url_for(SING_UP_PAGE)
-    )
+    redirect_url = url_for(SING_UP_PAGE)
+    return jsonify({"redirect": redirect_url})
 
 def configPage() -> Response:
-    return redirect(
-        url_for(CONFIG_PAGE)
-    )
+    redirect_url = url_for(CONFIG_PAGE)
+    return jsonify({"redirect": redirect_url})
 
 def home() -> Response:
-    return redirect(
-        url_for(HOME_PAGE)
-    )
+    redirect_url = url_for(HOME_PAGE)
+    return jsonify({"redirect": redirect_url})

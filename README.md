@@ -1,5 +1,5 @@
-# AuctionProject
-This repository is an academic project focused on the integration of database concepts, front and back-end web development and design, using technologies such as HTML, CSS, Python, JavaScript and MariaDB, which we will use to develop a fictitious auction website.
+# Auction Project
+This repository is an academic project focused on the integration of database concepts, front and back-end web development and design, using technologies such as HTML, CSS, Python, JavaScript and Postgre, which we will use to develop a fictitious auction website.
 
 <!--
 SingUp
@@ -31,9 +31,63 @@ Modulos
 
 ## Sumary
 
+## Introduction
+The group hereby documents the process of creating an auction website based on Python, HTML, CSS, and JS. Through websockets, dynamic rendering, a blend of single-page and multiple-page applications, and design concepts, this website aims to provide a pleasant customer experience without neglecting scalability, good programming practices, and resource conservation.
+
+The objective of this project is to develop a functional online auction website capable of managing real-time bids and integrating with a secure payment API, ensuring a complete user experience, from creating listings to completing transactions.
+The target audience was designed to be broad and inclusive, allowing any user, whether individual or legal entity, to participate in auctions and create rooms to advertise products. To ensure security and traceability, participation in auctions will be restricted to registered and authenticated users, but the system will offer anonymity options, a light/dark theme, and accessibility mode, aiming for a personalized experience. The platform will allow product listings without category restrictions, using a dynamic database capable of storing an infinite number of different categories and attributes, ensuring flexibility and scalability. To optimize the user experience, the site uses a combination of rendering techniques: Multiple Page Application (MPA), Server-Side Rendering (SSR), and Client-Side Rendering (CSR). This approach allows HTML blocks to be loaded only when necessary, reducing computational resource usage and improving performance.
+
+The system's architecture follows the MVC (Model-View-Controller) standard, promoting a clear separation between data, business logic, and the interface, facilitating maintenance, unit testing, and future scalability. The project is modularized, with routes, endpoints, services, and real-time events managed automatically, ensuring code organization and readability. The choice of technologies was strategic: Flask for the backend and route management, PostgreSQL for the relational database, Flask-Login for user authentication and sessions, Flask-SocketIO for real-time bidding, and JavaScript/CSS/HTML for interaction and a dynamic interface. This combination ensures scalability, security, and performance, allowing the system to support a large number of users and concurrent auctions.
+
+With this structure, the project not only meets the needs of a modern auction site but also allows for future expansion, such as the inclusion of notifications, advanced filters, sales reports, and integration with other service APIs.
+
 ## Project Architecture
 
+  The project’s architecture is based on the **MVC (Model–View–Controller)** pattern.  
+
+  However, due to the project’s scope and complexity, using a **pure MVC** approach would lead to **disorganization**, **low modularity**, and **future difficulties** with **maintenance**, **scalability**, **unit testing**, and **legacy evolution**.  
+
+  Therefore, the final architecture is a **variation of MVC**, preserving its main principles but adding extra layers and abstractions to ensure greater organization and clear separation of concerns.
+
+  The MVC pattern divides the application into three main layers:
+
+  | Layer | Responsibility |
+  |--------|----------------|
+  | **Model** | Handles **data**, **business logic**, and **database interactions**. |
+  | **View** | Represents the **user interface** and **data presentation**. |
+  | **Controller** | Acts as the **intermediary between Model and View**, receiving requests, processing data, and returning responses. |
+
+  In this project, the MVC pattern has been **extended and modularized** to include:
+  - A **service layer** (isolated and reusable business logic)
+  - A **setup layer** (centralized configuration of extensions, sockets, and ORM)
+  - **Context-based routing layers** (`public`, `common`, `admin`)
+  - A **utilities layer** (helpers and validation scripts)
+
+  ```bash
+  app.py
+  ├── config.py
+  ├── database.sql
+  ├── dockerfile
+  ├── myapp
+  │   ├── extensions.py
+  │   ├── initExtensions.py
+  │   ├── __init__.py
+  │   ├── models/
+  │   ├── routes/
+  │   ├── services/
+  │   ├── setup/
+  │   ├── sockets/
+  │   ├── static/
+  │   ├── templates/
+  │   └── utils/
+  ├── requirements.txt
+  └── README.md
+  ```
+
+
 ## Models
+
+## Setup
 
 ## SingUp
 ```/myapp/routes/actions/public/SingUp```
@@ -92,6 +146,8 @@ An email will be sent to the linked account explaining that they can set a passw
 
 All passwords are stored as **HASHES** in the database.
 Every authentication or password verification process is performed using **HASH** comparison.
+
+
 ## Login
 ```/myapp/routes/public/Login```
 
@@ -156,12 +212,46 @@ These routes handle **Google API authentication, token validation, password rese
   
   Generates a password reset token (if a user with the given email exists) and sends it to the provided email address.
 
+## Adress
+
 ## Notification 
 - ### Send
   ```/myapp/services/routes```
 
   The function ```send_email(email, subject ,content)``` receives as parameters the user's email, subject and content of the message, and sends it to the user, notification management is done by 
 
+## Profile
+
+## Auction
+  ```/myapp/model/Products```
+  - ### Create Auction
+    ```/myapp/routes/common/NewAuction```
+
+  Route: ```/new/auction```
+
+  The ``/login`` route is a common **POST** endpoint that accepts the following form values:
+  ```js
+  {
+    product_name:   STR,
+    description:    STR | null,
+    min_bid:        FLT | DBL,
+    start_datetime: STR | null,
+    product_status: STR[FK],
+    street_name:    STR | null,
+    street_number:  STR | null,
+    apt:            STR | null,
+    zip_code:       STR | null,
+    district:       STR | null,
+    city:           STR | null,
+    state:          STR | null,
+    user_id:        INT,
+    category:       STR[FK],
+    end_datetime:   DATETIME | null,
+    duration:       INT,
+    photos:         LIST[PHOTO],
+  }
+  ```
+  This route creates a new ```auction|product```in the database and application
 
 ## Asaas
 - ### Customer
@@ -265,9 +355,17 @@ These routes handle **Google API authentication, token validation, password rese
 ## Socket
 - ### Join Room
   ```/sockets/Room```
+
     Whenever a user joins an auction, all participants in that auction should be notified.
 
     This notification will be sent via Socket.IO, using the ```"join_room"``` event.
+
+    The event receives the following content:
+    ```js
+    {
+      room_id:  INT
+    }
+    ```
 
     When a user connects to the auction, the server will send a message to all clients:
 
@@ -311,8 +409,18 @@ These routes handle **Google API authentication, token validation, password rese
       </script>
     ```
 
-- ### Bid ```/socket/Room```
+- ### Bid
+  ```/socket/Room```
+  
   Whenever a user bids in an auction, all participants in that auction should be notified.
+
+  The event receives the following content:
+  ```js
+  {
+    value:      FLT | DBL,
+    product_id: INT
+  }
+  ```
 
   This notification will be sent by Socket.IO using the ```"emit_bid"``` event.
 
@@ -332,7 +440,8 @@ These routes handle **Google API authentication, token validation, password rese
         type:           "bid",
         room_id:        INT,
         username:       STR,
-        value:          FLT | DBL
+        value:          FLT | DBL,
+
     }
     ```
   Here's a JavaScript example:
@@ -342,10 +451,10 @@ These routes handle **Google API authentication, token validation, password rese
 
         const socket = io();
 
-        function sendBid(room_id, value) {
-          socket.emit("bid_content", {
-            room_id = room_id,
-            value = value
+        function sendBid(value, product_id) {
+          socket.emit("emit_bid", {
+            value = value,
+            product_id = product_id
           });
         }
 
@@ -358,17 +467,35 @@ These routes handle **Google API authentication, token validation, password rese
 
       </script>
     ```
-  
+- ### Make Bid
+  ```/myapp/services/BidServices```
 
-- ### Close Auction ```/sockets/CloseRoom```
+  It validates the data and if the money in the account is sufficient, if so, it will be defined as a winning bid, the logic is that the highest bid is stored within the server, only at the end will the definition of the winner be passed to the database, all bids are computed in the database the instant they are made
+  
+- ### Close Auction
+  ```/sockets/CloseRoom```
+  
   Whenever an auction is created, it will have a predetermined time limit to close. However, it could happen that a user makes a bid in the last minute. So whenever a user makes a bid in the last 2 minutes, the time limit resets to 2 minutes.
 
   The ```close_auction(id_auction)``` function removes all participants from the socket room, deletes the auction, and changes its status.
 
   To time it, there is the function ```start_auction_timer(auction_id, seconds)``` which calls the function ```close_auction()``` after giving the time, for the occasion in which a bid is made in the final minutes the function ```add_time_to_action(id_auction, seconds)``` will be called. In extreme cases or exceptions, for example a server crash, the function ```start()``` must be called in this case putting all the auctions in the database on timer again.
 
-## Configuration and Deployment
+## Logout
 
 ## Security
+
+## Modules
+  | Category        | File                                           | Function                                       |
+|-----------------|------------------------------------------------|------------------------------------------------|
+| Database        | `setup/InitSqlAlchemy.py`                      | Initializes the connection and ORM             |
+| Tables          | `setup/createTables.py`                        | Creates the model tables                       |
+| Sockets         | `setup/InitSocket.py`                          | Configures the Socket.IO server                |
+| Authentication  | `setup/PermissionRequire.py`                   | Permission-checking middleware                 |
+| Initialization  | `initExtensions.py`                            | Loads Flask extensions (DB, Login, Socket)     |
+| HTTP Errors     | `templates/401.html`, `403.html`, `404.html`   | Standard HTTP error handling                   |
+
+
+## Configuration and Deployment
 
 ## The Team

@@ -35,9 +35,11 @@ def get_room_id(auction_rooms: List[str], sid:str) -> Optional[str]:
 def handle_emit(data: Dict[str, Any]) -> None:
     room_id = get_room_id(rooms(), request.sid)
  
-    value = max(float(data.get("value", 0)), 0)
     user_id = session.get("id", None)
     username = session.get("username", None)
+
+    value = max(float(data.get("value", 0)), 0)
+    product_id = data.get("product_id")
 
     missingInfo = [i for i in [room_id, value] if i is None]
 
@@ -56,9 +58,15 @@ def handle_emit(data: Dict[str, Any]) -> None:
         "value": value
     }
 
-    out = make_bid(data)
+    out = make_bid(
+        user_id =       user_id,
+        product_id =    product_id,
+        value =         value
+    )
+
+    response = data
     if (out):
-        response = data
-        return emit("server_content", {"response": {"type": "error", "Error":out}}, to=request.sid)
+        return emit(
+            "server_content", {"response": {"type": "error", "Error":out}}, to=request.sid)
 
     return emit("server_content", {"response": response}, to=room_id)

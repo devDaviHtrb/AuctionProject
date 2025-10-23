@@ -21,7 +21,7 @@ datakey = [
     "category",
     "end_datetime",
     "duration",
-    "photo"
+    "photos"
 ]
 
 nullAbleValues = [
@@ -55,7 +55,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                  "content": "Invalid location data"
             }, 400
     
-    photo = data.get("photo")
+    photo = data.get("photos")
     if photo:
         if validateImg(photo):
             photo_url = upload_image(data["photo"], "Users_photos")

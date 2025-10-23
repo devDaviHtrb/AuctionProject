@@ -29,6 +29,7 @@ class products(db.Model):
     #FK 
     category = db.Column(db.Integer, ForeignKey("categories.category_id"), default = 1)
 
+
     #changes
     end_datetime = db.Column(db.DateTime, nullable=True)
     duration = db.Column(db.Integer, nullable = False) # In Seconds
@@ -63,7 +64,7 @@ class products(db.Model):
         return new_product
 
     
-    def get_user(self) -> Optional[users]:
+    def get_user(self) -> users:
         return users.query.get(self.user_id)
     
     def get_status(self) -> str:

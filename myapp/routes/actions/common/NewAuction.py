@@ -6,7 +6,7 @@ from typing import Tuple
 
 newAuction_bp = Blueprint("newAuction", __name__)
 
-@newAuction_bp.route("/newAuction", methods=["POST"])
+@newAuction_bp.route("/new/Auction", methods=["POST"])
 def new_auction() -> Tuple[Response, int]:
     data, code = general_validation(request)
     print("foi validado")
