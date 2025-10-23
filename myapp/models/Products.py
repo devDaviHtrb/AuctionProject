@@ -1,6 +1,7 @@
 from __future__ import annotations
 import secrets
 from myapp.models.Users import users
+from myapp.models.Images import images
 from myapp.models.ProductStatuses import product_statuses
 from myapp.models.Categories import categories
 from myapp.models.TechnicalFeatures import technical_features
@@ -33,24 +34,34 @@ class products(db.Model):
     duration = db.Column(db.Integer, nullable = False) # In Seconds
 
     @classmethod
-    def save_item(cls, data:Dict[str, Any]) -> products:
-        if(data.get("product_status", None)):
-            data["product_status"] = select(
-                product_statuses.product_status_id
-            ).where(
-                product_statuses.product_status == data["product_status"]
-            )
-        if(data.get("category", None)):
-            data["category"] = select(
-                categories.category_id
-            ).where(
-                categories.category_name == data["category"]
-            )
+    def save_item(cls, data: Dict[str, Any]) -> products:
+        if data.get("product_status"):
+            data["product_status"] = db.session.execute(
+                select(product_statuses.product_status_id)
+                .where(product_statuses.product_status == data["product_status"])
+            ).scalar()
+
+        if data.get("category"):
+            data["category"] = db.session.execute(
+                select(categories.category_id)
+                .where(categories.category_name == data["category"])
+            ).scalar()
+
         new_product = cls(**data)
         db.session.add(new_product)
-        db.session.flush()
+        db.session.flush()  # cria o product_id
+
+        if data.get("photo_url"):
+            new_product_img = images(
+                image=data["photo_url"],
+                principal_image=True,
+                product_id=new_product.product_id
+            )
+            db.session.add(new_product_img)
+
         db.session.commit()
         return new_product
+
     
     def get_user(self) -> Optional[users]:
         return users.query.get(self.user_id)
@@ -62,22 +73,22 @@ class products(db.Model):
         result = db.session.execute(stmt).scalar()
         return result.product_status  # integrity never return None
     
-    def set_status(self, new_status:str) -> None:
-        new_fk = select(product_statuses.product_status_id).where(
-            product_statuses.product_status == new_status.lower()
-        ).first()
+    def set_status(self, new_status: str) -> None:
+        new_fk = db.session.execute(
+            select(product_statuses.product_status_id)
+            .where(product_statuses.product_status == new_status.lower())
+        ).scalar()
 
-        if (new_fk):
+        if new_fk:
             self.product_status = new_fk
             db.session.commit()
-
     @classmethod
     def get_actives(cls) -> List[products]:
         query = db.session.query(cls).join(
             product_statuses,
             cls.product_status == product_statuses.product_status_id
         ).filter(
-            product_statuses.status_name == "active"
+            product_statuses.product_status == "active"
         )
 
         return query.all()

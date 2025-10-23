@@ -90,8 +90,9 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                  "content": "Invalid location data"
             }, 400
     
-    if data.get("photo"):
-        if validateImg(data["photo"]):
+    photo = data.get("photo")
+    if photo:
+        if validateImg(photo):
             photo_url = upload_image(data["photo"], "Users_photos")
             if not photo_url:
                 msg = "Image db connection error, sorry, try the submit without img"
@@ -144,4 +145,4 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
          "Type":    "Valid",
          "content": "All information is valid",
          "data":    data
-    }, 303
+    }, 200

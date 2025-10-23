@@ -9,16 +9,16 @@ def get_missing_info(
     data = {}
     missingInfo = []
     for requiredData in datakey:
-        value = request.form.get(requiredData, None)
+        value = request.form.get(requiredData, None) if requiredData != "photo" else request.files.get("photo")
         if ((value == "" or value is None) and (requiredData not in nullAbleValues)):
             missingInfo.append(requiredData)
         else:
             data[requiredData] = value
 
-        if missingInfo:
-            return {
+    if missingInfo:
+        return {
                 "Type":                "InputError",
                 "content":             "Complete all the inputs",
                 "MissingInformation":  missingInfo
             }, 400
-        return data, 200
+    return data, 200

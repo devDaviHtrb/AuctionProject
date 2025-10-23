@@ -20,7 +20,8 @@ datakey = [
     "user_id",
     "category",
     "end_datetime",
-    "duration"
+    "duration",
+    "photo"
 ]
 
 nullAbleValues = [
@@ -44,7 +45,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
         datakey,
         nullAbleValues
     )
-    if (code != "200"):
+    if (code != 200):
         return data, code
 
     if (data.get("zip_code", None) and data.get("district", None) and data.get("state", None) and data.get("city", None)):
@@ -52,5 +53,19 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
             return {
                  "Type":    "InputError",
                  "content": "Invalid location data"
+            }, 400
+    
+    photo = data.get("photo")
+    if photo:
+        if validateImg(photo):
+            photo_url = upload_image(data["photo"], "Users_photos")
+            if not photo_url:
+                msg = "Image db connection error, sorry, try the submit without img"
+                print("Db connection error")
+            else: data["photo_url"] = photo_url
+        else:
+            return {
+                 "Type":    "InputError",
+                 "content": "Invalid file"
             }, 400
     return data, 200

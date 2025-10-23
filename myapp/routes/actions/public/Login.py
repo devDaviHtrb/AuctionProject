@@ -1,4 +1,4 @@
-from flask import jsonify, Blueprint, request, url_for, Response
+from flask import jsonify, Blueprint, request, url_for, Response, make_response
 from myapp.services.AuthTokens import add_token
 from myapp.models.Users import users
 from myapp.services.Messages import auth_message
@@ -55,8 +55,8 @@ def login() -> Tuple[Response, int]:
             }), 200
 
         init_session(user)
-        response = profile() 
+        response = make_response(profile())
         set_cookies(request, response, user_id = user.user_id)
 
-        return response, 303
+        return response, 200
         

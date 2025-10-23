@@ -1,4 +1,4 @@
-from flask import Response, redirect, url_for
+from flask import Response, jsonify, redirect, url_for
 
 # -- set consts of pages--
 PROFILE_PAGE =          "profilePage.ProfilePage"
@@ -17,13 +17,13 @@ AUTH_RESEND =           "auth.resend"
 AUTH_CHANGE_PASSWORD =  "auth.change_password"
 
 def wait_sing_up() -> Response:
-    return redirect(
-        url_for(
-                WAITING_PAGE,
-            link =      AUTH_RESEND,
-            _external=  True
-        )
+    redirect_url = url_for(
+        WAITING_PAGE,
+        link=AUTH_RESEND,
+        _external=True
     )
+
+    return jsonify({"redirect": redirect_url}), 200
 
 
 def wait_change(email:str) -> Response:
@@ -36,14 +36,13 @@ def wait_change(email:str) -> Response:
             )
         )
 def wait_login(email:str, ) -> Response:
-    return redirect(
-        url_for(
+    redirect_url =url_for(
                 WAITING_PAGE,
             link =      AUTH_RESEND,
             email =     email,
             _external=  True
             )
-        )
+    return jsonify({"redirect": redirect_url}), 200
 
 def change_password(token:str) -> Response:
     return redirect(
@@ -54,9 +53,9 @@ def change_password(token:str) -> Response:
     )
 
 def profile() -> Response: #user created
-    return redirect(
-        url_for(PROFILE_PAGE)
-    )
+    redirect_url=url_for(PROFILE_PAGE)
+
+    return jsonify({"redirect": redirect_url}), 200
 
 def login() -> Response:
     return redirect(

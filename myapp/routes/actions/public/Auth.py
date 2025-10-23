@@ -62,7 +62,7 @@ def google_validate() -> Tuple[Response, int]:
     }
 
     user = create_user(data)
-    response = links.profile()
+    response = make_response(links.profile())
 
     init_session(user)
     set_cookies(request, response, user.user_id)
@@ -89,7 +89,7 @@ def auth(token:str) -> Tuple[Response, int]:
         if (not user):
             return links.sing_up(), 400
 
-        response = links.profile()
+        response =  make_response(links.profile())
         init_session(user) ## <--
         set_cookies(request, response, user_id = user.user_id)
         pop_by_pending(token)
