@@ -58,7 +58,7 @@ def paginate(type:str, page:int, filter_select:str=None) -> Tuple[Response, int]
             "start_datetime":   product.start_datetime.isoformat() if product.start_datetime else None,
             "category":         categories_list.get(product.category_id),
             "room":             product.product_room,
-            "photo":            images.query.filter_by(product_id = product.product_id).first()
+            "photo_url":            images.query.filter_by(product_id = product.product_id).first()
         } for product in products_list.items
     ]
                 

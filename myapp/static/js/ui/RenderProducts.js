@@ -13,6 +13,7 @@ export function renderProducts(data) {
     data.products.forEach((product) => {
       auctions.innerHTML += `
       <div>
+      <img src="${product.photo_url}">
         <h3>${product.product_name}</h3>
         <p>${product.description || "Sem descrição"}</p>
         <p>Min Bid: ${product.min_bid ?? "N/A"}</p>
@@ -26,6 +27,7 @@ export function renderProducts(data) {
     data.products.forEach((product) => {
       auctions.innerHTML += `
       <div>
+        <img src="${product.photo_url}">
         <h3>${product.product_name}</h3>
         <p>${product.description || "Sem descrição"}</p>
         <p>Date: ${product.start_datetime ?? "N/A"}</p>
