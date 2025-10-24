@@ -36,6 +36,8 @@ export function renderProducts(data) {
   }
 
   document.querySelectorAll(".join-auction").forEach((btn) => {
-    btn.addEventListener("click", (e) => joinRoom(e));
+    btn.addEventListener("click", (e) => {
+      window.location.href = `/auction/${btn.dataset.roomToken}`;
+    });
   });
 }
