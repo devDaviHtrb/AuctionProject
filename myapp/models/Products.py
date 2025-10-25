@@ -1,14 +1,7 @@
 from __future__ import annotations
 import secrets
-from myapp.models.Users import users
-from myapp.models.Images import images
-from myapp.models.ProductStatuses import product_statuses
-from myapp.models.Categories import categories
-from myapp.models.TechnicalFeatures import technical_features
-from myapp.models.CategoryTechnicalFeatures import category_technical_features
-from sqlalchemy import ForeignKey, select
+from sqlalchemy import ForeignKey
 from myapp.setup.InitSqlAlchemy import db
-from typing import List, Dict, Any, Optional
 
 class products(db.Model):
     product_id =  db.Column(db.Integer, primary_key=True)
@@ -34,70 +27,4 @@ class products(db.Model):
     end_datetime = db.Column(db.DateTime, nullable=True)
     duration = db.Column(db.Integer, nullable = False) # In Seconds
 
-    @classmethod
-    def save_item(cls, data: Dict[str, Any]) -> products:
-        if data.get("product_status"):
-            data["product_status"] = db.session.execute(
-                select(product_statuses.product_status_id)
-                .where(product_statuses.product_status == data["product_status"])
-            ).scalar()
-
-        if data.get("category"):
-            data["category"] = db.session.execute(
-                select(categories.category_id)
-                .where(categories.category_name == data["category"])
-            ).scalar()
-
-        new_product = cls(**data)
-        db.session.add(new_product)
-        db.session.flush()  # cria o product_id
-
-        if data.get("photo_url"):
-            new_product_img = images(
-                image=data["photo_url"],
-                principal_image=True,
-                product_id=new_product.product_id
-            )
-            db.session.add(new_product_img)
-
-        db.session.commit()
-        return new_product
-
     
-    def get_user(self) -> users:
-        return users.query.get(self.user_id)
-    
-    def get_status(self) -> str:
-        stmt = select(product_statuses).where(
-            product_statuses.product_status_id == self.product_status
-        )
-        result = db.session.execute(stmt).scalar()
-        return result.product_status  # integrity never return None
-    
-    def set_status(self, new_status: str) -> None:
-        new_fk = db.session.execute(
-            select(product_statuses.product_status_id)
-            .where(product_statuses.product_status == new_status.lower())
-        ).scalar()
-
-        if new_fk:
-            self.product_status = new_fk
-            db.session.commit()
-    @classmethod
-    def get_actives(cls) -> List[products]:
-        query = db.session.query(cls).join(
-            product_statuses,
-            cls.product_status == product_statuses.product_status_id
-        ).filter(
-            product_statuses.product_status == "active"
-        )
-
-        return query.all()
-    
-    def get_technical_feature_id(self) -> List[technical_features]:
-        return technical_features.query.join(
-            category_technical_features,
-            category_technical_features.technical_feature_id == technical_features.technical_feature_id
-        ).filter(
-            self.category == category_technical_features.category_id
-        ).all()

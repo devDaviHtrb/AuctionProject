@@ -1,14 +1,13 @@
 from flask import jsonify, Blueprint, request, url_for, Response, make_response
-from myapp.services.AuthTokens import add_token
 from myapp.models.Users import users
+import myapp.repositories.UserRepository as user_repository
+from myapp.services.AuthTokens import add_token
 from myapp.services.Messages import auth_message
 from myapp.services.InitSession import init_session
 from myapp.services.CookiesService import set_cookies
 from myapp.utils.LinksUrl import profile, AUTH_CONFIRM, AUTH_RESEND
-
 from typing import Tuple
 from werkzeug.security import check_password_hash
-
 from datetime import datetime
 
 login_bp = Blueprint("login", __name__)
@@ -36,7 +35,7 @@ def login() -> Tuple[Response, int]:
             "login_datetime":   datetime.now()
         }
         
-        if(user.get_two_factor_auth()):
+        if(user_repository.get_two_factor_auth(user)):
             token = add_token(
                 data=   data,
                 type=   "login"
@@ -47,7 +46,7 @@ def login() -> Tuple[Response, int]:
             )
             return jsonify({
                 "redirect":url_for(
-                    AUTH_CONFIRM,
+                        AUTH_CONFIRM,
                     link = AUTH_RESEND,
                     email = user.email
                 ),

@@ -1,8 +1,6 @@
 from flask import render_template, Blueprint, Response
 
-
 profile = Blueprint("profilePage", __name__)
-
 
 @profile.route("/profile")
 

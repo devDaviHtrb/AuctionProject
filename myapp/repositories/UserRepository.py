@@ -1,15 +1,45 @@
-# transfer to model
-from myapp.models.PhysicalPerson import physical_persons
-from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Users import users
 from myapp.models.LegalPerson import legal_persons
+from myapp.models.PhysicalPerson import physical_persons
 from myapp.models.Settings import settings
+from myapp.setup.InitSqlAlchemy import db
+import myapp.repositories.SettingRepository as setting_repository
 from werkzeug.security import generate_password_hash
-from datetime import datetime
-from typing import Dict, Any
+from typing import Optional, Tuple, Dict, Any
 
-def create_user(data: Dict[str, Any]) -> users:
+def get_id(user:users) -> str:
+    return str(user.user_id)
 
+def get_type(user:users) -> str:
+    return "legal_person" if (legal_persons.query.get(user.user_id)) else "physical_person"
+
+def set_api_token(user:users, new_api_token:str) -> None:
+    user.api_token = new_api_token
+    db.session.commit()
+
+def get_by_email(wanted_email:str) -> Optional[users]:
+    return db.session.query(users).filter(
+        users.email == wanted_email
+    ).first()
+
+def get_two_factor_auth(user:users) -> Optional[bool]:
+    setting = db.session.query(settings).filter_by(user_id = user.user_id).first()
+    return setting.two_factor_auth if setting else None
+
+def set_password(user:users, new_password: str) -> None:
+    user.password = generate_password_hash(new_password)
+    db.session.commit()
+
+def delete(user:users) -> Tuple[bool, str]:
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return True, "ok"
+    except Exception as e:
+        db.session.rollback()
+        return False, e
+
+def save_item(data: Dict[str, Any]) -> users:
     user_type = data.get("userType", "physical_person")
     
     user = users(
@@ -32,7 +62,8 @@ def create_user(data: Dict[str, Any]) -> users:
     db.session.add(user)
     db.session.flush() #generate the user id
     
-    """create_adress(
+    """
+    create_adress(
         street_name = data.get("street_name"),
         street_number = data.get("street_number"),
         apt = data.get("apt", None),
@@ -41,7 +72,8 @@ def create_user(data: Dict[str, Any]) -> users:
         city = data.get("city"),
         state = data.get("state")),
         principal_adress = True,
-        user_id = user.user_id"""
+        user_id = user.user_id
+    """
 
     if user_type == "physical_person":
         physical_person = physical_persons(
@@ -62,7 +94,7 @@ def create_user(data: Dict[str, Any]) -> users:
         )
         db.session.add(legal_person)
     
-    settings.save_item(user.user_id)
+    setting_repository.save_item(user.user_id)
     
     db.session.commit()
     return user

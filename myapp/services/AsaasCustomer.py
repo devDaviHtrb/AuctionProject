@@ -1,6 +1,7 @@
 from myapp.models.Users import users
+import myapp.repositories.UserRepository as user_repository
 import requests
-from typing import Tuple, Dict ,Any, Optional
+from typing import Tuple, Dict ,Any
 from config import Config
 
 URL_API = Config.URL_API
@@ -60,7 +61,10 @@ def create_asaas_customer(user_id:int) -> Tuple[Dict[str, Any], int]:
         }, response.status_code, 
 
     response_data = response.json()
-    user.set_api_token(response_data.get("id"))
+    user_repository.set_api_token(
+        user,
+        response_data.get("id")
+        )
     return {
         "description": response_data
     }, response.status_code, 

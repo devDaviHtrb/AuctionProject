@@ -1,19 +1,22 @@
-from myapp.services.GetLastBid import last_bid
+
 from myapp.models.Products import products
+import myapp.repositories.ProductRepository as product_repository
+import myapp.repositories.PaymentRepository as payment_repository
 from myapp.setup.InitSqlAlchemy import db
-from myapp.models.Payments import payments
-from typing import Optional
 from datetime import datetime
 
-INTERN_MONEY = "intern_money"
-RECEIVED = "received"
+INTERN_MONEY =  "intern_money"
+RECEIVED =      "received"
 
 def set_winner(product: products) -> None:
-    winner_bid, winner_user = last_bid(product.product_id, chunk_size=10)
+    winner_bid, winner_user = product_repository.last_bid(
+        product,
+        chunk_size = 10
+    )
     if(not winner_bid or not winner_user):
         return 
 
-    seller_user = product.get_user()
+    seller_user = product_repository.get_user(product)
 
     bid_value = winner_bid.bid_value
 
@@ -34,4 +37,4 @@ def set_winner(product: products) -> None:
         "payment_method":           INTERN_MONEY,
         "payment_status":           RECEIVED
     }
-    payments.save_item(data)
+    payment_repository.save_item(data)

@@ -42,9 +42,16 @@ def paginate(type:str, page:int, filter_select:str=None) -> Tuple[Response, int]
 
     if filter_select and type=="auctions":
         print(filter_select)
-        category = categories.query.filter_by(category_name = filter_select).first()
+        category = categories.query.filter_by(
+            category_name = filter_select
+        ).first()
         if category:
-            products_list = products.query.filter_by(category_id=category.category_id).paginate(page=current_page, per_page=auctions_per_page)
+            products_list = products.query.filter_by(
+                category_id = category.category_id
+            ).paginate(
+                page =      current_page,
+                per_page =  auctions_per_page
+            )
         else:
             return jsonify({
                 "Error": "query error, this category not exists"

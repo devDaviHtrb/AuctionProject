@@ -48,6 +48,7 @@ nullAbleValues += [
 ]
 
 def set_type(user_type:str) -> None:
+     global datakey
      datakey += [
         "rg",
         "birth_date",
@@ -62,6 +63,7 @@ def set_type(user_type:str) -> None:
 
 def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     user_type = request.form.get("userType", "physical_person")
+    set_type(user_type)
     data, code = get_missing_info(
         request,
         datakey,

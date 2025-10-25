@@ -1,8 +1,6 @@
 import myapp.services.Messages as msgs
-from flask import Blueprint, jsonify, url_for, request, Response
-from myapp.models.Users import users
+from flask import Blueprint, url_for, request, Response
 from myapp.services.AuthTokens import add_token
-from myapp.services.CreateUser import create_user
 from myapp.utils.Validations.GeneralUserValidation import general_validation
 from myapp.utils.LinksUrl import wait_sing_up, AUTH_CONFIRM
 from typing import Tuple

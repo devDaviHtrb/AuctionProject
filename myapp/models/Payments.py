@@ -1,9 +1,6 @@
 from __future__ import annotations
 from myapp.setup.InitSqlAlchemy import db
-from myapp.models.PaymentMethods import payment_methods
-from myapp.models.PaymentStatuses import payment_statuses
-from typing import Optional, Dict, Any
-from sqlalchemy import ForeignKey, select
+from sqlalchemy import ForeignKey
 from datetime import datetime
 
 class payments(db.Model):
@@ -22,40 +19,5 @@ class payments(db.Model):
     asaas_payment_id = db.Column(db.Integer, nullable = True)
 
 
-    @classmethod
-    def save_item(cls, data:Dict[str, Any]) -> Optional[payments]:
-        data["payment_method"] = select(
-            payment_methods.payment_method_id
-        ).where(
-            payment_methods.payment_method== data.get("payment_method", "other").lower()
-        ).first()
-
-        data["payment_status"] = select(
-            payment_statuses.payment_status_id
-        ).where(
-            payment_statuses.payment_status == data.get("payment_status", "other").lower()
-        ).first()
-
-        new_payment = cls(**data)
-        db.session.add(new_payment)
-        db.session.flush()
-        db.session.commit()
-        return new_payment
-
-    def get_method(self) -> payment_methods:
-        return payment_methods.query.get(self.payment_method)
-
-    def get_status(self) -> payment_statuses:
-        return payment_statuses.query.get(self.payment_status)
     
-    def set_status(self, new_status:str) -> None:
-        new_fk = select(
-            payment_statuses.payment_status_id
-        ).where(
-            payment_statuses.payment_status == new_status.lower()
-        ).first()
-
-        if(new_fk):
-            self.payment_status = new_fk
-            db.session.commit()
         

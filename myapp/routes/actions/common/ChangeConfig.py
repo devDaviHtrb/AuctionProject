@@ -1,5 +1,5 @@
 
-from flask import Blueprint, redirect, request, session, url_for, Response, make_response
+from flask import Blueprint, request, Response
 from myapp.utils.LinksUrl import configPage
 from typing import Tuple
 
@@ -11,9 +11,17 @@ DAY = HOUR*24
 #called after the user press the button for save the changes in config page
 #the inputs values will be wrote with cookies values
 #input ids must have the same name as cookies
-@change_config_bp.route("/changeConfig", methods=[ "POST"])
+@change_config_bp.route("/changeConfig", methods=["POST"])
 def change_config() -> Tuple[Response, int]:
     response = configPage()
     for cookie in request.form.keys():
-        response.set_cookie(cookie, request.form.get(cookie), max_age=3*HOUR) if cookie != "StyleMode" else response.set_cookie(cookie, request.form.get(cookie), max_age=DAY)
-    return response, 303
+        response.set_cookie(
+            cookie,
+            request.form.get(cookie),
+            max_age = 3*HOUR
+        ) if cookie != "StyleMode" else response.set_cookie(
+            cookie,
+            request.form.get(cookie),
+            max_age = DAY
+        )
+    return response, 200

@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from secrets import token_hex
 from cryptography.fernet import Fernet
-import os
+from os import getenv
 
 load_dotenv()
 
@@ -11,42 +11,46 @@ class Config:
     #The attributes are in uppercase in order to follow Flask's standardization.
 
     #API LINK
-    URL_API = os.getenv("URL_API")
-    SANDBOX_URL_API = os.getenv("SANDBOX_URL_API")
+    URL_API =           getenv("URL_API")
+    SANDBOX_URL_API =   getenv("SANDBOX_URL_API")
 
     #API TOKEN
-    API_TOKEN = os.getenv("API_TOKEN")
-    SANDBOX_API_TOKEN = os.getenv("SANDBOX_API_TOKEN")
+    API_TOKEN =         getenv("API_TOKEN")
+    SANDBOX_API_TOKEN = getenv("SANDBOX_API_TOKEN")
 
     #BANK ID
-    ASAAS_WALLET_ID = os.getenv("ASAAS_WALLET_ID")
+    ASAAS_WALLET_ID =   getenv("ASAAS_WALLET_ID")
 
     #TOKEN FOR OUR API
-    INTERNAL_TOKEN_API = os.getenv("INTERNAL_TOKEN_API")
+    INTERNAL_TOKEN_API =    getenv("INTERNAL_TOKEN_API")
 
     #EMAIL
-    CORPORATION_EMAIL = os.getenv("CORPORATION_EMAIL")
-    CORPORATION_PASSWORD = os.getenv("CORPORATION_PASSWORD")
-    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-    GOOGLE_SECRECT = os.getenv("GOOGLE_SECRECT")
-    GOOGLE_PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID")
-    GOOGLE_REDIRECT_URIS = os.getenv("GOOGLE_REDIRECT_URIS")
+    CORPORATION_EMAIL =     getenv("CORPORATION_EMAIL")
+    CORPORATION_PASSWORD =  getenv("CORPORATION_PASSWORD")
+    GOOGLE_CLIENT_ID =      getenv("GOOGLE_CLIENT_ID")
+    GOOGLE_SECRECT =        getenv("GOOGLE_SECRECT")
+    GOOGLE_PROJECT_ID =     getenv("GOOGLE_PROJECT_ID")
+    GOOGLE_REDIRECT_URIS =  getenv("GOOGLE_REDIRECT_URIS")
     
     #FLASK
-    SOCKETIO_ASYNC_MODE = "threading"  
-    DEBUG = True
+    SOCKETIO_ASYNC_MODE =   "threading"  
+    DEBUG =                 True
 
-    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+    #DATABASES
+    SQLALCHEMY_DATABASE_URI =   getenv("SQLALCHEMY_DATABASE_URI")
+    CLOUDINARY_CLOUD_NAME =     getenv("CLOUDINARY_CLOUD_NAME")
+    CLOUDINARY_API_KEY =        getenv("CLOUDINARY_API_KEY")
+    CLOUDINARY_API_SECRET =     getenv("CLOUDINARY_API_SECRET")
 
     # KEYS
-    SECRET_KEY = token_hex(32)
-    FERNET_KEY = Fernet.generate_key()
+    SECRET_KEY =    token_hex(32)
+    FERNET_KEY =    Fernet.generate_key()
 
     # Avoid unnecessary warnings from SQLAlchemy
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS =    False
     
 
-    FLASK_ENV = os.getenv("FLASK_ENV")
-    HOST = os.getenv("HOST", "0.0.0.0")
-    PORT = os.getenv("PORT", "5000")
-    DEBUG = os.getenv("DEBUG", False)
+    FLASK_ENV = getenv("FLASK_ENV")
+    HOST =      getenv("HOST", "0.0.0.0")
+    PORT =      getenv("PORT", "5000")
+    DEBUG =     getenv("DEBUG", False)

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from myapp.setup.InitSocket import socket_io
 from myapp.models.Products import products
 from myapp.services.Win import set_winner
-from myapp.models.ProductStatuses import product_statuses
+import myapp.repositories.ProductRepository as product_repository
 
 # Estrutura para armazenar timer + end_datetime em cache
 products_timers = {}
@@ -18,8 +18,8 @@ def close_auction(product_id: int) -> None:
     if not product:
         return
 
-    status = product.get_status().lower() == "occurring"
-    if status:
+    status = product_repository.get_status(product).lower() == "occurring"
+    if (status):
         room_id = product_id
         socket_io.emit(
             "auction_closed",
@@ -37,7 +37,7 @@ def close_auction(product_id: int) -> None:
 
         set_winner(product)
         product.end_datetime = products_timers[product_id]["end_datetime"]
-        product.set_status("finished")
+        product_repository.set_status(product, "finished")
         products_timers.pop(product_id, None)
 
 
@@ -53,7 +53,7 @@ def start_auction_timer(product_id: int, seconds: int) -> None:
 
 
 def restart() -> None:
-    active_products = products.get_actives()
+    active_products = product_repository.get_actives()
     products_timers.clear()
 
     for product in active_products:

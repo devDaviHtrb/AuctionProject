@@ -1,8 +1,9 @@
 from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Payments import payments
 from myapp.models.Users import users
+import myapp.repositories.PaymentRepository as payments_repository
 from flask import Blueprint, jsonify, request
-from typing import  Dict, Tuple, Any
+from typing import  Dict, Tuple
 from config import Config
 
 INTERNAL_TOKEN_API = Config.INTERNAL_TOKEN_API
@@ -52,8 +53,8 @@ def payments_webhook() -> Tuple[Dict[str, bool], int]:
         
 
     if(not payment):
-        payments.save_item(data)
+        payments_repository.save_item(data)
         return jsonify({"received": True}), 201
 
-    payment.set_status(status)
+    payments_repository.set_status(payment, status)
     return jsonify({"received": True}), 200

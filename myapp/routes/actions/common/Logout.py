@@ -11,4 +11,4 @@ def logout() -> Tuple[Response, int]:
     session["id"] = None
     session["username"] = None
     session["admin"] = None
-    return home, 200
+    return home(), 200

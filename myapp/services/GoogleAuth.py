@@ -1,12 +1,12 @@
 from config import Config
-from typing import Tuple, Mapping, Any
+from datetime import date
+from typing import Mapping, Any
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from google.oauth2.credentials import Credentials
 from google.auth.transport import Request
-import google.auth.transport.requests
+from googleapiclient.discovery import build
 import os
-import pathlib
 
 REDIRECT_URI = "http://127.0.0.1:5000/auth/google/validate"
 GOOGLE_CLIENT_ID = Config.GOOGLE_CLIENT_ID
@@ -44,3 +44,22 @@ def get_id_info(credentials: Credentials, request_session: Request) -> Mapping[s
         request_session,
         GOOGLE_CLIENT_ID
     )
+
+
+def get_extra_user_info(credentials: Credentials):
+    service = build('people', 'v1', credentials = credentials)
+    profile = service.people().get(
+        resourceName='people/me',
+        personFields='names,emailAddresses,birthdays,genders'
+    ).execute()
+
+    birthday = date.today()
+    gender = "Indefinido"
+
+    if 'birthdays' in profile:
+        b = profile['birthdays'][0]['date']
+        birthday = f"{b.get('year','0000')}-{b.get('month','00'):02}-{b.get('day','00'):02}"
+    if 'genders' in profile:
+        gender = profile['genders'][0]['value']
+
+    return birthday, gender

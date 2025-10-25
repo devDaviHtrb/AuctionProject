@@ -9,11 +9,12 @@ anonymous_users_number = 0
 
 @socket_io.on("join_room")
 def handle_join(data: Dict[str, Any]) -> None:
-    room_id = data["room_id"]
-    user_id = session.get("id", None)
-    username = session.get("username", None)
+    room_id =   data["room_id"]
+    user_id =   session.get("id", None)
+    username =  session.get("username", None)
     if (None in [room_id, user_id]):
         return
+    
     join_room(room_id)
     response = {
         "type":     "entry",
@@ -21,7 +22,7 @@ def handle_join(data: Dict[str, Any]) -> None:
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser{anonymous_users_number}",
     }
     anonymous_users_number+=1
-    emit("server_content", {"response": response}, to=room_id)
+    emit("server_content", {"response": response}, to = room_id)
 
 def get_room_id(auction_rooms: List[str], sid:str) -> Optional[str]:
     if not auction_rooms: 
@@ -35,8 +36,8 @@ def get_room_id(auction_rooms: List[str], sid:str) -> Optional[str]:
 def handle_emit(data: Dict[str, Any]) -> None:
     room_id = get_room_id(rooms(), request.sid)
  
-    user_id = session.get("id", None)
-    username = session.get("username", None)
+    user_id =   session.get("id", None)
+    username =  session.get("username", None)
 
     value = max(float(data.get("value", 0)), 0)
     product_id = data.get("product_id")

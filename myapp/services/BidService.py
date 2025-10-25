@@ -1,5 +1,6 @@
 # use lock for bids in same time
 from typing import Optional, Dict, Any
+import myapp.repositories.BidRepository as bid_repository
 from myapp.models.Bids import bids
 from myapp.models.Users import users
 from myapp.models.Products import products
@@ -13,7 +14,7 @@ winners: Dict[int, bids] = {}
 
 def restart() -> int:
     chgs = 0
-    last_bids = bids.get_last_bids_actives()
+    last_bids = bid_repository.get_last_bids_actives()
     for bid in last_bids:
         chgs += 1
         winners[bid.product_id] = bid
@@ -21,7 +22,7 @@ def restart() -> int:
 
 
 def set_winner(data:Dict[str, Any], product_id:int) -> None:
-    new_bid = bids.save_item(data)
+    new_bid = bid_repository.save_item(data)
     winners[product_id] = new_bid
 
 def make_bid(user_id:int, product_id:int, value:int) -> Optional[str]:

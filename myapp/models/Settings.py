@@ -6,10 +6,4 @@ class settings(db.Model):
     anonymous_mode = db.Column(db.Boolean, nullable = False, default = False)
     two_factor_auth = db.Column(db.Boolean, nullable = False, default = False)
 
-    @classmethod
-    def save_item(cls, user_id:int) -> None:
-        new_setting = cls(user_id = user_id)
-        db.session.add(new_setting)
-        db.session.flush()
-        db.session.commit()
 
