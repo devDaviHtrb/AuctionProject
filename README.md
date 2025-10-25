@@ -73,6 +73,7 @@ With this structure, the project not only meets the needs of a modern auction si
   │   ├── initExtensions.py
   │   ├── __init__.py
   │   ├── models/
+  │   ├── repositories/
   │   ├── routes/
   │   ├── services/
   │   ├── setup/
@@ -131,7 +132,7 @@ If **userType** is ```legal_person```, the following additional fields are requi
 {
   state_tax_registration:       STR | null,
   legal_business_name:          STR,
-  trade_name:                   STR
+  trade_name:                   STR,
   scrap_purchase_authorization: STR,
   cnpj:                         STR
 }
