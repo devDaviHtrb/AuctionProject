@@ -8,11 +8,11 @@ const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
 
 prevButton.addEventListener("click", () => {
-  index = prevSlide(index, slides); // 👈 atualiza o index
+  index = prevSlide(index, slides);
 });
 
 nextButton.addEventListener("click", () => {
-  index = nextSlide(index, slides); // 👈 idem
+  index = nextSlide(index, slides);
 });
 
 document.querySelectorAll(".slide").forEach((slide) => {

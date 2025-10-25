@@ -4,7 +4,6 @@ export function getSingUpForm(route) {
     password: document.getElementById("password").value,
     email: document.getElementById("email").value,
     cpf: document.getElementById("cpf").value,
-
     photo: document.getElementById("photo").files[0],
     cellphone1: document.getElementById("cellphone1").value,
     cellphone2: document.getElementById("cellphone2").value,
