@@ -1,10 +1,10 @@
-import { singUpLegalPerson } from "../interactivity/SingUpLegalPerson";
+import { signUpLegalPerson } from "../interactivity/SignUpLegalPerson";
 class LoginButton {
   constructor(id) {
     this.button = document.getElementById(id);
 
     this.button.addEventListener("click", (event) => {
-      singUpLegalPerson();
+      signUpLegalPerson();
     });
   }
 }

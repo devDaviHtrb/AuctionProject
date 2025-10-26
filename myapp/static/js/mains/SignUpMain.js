@@ -1,7 +1,7 @@
-import { signIn } from "../interactivity/SingUp.js";
+import { signIn } from "../interactivity/SignUp.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const signInBtn = document.getElementById("singUpBtn");
+  const signInBtn = document.getElementById("signUpBtn");
 
   signInBtn.addEventListener("click", async (e) => {
     e.preventDefault();

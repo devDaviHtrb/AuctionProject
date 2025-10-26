@@ -5,7 +5,7 @@ PROFILE_PAGE =          "profilePage.ProfilePage"
 WAITING_PAGE =          "waitingPage.WaitingPage"
 CHANGE_PASSWORD_PAGE =  "changePasswordPage.ChangePasswordPage"
 LOGIN_PAGE =            "loginPage.LoginPage"
-SING_UP_PAGE =          "singUpPage.SingUpPage"
+SIGN_UP_PAGE =          "signUpPage.SignUpPage"
 CONFIG_PAGE =           "configPage.ConfigPage"
 HOME_PAGE =             "homePage.HomePage"
 
@@ -16,7 +16,7 @@ AUTH_CONFIRM =          "auth.auth"
 AUTH_RESEND =           "auth.resend"
 AUTH_CHANGE_PASSWORD =  "auth.change_password"
 
-def wait_sing_up() -> Response:
+def wait_sign_up() -> Response:
     redirect_url = url_for(
             WAITING_PAGE,
         link=AUTH_RESEND,
@@ -59,8 +59,8 @@ def login() -> Response:
     redirect_url = url_for(LOGIN_PAGE)
     return redirect(redirect_url)
 
-def sing_up() -> Response:
-    redirect_url = url_for(SING_UP_PAGE)
+def sign_up() -> Response:
+    redirect_url = url_for(SIGN_UP_PAGE)
     return redirect(redirect_url)
 
 def configPage() -> Response:

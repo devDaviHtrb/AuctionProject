@@ -1,4 +1,4 @@
-export function getSingUpForm(route) {
+export function getSignUpForm(route) {
   const commomForm = {
     username: document.getElementById("username").value,
     password: document.getElementById("password").value,

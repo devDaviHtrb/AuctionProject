@@ -1,10 +1,10 @@
-export async function postSingUp(form) {
+export async function postSignUp(form) {
   const formData = new FormData();
   for (const key in form) {
     formData.append(key, form[key]);
   }
 
-  const request = await fetch("/singUp", {
+  const request = await fetch("/signUp", {
     method: "POST",
     body: formData,
     credentials: "include",

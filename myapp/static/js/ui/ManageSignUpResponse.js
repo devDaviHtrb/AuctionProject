@@ -1,4 +1,4 @@
-export function manageSingUpResponse(data) {
+export function manageSignUpResponse(data) {
   if (data.Type == "InputError") {
     document.getElementById("message").innerText = data.content;
     console.log(data);
