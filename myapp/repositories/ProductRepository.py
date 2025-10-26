@@ -12,6 +12,8 @@ import myapp.repositories.BidRepository as bids_repository
 from typing import Dict, Any, List, Optional, Tuple
 from sqlalchemy import select
 
+from myapp.utils.UploadImage import upload_image
+
 def save_item(data: Dict[str, Any]) -> products:
     if data.get("product_status"):
         data["product_status"] = db.session.execute(
@@ -24,7 +26,12 @@ def save_item(data: Dict[str, Any]) -> products:
             select(categories.category_id)
             .where(categories.category_name == data["category"])
         ).scalar()
-
+    product_img = upload_image(data["photo"], "Users_photos")
+    
+    if product_img:
+        data["photo_url"]
+    else:
+        print("Db connection error")
     new_product = products(**data)
     db.session.add(new_product)
     db.session.flush()  # cria o product_id

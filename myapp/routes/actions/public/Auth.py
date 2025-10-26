@@ -113,7 +113,7 @@ def auth(token:str) -> Tuple[Response, int]:
             user_repository.save_item(data)
         
         pop_by_pending(token)
-        return links.login(), 201
+        return redirect(links.login()), 201
 
     elif(type == "reset"):
         user = user_repository.get_by_email(

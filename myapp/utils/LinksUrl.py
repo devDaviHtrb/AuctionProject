@@ -1,4 +1,4 @@
-from flask import Response, jsonify, url_for
+from flask import Response, jsonify, redirect, url_for
 
 # -- set consts of pages--
 PROFILE_PAGE =          "profilePage.ProfilePage"
@@ -53,15 +53,15 @@ def change_password(token:str) -> Response:
 
 def profile() -> Response: #user created
     redirect_url = url_for(PROFILE_PAGE)
-    return jsonify({"redirect": redirect_url})
+    return redirect(redirect_url)
 
 def login() -> Response:
     redirect_url = url_for(LOGIN_PAGE)
-    return jsonify({"redirect": redirect_url})
+    return redirect(redirect_url)
 
 def sing_up() -> Response:
     redirect_url = url_for(SING_UP_PAGE)
-    return jsonify({"redirect": redirect_url})
+    return redirect(redirect_url)
 
 def configPage() -> Response:
     redirect_url = url_for(CONFIG_PAGE)
