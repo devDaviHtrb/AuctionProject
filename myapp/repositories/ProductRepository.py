@@ -26,23 +26,24 @@ def save_item(data: Dict[str, Any]) -> products:
             select(categories.category_id)
             .where(categories.category_name == data["category"])
         ).scalar()
-    product_img = upload_image(data["photo"], "Users_photos")
+    product_imgs = upload_image(data["photos"], "Users_photos")
     
-    if product_img:
-        data["photo_url"]
+    if product_imgs:
+        data["photos_url"] = product_imgs
     else:
         print("Db connection error")
     new_product = products(**data)
     db.session.add(new_product)
     db.session.flush()  # cria o product_id
 
-    if data.get("photo_url"):
-        new_product_img = images(
-            image=data["photo_url"],
-            principal_image=True,
-            product_id=new_product.product_id
+    if data.get("photos_url"):
+        for url in data["photos_url"]:
+            new_product_img = images(
+                image=url,
+                principal_image=True if data["photos_url"].index(url) == 0 else False,
+                product_id=new_product.product_id
         )
-        db.session.add(new_product_img)
+            db.session.add(new_product_img)
 
     db.session.commit()
     return new_product
