@@ -45,7 +45,7 @@ def google_validate() -> Tuple[Response, int]:
 
     email = id_info.get("email", None)
     if(not email):
-        return links.sing_up(), 400
+        return links.sign_up(), 400
     
     user = user_repository.get_by_email(email)
     if(user):
@@ -88,7 +88,7 @@ def auth(token:str) -> Tuple[Response, int]:
     token_data = get_by_pending(token)
 
     if (not token_data): #not token
-        return links.sing_up(), 400
+        return links.sign_up(), 400
 
     type = token_data.get("type")
     data = token_data.get("user_data")
@@ -96,7 +96,7 @@ def auth(token:str) -> Tuple[Response, int]:
     if(type == "login"):
         user = users.query.get(data.get("user_id"))       
         if (not user):
-            return links.sing_up(), 400
+            return links.sign_up(), 400
 
         response =  links.profile()
         init_session(user) ## <--
@@ -113,7 +113,7 @@ def auth(token:str) -> Tuple[Response, int]:
             user_repository.save_item(data)
         
         pop_by_pending(token)
-        return links.login(), 201
+        return redirect(links.login()), 201
 
     elif(type == "reset"):
         user = user_repository.get_by_email(
@@ -121,13 +121,13 @@ def auth(token:str) -> Tuple[Response, int]:
         )
         new_password = request.form.get("new_password", None)
         if (not user):
-            return links.sing_up(), 400
+            return links.sign_up(), 400
         if (not new_password):
             return links.change_password(token=token), 400
         user_repository.set_password(user,new_password)
 
     else:
-        return links.sing_up(), 400
+        return links.sign_up(), 400
     
     pop_by_pending(token)
     return links.login(), 200
@@ -136,7 +136,7 @@ def auth(token:str) -> Tuple[Response, int]:
 @auth_bp.route("/auth/resend/<string:email>")
 def resend(email:str = None) -> Tuple[Response, int]:
     if(not email):
-        return links.sing_up(), 400
+        return links.sign_up(), 400
     token = get_by_emails_dict(email)
     msgs.auth_message(
         email = email,

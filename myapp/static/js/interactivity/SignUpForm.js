@@ -1,10 +1,9 @@
-export function getSingUpForm(route) {
+export function getSignUpForm(route) {
   const commomForm = {
     username: document.getElementById("username").value,
     password: document.getElementById("password").value,
     email: document.getElementById("email").value,
     cpf: document.getElementById("cpf").value,
-    photo: document.getElementById("photo").files[0],
     cellphone1: document.getElementById("cellphone1").value,
     cellphone2: document.getElementById("cellphone2").value,
     landline: document.getElementById("landline").value,
@@ -17,8 +16,8 @@ export function getSingUpForm(route) {
     state: document.getElementById("state").value,
   };
   var form = {};
-  if (route.includes("physical")) {
-    console.log("dsfs");
+  if (document.getElementById("userType").value == "physical_person") {
+    console.log("dsfs foiiii");
     form = {
       ...commomForm,
       name: document.getElementById("name").value,
@@ -28,7 +27,7 @@ export function getSingUpForm(route) {
       userType: "physical_person",
     };
   } else {
-    if (route.includes("legal")) {
+    if (document.getElementById("userType").value == "legal_person") {
       form = {
         ...commomForm,
         trade_name: document.getElementById("trade_name").value,

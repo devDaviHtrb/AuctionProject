@@ -1,5 +1,5 @@
 // Validação e envio
-const form = document.getElementById("singUpForm");
+const form = document.getElementById("signUpForm");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(form);

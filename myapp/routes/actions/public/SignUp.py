@@ -2,13 +2,13 @@ import myapp.services.Messages as msgs
 from flask import Blueprint, url_for, request, Response
 from myapp.services.AuthTokens import add_token
 from myapp.utils.Validations.GeneralUserValidation import general_validation
-from myapp.utils.LinksUrl import wait_sing_up, AUTH_CONFIRM
+from myapp.utils.LinksUrl import wait_sign_up, AUTH_CONFIRM
 from typing import Tuple
 
-sing_up_bp = Blueprint("singUp", __name__)
+sign_up_bp = Blueprint("signUp", __name__)
 
-@sing_up_bp.route("/singUp", methods=["POST"])
-def sing_up() -> Tuple[Response, int]:
+@sign_up_bp.route("/signUp", methods=["POST"])
+def sign_up() -> Tuple[Response, int]:
 
     resp, code = general_validation(request)
     data = resp.get("data")
@@ -25,5 +25,5 @@ def sing_up() -> Tuple[Response, int]:
         content =   url_for(AUTH_CONFIRM, token=token, _external=True)
     )
 
-    return wait_sing_up(), 200
+    return wait_sign_up()
 

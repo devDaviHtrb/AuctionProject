@@ -7,6 +7,8 @@ import myapp.repositories.SettingRepository as setting_repository
 from werkzeug.security import generate_password_hash
 from typing import Optional, Tuple, Dict, Any
 
+from myapp.utils.UploadImage import upload_image
+
 def get_id(user:users) -> str:
     return str(user.user_id)
 
@@ -41,7 +43,6 @@ def delete(user:users) -> Tuple[bool, str]:
 
 def save_item(data: Dict[str, Any]) -> users:
     user_type = data.get("userType", "physical_person")
-    
     user = users(
         username = data.get("username"),
         password = generate_password_hash(data.get("password")),
