@@ -53,7 +53,7 @@ def change_password(token:str) -> Response:
 
 def profile() -> Response: #user created
     redirect_url = url_for(PROFILE_PAGE)
-    return redirect(redirect_url)
+    return jsonify( {"redirect": redirect_url})
 
 def login() -> Response:
     redirect_url = url_for(LOGIN_PAGE)

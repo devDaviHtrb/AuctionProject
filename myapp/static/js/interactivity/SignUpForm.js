@@ -16,8 +16,8 @@ export function getSignUpForm(route) {
     state: document.getElementById("state").value,
   };
   var form = {};
-  if (route.includes("physical")) {
-    console.log("dsfs");
+  if (document.getElementById("userType").value == "physical_person") {
+    console.log("dsfs foiiii");
     form = {
       ...commomForm,
       name: document.getElementById("name").value,
@@ -27,7 +27,7 @@ export function getSignUpForm(route) {
       userType: "physical_person",
     };
   } else {
-    if (route.includes("legal")) {
+    if (document.getElementById("userType").value == "legal_person") {
       form = {
         ...commomForm,
         trade_name: document.getElementById("trade_name").value,
