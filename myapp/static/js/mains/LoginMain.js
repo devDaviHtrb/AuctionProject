@@ -3,7 +3,7 @@ import { login } from "../interactivity/Login.js";
 
 const buttonSubmit = document.getElementById("submit");
 const message = document.getElementById("message");
-const forgotPassword = document.getElementById("forgotPassword");
+const sign_up = document.getElementById("sign-up");
 
 buttonSubmit.addEventListener("click", async (e) => {
   message.innerHTML = "";
@@ -16,3 +16,7 @@ buttonSubmit.addEventListener("click", async (e) => {
     await login({ username: username, password: password });
   }
 });
+
+sign_up.addEventListener("click", async (e) => {
+  window.location.href = sign_up.dataset.url;
+})

@@ -1,5 +1,7 @@
 from PIL import Image
-def validateImg(file):
+from werkzeug.datastructures import FileStorage
+
+def validateImg(file: FileStorage) -> bool:
     try:
         img = Image.open(file)
         img.verify()

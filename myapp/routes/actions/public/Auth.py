@@ -146,9 +146,11 @@ def resend(email:str = None) -> Tuple[Response, int]:
         return links.login(), 400
     return links.wait_login(email), 200
 
-@auth_bp.route("/auth/change/<string:email>")
-def change_password(email:str) -> Response:
-    if(not user_repository.get_by_email(email)): # no have users with this email
+@auth_bp.route("/auth/change", methods = ["POST"])
+def change_password() -> Response:
+    email = request.form.get("email", None)
+
+    if(not email or not user_repository.get_by_email(email)): # no have users with this email
         return links.sing_up(), 400
     #add in token
     token = add_token(

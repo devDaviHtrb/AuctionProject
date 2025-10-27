@@ -45,7 +45,7 @@ def get_last_bids_actives() -> List[bids]:
         (latest_bid_subq.c.product_id == bids.product_id) &
         (latest_bid_subq.c.latest_datetime == bids.bid_datetime)
     ).filter(
-        product_statuses.status_name == "ACTIVE"
+        product_statuses.status_name == "active"
     ).all()
 
 def is_valid(bid:bids) -> Optional[users]:

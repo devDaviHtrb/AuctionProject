@@ -99,7 +99,8 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
             if not photo_url:
                 msg = "Image db connection error, sorry, try the submit without img"
                 print("Db connection error")
-            else: data["photo_url"] = photo_url
+            else:
+                data["photo_url"] = photo_url
         else:
             return {
                  "Type":    "InputError",

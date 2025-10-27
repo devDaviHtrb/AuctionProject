@@ -1,10 +1,13 @@
-from myapp.models.LegalPerson import legal_persons
 from myapp.models.Users import users
-
-
 from sqlalchemy import or_
 
-def User_validation(username, email, cpf=None, rg=None, cnpj=None):
+def User_validation(
+    username:str,
+    email:str,
+    cpf:str =   None,
+    rg:str =    None,
+    cnpj:str =  None
+) -> bool:
     filters = [users.username == username, users.email == email]
 
     if cpf:

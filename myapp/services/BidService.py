@@ -1,57 +1,62 @@
-# use lock for bids in same time
-from typing import Optional, Dict, Any
-import myapp.repositories.BidRepository as bid_repository
+from sqlalchemy.exc import SQLAlchemyError
+from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Bids import bids
 from myapp.models.Users import users
 from myapp.models.Products import products
+import myapp.repositories.BidRepository as bid_repository
+import myapp.repositories.ProductRepository as product_repository
+import myapp.repositories.PaymentRepository as payment_repository
+from datetime import datetime
+from typing import Optional
 
-winners: Dict[int, bids] = {}
-"""
-{
-    product : bid -> It's a bid class of alchemy
-}
-"""
+INTERN_MONEY = "intern_money"
+RECEIVED = "received"
 
-def restart() -> int:
-    chgs = 0
-    last_bids = bid_repository.get_last_bids_actives()
-    for bid in last_bids:
-        chgs += 1
-        winners[bid.product_id] = bid
-    return chgs
+def make_bid(user_id: int, product_id: int, value: int) -> Optional[str]:
+    try:
+        with db.session.begin(): 
+            product = db.session.query(products).with_for_update().get(product_id)
+            if (not product or product_repository.get_status(product) != "active"):
+                return "Invalid Product"
 
+            user = users.query.get(user_id)
+            if (user.wallet < value):
+                return "Insufficient funds"
 
-def set_winner(data:Dict[str, Any], product_id:int) -> None:
-    new_bid = bid_repository.save_item(data)
-    winners[product_id] = new_bid
+            last_bid = db.session.query(bids).filter_by(
+                product_id = product_id
+            ).order_by(
+                bids.bid_value.desc()
+            ).with_for_update().first()
 
-def make_bid(user_id:int, product_id:int, value:int) -> Optional[str]:
+            if (last_bid and value <= last_bid.bid_value):
+                return "Bid must be higher than current highest bid"
 
-    user = users.query.get(user_id)
-    wallet = user.wallet
+            new_bid = bid_repository.save_item({
+                "bid_value":    value,
+                "user_id":      user_id,
+                "product_id":   product_id
+            })
 
-    data = {
-        "bid_value":    value,
-        "user_id":      user_id,
-        "product_id":   product_id
-    }
+            seller_user = product_repository.get_user(product)
+            user.wallet -= value
+            seller_user.wallet += value
+            product.user_id = user.user_id
+            new_bid.winner = True
 
-    product = products.query.get(product_id)
-    if(not product or product.get_status() != "active"):
-            return "Invalid Product"
+            payment_repository.save_item({
+                "amount":                   value,
+                "confirmation_datetime":    datetime.utcnow(),
+                "payer_user_id":            seller_user.user_id,
+                "payee_user_id":            user.user_id,
+                "payment_method":           INTERN_MONEY,
+                "payment_status":           RECEIVED
+            })
 
-    if(not product_id in winners):
-        min_bid = product.min_bid
-        if(not min_bid or (value >= min_bid and wallet >= value)):
-            set_winner(data, product_id)
-            return 
-        
-        return "Bid Amount Must Be Greater Than Minimum Amount"
-    
-    if (wallet < value):
-        return "Don't Have Enough Money"
-    #bid value < minimun bid value
-    if(value <= winners[product_id].value):
-        return "Bid Amount Must Be Greater Than Minimum Amount"
-    
-    set_winner(data, product_id)
+        db.session.commit()
+        return 
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        print("Error:", e)
+        return "Error processing bid"

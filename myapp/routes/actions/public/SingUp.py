@@ -25,5 +25,5 @@ def sing_up() -> Tuple[Response, int]:
         content =   url_for(AUTH_CONFIRM, token=token, _external=True)
     )
 
-    return wait_sing_up()
+    return wait_sing_up(), 200
 

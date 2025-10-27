@@ -2,8 +2,9 @@ from flask import render_template, Blueprint,redirect, session, url_for, Respons
 
 home = Blueprint("changePasswordPage", __name__)
 
+@home.route("/change/now")
 @home.route("/change/now/<string:token>")
-def ChangePasswordPage(token:str) -> Response:
+def ChangePasswordPage(token:str = None) -> Response:
     return render_template("ChangePasswordPage.html", token = token)
 
 

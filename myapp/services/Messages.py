@@ -1,5 +1,6 @@
 from flask import url_for
 import smtplib
+from myapp.utils.Async import make_async
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from config import Config
@@ -28,19 +29,23 @@ def send_email(recipient_email: str, subject:str, content:str) -> str:
     except Exception as e:
         return str(e)
 
-
+@make_async
 def win_message() -> str:
     pass
 
+@make_async
 def sell_message() -> str:
     pass
 
+@make_async
 def buy_message() -> str:
     pass
 
+@make_async
 def payment_message() -> str:
     pass
 
+@make_async
 def auth_message(email:str, content:str) -> None:
     send_email(
         recipient_email =   email,
@@ -48,6 +53,7 @@ def auth_message(email:str, content:str) -> None:
         content =           "Esse é seu link de autenticação " + content
     )
 
+@make_async
 def welcome_message(email:str, content:str, flag:bool = False) -> None:
     msg = content
     if (flag):
