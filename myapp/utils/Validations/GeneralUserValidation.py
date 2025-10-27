@@ -92,7 +92,6 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                  "content": "Invalid location data"
             }, 400
     
-<<<<<<< HEAD
     photo = data.get("photo")
     if photo:
         if validateImg(photo):
@@ -107,8 +106,6 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                  "Type":    "InputError",
                  "content": "Invalid file"
             }, 400
-=======
->>>>>>> 6e5a0d657c1488ed806c9f37ba0322dcdbac261e
 
     
     if user_type == "physical_person":
