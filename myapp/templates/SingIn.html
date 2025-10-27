@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="../styles/StyleSignIn.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">Placeholder</div>
+    <ul>
+      <li><a href="#">Quem somos</a></li>
+      <li><a href="#">Como Comprar</a></li>
+      <li><a href="#">Quero vender</a></li>
+      <li><a href="#">Nota de venda</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <div class="right">
+      <span>🛒</span>
+      <span>👤</span>
+    </div>
+  </div>
+
+  <!-- Formulário -->
+  <main>
+    <p id="message"></p>
+
+    <form id="signInForm">
+          <label>Username:</label>
+      <input type="text" name="Username" id="username" required>
+             
+    <label>Password:</label>
+      <input type="password" name="password" id="password" required>
+    <label>Email:</label>
+      <input type="email" name="email" id="email" required>
+     <label>Celular 1:</label>
+      <input type="tel" name="cellphone1" id="cellphone1" >
+
+      <label>Celular 2:</label>
+      <input type="tel" name="cellphone2" id="cellphone2">
+
+       <label>CEP:</label>
+      <input type="text" name="cep" id="zip_code" >
+
+      <label>Rua:</label>
+      <input type="text" name="rua" id="street_name" >
+
+      <label>Bairro:</label>
+      <input type="text" name="bairro" id="district" >
+
+      <label>Cidade:</label>
+      <input type="text" name="cidade" id="city" >
+
+      <label>Estado:</label>
+      <input type="text" name="estado" id="state" >
+
+      <label>Número:</label>
+      <input type="text" name="street_number" id="street_number">
+
+      <label>Telefone:</label>
+      <input type="tel" name="landline" id="landline">
+        <label>CPF:</label>
+      <input type="text" name="cpf" id="cpf">
+
+      <input type="text" name="" id="photo">
+
+      <button type="button" id="singInBtn" class="btn btn-login">Cadastrar</button>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.
+  </footer>
+
+    <script src="{{ url_for('static', filename='js/validations/CPFmask.js') }}" type="module"></script>>
+    <script src="{{ url_for('static', filename='js/validations/CPFvalidation.js') }}" type="module"></script>>
+    <script src="{{ url_for('static', filename='js/api/GetCEP.js') }}" type="module"></script>>
+    <script src="{{ url_for('static', filename='js/mains/SingInMain.js') }}" type="module"></script>>
+</body>
+</html> 
