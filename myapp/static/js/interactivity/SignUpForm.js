@@ -7,13 +7,6 @@ export function getSignUpForm(route) {
     cellphone1: document.getElementById("cellphone1").value,
     cellphone2: document.getElementById("cellphone2").value,
     landline: document.getElementById("landline").value,
-    street_name: document.getElementById("street_name").value,
-    street_number: document.getElementById("street_number").value,
-    apt: document.getElementById("apt"),
-    zip_code: document.getElementById("zip_code").value,
-    district: document.getElementById("district").value,
-    city: document.getElementById("city").value,
-    state: document.getElementById("state").value,
   };
   var form = {};
   if (document.getElementById("userType").value == "physical_person") {
