@@ -36,7 +36,7 @@
       <div class="input-group">
         <label for="password">Senha</label>
         <input type="password" id="password" placeholder="Digite sua senha">
-        <div class="forgot"><a href="#" id="forgotPassword">Esqueceu a senha</a></div>
+        <div class="forgot"><a href="{{url_for('changePasswordPage.ChangePasswordPage')}}" id="forgotPassword">Esqueceu a senha</a></div>
       </div>
 
       <div class="captcha">
@@ -45,7 +45,7 @@
 
       <button type="button" class="btn btn-login" id="submit">Entrar</button>
       <div class="no-account">Não tem cadastro?</div>
-      <button type="button" class="btn btn-create">Criar conta</button>
+      <button type="button" data-url="{{url_for('signUpPage.SignUpPage')}}" class="btn btn-create" id="sign-up">Criar conta</button>
 
       <div id="message"></div>
     </form>
@@ -103,6 +103,5 @@
     &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.<br>
   </footer>
   <script src="{{ url_for('static', filename='js/mains/LoginMain.js') }}" type="module"></script>
-  <script src="{{ url_for('static', filename='js/validations/ForgotPassword.js') }}"></script>
 </body>
 </html>
