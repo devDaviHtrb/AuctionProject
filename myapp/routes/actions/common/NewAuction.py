@@ -13,7 +13,23 @@ def new_auction() -> Tuple[Response, int]:
     if(code != 200):
         return data, code
 
-    product = product_repository.save_item(data)
+    process_number = request.form.get("process_number",None)
+    court = request.form.get("court",None)
+    case_type = request.form.get("case_type",None)
+    plaintiff = request.form.get("plaintiff",None)
+    defendant = request.form.get("defendant",None)
+    judge_name = request.form.get("judge_name",None)
+    legal_data = {
+        "process_number":   process_number,
+        "court":            court,
+        "case_type":        case_type,
+        "plaintiff":        plaintiff,
+        "defendant":        defendant,
+        "judge_name":       judge_name,
+        "extra_notes":      request.form.get("judge_name",None)
+    } if(not None in [process_number, court, case_type, plaintiff, defendant, judge_name]) else None
+        
+    product = product_repository.save_item(data, legal_data)
 
     necessary_technical_features = product_repository.get_technical_feature_id(product)
 

@@ -3,7 +3,7 @@ from myapp.utils.Validations.AdressValidation import adress_validation
 import myapp.repositories.AddressRepository as address_repository
 from typing import Tuple
 
-address_bp = Blueprint("userAddress")
+address_bp = Blueprint("userAddress", __name__)
 
 @address_bp.route("/new/address", methods = ["POST"])
 def user_address() -> Tuple[Response, int]:

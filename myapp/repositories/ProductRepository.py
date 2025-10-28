@@ -1,4 +1,3 @@
-
 from myapp.models.ProductStatuses import product_statuses
 from myapp.models.Categories import categories
 from myapp.models.TechnicalFeatures import technical_features
@@ -8,13 +7,14 @@ from myapp.models.Bids import bids
 from myapp.models.Users import users
 from myapp.models.Images import images
 from myapp.setup.InitSqlAlchemy import db
+import myapp.repositories.AddressRepository as address_repository
 import myapp.repositories.BidRepository as bids_repository
 from typing import Dict, Any, List, Optional, Tuple
 from sqlalchemy import select
 
 from myapp.utils.UploadImage import upload_image
 
-def save_item(data: Dict[str, Any]) -> products:
+def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) -> products:
     if data.get("product_status"):
         data["product_status"] = db.session.execute(
             select(product_statuses.product_status_id)
@@ -46,6 +46,11 @@ def save_item(data: Dict[str, Any]) -> products:
             db.session.add(new_product_img)
 
     db.session.commit()
+
+    if (legal_data):
+        legal_data["product_id"] = new_product.product_id
+        address_repository.save_item(legal_data)
+
     return new_product
 
 def get_user(product:products) -> users:
