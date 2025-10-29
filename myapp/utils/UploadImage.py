@@ -10,7 +10,7 @@ def async_upload_image(file, data, folder:str) -> bool:
     except Exception as e:
         print("Cloudinary upload error:", e)
 
-def upload_image(files, folder:str) -> bool:
+def upload_image(files, folder:str):
     urls = []
     try:
         for file in files:
