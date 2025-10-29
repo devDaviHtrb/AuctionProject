@@ -32,48 +32,26 @@ Modulos
 
 ## Sumary
 
-1. [Introduction](#introduction)  
-2. [Project Architecture](#project-architecture)  
-3. [Models](#models)  
-   - 3.1 [Settings](#settings)  
-   - 3.2 [Users, Physical_persons, Legal_persons](#users)  
-   - 3.3 [Addresses](#addresses)  
-   - 3.4 [Payments, Payment_methods, Payment_statuses](#payments) 
-   - 3.5 [Bids](#bids)  
-   - 3.6 [Products, Product_statuses, Categories](#products)  
-   - 3.7 [Technical_features, Category_technical_features, Technical_features_values](#technical_features)  
-   - 3.8 [Images](#images)  
-   - 3.9[Legal_infos, Case_types](#legal_infos)  
-4. [Setup](#setup)  
-5. [SignUp](#signup)
-   - 5.1 [Physical Person](#physical-person) 
-   - 5.2 [Legal Perosn](#legal-person)
-6. [Login](#login)  
-7. [Auth](#auth)  
-   - 7.1 [Google Redirect / Validate](#google-redirect)  
-   - 7.2 [Auth / Token validation](#auth-1)  
-   - 7.3 [Resend token](#resend)  
-   - 7.5 [Change password](#change-password)  
-8. [Address](#address)  
-9. [Notification](#notification)
-   - 9.1[Send](#send)
-10. [Profile](#profile)  
-11. [Auction](#auction)  
-    - 11.1 [Create Auction](#create-auction) 
-    - 11.2 [Technical Features](#technical-features)  
-12. [Asaas](#asaas)  
-    - 12.1[Customer](#customer)  
-    - 12.2 [Webhook](#webhook)    
-13. [Socket](#socket)  
-    - 13.1 [Join Room](#join-room)  
-    - 13.2 [Bid / Emit bid](#bid)  
-    - 13.3 [Make Bid](#make-bid)  
-    - 13.4 [Close Auction](#close-auction)  
-14. [Logout](#logout)  
-15. [Security](#security)  
-16. [Modules](#modules)  
-17. [Configuration and Deployment](#configuration-and-deployment)  
-18. [The Team](#the-team)
+- [Auction Project](#auction-project)
+  - [Sumary](#sumary)
+  - [Introduction](#introduction)
+  - [Project Architecture](#project-architecture)
+  - [Models](#models)
+  - [Setup](#setup)
+  - [SignUp](#signup)
+  - [Login](#login)
+  - [Auth](#auth)
+  - [Address](#address)
+  - [Notification](#notification)
+  - [Profile](#profile)
+  - [Auction](#auction)
+  - [Asaas](#asaas)
+  - [Socket](#socket)
+  - [Logout](#logout)
+  - [Security](#security)
+  - [Modules](#modules)
+  - [Configuration and Deployment](#configuration-and-deployment)
+  - [The Team](#the-team)
 
 ## Introduction
 
@@ -240,9 +218,6 @@ Modulos
     ```
 
 ## Models
-
-  ![DATABASE](https://res.cloudinary.com/dnet6nodm/image/upload/v1761767967/Users_photos/swmczrsjmmszfnfkwmjv.jpg)
-
 
 - ### Settings
   <details>
@@ -489,6 +464,10 @@ Modulos
   |case_type_id|INT|None|N|P.K.|Integer and auto-increment primary key of the case_types table|
   |case_type_name|VARCHAR|10|N|None|"Name of the type of legal execution (tax|judicial)"|
   </details>
+
+
+![DATABASE](https://res.cloudinary.com/dnet6nodm/image/upload/v1761767967/Users_photos/swmczrsjmmszfnfkwmjv.jpg)
+
 
 ## Setup
 
