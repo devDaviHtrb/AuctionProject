@@ -32,29 +32,13 @@ def make_bid(user_id: int, product_id: int, value: int) -> Optional[str]:
             if (last_bid and value <= last_bid.bid_value):
                 return "Bid must be higher than current highest bid"
 
-            new_bid = bid_repository.save_item({
+            bid_repository.save_item({
                 "bid_value":    value,
                 "user_id":      user_id,
                 "product_id":   product_id
             })
 
-            seller_user = product_repository.get_user(product)
-            user.wallet -= value
-            seller_user.wallet += value
-            product.user_id = user.user_id
-            new_bid.winner = True
-
-            payment_repository.save_item({
-                "amount":                   value,
-                "confirmation_datetime":    datetime.utcnow(),
-                "payer_user_id":            seller_user.user_id,
-                "payee_user_id":            user.user_id,
-                "payment_method":           INTERN_MONEY,
-                "payment_status":           RECEIVED
-            })
-
         db.session.commit()
-        return 
 
     except SQLAlchemyError as e:
         db.session.rollback()

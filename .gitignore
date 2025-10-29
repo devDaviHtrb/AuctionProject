@@ -27,6 +27,7 @@ markdown.py
 test.py
 obs.txt
 *.env
+database.csv
 
 # =========================
 # Banco de Dados
