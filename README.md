@@ -570,7 +570,7 @@ Modulos
 
     ```js
     {
-      new_password: STR;
+      new_password: STR
     }
     ```
 
@@ -901,5 +901,113 @@ Modulos
 | HTTP Errors    | `templates/401.html`, `403.html`, `404.html` | Standard HTTP error handling               |
 
 ## Configuration and Deployment
+  For any of the following ways to run the project, the following .env file (environment variables) is required:
+
+  ```env
+  # -----------------------
+  # API LINK (URL)
+  # -----------------------
+  URL_API =         https://asaas.com/api/v3
+  SANDBOX_URL_API = https://api-sandbox.asaas.com/v3
+  PAYMENT_LINK =    # YOUR PAYMENT LINK
+
+  # -----------------------
+  # API TOKEN
+  # -----------------------
+  API_TOKEN =         # YOUR ASAAS TOKEN API
+  SANDBOX_API_TOKEN = # ONLY DEBUG
+
+  # -----------------------
+  #BANK ID
+  # -----------------------
+  ASAAS_WALLET_ID = # YOUR ASAAS WALLET ID
+
+  # -----------------------
+  #TOKEN FOR OUR API
+  # -----------------------
+  INTERNAL_TOKEN_API =  # A TOKEN FOR WEBHOOK
+
+  # -----------------------
+  #DATABASE
+  # -----------------------
+  SQLALCHEMY_DATABASE_URI = # YOUR DATABSE LINK
+  POSTGRES_USER =           # YOUR DATABASE USER
+  POSTGRES_PASSWORD =       # YOUR DATABASE PASSWORD
+  POSTGRES_DB =             # YOUR DATABASE NAME
+  POSTGRES_PORT =           5432
+  CLOUDINARY_CLOUD_NAME =   # NAME OF IMAGE API
+  CLOUDINARY_API_KEY =      # IMAGE API KEY
+  CLOUDINARY_API_SECRET =   # IMAGE API SECRET
+
+  # -----------------------
+  # EMAIL
+  # -----------------------
+  CORPORATION_EMAIL =     # YOUR EMAIL
+  CORPORATION_PASSWORD =  # YOUR PASSWORD
+  GOOGLE_CLIENT_ID =      # YOUR CLIENT ID OF GOOGLE API
+  GOOGLE_SECRECT =        # YOUR SECRETS FOR GOOGLE API
+  GOOGLE_PROJECT_ID =     # YOUR PROJECT ID FOR GOOGLE API
+  GOOGLE_REDIRECT_URIS =  # YOUR REDIRECT LINK FOR LOGIN WITH GOOGLE API
+
+  # -----------------------
+  #FLASK
+  # -----------------------
+  FLASK_ENV = development
+  HOST =      0.0.0.0
+  PORT =      5000
+  DEBUG =     False
+  ```
+
+- ### Python Run
+    
+    This option is ideal for local development..
+
+    - Python 3.9+ installed
+    - `pip` updated
+    - PostgreSQL database running
+
+    ```bash
+    # Create and activate a virtual environment.
+    python3 -m venv venv
+    source venv/bin/activate   # (Linux/Mac)
+    venv\Scripts\activate      # (Windows)
+
+    # Install the dependencies.
+    pip install -r requirements.txt
+
+    # Configure the .env file (see section above)
+
+    # Run the Flask application.
+    python3 app.py
+    ```
+
+    The application will be available at: http://localhost:5000
+
+- ### Docker Run
+    
+    You must have Docker installed so you can run it:
+    ```bash
+    docker-compose build
+    #docker-compose down -v FOR RECREATE DATABASE
+    docker-compose up -d
+    ```
+
+    Or run it in Linux/Mac:
+    ```bash
+    ./run_docker.sh #--help
+    ```
+    and it for Windows:
+    ```bash
+    run_docker.bat #--help
+    ```
+
+    If you don't want to build it manually, you can get it from Docker Hub:
+
+    ```bash
+    docker pull arturregadas/auctionproject:latest
+    docker run -p 5000:5000 --env-file .env arturregadas/auctionproject:latest
+    ```
+
+    The application will be available at: http://localhost:5000
 
 ## The Team
