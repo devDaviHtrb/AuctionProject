@@ -901,6 +901,12 @@ Modulos
 | HTTP Errors    | `templates/401.html`, `403.html`, `404.html` | Standard HTTP error handling               |
 
 ## Configuration and Deployment
+  First, you must clone and entry the repository.
+  ```bash
+  git clone https://github.com/devDaviHtrb/AuctionProject
+  cd AuctionProject
+  ```
+
   For any of the following ways to run the project, the following .env file (environment variables) is required:
 
   ```env
@@ -988,7 +994,7 @@ Modulos
     You must have Docker installed so you can run it:
     ```bash
     docker-compose build
-    #docker-compose down -v FOR RECREATE DATABASE
+    #docker-compose down -v #FOR RECREATE DATABASE
     docker-compose up -d
     ```
 
@@ -1005,7 +1011,7 @@ Modulos
 
     ```bash
     docker pull arturregadas/auctionproject:latest
-    docker run -p 5000:5000 --env-file .env arturregadas/auctionproject:latest
+    docker-compose up -d # FOR POSTGRESQL
     ```
 
     The application will be available at: http://localhost:5000
