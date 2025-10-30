@@ -1,4 +1,4 @@
-from flask import url_for
+from flask import url_for, current_app
 import smtplib
 from myapp.utils.Async import make_async
 from email.mime.text import MIMEText
@@ -54,22 +54,11 @@ def auth_message(email:str, content:str) -> None:
     )
 
 @make_async
-def welcome_message(email:str, content:str, flag:bool = False) -> None:
-    msg = content
-    if (flag):
-        msg += " ".join([
-            ",te encaminhamos para uma pagina",
-            "em que voce pode criar uma senha," ,
-            "caso tenha perdido o link voce pode",
-            "a qualquer momento configurar ela novamente",
-            "em na aba esqueci minha senha ou o link",
-            url_for('auth.resend', email = email)
-        ])
+def welcome_message(email: str, content: str, url:str = None) -> None:
     send_email(
-        recipient_email =   email,
-        subject =           "SEJA BEM VINDO - LANCIARE" ,
-        content =           f"Seja bem vindo a Lanciare {msg}"
-        
-    )
+        recipient_email = email,
+        subject = "SEJA BEM VINDO - LANCIARE",
+        content = f"Seja bem vindo a Lanciare {content}" + f", te encaminhamos um link em que você pode criar uma senha, caso perca o link, você pode a qualquer momento configurá-lo novamente em Esqueci minha senha\nLink: {url}" if url else ""
+    )# sorry, but with async just it is possible
 
 

@@ -79,7 +79,7 @@ def google_validate() -> Tuple[Response, int]:
     msgs.welcome_message(
         email =     email,
         content =   name,
-        flag =      True
+        url =      url_for(links.AUTH_RESEND, email = email, _external=True)
     )
     return response, 201
 

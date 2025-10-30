@@ -1,20 +1,19 @@
-#IMAGE
-FROM python:3.12-slim
+# Base image com Python 3.12
+FROM python:3.12
 
-#apt-get update && apt-get install -y ntpdate
-#ntpdate -s time.google.com
+ENV DEBIAN_FRONTEND=noninteractive
 
-#DIRECTORY
 WORKDIR /app
 
-#COPY requeriments.txt
-COPY requeriments.txt .
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-#INSTALL DEPENDENCIES
-RUN pip install --no-cache-dir -r requeriments.txt
+COPY . .
 
-#COPY CODE
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=5000
+
 EXPOSE 5000
 
-#RUN
-CMD ["python", "main.py"]
+CMD ["flask", "run"]

@@ -38,7 +38,6 @@ database.csv
 # =========================
 # Docker
 # =========================
-docker-compose.yml
 
 # =========================
 # Migrations
