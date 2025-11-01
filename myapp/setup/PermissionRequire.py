@@ -1,8 +1,9 @@
 from functools import wraps
-from flask import Flask, request, session, abort
+from flask import Flask, request, session, abort, redirect, url_for
 from myapp.models.Users import users
 from myapp.services.InitSession import init_session
 from myapp.services.CookiesService import fernet
+from myapp.utils.LinksUrl import LOGIN_PAGE
 
 publicRoutes = []
 commonRoutes = []
@@ -33,7 +34,7 @@ def init_authDecorator(app: Flask) -> None:
         if endpoint in commonRoutes:
             if user_id:
                 return
-            abort(401)  
+            return redirect(url_for(LOGIN_PAGE))
 
         if endpoint in adminRoutes:
             if not user_id:

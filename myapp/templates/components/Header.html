@@ -1,224 +1,26 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Header com Autocomplete</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-  }
+<header class="main-header">
+  <div class="container header-content">
+    <div class="logo">
+      <img src="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
+        alt="Lanciare Logo" />
+      <span>Lanciare.</span>
+    </div>
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background-color: #06274a;
-    color: white;
-    border-radius: 15px;
-    margin: 20px;
-    flex-wrap: wrap;
-    gap: 10px;
-    position: relative;
-    z-index: 1; /* garante que o header esteja acima de outros elementos */
-  }
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Buscar produtos, marcas e mais..." autocomplete="off" />
+      <i class="fas fa-search"></i>
+      <div class="autocomplete-list" id="autocompleteList"></div>
+    </div>
 
-  .logo {
-  width: 120px;              /* largura fixa, ajustável */
-  height: auto;              /* mantém proporção da imagem */
-  border-radius: 15px;       /* cantos arredondados */
-  object-fit: contain;       /* mantém a imagem dentro do espaço */
-  transition: transform 0.3s, box-shadow 0.3s; /* animação suave */
-  cursor: pointer;           /* indica que pode ser clicável */
-}
-
-/* Efeito ao passar o mouse */
-.logo:hover {
-  transform: scale(1.1);     /* aumenta levemente */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* sombra sutil */
-}
-
-/* Responsivo */
-@media(max-width: 768px) {
-  .logo {
-    width: 100px;  /* reduz tamanho em telas menores */
-  }
-}
-
-
-
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-  }
-
-  nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    transition: color 0.3s;
-  }
-
-  nav ul li a:hover {
-    color: #ff9a1c;
-  }
-
-  .search-bar {
-    flex: 1;
-    max-width: 400px;
-    margin: 0 20px;
-    position: relative; /* necessário para o autocomplete absoluto */
-  }
-
-  .search-bar input {
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1rem;
-  }
-
-  .autocomplete-items {
-    position: absolute;
-    top: 100%; /* logo abaixo do input */
-    left: 0;
-    right: 0;
-    background-color: #d9d9d9; /* cor clara */
-    border-radius: 0 0 15px 15px; /* arredondado só embaixo */
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 10; /* sobrepõe header */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-
-  .autocomplete-item {
-    padding: 8px 12px;
-    cursor: pointer;
-    color: #06274a;
-  }
-
-  .autocomplete-item:hover {
-    background-color: #ff9a1c;
-    color: white;
-  }
-
-  .auth-buttons {
-    display: flex;
-    gap: 10px;
-  }
-
-  .auth-buttons button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-
-  .sign-in {
-    background-color: #d9d9d9;
-    color: #06274a;
-  }
-
-  .sign-in:hover {
-    background-color: #ff9a1c;
-    color: white;
-  }
-
-  .sign-up {
-    background-color: #d9d9d9;
-    color: #06274a;
-  }
-
-  .sign-up:hover {
-    background-color: #ff9a1c;
-    color: white;
-  }
-
-  @media(max-width: 768px) {
-    header {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 10px;
-    }
-
-    nav ul {
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .auth-buttons {
-      justify-content: flex-end;
-    }
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <img class="logo" src="https://res.cloudinary.com/dnet6nodm/image/upload/v1761867985/Users_photos/icm3oglhll4cy9dfvlfs.png">
-
-  <div class="search-bar">
-    <input type="text" id="search" placeholder="Pesquisar...">
-    <div id="autocomplete-list" class="autocomplete-items"></div>
-  </div>
-
-  <nav>
-    <ul>
-      <li><a href="#">Início</a></li>
-      <li><a href="#">Sobre</a></li>
-      <li><a href="#">Serviços</a></li>
-      <li><a href="#">Contato</a></li>
-    </ul>
-  </nav>
-
-  <div class="auth-buttons">
-    <button class="sign-in">Sign In</button>
-    <button class="sign-up">Sign Up</button>
+    <nav class="main-nav">
+      <ul>
+        <a style="text-decoration: none" href="#">Categorias</a>
+        <a style="text-decoration: none" href="#">Leilões</a>
+        <a style="text-decoration: none" href="#">Contato</a>
+      </ul>
+      <div class="auth-buttons">
+        <a style="text-decoration: none" href="#" class="btn-login">Sign In / Sign Up</a>
+      </div>
+    </nav>
   </div>
 </header>
-
-<script>
-const items = [
-  "Apple", "Banana", "Cherry", "Date", "Elderberry",
-  "Fig", "Grape", "Honeydew", "Kiwi", "Lemon",
-  "Mango", "Nectarine", "Orange", "Papaya", "Quince"
-];
-
-const searchInput = document.getElementById("search");
-const autocompleteList = document.getElementById("autocomplete-list");
-
-searchInput.addEventListener("input", function() {
-  const value = this.value.toLowerCase();
-  autocompleteList.innerHTML = "";
-
-  if (!value) return;
-
-  const filtered = items.filter(item => item.toLowerCase().includes(value));
-  filtered.forEach(item => {
-    const div = document.createElement("div");
-    div.classList.add("autocomplete-item");
-    div.textContent = item;
-    div.addEventListener("click", () => {
-      searchInput.value = item;
-      autocompleteList.innerHTML = "";
-    });
-    autocompleteList.appendChild(div);
-  });
-});
-
-// Fecha a lista se clicar fora
-document.addEventListener("click", function(e) {
-  if (!e.target.closest(".search-bar")) {
-    autocompleteList.innerHTML = "";
-  }
-});
-</script>
-
-</body>
-</html>

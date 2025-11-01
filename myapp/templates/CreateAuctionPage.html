@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanciare - Cadastrar Novo Item</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleIndex.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/formAuction.css') }}">
+</head>
+
+<body>
+
+    {% include "components/header.html" %}
+
+    <main class="form-page-main">
+        <div class="container">
+            <h1 class="page-title">Cadastrar Novo Item para Leilão</h1>
+
+            <form class="item-submission-form">
+
+                <!-- 1. Fotos do Item -->
+                <div class="form-section photo-upload">
+                    <h2>1. Fotos do Item</h2>
+                    <div class="photo-area">
+                        <label for="file-upload" class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Clique para adicionar fotos (Máx. 5)</p>
+                            <small>Suporta JPG, PNG</small>
+                        </label>
+                        <input name="photos" type="file" id="file-upload" accept="image/*" multiple
+                            style="display: none;">
+                        <div id="photo-preview-container" class="photo-previews"></div>
+                    </div>
+                </div>
+
+                <!-- 2. Detalhes do Leilão -->
+                <div class="form-section product-details">
+                    <h2>2. Detalhes do Leilão</h2>
+
+                    <div class="input-group">
+                        <label for="item-name">Nome do Item <span class="required">*</span></label>
+                        <input type="text" id="item-name" name="product_name" placeholder="Ex: Relógio Rolex Submariner"
+                            required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="description">Descrição <span class="required">*</span></label>
+                        <textarea id="description" name="description" rows="5" placeholder="Detalhes do item"
+                            required></textarea>
+                    </div>
+
+                    <div class="input-group row-split">
+                        <div class="half-width">
+                            <label for="category">Categoria <span class="required">*</span></label>
+                            <select id="category" name="category" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="eletronicos">Eletrônicos</option>
+                                <option value="colecionaveis">Colecionáveis</option>
+                                <option value="arte">Arte</option>
+                                <option value="antiguidades">Antiguidades</option>
+                            </select>
+                        </div>
+
+                        <div class="category-features">
+                            <div class="panel">
+                                <input type="text" placeholder="Marca">
+                                <input type="text" placeholder="Modelo">
+                                <input type="number" placeholder="Ano">
+                            </div>
+                            <div class="panel">
+                                <input type="text" placeholder="Tipo">
+                                <input type="text" placeholder="Material">
+                            </div>
+                        </div>
+
+                        <div class="half-width">
+                            <label for="min-bid">Valor Mínimo (Reserva) <span class="required">*</span></label>
+                            <input type="number" id="min-bid" name="min_bid" placeholder="0,00" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group row-split">
+                        <div class="half-width">
+                            <label for="start-date">Data e Hora de Início <span class="required">*</span></label>
+                            <input type="datetime-local" id="start-date" name="start_datetime" required>
+                        </div>
+                        <div class="half-width">
+                            <label for="end-date">Data e Hora de Fim <span class="required">*</span></label>
+                            <input type="datetime-local" id="end-date" name="end_datetime" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Condição do Item</label>
+                        <div class="radio-group">
+                            <input type="radio" id="cond-new" name="product_status" value="novo" checked>
+                            <label for="cond-new">Novo</label>
+                            <input type="radio" id="cond-used" name="product_status" value="usado">
+                            <label for="cond-used">Usado</label>
+                            <input type="radio" id="cond-restored" name="product_status" value="restaurado">
+                            <label for="cond-restored">Restaurado</label>
+                        </div>
+                    </div>
+
+                    <!-- Campos dinâmicos da categoria serão inseridos aqui -->
+                    <div id="category-features" style="margin-top:20px;"></div>
+
+                    <!-- Endereço (opcional) -->
+                    <div class="input-group">
+                        <label>Endereço do Item (opcional)</label>
+                        <input type="text" name="street_name" placeholder="Rua">
+                        <input type="text" name="street_number" placeholder="Número">
+                        <input type="text" name="apt" placeholder="Apartamento / Bloco">
+                        <input type="text" name="zip_code" placeholder="CEP">
+                        <input type="text" name="district" placeholder="Bairro">
+                        <input type="text" name="city" placeholder="Cidade">
+                        <input type="text" name="state" placeholder="Estado">
+                    </div>
+
+                    <!-- Campos judiciais (opcional) -->
+                    <div class="form-section">
+                        <h2>3. Dados do Processo Judicial (Opcional)</h2>
+                        <div class="input-group">
+                            <label for="process_number">Número do Processo</label>
+                            <input type="text" id="process_number" name="process_number"
+                                placeholder="Número do processo">
+                        </div>
+                        <div class="input-group">
+                            <label for="court">Tribunal</label>
+                            <input type="text" id="court" name="court" placeholder="Tribunal responsável">
+                        </div>
+                        <div class="input-group">
+                            <label for="case_type">Tipo do Caso</label>
+                            <input type="text" id="case_type" name="case_type" placeholder="Ex: Cível, Criminal">
+                        </div>
+                        <div class="input-group">
+                            <label for="plaintiff">Autor</label>
+                            <input type="text" id="plaintiff" name="plaintiff" placeholder="Nome do autor">
+                        </div>
+                        <div class="input-group">
+                            <label for="defendant">Réu</label>
+                            <input type="text" id="defendant" name="defendant" placeholder="Nome do réu">
+                        </div>
+                        <div class="input-group">
+                            <label for="judge_name">Juiz</label>
+                            <input type="text" id="judge_name" name="judge_name" placeholder="Nome do juiz">
+                        </div>
+                        <div class="input-group">
+                            <label for="extra_notes">Notas Extras</label>
+                            <textarea id="extra_notes" name="extra_notes" rows="3"
+                                placeholder="Informações adicionais"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary submit-btn">Submeter para Avaliação</button>
+                    <a href="index.html" class="btn-secondary cancel-btn">Cancelar</a>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    {% include "components/footer.html" %}
+
+    <script src="{{ url_for('static', filename='js/mains/formAuction.js') }}" type="module"></script>
+
+</body>
+
+</html>

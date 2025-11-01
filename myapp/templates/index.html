@@ -1,132 +1,182 @@
+<!--
+receive ->
+
+user: {
+  wallet,
+  username,
+}
+products: [
+  {
+    image,
+    name,
+    hour,
+    price
+  }
+]
+
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Auction Leilões</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleIndex.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{{  url_for('static', filename='styles/StyleIndex.css')  }}">
+  <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
 
 </head>
 
 <body>
-  <div class="navbar">
-    <div class="logo">Placeholder</div>
-    <ul>
-      <li><a href="#">Quem somos</a></li>
-      <li><a href="#">Como Comprar</a></li>
-      <li><a href="#">Quero vender</a></li>
-      <li><a href="#">Nota de venda</a></li>
-      <li><a href="#">Blog</a></li>
-    </ul>
-    <div class="right">
-      <span>🛒</span>
-      <span>👤</span>
-    </div>
-  </div>
+  {% include 'components/header.html' %}
 
   <!-- Carrossel -->
-  <section class="carousel">
-    <button class="arrow left" id="prev">❮</button>
-    <div class="slides">
-      <button class="slide active" data-filter="carro">
-        <img src="https://placehold.co/1000x300/1f3b70/ffffff?text=Leilão+de+Veículos" alt="Leilão de Veículos">
-      </button>
-      <button class="slide" data-filter="">
-        <img src="https://placehold.co/1000x300/002244/ffffff?text=Leilão+Judicial" alt="Leilão Judicial">
-      </button>
-      <button class="slide" data-filter="">
-        <img src="https://placehold.co/1000x300/003366/ffffff?text=Leilão+de+Sucatas" alt="Leilão de Sucatas">
-      </button>
-    </button>
-    <button class="arrow right" id="next">❯</button>
-  </section>
-
-  <!-- Categorias -->
-  <section class="categorias">
-    <h2>Categorias mais comuns</h2>
-    <div class="icons">
-      <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=🚗"><p>Carros</p></div>
-      <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=💼"><p>Materiais e Equipamentos</p></div>
-      <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=🏠"><p>Imóveis</p></div>
-      <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=⚒️"><p>Sucatas</p></div>
-      <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=⚖️"><p>Judiciais</p></div>
-      <div class="icon"><img src="https://placehold.co/60x60/1f3b70/ffffff?text=💻"><p>Eletrônicos</p></div>
-    </div>
-  </section>
-
-  <!-- Destaques -->
-  <section class="destaques">
-    <h2>Destaques <a href="#" class="ver-todos">Ver todos</a></h2>
-      {%for auction in top_auctiona%}
-    
-      <div class="cards">
-      <a href="#" class="card">
-        <img src="{{auction.image}}" alt="{{Auction.category}}">
-        <div class="info">
-          <h3>{{auction.name}}</h3>
-          <p>Initial bid: R$ {{auction.min_bid}}</p>
+  <main>
+    <section class="hero-carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active"
+          style="background-image: linear-gradient(to right, rgba(12, 35, 64, 0.9), rgba(12, 35, 64, 0.6)), url('https://via.placeholder.com/1600x450/0C2340/FFFFFF?text=FUNDO+AZUL');">
+          <div class="carousel-caption">
+            <h1>PRODUTOS IMPERDÍVEIS</h1>
+            <p>Participe, encontre itens únicos. Plataforma simples, rápida e segura.</p>
+            <a href="#" class="btn-secondary">CONFIRA OS PRODUTOS</a>
+          </div>
         </div>
-      </a>
-    {%endfor%}
+        <div class="carousel-item"
+          style="background-image: linear-gradient(to right, rgba(255, 140, 0, 0.9), rgba(255, 140, 0, 0.6)), url('https://via.placeholder.com/1600x450/FF8C00/FFFFFF?text=FUNDO+LARANJA');">
+          <div class="carousel-caption">
+            <h1>MEGA LEILÃO RELÂMPAGO</h1>
+            <p>TEMPO RESTANTE: 00:00:00. Não perca a chance!</p>
+            <a href="#" class="btn-primary inverse-btn">VER LEILÃO AGORA</a>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control prev" aria-label="Previous">&#10094;</button>
+      <button class="carousel-control next" aria-label="Next">&#10095;</button>
+      <div class="carousel-dots"></div>
+    </section>
 
-   
-    </div>
-    <div id="auctions"></div>
-    
-  </section>
-  <!-- Rodapé -->
-  <footer>
-    <div>
-      <h4>Mais buscados</h4>
-      <ul>
-        <li><a href="#">Leilão de Imóveis</a></li>
-        <li><a href="#">Leilão de Curitiba</a></li>
-        <li><a href="#">Leilão de Móveis</a></li>
-        <li><a href="#">Leilão de Máquinas</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Marcas mais buscadas</h4>
-      <ul>
-        <li><a href="#">Leilão Volkswagen</a></li>
-        <li><a href="#">Leilão Fiat</a></li>
-        <li><a href="#">Leilão BMW</a></li>
-        <li><a href="#">Leilão Ford</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Veículos</h4>
-      <ul>
-        <li><a href="#">Leilão de Carros</a></li>
-        <li><a href="#">Leilão de Caminhões</a></li>
-        <li><a href="#">Leilão de Motos</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Materiais</h4>
-      <ul>
-        <li><a href="#">Leilão de Eletrônicos</a></li>
-        <li><a href="#">Leilão de Notebook</a></li>
-        <li><a href="#">Leilão de Informática</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Imóveis</h4>
-      <ul>
-        <li><a href="#">Leilão de Apartamento</a></li>
-        <li><a href="#">Leilão de Casas</a></li>
-        <li><a href="#">Leilão de Terreno</a></li>
-      </ul>
-    </div>
+    <!--CATEGORIES-->
+    <section class="categories-section container">
+      <div class="categories-grid">
+        <div class="category-item">
+          <div class="icon-circle"><i class="fas fa-laptop"></i></div>
+          <p>ELETRÔNICOS</p>
+        </div>
+        <div class="category-item">
+          <div class="icon-circle"><i class="fas fa-book-open"></i></div>
+          <p>COLECIONÁVEIS</p>
+        </div>
+        <div class="category-item">
+          <div class="icon-circle"><i class="fas fa-palette"></i></div>
+          <p>ARTE</p>
+        </div>
+        <div class="category-item">
+          <div class="icon-circle"><i class="fas fa-ring"></i></div>
+          <p>ANTIGUIDADES</p>
+        </div>
+        <div class="category-item">
+          <div class="icon-circle"><i class="fas fa-chess-king"></i></div>
+          <p>JOIAS</p>
+        </div>
+        <div class="category-item">
+          <div class="icon-circle"><i class="fas fa-car"></i></div>
+          <p>VEÍCULOS</p>
+        </div>
+        <div class="category-item">
+          <div class="icon-circle"><i class="fas fa-palette"></i></div>
+          <p>OUTRAS</p>
+        </div>
+      </div>
+    </section>
+    <br>
+    <section class="product-section container">
+      <h2>Leilões em Destaque</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('{{ top_products[0].photo }}');"></div>
+          <span class="badge">NOVO</span>
+          <h3>{{ top_products[0].name }}</h3>
+          <p class="price">R$ {{ top_products[0].price }}</p>
+          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ top_products[0].time }}</p>
+          <button class="btn-bid">DAR LANCE</button>
+        </div>
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('{{ top_products[1].photo }}');"></div>
+          <span class="badge promo">OFERTA</span>
+          <h3>{{ top_products[1].name }}</h3>
+          <p class="price">R$ {{ top_products[1].price }}</p>
+          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ top_products[1].time }}</p>
+          <button class="btn-bid">DAR LANCE</button>
+        </div>
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('{{ top_products[2].photo }}');"></div>
+          <h3>{{ top_products[2].name }}</h3>
+          <p class="price">R$ {{ top_products[2].price }}</p>
+          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ top_products[2].time }}</p>
+          <button class="btn-bid">DAR LANCE</button>
+        </div>
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('{{ top_products[3].photo }}');"></div>
+          <h3>{{ top_products[3].name }}</h3>
+          <p class="price">R$ {{ top_products[3].price }}</p>
+          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ top_products[3].time }}</p>
+          <button class="btn-bid">DAR LANCE</button>
+        </div>
+      </div>
+      <div class="view-all">
+        <a href="#" class="btn-text">VER TODOS OS LEILÕES <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </section>
+    <section class="how-it-works container">
+      <h2>Como Funciona</h2>
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="icon-circle"><i class="fas fa-hand-pointer"></i></div>
+          <h3>Encontre</h3>
+          <p>Explore nossa vasta seleção de itens únicos.</p>
+        </div>
+        <div class="step-item">
+          <div class="icon-circle"><i class="fas fa-gavel"></i></div>
+          <h3>Dê o Lance</h3>
+          <p>Participe dos leilões em tempo real.</p>
+        </div>
+        <div class="step-item">
+          <div class="icon-circle"><i class="fas fa-shipping-fast"></i></div>
+          <h3>Receba</h3>
+          <p>Entregamos com segurança e rapidez.</p>
+        </div>
+      </div>
+    </section>
+    <br>
 
-  </footer>
-  <footer class="rodape">
-    &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.<br>
-  </footer>
+    <section class="about-us-banner">
+      <div class="container about-content-wrapper">
+        <img src="https://via.placeholder.com/120x120/0C2340/FFFFFF?text=L" alt="Lanciare Icon" class="about-icon">
+        <div class="about-content">
+          <h2>"ONDE CADA LANCE CONTA UMA HISTÓRIA."</h2>
+          <p>A Lanciare foi criada com o propósito de reinventar o conceito de leilões: união de sofisticação,
+            transparência e acessibilidade em um ambiente digital seguro.</p>
+          <a href="#" class="btn-secondary">CONFIRA OS PRODUTOS</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  {% include 'components/footer.html' %}
+
 </body>
+
 </html>
 </body>
-  <script src="../static/js/mains/IndexMain.js" type="module"></script>
-  <script type="module" src="../static/js/interactivity/Paginate.js"></script>
+<script src="../static/js/mains/IndexMain.js" type="module"></script>
+<script type="module" src="../static/js/interactivity/Paginate.js"></script>
+<script src="{{  url_for('static', filename='js/components/header.js')  }}"></script>
+<script src="{{  url_for('static', filename='js/components/carousel.js')  }}"></script>
+
+
 </html>
 <!DOCTYPE html>

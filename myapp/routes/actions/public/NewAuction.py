@@ -12,7 +12,7 @@ def new_auction() -> Tuple[Response, int]:
     print("foi validado")
     if(code != 200):
         return data, code
-
+    
     process_number = request.form.get("process_number",None)
     court = request.form.get("court",None)
     case_type = request.form.get("case_type",None)

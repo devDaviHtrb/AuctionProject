@@ -4,9 +4,34 @@ home = Blueprint("homePage", __name__)
 
 @home.route("/")
 def HomePage():
-    if session.get("User") == None:
-        return redirect(url_for("loginPage.LoginPage"))
-    
-    return render_template("index.html")
+    return render_template(
+        "Index.html",
+        top_products = [
+            {
+                "photo": "#",
+                "name":  "A",
+                "price": 3.2,
+                "time": 3000
+            },
+            {
+                "photo": "#",
+                "name":  "A",
+                "price": 3.2,
+                "time": 3000
+            },
+            {
+                "photo": "#",
+                "name":  "A",
+                "price": 3.2,
+                "time": 3000
+            },
+            {
+                "photo": "#",
+                "name":  "A",
+                "price": 3.2,
+                "time": 3000
+            }
+         ]
+    )
 
 
