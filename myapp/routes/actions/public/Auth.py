@@ -25,15 +25,15 @@ def google_redirect() -> Tuple[Response, int]:
 
     authorization_url, state = flow.authorization_url()
     session["state"] = state
-    return jsonify({"redirect":authorization_url}), 303
+    return redirect(authorization_url), 303
 
 @auth_bp.route("/auth/google/validate")
-def google_validate() -> Tuple[Response, int]:
+def google_validate() -> Response:
     flow = create_flow()
     flow.fetch_token(authorization_response = request.url)
 
     if(session.get("state") != request.args.get("state")):
-        return links.profile(), 400
+        return redirect(url_for(links.LOGIN_PAGE))
     
     credentials = flow.credentials
     request_session = google.auth.transport.requests.Request()
@@ -45,14 +45,14 @@ def google_validate() -> Tuple[Response, int]:
 
     email = id_info.get("email", None)
     if(not email):
-        return links.sign_up(), 400
+        return redirect(url_for(links.SIGN_UP_PAGE))
     
     user = user_repository.get_by_email(email)
     if(user):
-        response = links.profile()
+        response = redirect(url_for(links.HOME_PAGE))
         init_session(user)
         set_cookies(request, response, user.user_id)
-        return response, 200
+        return response
 
     name =      id_info.get("name")
     username =  email.split("@")[0]
@@ -71,7 +71,7 @@ def google_validate() -> Tuple[Response, int]:
     }
 
     user = user_repository.save_item(data)
-    response = links.profile()
+    response = redirect(url_for(links.HOME_PAGE))
 
     init_session(user)
     set_cookies(request, response, user.user_id)
@@ -81,7 +81,7 @@ def google_validate() -> Tuple[Response, int]:
         content =   name,
         url =      url_for(links.AUTH_RESEND, email = email, _external=True)
     )
-    return response, 201
+    return response
 
 @auth_bp.route("/auth/confirm/<string:token>", methods = ["POST", "GET"])
 def auth(token:str) -> Tuple[Response, int]:

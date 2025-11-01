@@ -39,6 +39,6 @@ def init_authDecorator(app: Flask) -> None:
         if endpoint in adminRoutes:
             if not user_id:
                 abort(403)
-            if not user or not session.get("admin", None):
+            if not user_id or not session.get("admin", None):
                 abort(403)  
             return

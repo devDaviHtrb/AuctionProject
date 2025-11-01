@@ -79,3 +79,17 @@ function removeActive(items) {
 document.addEventListener("click", function (e) {
     if (!e.target.closest(".search-bar")) listContainer.innerHTML = "";
 });
+const userButton = document.getElementById("userButton");
+const dropdownMenu = document.getElementById("dropdownMenu");
+
+userButton.addEventListener("click", (e) => {
+  e.stopPropagation(); // evita fechar ao clicar no botão
+  dropdownMenu.classList.toggle("hidden");
+});
+
+// Fechar menu ao clicar fora
+document.addEventListener("click", (e) => {
+  if (!dropdownMenu.contains(e.target) && !userButton.contains(e.target)) {
+    dropdownMenu.classList.add("hidden");
+  }
+});

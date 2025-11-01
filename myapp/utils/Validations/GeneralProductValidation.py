@@ -1,4 +1,4 @@
-from flask import Request
+from flask import Request, session
 from myapp.utils.Validations.validations import *
 from myapp.utils.GetMissingInfo import get_missing_info
 from typing import Dict, Tuple, Any
@@ -16,7 +16,6 @@ datakey = [
     "district",
     "city",
     "state",
-    "user_id",
     "category",
     "end_datetime",
     "duration",
@@ -44,6 +43,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
         datakey,
         nullAbleValues
     )
+    data["user_id"] = session.get("user_id")
     if (code != 200):
         return data, code
 

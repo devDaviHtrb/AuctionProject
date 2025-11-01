@@ -18,9 +18,29 @@
         <a style="text-decoration: none" href="#">Leilões</a>
         <a style="text-decoration: none" href="#">Contato</a>
       </ul>
+      {% if not user %}
       <div class="auth-buttons">
         <a style="text-decoration: none" href="#" class="btn-login">Sign In / Sign Up</a>
       </div>
+      {% else %}
+
+        <div class="user-menu">
+    <button id="userButton" class="user-button">
+      <img src="{{ user.photo }}" alt="User" class="user-avatar" />
+    </button>
+
+    <div id="dropdownMenu" class="dropdown hidden">
+      <p class="dropdown-header">Olá, {{ user.name }}</p>
+      <p class="dropdown-header">R$ {{ user.wallet }}</p>
+      <hr />
+      <a href="#" class="dropdown-item">Perfil</a>
+      <a href="#" class="dropdown-item">Configurações</a>
+      <hr />
+      <a href="#" class="dropdown-item logout">Sair</a>
+    </div>
+  </div>
+
+      {% endif %}
     </nav>
   </div>
 </header>

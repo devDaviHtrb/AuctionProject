@@ -15,7 +15,7 @@
 
 <body>
 
-    {% include "components/header.html" %}
+    {% include "components/Header.html" %}
 
     <main class="form-page-main">
         <div class="container">
@@ -33,7 +33,7 @@
                             <small>Suporta JPG, PNG</small>
                         </label>
                         <input name="photos" type="file" id="file-upload" accept="image/*" multiple
-                            style="display: none;">
+                            style="display: none;" required>
                         <div id="photo-preview-container" class="photo-previews"></div>
                     </div>
                 </div>
@@ -50,8 +50,7 @@
 
                     <div class="input-group">
                         <label for="description">Descrição <span class="required">*</span></label>
-                        <textarea id="description" name="description" rows="5" placeholder="Detalhes do item"
-                            required></textarea>
+                        <textarea id="description" name="description" rows="5" placeholder="Detalhes do item"></textarea>
                     </div>
 
                     <div class="input-group row-split">
@@ -65,17 +64,8 @@
                                 <option value="antiguidades">Antiguidades</option>
                             </select>
                         </div>
-
                         <div class="category-features">
-                            <div class="panel">
-                                <input type="text" placeholder="Marca">
-                                <input type="text" placeholder="Modelo">
-                                <input type="number" placeholder="Ano">
-                            </div>
-                            <div class="panel">
-                                <input type="text" placeholder="Tipo">
-                                <input type="text" placeholder="Material">
-                            </div>
+                            <div class="panel"></div>
                         </div>
 
                         <div class="half-width">
@@ -90,8 +80,9 @@
                             <input type="datetime-local" id="start-date" name="start_datetime" required>
                         </div>
                         <div class="half-width">
-                            <label for="end-date">Data e Hora de Fim <span class="required">*</span></label>
-                            <input type="datetime-local" id="end-date" name="end_datetime" required>
+                            <label for="duration">Duração do Leilão (em horas) <span class="required">*</span></label>
+                            <input name="duration" type="number" id="duration" placeholder="Ex: 48"
+                                min="1" required>
                         </div>
                     </div>
 
@@ -107,7 +98,6 @@
                         </div>
                     </div>
 
-                    <!-- Campos dinâmicos da categoria serão inseridos aqui -->
                     <div id="category-features" style="margin-top:20px;"></div>
 
                     <!-- Endereço (opcional) -->
@@ -168,9 +158,9 @@
         </div>
     </main>
 
-    {% include "components/footer.html" %}
+    {% include "components/Footer.html" %}
 
-    <script src="{{ url_for('static', filename='js/mains/formAuction.js') }}" type="module"></script>
+    <script src="{{ url_for('static', filename='js/mains/FormAuction.js') }}" type="module"></script>
 
 </body>
 

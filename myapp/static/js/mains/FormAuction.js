@@ -72,24 +72,40 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Submissão ---
-  const form = document.querySelector('.item-submission-form');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+const form = document.querySelector('.item-submission-form');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(form);
-    photosFiles.forEach(file => formData.append('photos', file));
+  const formData = new FormData(form);
 
-    try {
-      const response = await postAuction(Object.fromEntries(formData.entries()));
-      alert('Item submetido com sucesso!');
-      form.reset();
-      dynamicContainer.innerHTML = '';
-      previewContainer.innerHTML = '';
-      photosFiles = [];
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao submeter o item.');
+  // adiciona as fotos
+  photosFiles.forEach(file => formData.append('photos', file));
+
+  try {
+    const response = await fetch('/new/Auction', {
+      method: 'POST',
+      body: formData // importante: NÃO usar JSON.stringify()
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(err || "Erro no servidor");
     }
-  });
+
+    const result = await response.json();
+    alert('Item submetido com sucesso!');
+    console.log(result);
+
+    form.reset();
+    dynamicContainer.innerHTML = '';
+    previewContainer.innerHTML = '';
+    photosFiles = [];
+
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao submeter o item.');
+  }
+});
+
 
 });

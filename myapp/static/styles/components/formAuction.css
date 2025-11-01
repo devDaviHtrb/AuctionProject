@@ -343,6 +343,40 @@ ul {
     margin-bottom: 70px;
 }
 
+    /* container que segura os campos dinâmicos */
+#category-features {
+  display: flex;
+  flex-wrap: wrap;         /* permite quebrar linha se não couber */
+  gap: 12px;               /* espaço entre os campos */
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+/* cada grupo label + input */
+#category-features .input-group {
+  display: flex;
+  flex-direction: column;  /* mantém label em cima do input */
+  flex: 1 1 180px;         /* ocupa largura mínima de 180px e se ajusta */
+  min-width: 160px;
+}
+
+/* estilo dos inputs */
+#category-features label {
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+#category-features input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 .product-section h2 {
     font-size: 32px;
     font-weight: 700;
