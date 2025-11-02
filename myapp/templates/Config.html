@@ -44,7 +44,6 @@
                     <ul>
                         <li class="nav-item active" data-section="profile"><a href="#"><i class="fas fa-user-cog"></i> Perfil e Dados</a></li>
                         <li class="nav-item" data-section="bidding"><a href="#"><i class="fas fa-gavel"></i> Meus Lances</a></li>
-                        <li class="nav-item" data-section="notifications"><a href="#"><i class="fas fa-bell"></i> Notificações</a></li>
                         <li class="nav-item" data-section="security"><a href="#"><i class="fas fa-lock"></i> Segurança</a></li>
                         <li class="nav-item separator"><hr></li>
                         <li class="nav-item" data-section="logout"><a href="{{url_for('logout.logout')}}"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a></li>
@@ -83,36 +82,6 @@
                     </div>
                 </div>
 
-                <div id="notifications" class="settings-section hidden-section">
-                    <h2>Configurações de Notificação</h2>
-                    <p class="section-description">Escolha como você deseja ser notificado sobre lances e atividades.</p>
-                    
-                    <div class="settings-form-card notifications-card">
-                        <div class="notification-toggle">
-                            <label>Lances Superados</label>
-                            <div class="toggle-switch">
-                                <input type="checkbox" id="notify-outbid" checked>
-                                <label class="slider round" for="notify-outbid"></label>
-                            </div>
-                        </div>
-                        <div class="notification-toggle">
-                            <label>Itens Vencidos</label>
-                            <div class="toggle-switch">
-                                <input type="checkbox" id="notify-won" checked>
-                                <label class="slider round" for="notify-won"></label>
-                            </div>
-                        </div>
-                        <div class="notification-toggle">
-                            <label>Newsletter Semanal</label>
-                            <div class="toggle-switch">
-                                <input type="checkbox" id="notify-newsletter">
-                                <label class="slider round" for="notify-newsletter"></label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="button" class="btn-primary">Salvar Preferências</button>
-                        </div>
                     </div>
                 </div>
                 

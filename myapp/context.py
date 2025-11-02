@@ -11,6 +11,7 @@ def init_context(app: Flask) -> None:
         user_name = session.get("username")
         user_wallet = session.get("user_wallet")
         user_photo = session.get("user_photo", "#")
+        
 
         user_context = {
             "id": user_id,
