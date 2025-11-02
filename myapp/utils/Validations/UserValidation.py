@@ -3,12 +3,12 @@ from sqlalchemy import or_
 
 def User_validation(
     username:str,
-    email:str,
+    email:str = None,
     cpf:str =   None,
     rg:str =    None,
     cnpj:str =  None
 ) -> bool:
-    filters = [users.username == username, users.email == email]
+    filters = [users.username == username, users.email == email] if email else [users.username == username]
 
     if cpf:
         filters.append(users.cpf == cpf)

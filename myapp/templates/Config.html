@@ -58,22 +58,24 @@
                     <p class="section-description">Gerencie suas informações públicas e de contato.</p>
                     
                     <div class="settings-form-card">
-                        <form id="profile-form">
+                        <form id="profile-form" action="/changeConfig" method="post">
                             <div class="input-group">
-                                <label for="user-name">Nome Completo</label>
-                                <input type="text" id="user-name" value={{name}}>
+                                <label for="name">Nome Completo</label>
+                                <input type="text" id="name" value={{name}} name="name">
                             </div>
                             
                             <div class="input-group">
                                 <label for="username">Nome de Usuário</label>
-                                <input type="text" id="username" value="{{username}}">
+                                <input type="text" id="username" value="{{username}}" name="username">
                             </div>
 
                             <div class="input-group">
                                 <label for="email">Email</label>
                                 <p>{{email}}</p>
                             </div>
-                            
+                            {%if msg%}
+                            <p>{{msg}}</p>
+                            {%endif%}
                             <div class="form-actions profile-actions">
                                 <button type="submit" class="btn-primary">Salvar Alterações do Perfil</button>
                                 <button type="button" class="btn-secondary">Cancelar</button>
@@ -141,13 +143,6 @@
         }
     }
 
-
-    
-    // Lógica de simulação de salvamento (para preencher a página)
-    document.getElementById('profile-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert("Configurações do Perfil salvas com sucesso!");
-    });
 
     // Inicia a página com a seção 'profile' ativa
     switchSection('profile');
