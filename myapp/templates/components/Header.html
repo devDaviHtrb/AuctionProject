@@ -20,7 +20,7 @@
       </ul>
       {% if not user %}
       <div class="auth-buttons">
-        <a style="text-decoration: none" href="#" class="btn-login">Sign In / Sign Up</a>
+        <a style="text-decoration: none" href="{{url_for('loginPage.LoginPage')}}" class="btn-login">Sign In / Sign Up</a>
       </div>
       {% else %}
 
