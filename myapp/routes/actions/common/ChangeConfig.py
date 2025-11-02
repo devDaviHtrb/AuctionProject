@@ -15,7 +15,7 @@ DAY = HOUR*24
 #the inputs values will be wrote with cookies values
 #input ids must have the same name as cookies
 @change_config_bp.route("/changeConfig", methods=["POST"])
-def change_config() -> Tuple[Response, int]:
+def change_config(type) -> Tuple[Response, int]:
     username = request.form["username"]
     name = request.form["name"]
 
@@ -31,5 +31,5 @@ def change_config() -> Tuple[Response, int]:
 
     session["name"] = name
     session["username"] = username
-    
+
     return redirect(url_for(CONFIG_PAGE, msg="sucessful"))

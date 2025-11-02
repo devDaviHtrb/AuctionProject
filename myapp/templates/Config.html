@@ -35,9 +35,17 @@
             
             <aside class="settings-sidebar">
                 <div class="user-summary">
-                    <img src="https://via.placeholder.com/60/0C2340/FFFFFF?text=U" alt="User Avatar" class="avatar">
+                    <img src="{{photo}}" alt="User Avatar" class="avatar">
                     <h3>{{name}}</h3>
                     <p>@{{username}}</p>
+
+                     <form id="avatar-upload-form" action="/changePhoto" method="post" enctype="multipart/form-data">
+        <div id="avatar-dropzone" class="dropzone">
+            <p>Arraste uma imagem ou clique aqui</p>
+            <input type="file" id="avatar-file" name="photo" accept="image/*" hidden>
+        </div>
+        <button type="submit" class="btn-primary" style="margin-top:10px;">Mudar Imagem</button>
+    </form>
                 </div>
                 
                 <nav class="settings-nav">
@@ -146,6 +154,39 @@
 
     // Inicia a página com a seção 'profile' ativa
     switchSection('profile');
+
+    // Função de arrastar e soltar para mudar avatar
+const dropzone = document.getElementById('avatar-dropzone');
+const fileInput = document.getElementById('avatar-file');
+
+dropzone.addEventListener('click', () => fileInput.click());
+
+dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('dragover');
+});
+
+dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('dragover');
+});
+
+dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+        fileInput.files = e.dataTransfer.files;
+
+        // Pré-visualização da imagem
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            document.querySelector('.avatar').src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
 });
     </script>
 </body>

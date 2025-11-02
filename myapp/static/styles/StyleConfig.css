@@ -808,3 +808,20 @@ input:checked + .slider:before {
     display: none; /* Esconde o texto no mobile (ou reajustar se quiser manter) */
   }
 }
+
+.dropzone {
+  border: 2px dashed #0c2340;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  background-color: #f9fafc;
+  color: #0c2340;
+  font-size: 0.9rem;
+}
+
+.dropzone.dragover {
+  background-color: #e8eef9;
+  border-color: #1a4b8c;
+}

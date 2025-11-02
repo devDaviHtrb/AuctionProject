@@ -43,4 +43,4 @@ def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.ro
                 folder_permission_level = os.path.basename(folder)
                 permissionLevel_list[folder_permission_level].extend(get_blueprint_endPoints(obj))
 
-        print(f"Admin:{adminRoutes} \nPublicas:{publicRoutes}\nComuns:{commonRoutes}")
+       

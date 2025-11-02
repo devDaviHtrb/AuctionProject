@@ -1,4 +1,5 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, redirect, request, jsonify, session, url_for
+from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.utils.UploadImage import upload_image
 from myapp.models.Users import users
 from myapp.setup.InitSqlAlchemy import db
@@ -24,13 +25,11 @@ def update_profile_photo():
         if not user:
             return jsonify({"error": "User not found"}), 404
 
-        user.photo_url = url[0]
+        user.photo = url[0]
+        print(f"foto no change {user.photo}")
         db.session.commit()
-
-        return jsonify({
-            "success": True,
-            "photo_url": url
-        }), 200
+        session["user_photo"] = url[0]
+        return redirect(url_for(CONFIG_PAGE, msg="sucessful")), 200
 
     except Exception as e:
         print("❌ Error on update user photo:", e)
