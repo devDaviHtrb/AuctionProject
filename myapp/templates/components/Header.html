@@ -3,7 +3,7 @@
     <div class="logo">
       <img src="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
         alt="Lanciare Logo" />
-      <span>Lanciare.</span>
+      <span><a href="/">Lanciare.</a></span>
     </div>
 
     <div class="search-bar">
@@ -15,7 +15,7 @@
     <nav class="main-nav">
       <ul>
         <a style="text-decoration: none" href="#">Categorias</a>
-        <a style="text-decoration: none" href="#">Leilões</a>
+        <a style="text-decoration: none" href="{{url_for('auctionsPage.AuctionsPage')}}">Leilões</a>
         <a style="text-decoration: none" href="#">Contato</a>
       </ul>
       {% if not user %}
@@ -33,8 +33,8 @@
       <p class="dropdown-header">Olá, {{ user.name }}</p>
       <p class="dropdown-header">R$ {{ user.wallet }}</p>
       <hr />
-      <a href="#" class="dropdown-item">Perfil</a>
-      <a href="#" class="dropdown-item">Configurações</a>
+      <a href="{{url_for('profile.Profile')}}" class="dropdown-item">Perfil</a>
+      <a href="{{url_for('configPage.ConfigPage')}}" class="dropdown-item">Configurações</a>
       <hr />
       <a href="{{url_for('logout.logout')}}" class="dropdown-item logout">Sair</a>
     </div>
