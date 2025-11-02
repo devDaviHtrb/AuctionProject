@@ -33,14 +33,14 @@
           <h2>{{ name }}</h2>
           <p>{{ email }}</p>
           <div class="profile-buttons">
-            <a href="" class="btn">Configurações</a>
+            <a href="{{url_for('configPage.ConfigPage')}}" class="btn">Configurações</a>
             <a href="" class="btn">Inventário</a>
           </div>
         </div>
       </div>
 
       <form action="" method="POST">
-        <button type="submit" class="btn btn-logout">Logout</button>
+        <a href="{{url_for('logout.logout')}}" class="btn btn-logout">sair</a>
       </form>
     </div>
   </main>

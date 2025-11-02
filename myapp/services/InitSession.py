@@ -8,3 +8,5 @@ def init_session(user: users) -> None:
     session["username"] = user.username
     session["user_wallet"] = user.wallet
     session["admin"] = user.admin_user
+    session["email"] = user.email
+    session["name"] = user.name

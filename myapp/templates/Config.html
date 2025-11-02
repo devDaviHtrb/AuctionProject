@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanciare - Perfil e Configurações</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleConfig.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <img src="https://via.placeholder.com/40x40/0C2340/FFFFFF?text=L" alt="Lanciare Logo">
+                <span>Lanciare.</span>
+            </div>
+            <div class="search-bar" style="max-width: 400px;">
+                <input type="text" placeholder="Buscar produtos, marcas e mais...">
+                <i class="fas fa-search"></i>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Categorias</a></li>
+                    <li><a href="#">Leilões</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+                <a href="#" class="btn-login">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container settings-page-layout">
+            
+            <aside class="settings-sidebar">
+                <div class="user-summary">
+                    <img src="https://via.placeholder.com/60/0C2340/FFFFFF?text=U" alt="User Avatar" class="avatar">
+                    <h3>{{name}}</h3>
+                    <p>@{{username}}</p>
+                </div>
+                
+                <nav class="settings-nav">
+                    <ul>
+                        <li class="nav-item active" data-section="profile"><a href="#"><i class="fas fa-user-cog"></i> Perfil e Dados</a></li>
+                        <li class="nav-item" data-section="bidding"><a href="#"><i class="fas fa-gavel"></i> Meus Lances</a></li>
+                        <li class="nav-item" data-section="notifications"><a href="#"><i class="fas fa-bell"></i> Notificações</a></li>
+                        <li class="nav-item" data-section="security"><a href="#"><i class="fas fa-lock"></i> Segurança</a></li>
+                        <li class="nav-item separator"><hr></li>
+                        <li class="nav-item" data-section="logout"><a href="{{url_for('logout.logout')}}"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <section class="settings-content-area">
+                
+                <div id="profile" class="settings-section active-section">
+                    <h2>Configurações de Perfil</h2>
+                    <p class="section-description">Gerencie suas informações públicas e de contato.</p>
+                    
+                    <div class="settings-form-card">
+                        <form id="profile-form">
+                            <div class="input-group">
+                                <label for="user-name">Nome Completo</label>
+                                <input type="text" id="user-name" value={{name}}>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="username">Nome de Usuário</label>
+                                <input type="text" id="username" value="{{username}}">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="email">Email</label>
+                                <p>{{email}}</p>
+                            </div>
+                            
+                            <div class="form-actions profile-actions">
+                                <button type="submit" class="btn-primary">Salvar Alterações do Perfil</button>
+                                <button type="button" class="btn-secondary">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="notifications" class="settings-section hidden-section">
+                    <h2>Configurações de Notificação</h2>
+                    <p class="section-description">Escolha como você deseja ser notificado sobre lances e atividades.</p>
+                    
+                    <div class="settings-form-card notifications-card">
+                        <div class="notification-toggle">
+                            <label>Lances Superados</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="notify-outbid" checked>
+                                <label class="slider round" for="notify-outbid"></label>
+                            </div>
+                        </div>
+                        <div class="notification-toggle">
+                            <label>Itens Vencidos</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="notify-won" checked>
+                                <label class="slider round" for="notify-won"></label>
+                            </div>
+                        </div>
+                        <div class="notification-toggle">
+                            <label>Newsletter Semanal</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="notify-newsletter">
+                                <label class="slider round" for="notify-newsletter"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-primary">Salvar Preferências</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="bidding" class="settings-section hidden-section">
+                    <h2>Meus Lances</h2>
+                    <p>Conteúdo para visualizar o histórico de lances e pagamentos.</p>
+                </div>
+                <div id="security" class="settings-section hidden-section">
+                    <h2>Segurança</h2>
+                    <p>Conteúdo para alterar senha e configurar 2FA.</p>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Termos de Serviço</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Ajuda</a></li>
+                </ul>
+            </div>
+            <div class="social-media">
+                <p>&copy; 2024 Lanciare.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+
+    const navItems = document.querySelectorAll('.settings-sidebar .nav-item[data-section]');
+    const contentSections = document.querySelectorAll('.settings-section');
+
+    function switchSection(sectionId) {
+        contentSections.forEach(section => {
+            section.classList.add('hidden-section');
+            section.classList.remove('active-section');
+        });
+
+        navItems.forEach(item => item.classList.remove('active'));
+
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.classList.remove('hidden-section');
+            targetSection.classList.add('active-section');
+        }
+
+       
+        const targetNavItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+        if (targetNavItem) {
+            targetNavItem.classList.add('active');
+        }
+    }
+
+
+    
+    // Lógica de simulação de salvamento (para preencher a página)
+    document.getElementById('profile-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert("Configurações do Perfil salvas com sucesso!");
+    });
+
+    // Inicia a página com a seção 'profile' ativa
+    switchSection('profile');
+});
+    </script>
+</body>
+</html>
