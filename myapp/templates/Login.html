@@ -5,103 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Leilão</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleLogIn.css') }}">
+    <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
 </head>
 <body>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="logo">Placeholder</div>
-    <ul>
-      <li><a href="#">Quem somos</a></li>
-      <li><a href="#">Como Comprar</a></li>
-      <li><a href="#">Quero vender</a></li>
-      <li><a href="#">Nota de venda</a></li>
-      <li><a href="#">Blog</a></li>
-    </ul>
-    <div class="right">
-      <span>🛒</span>
-      <span>👤</span>
+  {% include 'components/Header.html' %}
+
+ <!-- Container principal que segura todo o conteúdo -->
+  <div class="main-content">
+    <!-- Caixa de Login -->
+    <div class="login-container">
+      <h2>Fazer Login</h2>
+      <form id="loginForm" method="POST">
+        <div class="input-group">
+          <label for="email">Login</label>
+          <input type="text" id="username" placeholder="E-mail ou CPF/CNPJ">
+        </div>
+
+        <div class="input-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" placeholder="Digite sua senha">
+          <div class="forgot"><a href="{{url_for('changePasswordPage.ChangePasswordPage')}}" id="forgotPassword">Esqueceu a senha</a></div>
+        </div>
+
+        <div class="captcha">
+          <input type="checkbox" id="notRobot"> <label for="notRobot">Não sou um robô</label>
+        </div>
+
+        <button type="button" class="btn btn-login" id="submit">Entrar</button>
+        <div class="no-account">Não tem cadastro?</div>
+        <button type="button" data-url="{{url_for('signUpPage.SignUpPage')}}" class="btn btn-create" id="sign-up">Criar conta</button>
+
+        <div id="message"></div>
+      </form>
     </div>
   </div>
 
-  <!-- Caixa de Login -->
-  <div class="login-container">
-    <h2>Fazer Login</h2>
-    <form id="loginForm" method="POST">
-      <div class="input-group">
-        <label for="email">Login</label>
-        <input type="text" id="username" placeholder="E-mail ou CPF/CNPJ">
-      </div>
-
-      <div class="input-group">
-        <label for="password">Senha</label>
-        <input type="password" id="password" placeholder="Digite sua senha">
-        <div class="forgot"><a href="{{url_for('changePasswordPage.ChangePasswordPage')}}" id="forgotPassword">Esqueceu a senha</a></div>
-      </div>
-
-      <div class="captcha">
-        <input type="checkbox" id="notRobot"> <label for="notRobot">Não sou um robô</label>
-      </div>
-
-      <button type="button" class="btn btn-login" id="submit">Entrar</button>
-      <div class="no-account">Não tem cadastro?</div>
-      <button type="button" data-url="{{url_for('signUpPage.SignUpPage')}}" class="btn btn-create" id="sign-up">Criar conta</button>
-
-      <div id="message"></div>
-    </form>
-  </div>
-
-  <hr>
-
-  <!-- Rodapé -->
-  <footer>
-    <div>
-      <h4>Mais buscados</h4>
-      <ul>
-        <li><a href="#">Leilão de Imóveis</a></li>
-        <li><a href="#">Leilão de Curitiba</a></li>
-        <li><a href="#">Leilão de Móveis</a></li>
-        <li><a href="#">Leilão de Máquinas</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Marcas mais buscadas</h4>
-      <ul>
-        <li><a href="#">Leilão Volkswagen</a></li>
-        <li><a href="#">Leilão Fiat</a></li>
-        <li><a href="#">Leilão BMW</a></li>
-        <li><a href="#">Leilão Ford</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Veículos</h4>
-      <ul>
-        <li><a href="#">Leilão de Carros</a></li>
-        <li><a href="#">Leilão de Caminhões</a></li>
-        <li><a href="#">Leilão de Motos</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Materiais</h4>
-      <ul>
-        <li><a href="#">Leilão de Eletrônicos</a></li>
-        <li><a href="#">Leilão de Notebook</a></li>
-        <li><a href="#">Leilão de Informática</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Imóveis</h4>
-      <ul>
-        <li><a href="#">Leilão de Apartamento</a></li>
-        <li><a href="#">Leilão de Casas</a></li>
-        <li><a href="#">Leilão de Terreno</a></li>
-      </ul>
-    </div>
-
-  </footer>
-  <footer class="rodape">
-    &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.<br>
-  </footer>
+  
+{% include 'components/Footer.html' %}
   <script src="{{ url_for('static', filename='js/mains/LoginMain.js') }}" type="module"></script>
 </body>
 </html>

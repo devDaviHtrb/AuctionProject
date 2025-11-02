@@ -7,28 +7,10 @@
    <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleConfig.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
 </head>
 <body>
-    <header class="main-header">
-        <div class="container header-content">
-            <div class="logo">
-                <img src="https://via.placeholder.com/40x40/0C2340/FFFFFF?text=L" alt="Lanciare Logo">
-                <span>Lanciare.</span>
-            </div>
-            <div class="search-bar" style="max-width: 400px;">
-                <input type="text" placeholder="Buscar produtos, marcas e mais...">
-                <i class="fas fa-search"></i>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#">Categorias</a></li>
-                    <li><a href="#">Leilões</a></li>
-                    <li><a href="#">Contato</a></li>
-                </ul>
-                <a href="#" class="btn-login">Sign In</a>
-            </nav>
-        </div>
-    </header>
+{% include 'components/Header.html' %}
 
     <main>
         <div class="container settings-page-layout">
@@ -108,21 +90,7 @@
         </div>
     </main>
 
-    <footer class="main-footer">
-        <div class="container footer-content">
-            <div class="footer-links">
-                <ul>
-                    <li><a href="#">Sobre Nós</a></li>
-                    <li><a href="#">Termos de Serviço</a></li>
-                    <li><a href="#">Política de Privacidade</a></li>
-                    <li><a href="#">Ajuda</a></li>
-                </ul>
-            </div>
-            <div class="social-media">
-                <p>&copy; 2024 Lanciare.</p>
-            </div>
-        </div>
-    </footer>
+{% include 'components/Footer.html' %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 

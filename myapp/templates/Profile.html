@@ -5,24 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
 </head>
 <body>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="logo">Placeholder</div>
-    <ul>
-      <li><a href="#">Quem somos</a></li>
-      <li><a href="#">Como Comprar</a></li>
-      <li><a href="#">Quero vender</a></li>
-      <li><a href="#">Nota de venda</a></li>
-      <li><a href="#">Blog</a></li>
-    </ul>
-    <div class="right">
-      <span>🛒</span>
-      <span>👤</span>
-    </div>
-  </div>
+  {% include 'components/Header.html' %}
 
   <!-- Perfil do usuário -->
   <main>
@@ -45,10 +32,7 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.
-  </footer>
+  {% include 'components/Footer.html' %}
 
 </body>
 </html>
