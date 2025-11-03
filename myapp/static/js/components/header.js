@@ -1,34 +1,35 @@
-const suggestions = [
-    "Rolex Submariner",
-    "iPhone 15 Pro Max",
-    "PlayStation 5",
-    "MacBook Pro M3",
-    "Ferrari F8 Tributo",
-    "Câmera Canon EOS R6",
-    "Smart TV Samsung 65''",
-    "Patek Philippe Nautilus",
-    "Lamborghini Huracán",
-    "Gucci Handbag",
-    "Yamaha R1",
-    "Tesla Model S",
-    "AirPods Pro 2",
-    "Apple Watch Ultra",
-    "Bicicleta Specialized Tarmac"
-];
-
 const searchInput = document.getElementById("searchInput");
 const listContainer = document.getElementById("autocompleteList");
 
+let suggestions = []; // irá receber os dados da API
 let currentFocus = -1;
 
+// Função para buscar os dados da API
+async function fetchSuggestions() {
+    try {
+        const response = await fetch('/get/searchs-info');
+        if (!response.ok) throw new Error(`Erro: ${response.status} ${response.statusText}`);
+
+        // [[name, link], ...]
+        suggestions = await response.json();
+    } catch (error) {
+        console.error("Erro ao buscar sugestões:", error);
+    }
+}
+
+// Chama a função para carregar os dados ao iniciar
+fetchSuggestions();
+
+// Evento de input para autocomplete
 searchInput.addEventListener("input", function () {
     const query = this.value.toLowerCase();
     listContainer.innerHTML = "";
+    currentFocus = -1;
 
     if (!query) return;
 
     const filtered = suggestions.filter(item =>
-        item.toLowerCase().includes(query)
+        item[0].toLowerCase().includes(query)
     );
 
     if (filtered.length === 0) {
@@ -36,20 +37,24 @@ searchInput.addEventListener("input", function () {
         return;
     }
 
-    filtered.forEach((item) => {
+    filtered.forEach(item => {
         const div = document.createElement("div");
         div.classList.add("autocomplete-item");
-        div.textContent = item;
+        div.textContent = item[0];
+
         div.addEventListener("click", function () {
-            searchInput.value = item;
-            listContainer.innerHTML = "";
+            window.location.href = item[1];
         });
+
         listContainer.appendChild(div);
     });
 });
 
+// Evento de teclado para navegação
 searchInput.addEventListener("keydown", function (e) {
     let items = listContainer.getElementsByClassName("autocomplete-item");
+    if (!items) return;
+
     if (e.key === "ArrowDown") {
         currentFocus++;
         addActive(items);
@@ -60,6 +65,8 @@ searchInput.addEventListener("keydown", function (e) {
         e.preventDefault();
         if (currentFocus > -1 && items[currentFocus]) {
             items[currentFocus].click();
+        } else {
+            window.location.href = "/products?name=" + encodeURIComponent(searchInput.value);
         }
     }
 });
@@ -76,20 +83,22 @@ function removeActive(items) {
     for (let item of items) item.classList.remove("active");
 }
 
+// Fechar lista ao clicar fora
 document.addEventListener("click", function (e) {
     if (!e.target.closest(".search-bar")) listContainer.innerHTML = "";
 });
+
+// Dropdown do usuário
 const userButton = document.getElementById("userButton");
 const dropdownMenu = document.getElementById("dropdownMenu");
 
 userButton.addEventListener("click", (e) => {
-  e.stopPropagation(); // evita fechar ao clicar no botão
-  dropdownMenu.classList.toggle("hidden");
+    e.stopPropagation();
+    dropdownMenu.classList.toggle("hidden");
 });
 
-// Fechar menu ao clicar fora
 document.addEventListener("click", (e) => {
-  if (!dropdownMenu.contains(e.target) && !userButton.contains(e.target)) {
-    dropdownMenu.classList.add("hidden");
-  }
+    if (!dropdownMenu.contains(e.target) && !userButton.contains(e.target)) {
+        dropdownMenu.classList.add("hidden");
+    }
 });

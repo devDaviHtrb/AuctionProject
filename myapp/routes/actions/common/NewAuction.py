@@ -2,6 +2,7 @@ from flask import Blueprint, Response, request, jsonify
 from myapp.utils.Validations.GeneralProductValidation import general_validation
 import myapp.repositories.ProductRepository as product_repository
 import myapp.repositories.TechnicalFeatureValueRepository as tch_feat_val_repository
+import myapp.repositories.CategoryRepository as category_repository
 from typing import Tuple
 
 newAuction_bp = Blueprint("newAuction", __name__)
@@ -9,7 +10,7 @@ newAuction_bp = Blueprint("newAuction", __name__)
 @newAuction_bp.route("/new/Auction", methods=["POST"])
 def new_auction() -> Tuple[Response, int]:
     data, code = general_validation(request)
-    print(data)
+    print("foi validado")
     if(code != 200):
         return data, code
     
@@ -28,11 +29,10 @@ def new_auction() -> Tuple[Response, int]:
         "judge_name":       judge_name,
         "extra_notes":      request.form.get("judge_name",None)
     } if(not None in [process_number, court, case_type, plaintiff, defendant, judge_name]) else None
-
+        
     product = product_repository.save_item(data, legal_data)
 
-    necessary_technical_features = product_repository.get_technical_feature_id(product)
-
+    necessary_technical_features = category_repository.get_technical_feature_id(product.category)
 
     for technical_feature in necessary_technical_features:
         feature_id =        technical_feature.technical_feature_id 

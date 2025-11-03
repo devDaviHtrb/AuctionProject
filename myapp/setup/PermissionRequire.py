@@ -14,10 +14,8 @@ def init_authDecorator(app: Flask) -> None:
     def verify_permission():
         endpoint = request.endpoint
         # public routes
-        if endpoint in publicRoutes:
-            return
-
         user_id = session.get("user_id", None)
+        
         if not user_id:
             cookie_user_id = request.cookies.get("user_id")
             if cookie_user_id:
@@ -30,6 +28,10 @@ def init_authDecorator(app: Flask) -> None:
                         user_id = None
                 except:
                     user_id = None
+
+        if endpoint in publicRoutes:
+            return
+
 
         if endpoint in commonRoutes:
             if user_id:

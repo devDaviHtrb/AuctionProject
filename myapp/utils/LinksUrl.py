@@ -1,4 +1,5 @@
 from flask import Response, jsonify, redirect, url_for
+import myapp.repositories.CategoryRepository as category_repository
 
 # -- set consts of pages--
 PROFILE_PAGE =          "profilePage.ProfilePage"
@@ -8,6 +9,7 @@ LOGIN_PAGE =            "loginPage.LoginPage"
 SIGN_UP_PAGE =          "signUpPage.SignUpPage"
 CONFIG_PAGE =           "configPage.ConfigPage"
 HOME_PAGE =             "homePage.HomePage"
+PRODUCTS_PAGE =         "productsPage.ProductsPage"
 
 # -- set consts of back-end--
 AUTH_GOOGLE_REDIRECT =  "auth.google_redirect"
@@ -70,3 +72,10 @@ def configPage() -> Response:
 def home() -> Response:
     redirect_url = url_for(HOME_PAGE)
     return jsonify({"redirect": redirect_url})
+
+def get_search_links():
+    all_categories = category_repository.get_all_name_id()
+
+    links = [(name, f"{url_for(PRODUCTS_PAGE)}?category={name}") for name, _ in all_categories]
+
+    return links

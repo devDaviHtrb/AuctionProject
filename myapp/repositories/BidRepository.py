@@ -48,8 +48,8 @@ def get_last_bids_actives() -> List[bids]:
         product_statuses.status_name == "active"
     ).all()
 
-def is_valid(bid:bids) -> Optional[users]:
+def is_valid(bid:bids, ignores:List[int]) -> Optional[users]:
     user = users.query.get(bid.user_id)
-    if(user.wallet < bid.bid_value):
+    if(user.wallet < bid.bid_value or bid.bid_id in ignores):
         return None
     return user

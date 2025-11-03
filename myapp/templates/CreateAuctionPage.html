@@ -1,3 +1,8 @@
+<!--
+features_map {
+    "categorie_name": [feature_name]
+}
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -11,7 +16,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleIndex.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/formAuction.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/loading.css') }}">
 </head>
+
+{% include "components/Loading.html" %}
 
 <body>
 
@@ -23,13 +31,12 @@
 
             <form class="item-submission-form">
 
-                <!-- 1. Fotos do Item -->
                 <div class="form-section photo-upload">
                     <h2>1. Fotos do Item</h2>
                     <div class="photo-area">
                         <label for="file-upload" class="upload-placeholder">
                             <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Clique para adicionar fotos (Máx. 5)</p>
+                            <p>Clique para adicionar fotos (Máx. 5)<span class="required">*</span></p>
                             <small>Suporta JPG, PNG</small>
                         </label>
                         <input name="photos" type="file" id="file-upload" accept="image/*" multiple
@@ -49,7 +56,7 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="description">Descrição <span class="required">*</span></label>
+                        <label for="description">Descrição</label>
                         <textarea id="description" name="description" rows="5" placeholder="Detalhes do item"></textarea>
                     </div>
 
@@ -58,10 +65,9 @@
                             <label for="category">Categoria <span class="required">*</span></label>
                             <select id="category" name="category" required>
                                 <option value="">Selecione uma categoria</option>
-                                <option value="eletronicos">Eletrônicos</option>
-                                <option value="colecionaveis">Colecionáveis</option>
-                                <option value="arte">Arte</option>
-                                <option value="antiguidades">Antiguidades</option>
+                                {% for cat in features_map %}
+                                    <option value="{{ cat }}">{{ cat }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="category-features">
@@ -83,18 +89,6 @@
                             <label for="duration">Duração do Leilão (em horas) <span class="required">*</span></label>
                             <input name="duration" type="number" id="duration" placeholder="Ex: 48"
                                 min="1" required>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Condição do Item</label>
-                        <div class="radio-group">
-                            <input type="radio" id="cond-new" name="product_status" value="novo" checked>
-                            <label for="cond-new">Novo</label>
-                            <input type="radio" id="cond-used" name="product_status" value="usado">
-                            <label for="cond-used">Usado</label>
-                            <input type="radio" id="cond-restored" name="product_status" value="restaurado">
-                            <label for="cond-restored">Restaurado</label>
                         </div>
                     </div>
 
@@ -159,8 +153,8 @@
     </main>
 
     {% include "components/Footer.html" %}
-
     <script src="{{ url_for('static', filename='js/mains/FormAuction.js') }}" type="module"></script>
+    <script src="{{ url_for('static', filename='js/components/header.js') }}"></script>
 
 </body>
 

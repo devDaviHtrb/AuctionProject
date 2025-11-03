@@ -64,7 +64,7 @@ body {
 .search-bar {
     position: relative;
     flex-grow: 1;
-    max-width: 450px;
+    max-width: 550px;
 }
 
 .search-bar input {
@@ -116,6 +116,7 @@ body {
     display: flex;
     align-items: center;
     gap: 25px;
+
 }
 
 .main-nav ul {

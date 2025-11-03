@@ -1,7 +1,8 @@
 from flask import Blueprint, abort, jsonify, session
-from flask import Response
+from flask import Response, request
 from myapp.models.Categories import categories
 from myapp.models.Products import products
+from myapp.models.ProductStatuses import product_statuses
 from myapp.models.Users import users
 from myapp.models.Images import images
 from typing import Tuple
@@ -9,72 +10,91 @@ from typing import Tuple
 paginate_bp = Blueprint("paginate", __name__)
 
 @paginate_bp.route("/paginate/<type>/<int:page>", methods=["GET"])
-@paginate_bp.route("/paginate/<type>/<int:page>/<filter_select>", methods=["GET"])
-def paginate(type:str, page:int, filter_select:str=None) -> Tuple[Response, int]:
+def paginate(type: str, page: int) -> Tuple[Response, int]:
     current_page = page
-    auctions_per_page = 10 #this value needs to be defined
+    items_per_page = 9  # number of products per page
+
+    # Get optional filters from query parameters
+    category_name = request.args.get("category")
+
+    status_filter = request.args.get("status")
+    name_filter = request.args.get("name")
+    price_range = request.args.get("price_range")  # e.g., "100-500"
+
+    query = products.query
+
+    # Filter by type of page
     if type == "auctions":
-        products_list = products.query.order_by(products.product_id).paginate(
-            page =      current_page,
-            per_page =  auctions_per_page
-        )
-    elif type=="myItens":
-        user = users.query.filter_by(
-            user_id = session.get("user_id", None)
-        ).first() 
-        if user:
-            products_list = products.query.filter_by(user_id=user.user_id).paginate(
-                page =      current_page,
-                per_page =  auctions_per_page
-            )
-        else:
-            abort(401)
-            return jsonify({
-                "Error": "No access"
-            }) , 401
-    else:
-        return jsonify({
-            "Error": "Query error, this route not exists"
-        }), 400
-    categories_list = {
-        current_category.category_id: current_category.category_name for current_category in categories.query.order_by(categories.category_id).all()
+        pass  # all products by default, filters applied below
+    elif type == "myItems":
+        user_id=session.get("user_id", None)
+        if not user_id:
+            return jsonify({"Error": "No access"}), 401
+        query = query.filter_by(user_id=user_id)
+
+
+    if name_filter:
+        query = query.filter(products.product_name.ilike(f"%{name_filter}%"))
+
+    # Filter by category
+    if category_name:
+        category = categories.query.filter_by(category_name=category_name).first()
+        if not category:
+            return jsonify({"Error": "Category not found"}), 400
+        query = query.filter_by(category=category.category_id)
+
+    # Filter by status (e.g., 'active', 'sold')
+    if status_filter:
+        # busca case-insensitive pelo nome do status
+        status = product_statuses.query.filter(
+            product_statuses.product_status == status_filter.lower()
+        ).first()
+
+        if not status:
+            return jsonify({"Error": f"Status '{status_filter}' not found"}), 400
+
+        # filtra produtos que têm esse status
+        query = query.filter(products.product_status == status.product_status_id)
+
+    # Filter by price range
+    if price_range:
+        try:
+            min_price, max_price = map(float, price_range.split("-"))
+            query = query.filter(products.min_bid >= min_price, products.min_bid <= max_price)
+        except ValueError:
+            return jsonify({"Error": "Invalid price range format. Use min-max"}), 400
+
+    # Apply pagination
+    paginated_products = query.order_by(products.product_id).paginate(
+        page=current_page,
+        per_page=items_per_page
+    )
+
+    # Build categories dictionary
+    categories_dict = {
+        cat.category_id: cat.category_name for cat in categories.query.order_by(categories.category_id).all()
     }
 
-    if filter_select and type=="auctions":
-        print(filter_select)
-        category = categories.query.filter_by(
-            category_name = filter_select
-        ).first()
-        if category:
-            products_list = products.query.filter_by(
-                category_id = category.category_id
-            ).paginate(
-                page =      current_page,
-                per_page =  auctions_per_page
-            )
-        else:
-            return jsonify({
-                "Error": "query error, this category not exists"
-            }), 400
-    
+    # Build response
     products_response = [
         {
-            "product_name":     product.product_name,
-            "description":      product.description,
-            "min_bid":          str(product.min_bid) if product.min_bid is not None else None,
-            "start_datetime":   product.start_datetime.isoformat() if product.start_datetime else None,
-            "category":         categories_list.get(product.category_id),
-            "room":             product.product_room,
-            "photo_url":            images.query.filter_by(product_id = product.product_id).first()
-        } for product in products_list.items
+            "product_name": product.product_name,
+            "description": product.description,
+            "min_bid": str(product.min_bid) if product.min_bid else None,
+            "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
+            "category": categories_dict.get(product.category),
+            "room": product.product_room,
+            "photo_url": images.query.filter_by(product_id=product.product_id).first()
+        }
+        for product in paginated_products.items
     ]
-                
+
     response = {
-        "products":     products_response,
-        "current_page": products_list.page,
-        "total_pages":  products_list.pages,
-        "has_next":     products_list.has_next,
-        "has_prev":     products_list.has_prev
+        "products": products_response,
+        "current_page": paginated_products.page,
+        "total_pages": paginated_products.pages,
+        "has_next": paginated_products.has_next,
+        "has_prev": paginated_products.has_prev
     }
 
     return jsonify(response), 200

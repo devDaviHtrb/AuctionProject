@@ -32,11 +32,14 @@ def make_bid(user_id: int, product_id: int, value: int) -> Optional[str]:
             if (last_bid and value <= last_bid.bid_value):
                 return "Bid must be higher than current highest bid"
 
+
             bid_repository.save_item({
                 "bid_value":    value,
                 "user_id":      user_id,
                 "product_id":   product_id
             })
+
+            product.min_bid = value
 
         db.session.commit()
 

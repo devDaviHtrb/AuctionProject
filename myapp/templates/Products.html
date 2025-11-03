@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanciare - Todos os Leilões</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleIndex.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/Products.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/loading.css') }}">
+</head>
+<!-- Loading Overlay -->
+{% include "components/Loading.html" %}
+
+<body>
+    {% include "components/Header.html" %}
+
+    <main>
+        <div class="container product-listing-page">
+            <h1 class="page-title">Todos os Leilões Abertos</h1>
+
+            <div class="listing-layout">
+
+                <aside class="sidebar-filters">
+
+                    <div class="filter-box">
+                        <h3><i class="fas fa-boxes"></i> Categoria</h3>
+                        <ul class="filter-list">
+                            {% for category, amount in categories_amt %}
+                            <li>
+                                <a data-type="category" data-val="{{ category }}" href="#">
+                                    {{ category }} ({{ amount }})
+                                </a>
+                            </li>
+
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="filter-box">
+                        <h3><i class="fas fa-history"></i> Status do Leilão</h3>
+                        <ul class="filter-list">
+                            {% for status, amount in status_amt %}
+                            <li>
+                                <a data-type="status" data-val="{{ status }}" href="#">
+                                    {{ status }} ({{ amount }})
+                                </a>
+                            </li>
+
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="filter-box price-range-filter">
+                        <h3><i class="fas fa-tag"></i> Faixa de Preço</h3>
+                        <div class="price-inputs">
+                            <input type="number" placeholder="Mínimo (R$)" value="5">
+                            <input type="number" placeholder="Máximo (R$)" value="5000">
+                        </div>
+                        <button class="btn-filter-apply">Filtrar</button>
+                    </div>
+
+                    <a href="/products">
+                        <button class="btn-clear-filters">Limpar Todos os Filtros</button>
+                    </a>
+                </aside>
+
+                <section class="products-results">
+
+                    <div class="sort-and-count">
+                        <p>Carregando ...</p>
+                        <div class="sort-by">
+                            <label for="sort">Ordenar por:</label>
+                            <select id="sort">
+                                <option>Mais Recentes</option>
+                                <option>Menor Preço</option>
+                                <option>Maior Preço</option>
+                                <option>Tempo Restante</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="product-grid listing-grid">
+
+                    </div>
+
+                    <nav class="pagination-nav">
+                        <ul class="pagination-list">
+                        </ul>
+                    </nav>
+
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    {% include "components/Footer.html" %}
+    <script> window.paginate_args = {{ paginate_args | tojson }} </script>
+    <script src="{{ url_for('static', filename='js/mains/ProductsMain.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/components/header.js') }}"></script>
+</body>
+
+</html>

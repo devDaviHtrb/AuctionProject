@@ -54,13 +54,14 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                  "content": "Invalid location data"
             }, 400
     
-    photo = data.get("photos")
-    if photo:
-        if validateImg(photo):
-           print("ok")
-        else:
-            return {
-                 "Type":    "InputError",
-                 "content": "Invalid file"
-            }, 400
+    photos = request.files.get("photos")
+    for photo in photos:
+        if photo:
+            if validateImg(photo):
+                print("ok")
+            else:
+                return {
+                    "Type":    "InputError",
+                    "content": "Invalid file"
+                }, 400
     return data, 200
