@@ -448,6 +448,168 @@ Modulos
 
 ## Setup
 
+file: createSocketEvents.py
+Purpose: Dynamically imports all socket event modules from the myapp/sockets folder.
+
+Usage:
+
+from myapp.setup.create_SocketEvents import create_SocketEvents
+create_SocketEvents()
+
+Description:
+
+Uses pkgutil to iterate over all modules in the folder.
+
+Imports each module using importlib.import_module.
+
+Ensures all socket events are automatically registered without manual imports.
+
+File: createTables.py
+Purpose: Handles database creation and schema export for PostgreSQL.
+
+Usage:
+
+from myapp.setup.create_tables import create_tables
+create_tables(app, db)
+
+Description:
+
+Iterates over all model modules in myapp/models.
+
+Creates tables using SQLAlchemy within the Flask app context.
+
+Exports DDL statements to database.sql file.
+
+Optionally drops all existing tables with drop_all_tables(db).
+
+Dependencies:
+
+Flask
+
+Flask-SQLAlchemy
+
+SQLAlchemy
+
+postgresql dialect
+
+3. myapp/utils/File - File Utilities
+
+Functions:
+
+erase_file(file_path) – clears the content of a file.
+
+write_file(file_path, content) – appends content to a file.
+
+Usage:
+Used internally by create_tables.py to export DDL to database.sql.
+
+4. Cloudinary Integration
+
+File: cloudinary_setup.py
+Purpose: Configures Cloudinary API credentials for media storage.
+
+Setup:
+
+import cloudinary
+from config import Config
+
+cloudinary.config(
+    cloud_name=Config.CLOUDINARY_CLOUD_NAME,
+    api_key=Config.CLOUDINARY_API_KEY,
+    api_secret=Config.CLOUDINARY_API_SECRET
+)
+
+Description:
+
+Sets up secure access to Cloudinary.
+
+Credentials are imported from a Config class.
+
+5. myapp/setup/InitSocket.py - Flask-SocketIO Initialization
+
+Purpose: Initializes SocketIO in a Flask application.
+
+Usage:
+
+from myapp.setup.socket import init_socket
+socket_io = init_socket(app)
+
+Description:
+
+Creates a SocketIO instance.
+
+Attaches it to the Flask app using init_app.
+
+6. myapp/setup/InitSqlAlchemy.py - SQLAlchemy Initialization
+
+Purpose: Initializes the SQLAlchemy instance for Flask.
+
+Usage:
+
+from myapp.setup.database import init_db
+db = init_db(app)
+
+Description:
+
+Configures the SQLAlchemy ORM with Flask.
+
+Returns the database instance for further usage.
+
+7. myapp/setup/PermissionRequire.py - Authentication Decorator
+
+Purpose: Provides authentication and permission checks for routes.
+
+Usage:
+
+from myapp.setup.PermissionRequire import init_authDecorator
+init_authDecorator(app)
+
+Description:
+
+Defines public, common, and admin routes.
+
+Checks user sessions and cookies for authentication.
+
+Redirects unauthorized users to login or returns 403 Forbidden.
+
+Initializes session data with init_session when a valid user is found.
+
+8. myapp/setup/registerHandlers.py - Error Handlers
+
+Purpose: Registers custom error pages for the Flask application.
+
+Usage:
+
+from myapp.setup.register_handlers import register_handlers
+register_handlers(app)
+
+Description:
+
+Supports error codes: 403, 404.
+
+Maps error codes to HTML templates (403.html, 404.html).
+
+Uses closures to remember error templates when handling exceptions.
+
+9. myapp/setup/registerRoutes.py - Route Registration
+
+Purpose: Dynamically registers all Flask Blueprints from the myapp/routes folder.
+
+Usage:
+
+from myapp.setup.register_routes import register_routes
+register_routes(app)
+
+Description:
+
+Recursively scans myapp/routes for Python modules.
+
+Imports modules and registers any Blueprint objects.
+
+Updates route permissions lists (publicRoutes, commonRoutes, adminRoutes).
+
+Provides helper functions to extract endpoints from Blueprints.
+
 ## SignUp
 
   `/myapp/routes/actions/public/SignUp`
