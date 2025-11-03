@@ -4,26 +4,11 @@
   <meta charset="UTF-8">
   <title>Cadastro</title>
   <link rel="stylesheet" href="../static/styles/StyleSignUp.css">
+      <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
 </head>
 <body>
+  {% include 'components/Header.html' %}
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="logo">Placeholder</div>
-    <ul>
-      <li><a href="#">Quem somos</a></li>
-      <li><a href="#">Como Comprar</a></li>
-      <li><a href="#">Quero vender</a></li>
-      <li><a href="#">Nota de venda</a></li>
-      <li><a href="#">Blog</a></li>
-    </ul>
-    <div class="right">
-      <span>🛒</span>
-      <span>👤</span>
-    </div>
-  </div>
-
-  <!-- Formulário -->
   <main>
     <p id="message"></p>
 
@@ -70,9 +55,7 @@
   </main>
 
 
-  <footer>
-    &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.
-  </footer>
+{% include 'components/Footer.html' %}
 
 
   <script src="{{ url_for('static', filename='js/validations/CPFvalidation.js') }}" type="module"></script>
