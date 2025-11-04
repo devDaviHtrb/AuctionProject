@@ -1,52 +1,47 @@
 <header class="main-header">
   <div class="container header-content">
     <a href="/">
-    <div class="logo">
-      <img src="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
-<<<<<<< HEAD
-      alt="Lanciare Logo" />
-      <span>Lanciare.</span>
+      <div class="logo" style="text-decoration: none;">
+        <img src="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
+          alt="Lanciare Logo" />
+        <span>Lanciare</span>
+      </div>
+    </a>
 
-=======
-        alt="Lanciare Logo" />
-      <span><a href="/">Lanciare.</a></span>
->>>>>>> 16fe516d97084cfefa6cd6f3e2a9693dcc357d39
-    </div>
-  </a>
-
-    <div class="search-bar">
+    <div class="search-bar-header">
       <input type="text" id="searchInput" placeholder="Buscar produtos, marcas e mais..." autocomplete="off" />
       <i class="fas fa-search"></i>
       <div class="autocomplete-list" id="autocompleteList"></div>
     </div>
 
-    <nav class="main-nav">
+    <nav class="main-nav-header">
       <ul>
         <a style="text-decoration: none" href="#">Categorias</a>
         <a style="text-decoration: none" href="{{url_for('auctionsPage.AuctionsPage')}}">Leilões</a>
         <a style="text-decoration: none" href="#">Contato</a>
       </ul>
       {% if not user %}
-      <div class="auth-buttons">
-        <a style="text-decoration: none" href="{{url_for('loginPage.LoginPage')}}" class="btn-login">Sign In / Sign Up</a>
+      <div class="auth-buttons-header">
+        <a style="text-decoration: none" href="{{url_for('loginPage.LoginPage')}}" class="btn-login-header">Sign In /
+          Sign Up</a>
       </div>
       {% else %}
 
-        <div class="user-menu">
-    <button id="userButton" class="user-button">
-      <img src="{{ user.photo }}" alt="User" class="user-avatar" />
-    </button>
+      <div class="user-menu-header">
+        <button id="userButton" class="user-button">
+          <img src="{{ user.photo }}" alt="User" class="user-avatar" />
+        </button>
 
-    <div id="dropdownMenu" class="dropdown hidden">
-      <p class="dropdown-header">Olá, {{ user.name }}</p>
-      <p class="dropdown-header">R$ {{ user.wallet }}</p>
-      <hr />
-      <a href="{{url_for('profile.Profile')}}" class="dropdown-item">Perfil</a>
-      <a href="{{url_for('configPage.ConfigPage')}}" class="dropdown-item">Configurações</a>
-      <hr />
-      <a href="{{url_for('logout.logout')}}" class="dropdown-item logout">Sair</a>
-    </div>
-  </div>
+        <div id="dropdownMenu" class="dropdown hidden">
+          <p class="dropdown-header">Olá, {{ user.name }}</p>
+          <p class="dropdown-header">R$ {{ user.wallet }}</p>
+          <hr />
+          <a href="{{url_for('profile.Profile')}}" class="dropdown-item">Perfil</a>
+          <a href="{{url_for('configPage.ConfigPage')}}" class="dropdown-item">Configurações</a>
+          <hr />
+          <a href="{{url_for('logout.logout')}}" class="dropdown-item logout">Sair</a>
+        </div>
+      </div>
 
       {% endif %}
     </nav>
