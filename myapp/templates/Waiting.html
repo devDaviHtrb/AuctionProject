@@ -8,8 +8,8 @@
 <body>
     <p>VOCE RECEBERA UM EMAIL</p>
 
-    <a href="{{url_for(link, email = email, user_type=user_type) if email else url_for(link, user_type=user_type)}}">
-        Não recebeu? clique aqui</a>
-        {{user_type}}
+    <a href="{{url_for(link, email = email) if email else url_for(link)}}">
+        Não recebeu? clique aqui
+    </a>
 </body>
 </html>

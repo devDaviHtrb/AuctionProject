@@ -21,10 +21,9 @@ AUTH_CHANGE_PASSWORD =  "auth.change_password"
 def wait_sign_up() -> Response:
     redirect_url = url_for(
             WAITING_PAGE,
-        link=AUTH_RESEND,
-        _external=True
+        link =      AUTH_RESEND,
+        _external = True
     )
-
     return jsonify({"redirect": redirect_url})
 
 

@@ -1,89 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <title>Cadastro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../static/styles/StyleSignUp.css">
-  <link rel="stylesheet" href="../static/styles/StyleLogIn.css">
-  <link rel="stylesheet" href="../static/styles/components/formAuction.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
-  <link rel="stylesheet" href="{{  url_for('static', filename='styles/StyleIndex.css')  }}">
 </head>
-
 <body>
-  {% include 'components/Header.html' %}
 
-  <main class="signup-main">
-    <form id="signUpForm" class="signup-form">
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">Placeholder</div>
+    <ul>
+      <li><a href="#">Quem somos</a></li>
+      <li><a href="#">Como Comprar</a></li>
+      <li><a href="#">Quero vender</a></li>
+      <li><a href="#">Nota de venda</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <div class="right">
+      <span>🛒</span>
+      <span>👤</span>
+    </div>
+  </div>
+
+  <!-- Formulário -->
+  <main>
+    <p id="message"></p>
+
+    <form id="signUpForm">
       <h2>Cadastro</h2>
 
-      <div id="progressBar">
-        <div class="step active">1</div>
-        <div class="step">2</div>
-        <div class="step">3</div>
-        <div class="step">4</div>
-      </div>
+      <label>Tipo de usuário:</label>
+      <select id="userType" name="user_type" required>
+        <option value="">Selecione</option>
+        <option value="physical_person">Pessoa Física</option>
+        <option value="legal_person">Pessoa Jurídica</option>
+      </select>
 
-      <!-- Etapa 1 -->
-      <section class="form-step active" data-step="1">
-        <h3>Tipo de usuário</h3>
-        <div class="user-type-toggle">
-          <button type="button" class="type-btn" data-value="physical_person">Pessoa Física</button>
-          <button type="button" class="type-btn" data-value="legal_person">Pessoa Jurídica</button>
-        </div>
-        <input type="hidden" id="userType" name="user_type">
-        <button type="button" class="next-btn">Próximo</button>
-      </section>
+      <hr>
 
-      <!-- Etapa 2 -->
-      <section class="form-step" data-step="2">
-        <label>Username<span class="required">*</span></label>
-        <input type="text" id="username" required>
+      <!-- Campos comuns -->
+      <label>Username:</label>
+      <input type="text" name="username" id="username" required>
 
-        <label>Senha<span class="required">*</span></label>
-        <input type="password" id="password" required>
+      <label>Password:</label>
+      <input type="password" name="password" id="password" required>
 
-        <label>Email<span class="required">*</span></label>
-        <input type="email" id="email" required>
+      <label>Email:</label>
+      <input type="email" name="email" id="email" required>
 
-        <div class="nav-buttons">
-          <button type="button" class="prev-btn">Voltar</button>
-          <button type="button" class="next-btn">Próximo</button>
-        </div>
-      </section>
+      <label>Celular 1:</label>
+      <input type="tel" name="cellphone1" id="cellphone1">
 
-      <!-- Etapa 3 -->
-      <section class="form-step" data-step="3">
-        <label>Celular 1</label>
-        <input type="tel" id="cellphone1">
-        <label>Celular 2</label>
-        <input type="tel" id="cellphone2">
-        <label>Telefone</label>
-        <input type="tel" id="landline">
+      <label>Celular 2:</label>
+      <input type="tel" name="cellphone2" id="cellphone2">
 
-        <div class="nav-buttons">
-          <button type="button" class="prev-btn">Voltar</button>
-          <button type="button" class="next-btn">Próximo</button>
-        </div>
-      </section>
+      <label>CEP:</label>
+      <input type="text" name="cep" id="zip_code">
 
-      <!-- Etapa 4 (dinâmica) -->
-      <section class="form-step" data-step="4" id="extraFields"></section>
+      <label>Rua:</label>
+      <input type="text" name="rua" id="street_name">
 
-      <!-- Etapa Final -->
-      <section class="form-step" data-step="5">
-        <h3>Revise e confirme seu cadastro</h3>
-        <button type="submit" id="signUpBtn" class="btn">Concluir Cadastro</button>
-      </section>
+      <label>Bairro:</label>
+      <input type="text" name="bairro" id="district">
+
+      <label>Cidade:</label>
+      <input type="text" name="cidade" id="city">
+
+      <label>Estado:</label>
+      <input type="text" name="estado" id="state">
+
+      <label>Número:</label>
+      <input type="text" name="street_number" id="street_number">
+
+      <label>Telefone:</label>
+      <input type="tel" name="landline" id="landline">
+
+      <label>CPF:</label>
+      <input type="text" name="cpf" id="cpf">
+  
+
+     
+      <div id="extraFields"></div>
+
+      <button type="button" id="signUpBtn" class="btn btn-login">Cadastrar</button>
     </form>
   </main>
 
 
-  {% include 'components/Footer.html' %}
+  <footer>
+    &copy; 2025 <span class="highlight">Placeholder LTDA.</span> Todos os direitos reservados.
+  </footer>
 
+
+  <script src="{{ url_for('static', filename='js/validations/CPFvalidation.js') }}" type="module"></script>
+  <script src="{{ url_for('static', filename='js/api/GetCEP.js') }}" type="module"></script>
   <script src="{{ url_for('static', filename='js/mains/SignUpMain.js') }}" type="module"></script>
 </body>
-
 </html>

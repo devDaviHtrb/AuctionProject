@@ -18,7 +18,7 @@ class products(db.Model):
     district = db.Column(db.String(80), nullable=True)
     city = db.Column(db.String(80), nullable=True)
     state = db.Column(db.CHAR(2), nullable=True)
-    user_id = db.Column(db.Integer, ForeignKey("users.user_id"))
+    user_id = db.Column(db.Integer, ForeignKey("users.user_id", ondelete = "CASCADE"))
     #FK 
     category = db.Column(db.Integer, ForeignKey("categories.category_id"), default = 1)
 

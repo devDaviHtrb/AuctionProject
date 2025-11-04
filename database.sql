@@ -172,7 +172,7 @@ CREATE TABLE products (
 	PRIMARY KEY (product_id), 
 	UNIQUE (product_room), 
 	FOREIGN KEY(product_status) REFERENCES product_statuses (product_status_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id), 
+	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE, 
 	FOREIGN KEY(category) REFERENCES categories (category_id)
 )
 
@@ -197,8 +197,8 @@ CREATE TABLE bids (
 	user_id INTEGER, 
 	product_id INTEGER, 
 	PRIMARY KEY (bid_id), 
-	FOREIGN KEY(user_id) REFERENCES users (user_id), 
-	FOREIGN KEY(product_id) REFERENCES products (product_id)
+	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE, 
+	FOREIGN KEY(product_id) REFERENCES products (product_id) ON DELETE CASCADE
 )
 
 

@@ -25,5 +25,5 @@ def sign_up() -> Tuple[Response, int]:
         content =   url_for(AUTH_CONFIRM, token=token, _external=True)
     )
 
-    return wait_sign_up()
+    return wait_sign_up(), 200
 
