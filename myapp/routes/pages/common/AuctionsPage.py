@@ -4,4 +4,4 @@ auctions = Blueprint("auctionsPage", __name__)
 
 @auctions.route("/auctions")
 def AuctionsPage():
-    return render_template("Auction.html")
+    return render_template("Auctions.html")
