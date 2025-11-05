@@ -1,56 +1,103 @@
+// SignUpMain.js
 import { signIn } from "../interactivity/SignUp.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const signInBtn = document.getElementById("signUpBtn");
+  const signUpBtn = document.getElementById("signUpBtn");
 
-  signInBtn.addEventListener("click", async (e) => {
+  signUpBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     await signIn();
   });
 
-  const userTypeSelect = document.getElementById("userType");
-  const extraFields = document.getElementById("extraFields");
+  // === Controle de passos ===
+  const steps = [
+    document.getElementById("step-1"),
+    document.getElementById("step-2"),
+    document.getElementById("step-3"),
+  ];
 
-  userTypeSelect.addEventListener("change", function () {
-    const type = this.value;
-    extraFields.innerHTML = ""; // limpa o conteúdo anterior
+  const stepLabels = [
+    document.getElementById("step-1-label"),
+    document.getElementById("step-2-label"),
+    document.getElementById("step-3-label"),
+  ];
 
-    if (type === "physical_person") {
-      extraFields.innerHTML = `
-          <label>Nome completo:</label>
-          <input type="text" name="name" id="name" required>
+  const progressBar = document.getElementById("progress-bar");
+  const nextButtons = document.querySelectorAll(".next-step");
+  const prevButtons = document.querySelectorAll(".prev-step");
 
-          <label>Data de nascimento:</label>
-          <input type="date" name="birth_date" id="birth_date" required>
+  let currentStep = 0;
 
-          <label>RG:</label>
-          <input type="text" name="rg" id="rg">
+  function updateSteps() {
+    steps.forEach((step, index) => {
+      step.classList.toggle("active-step-content", index === currentStep);
+      step.classList.toggle("hidden-step", index !== currentStep);
+    });
 
-          <label>Gênero:</label>
-          <select name="gender" id="gender" required>
-            <option value="">Selecione</option>
-            <option value="feminino">Feminino</option>
-            <option value="masculino">Masculino</option>
-            <option value="outro">Outro</option>
-          </select>
-        `;
-    } else if (type === "legal_person") {
-      extraFields.innerHTML = `
+    stepLabels.forEach((label, index) => {
+      label.classList.toggle("active-step", index === currentStep);
+    });
 
-          <label>CNPJ:</label>
-          <input type="text" name="cnpj" id="cnpj">
-          <label>Razão Social:</label>
-          <input type="text" name="razao_social" id="razao_social" required>
+    const progress = ((currentStep + 1) / steps.length) * 100;
+    progressBar.style.width = `${progress}%`;
+  }
 
-          <label>Nome Fantasia:</label>
-          <input type="text" name="nome_fantasia" id="nome_fantasia">
-
-          <label>Inscrição Estadual:</label>
-          <input type="text" name="inscricao_estadual" id="inscricao_estadual">
-
-          <label>Representante Legal:</label>
-          <input type="text" name="representante" id="representante">
-        `;
-    }
+  nextButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        updateSteps();
+      }
+    });
   });
+
+  prevButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (currentStep > 0) {
+        currentStep--;
+        updateSteps();
+      }
+    });
+  });
+
+  // === Tipo de conta (PF/PJ) ===
+  const radios = document.querySelectorAll("input[name='account_type']");
+  const userTypeInput = document.getElementById("userType");
+  const specificLabel = document.querySelector('label[for="specific-id"]');
+  const specificField = document.getElementById("cpf");
+  const typeOptions = document.querySelectorAll(".type-option");
+
+  function toggleTypeFields() {
+    const selected = document.querySelector(
+      "input[name='account_type']:checked"
+    ).value;
+    userTypeInput.value = selected;
+
+    // Atualiza cor do botão selecionado
+    typeOptions.forEach((opt) => {
+      const input = opt.querySelector("input[name='account_type']");
+      if (input.checked) {
+        opt.classList.add("active");
+      } else {
+        opt.classList.remove("active");
+      }
+    });
+
+    // Atualiza label e placeholder do campo identificador
+    if (selected === "physical_person") {
+      specificLabel.textContent = "CPF *";
+      specificField.placeholder = "000.000.000-00";
+    } else {
+      specificLabel.textContent = "CNPJ *";
+      specificField.placeholder = "00.000.000/0000-00";
+    }
+  }
+
+  radios.forEach((radio) => {
+    radio.addEventListener("change", toggleTypeFields);
+  });
+
+  // === Inicialização ===
+  toggleTypeFields();
+  updateSteps();
 });
