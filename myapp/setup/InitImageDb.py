@@ -1,8 +1,4 @@
-from os import getenv
 import cloudinary 
-import cloudinary.uploader
-import cloudinary.api
-from dotenv import load_dotenv
 from config import Config
 
 CLOUDINARY_CLOUD_NAME = Config.CLOUDINARY_CLOUD_NAME

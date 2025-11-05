@@ -20,7 +20,7 @@ HEADER = f"""
 
 def drop_all_tables(db: SQLAlchemy):
     try:
-        db.drop_all()  # <-- DROP TABLE IF EXISTS para todas as tabelas mapeadas
+        db.drop_all()  
         db.session.commit()
         print("reset Tables")
     except Exception as e:
