@@ -34,7 +34,7 @@ def wait_change(email:str) -> Response:
         email =     email,
         _external=  True
     )
-    return jsonify({"redirect": redirect_url})
+    return redirect(redirect_url)
         
 def wait_login(email:str) -> Response:
     redirect_url = url_for(
@@ -50,7 +50,7 @@ def change_password(token:str) -> Response:
             CHANGE_PASSWORD_PAGE,
             token = token
         )
-    return jsonify({"redirect": redirect_url})
+    return redirect(redirect_url)
 
 def profile() -> Response: #user created
     redirect_url = url_for(PROFILE_PAGE)

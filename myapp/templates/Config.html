@@ -34,7 +34,7 @@
                     <ul>
                         <li class="nav-item active" data-section="profile"><a href="#"><i class="fas fa-user-cog"></i> Perfil e Dados</a></li>
                         <li class="nav-item" data-section="bidding"><a href="#"><i class="fas fa-gavel"></i> Meus Lances</a></li>
-                        <li class="nav-item" data-section="security"><a href="#"><i class="fas fa-lock"></i> Segurança</a></li>
+                        <li class="nav-item" data-section="security"><i class="fas fa-lock"></i> Segurança</li>
                         <li class="nav-item separator"><hr></li>
                         <li class="nav-item" data-section="logout"><a href="{{url_for('logout.logout')}}"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a></li>
                     </ul>
@@ -42,13 +42,20 @@
             </aside>
 
             <section class="settings-content-area">
-                
+                    <div id="bidding" class="settings-section hidden-section">
+                    <h2>Meus Lances</h2>
+                    <p>Conteúdo para visualizar o histórico de lances e pagamentos.</p>
+                </div>
+                 <div id="security" class="settings-section hidden-section">
+                    <h2>Segurança</h2>
+                    <p>Conteúdo para alterar senha e configurar 2FA.</p>
+                </div>
                 <div id="profile" class="settings-section active-section">
                     <h2>Configurações de Perfil</h2>
                     <p class="section-description">Gerencie suas informações públicas e de contato.</p>
                     
                     <div class="settings-form-card">
-                        <form id="profile-form" action="/changeConfig" method="post">
+                        <form id="profile-form" action="/changeConfig" method="post" class="profile-form">
                             <div class="input-group">
                                 <label for="name">Nome Completo</label>
                                 <input type="text" id="name" value={{name}} name="name">
@@ -66,96 +73,29 @@
                             {%if msg%}
                             <p>{{msg}}</p>
                             {%endif%}
+                            
                             <div class="form-actions profile-actions">
                                 <button type="submit" class="btn-primary">Salvar Alterações do Perfil</button>
                                 <button type="button" class="btn-secondary">Cancelar</button>
                             </div>
                         </form>
+                       
                     </div>
                 </div>
 
                     </div>
                 </div>
                 
-                <div id="bidding" class="settings-section hidden-section">
-                    <h2>Meus Lances</h2>
-                    <p>Conteúdo para visualizar o histórico de lances e pagamentos.</p>
-                </div>
-                <div id="security" class="settings-section hidden-section">
-                    <h2>Segurança</h2>
-                    <p>Conteúdo para alterar senha e configurar 2FA.</p>
-                </div>
+
+               
 
             </section>
         </div>
     </main>
 
 {% include 'components/Footer.html' %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+<script>  const email = "{{email}}";</script>
+ <script src="{{ url_for('static', filename='js/mains/ConfigMain.js') }}"></script>
 
-
-    const navItems = document.querySelectorAll('.settings-sidebar .nav-item[data-section]');
-    const contentSections = document.querySelectorAll('.settings-section');
-
-    function switchSection(sectionId) {
-        contentSections.forEach(section => {
-            section.classList.add('hidden-section');
-            section.classList.remove('active-section');
-        });
-
-        navItems.forEach(item => item.classList.remove('active'));
-
-        const targetSection = document.getElementById(sectionId);
-        if (targetSection) {
-            targetSection.classList.remove('hidden-section');
-            targetSection.classList.add('active-section');
-        }
-
-       
-        const targetNavItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
-        if (targetNavItem) {
-            targetNavItem.classList.add('active');
-        }
-    }
-
-
-    // Inicia a página com a seção 'profile' ativa
-    switchSection('profile');
-
-    // Função de arrastar e soltar para mudar avatar
-const dropzone = document.getElementById('avatar-dropzone');
-const fileInput = document.getElementById('avatar-file');
-
-dropzone.addEventListener('click', () => fileInput.click());
-
-dropzone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropzone.classList.add('dragover');
-});
-
-dropzone.addEventListener('dragleave', () => {
-    dropzone.classList.remove('dragover');
-});
-
-dropzone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropzone.classList.remove('dragover');
-
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-        fileInput.files = e.dataTransfer.files;
-
-        // Pré-visualização da imagem
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            document.querySelector('.avatar').src = event.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-});
-    </script>
 </body>
 </html>
