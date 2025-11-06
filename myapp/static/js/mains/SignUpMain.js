@@ -1,4 +1,3 @@
-// SignUpMain.js
 import { signIn } from "../interactivity/SignUp.js";
 
 
@@ -68,9 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // === Tipo de conta (PF/PJ) ===
   const radios = document.querySelectorAll("input[name='account_type']");
   const userTypeInput = document.getElementById("userType");
-  const specificLabel = document.querySelector('label[for="specific-id"]');
-  const specificField = document.getElementById("cpf");
-  const typeOptions = document.querySelectorAll(".type-option");
+
+  const pfFields = document.querySelectorAll(".pf-field");
+  const pjFields = document.querySelectorAll(".pj-field");
 
   function toggleTypeFields() {
     const selected = document.querySelector(
@@ -78,7 +77,18 @@ document.addEventListener("DOMContentLoaded", () => {
     ).value;
     userTypeInput.value = selected;
 
-    // Atualiza cor do botão selecionado
+    // Mostra ou esconde os campos
+    pfFields.forEach(
+      (el) =>
+        (el.style.display = selected === "physical_person" ? "block" : "none")
+    );
+    pjFields.forEach(
+      (el) =>
+        (el.style.display = selected === "legal_person" ? "block" : "none")
+    );
+
+    // Atualiza a cor do botão selecionado
+    const typeOptions = document.querySelectorAll(".type-option");
     typeOptions.forEach((opt) => {
       const input = opt.querySelector("input[name='account_type']");
       if (input.checked) {
@@ -87,15 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
         opt.classList.remove("active");
       }
     });
-
-    // Atualiza label e placeholder do campo identificador
-    if (selected === "physical_person") {
-      specificLabel.textContent = "CPF *";
-      specificField.placeholder = "000.000.000-00";
-    } else {
-      specificLabel.textContent = "CNPJ *";
-      specificField.placeholder = "00.000.000/0000-00";
-    }
   }
 
   radios.forEach((radio) => {

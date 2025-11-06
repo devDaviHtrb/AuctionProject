@@ -1,135 +1,186 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lanciare - Login e Cadastro</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleSignUp.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanciare - Login e Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleSignUp.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="auth-body">
-  {% include "components/Header.html" %}
 
+{% include "components/Header.html" %}
 
   <div class="auth-container">
-    <div class="auth-box">
-      <div class="logo-auth">
-        <img src="https://via.placeholder.com/40x40/0C2340/FFFFFF?text=L" alt="Lanciare Logo">
-        <h1>Lanciare.</h1>
-      </div>
+      <div class="auth-box">
+          <div class="logo-auth">
+              <img src="https://via.placeholder.com/40x40/0C2340/FFFFFF?text=L" alt="Lanciare Logo">
+              <h1>Lanciare.</h1>
+          </div>
 
-
+```
       <div id="content-register" class="auth-content">
-        <h2>Criar Nova Conta</h2>
-
-        <div class="stepper-container">
-          <div class="stepper-progress">
-            <div id="progress-bar" class="progress-bar"></div>
-          </div>
-          <div class="stepper-steps">
-            <div id="step-1-label" class="step-label active-step">Tipo</div>
-            <div id="step-2-label" class="step-label">Dados</div>
-            <div id="step-3-label" class="step-label">Finalizar</div>
-          </div>
-        </div>
-
-        <div id="registration-form">
-
-          <div class="registration-step active-step-content" id="step-1">
-            <h3>1. Escolha seu Tipo de Conta</h3>
-
-            <div class="type-selection">
-              <label class="type-option" for="type-pf">
-                <input type="radio" id="type-pf" name="account_type" value="physical_person" checked>
-                <i class="fas fa-user"></i>
-                <h4>Pessoa Física</h4>
-                <p>Ideal para compradores e vendedores individuais.</p>
-              </label>
-
-              <label class="type-option" for="type-pj">
-                <input type="radio" id="type-pj" name="account_type" value="legal_person">
-                <i class="fas fa-building"></i>
-                <h4>Pessoa Jurídica</h4>
-                <p>Para empresas e revendedores cadastrados.</p>
-              </label>
-            </div>
-
-            <!-- input invisível que o JS usa -->
-            <input type="hidden" id="userType" value="physical_person">
-
-            <div class="step-navigation">
-              <button type="button" class="btn-primary next-step">
-                Avançar <i class="fas fa-arrow-right"></i>
-              </button>
-            </div>
+          <h2>Criar Nova Conta</h2>
+          
+          <div class="stepper-container">
+              <div class="stepper-progress">
+                  <div id="progress-bar" class="progress-bar"></div>
+              </div>
+              <div class="stepper-steps">
+                  <div id="step-1-label" class="step-label active-step">Tipo</div>
+                  <div id="step-2-label" class="step-label">Dados</div>
+                  <div id="step-3-label" class="step-label">Finalizar</div>
+              </div>
           </div>
 
-          <div class="registration-step hidden-step" id="step-2">
-            <h3 id="step-2-title">2. Dados Pessoais</h3>
+          <div id="registration-form">
 
-            <div class="input-group">
-              <label for="username">Nome de Usuário <span class="required">*</span></label>
-              <input type="text" id="username" placeholder="joaosilva" required>
+            <!-- STEP 1: Tipo de Conta -->
+            <div class="registration-step active-step-content" id="step-1">
+              <h3>1. Escolha seu Tipo de Conta</h3>
+              <div class="type-selection">
+                  <label class="type-option" for="type-pf">
+                      <input type="radio" id="type-pf" name="account_type" value="physical_person" checked>
+                      <i class="fas fa-user"></i>
+                      <h4>Pessoa Física</h4>
+                      <p>Ideal para compradores e vendedores individuais.</p>
+                  </label>
+                  <label class="type-option" for="type-pj">
+                      <input type="radio" id="type-pj" name="account_type" value="legal_person">
+                      <i class="fas fa-building"></i>
+                      <h4>Pessoa Jurídica</h4>
+                      <p>Para empresas e revendedores cadastrados.</p>
+                  </label>
+              </div>
+              <input type="hidden" id="userType" value="physical_person">
+              <div class="step-navigation">
+                  <button type="button" class="btn-primary next-step">
+                    Avançar <i class="fas fa-arrow-right"></i>
+                  </button>
+              </div>
             </div>
 
-            <div class="input-group">
-              <label for="name">Nome Completo / Nome da Empresa <span class="required">*</span></label>
-              <input type="text" id="name" placeholder="João da Silva ou Lanciare Soluções Ltda." required>
+            <!-- STEP 2: Dados Pessoais / Empresa -->
+            <div class="registration-step hidden-step" id="step-2">
+                <h3 id="step-2-title">2. Dados Pessoais / Empresa</h3>
+                
+                <div class="input-group">
+                    <label for="username">Nome de Usuário <span class="required">*</span></label>
+                    <input type="text" id="username" placeholder="joaosilva" required>
+                </div>
+
+                <div class="input-group pf-field">
+                    <label for="name">Nome Completo <span class="required">*</span></label>
+                    <input type="text" id="name" placeholder="João da Silva" required>
+                </div>
+
+                <div class="input-group pj-field">
+                    <label for="legal_business_name">Razão Social <span class="required">*</span></label>
+                    <input type="text" id="legal_business_name" placeholder="Lanciare Soluções Ltda." required>
+                </div>
+
+                <div class="input-group pj-field">
+                    <label for="trade_name">Nome Fantasia <span class="required">*</span></label>
+                    <input type="text" id="trade_name" placeholder="Lanciare" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" placeholder="joao@email.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Senha <span class="required">*</span></label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="cpf">CPF <span class="required">*</span></label>
+                    <input type="text" id="cpf" placeholder="000.000.000-00">
+                </div>
+
+                <div class="input-group pj-field">
+                    <label for="cnpj">CNPJ <span class="required">*</span></label>
+                    <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+                </div>
+
+                <div class="input-group pf-field">
+                    <label for="rg">RG <span class="required">*</span></label>
+                    <input type="text" id="rg" placeholder="12.345.678-9">
+                </div>
+
+                <div class="input-group pf-field">
+                    <label for="birth_date">Ano de Nascimento <span class="required">*</span></label>
+                    <input type="date" id="birth_date" placeholder="1980" min="1900" max="2025">
+                </div>
+
+                <div class="input-group pf-field">
+                    <label for="gender">Sexo <span class="required">*</span></label>
+                    <select id="gender">
+                        <option value="">Selecione</option>
+                        <option value="male" data-gender="M">Masculino</option>
+                        <option value="female" data-gender="F">Feminino</option>
+                        <option value="other" data-gender="O">Outro</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="cellphone1">Telefone Principal</label>
+                    <input type="text" id="cellphone1" placeholder="(00) 90000-0000">
+                </div>
+
+                <div class="input-group">
+                    <label for="cellphone2">Telefone Secundário</label>
+                    <input type="text" id="cellphone2" placeholder="(00) 90000-0000">
+                </div>
+
+                <div class="input-group">
+                    <label for="landline">Telefone Fixo</label>
+                    <input type="text" id="landline" placeholder="(00) 0000-0000">
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="btn-secondary prev-step"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    <button type="button" class="btn-primary next-step">Próximo <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            
+            <!-- STEP 3: Finalização -->
+            <div class="registration-step hidden-step" id="step-3">
+                <h3 id="step-3-title">3. Finalização</h3>
+                <p>Revise seus dados antes de criar a conta.</p>
+                <p id="msg" style="color: red; margin-top: 20px; margin-bottom: 20px;"></p>
+                
+                <div class="input-group checkbox-group">
+                  
+                    <input type="checkbox" id="terms-accept" required>
+                    <label for="terms-accept" class="terms-label">
+                        Eu li e aceito os <a href="#">Termos de Uso</a> e a <a href="#">Política de Privacidade</a>.
+                    </label>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="btn-secondary prev-step"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    <button id="signUpBtn" class="btn-primary final-submit"><i class="fas fa-check"></i> CRIAR CONTA</button>
+                </div>
             </div>
 
-            <div class="input-group">
-              <label for="email">Email <span class="required">*</span></label>
-              <input type="email" id="email" required>
-            </div>
-
-            <div class="input-group">
-              <label for="password">Senha <span class="required">*</span></label>
-              <input type="password" id="password" required>
-            </div>
-
-
-            <div class="step-navigation">
-              <button type="button" class="btn-secondary prev-step"><i class="fas fa-arrow-left"></i> Voltar</button>
-              <button type="button" class="btn-primary next-step">Próximo <i class="fas fa-arrow-right"></i></button>
-            </div>
           </div>
-
-          <div class="registration-step hidden-step" id="step-3">
-            <h3 id="step-3-title">3. Finalização</h3>
-
-            <div class="input-group" id="specific-field-container">
-              <label for="specific-id">CPF <span class="required">*</span></label>
-              <input type="text" id="cpf" placeholder="000.000.000-00">
-            </div>
-
-            <div class="input-group">
-              <label for="phone">Telefone</label>
-              <input type="text" id="cellphone1" placeholder="(00) 90000-0000">
-            </div>
-            <p id="message"></p>
-            <div class="input-group checkbox-group">
-              <input type="checkbox" id="terms-accept" required>
-              <label for="terms-accept" class="terms-label">Eu li e aceito os <a href="#">Termos de Uso</a> e a <a
-                  href="#">Política de Privacidade</a>.</label>
-            </div>
-
-            <div class="step-navigation">
-              <button type="button" class="btn-secondary prev-step"><i class="fas fa-arrow-left"></i> Voltar</button>
-              <button id="signUpBtn" class="btn-primary final-submit"><i class="fas fa-check"></i> CRIAR CONTA</button>
-            </div>
-          </div>
-
-        </div>
       </div>
-    </div>
   </div>
-  <script src="{{ url_for('static', filename='js/mains/SignUpMain.js') }}" type="module"></script>
-  {% include "components/Footer.html" %}
-</body>
+```
 
+  </div>
+
+  <script src="{{ url_for('static', filename='js/mains/SignUpMain.js') }}" type="module"></script>
+
+{% include "components/Footer.html" %}
+
+</body>
 </html>

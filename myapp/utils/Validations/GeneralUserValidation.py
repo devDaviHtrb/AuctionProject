@@ -43,8 +43,6 @@ nullAbleValues += [
     "city",
     "state",
     "rg",
-    "birth_date",
-    "gender",
     'state_tax_registration', 'legal_business_name', 'trade_name'
 ]
 
@@ -80,7 +78,19 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
         }, 400
     
     if data.get("cellphone1", None):
-        if not is_phone_number(data["cellphone1"]) or ( not is_phone_number(data["cellphone2"]) and data["cellphone2"] != "") or (not is_phone_number(data["landline"]) and data["landline"]!= ""):
+        if not is_phone_number(data["cellphone1"]):
+            return {
+                 "Type":    "InputError",
+                 "content": "Invalid chellphone"
+            }, 400
+    if data.get("cellphone2", None):
+        if not is_phone_number(data["cellphone2"]):
+            return {
+                 "Type":    "InputError",
+                 "content": "Invalid chellphone"
+            }, 400
+    if data.get("landline", None):
+        if not is_phone_number(data["landline"]):
             return {
                  "Type":    "InputError",
                  "content": "Invalid chellphone"
@@ -105,7 +115,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                 else:
                     return  {
                          "Type":    "InputError",
-                         "content": "Invalid CPF"
+                         "content": "Invalid CPF or Rg"
                     }, 400
             if not User_validation(data["username"], data["email"]):
                         return  {

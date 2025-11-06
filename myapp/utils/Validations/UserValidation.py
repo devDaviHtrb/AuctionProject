@@ -1,4 +1,6 @@
 from myapp.models.Users import users
+from myapp.models.PhysicalPerson import physical_persons
+from myapp.models.LegalPerson import legal_persons
 from sqlalchemy import or_
 
 def User_validation(
@@ -12,10 +14,14 @@ def User_validation(
 
     if cpf:
         filters.append(users.cpf == cpf)
-    if rg:
-        filters.append(users.rg == rg)
-    if cnpj:
-        filters.append(users.cnpj == cnpj)
 
-    existing_user = users.query.filter(or_(*filters)).first()
-    return not existing_user 
+
+    user = users.query.filter(or_(*filters)).first()
+    existing_pp = physical_persons.query.filter_by(rg=rg).first()  if rg else None
+    existing_lp = legal_persons.query.filter_by(cnpj=cnpj).first()  if cnpj else None
+
+    if user or existing_lp or existing_pp:
+        print(user.name)
+        return False
+    else:
+        return True

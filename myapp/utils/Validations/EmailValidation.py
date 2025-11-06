@@ -7,7 +7,8 @@ def validateEmail(email: str) -> bool:
     print(repr(email))
     try:
         valid = validate_email(email, check_deliverability=False)
-        print(valid)
+        print("valido")
+        
         return True
     except EmailNotValidError:
         print( EmailNotValidError)
