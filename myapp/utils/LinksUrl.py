@@ -2,7 +2,7 @@ from flask import Response, jsonify, redirect, url_for
 import myapp.repositories.CategoryRepository as category_repository
 
 # -- set consts of pages--
-PROFILE_PAGE =          "profilePage.ProfilePage"
+PROFILE_PAGE =          "configPage.ConfigPage"
 WAITING_PAGE =          "waitingPage.WaitingPage"
 CHANGE_PASSWORD_PAGE =  "changePasswordPage.ChangePasswordPage"
 LOGIN_PAGE =            "homePage.HomePage"

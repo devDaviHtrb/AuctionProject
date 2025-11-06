@@ -1,4 +1,5 @@
 <header class="main-header">
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
   <div class="container header-content">
     <a href="/">
       <div class="logo" style="text-decoration: none;">
@@ -93,5 +94,6 @@
     </nav>
 
   </div>
-
+  <script src="{{  url_for('static', filename='js/components/header.js')  }}"></script>
+  <script src="{{  url_for('static', filename='js/mains/LoginMain.js')  }}" type="module"></script>
 </header>
