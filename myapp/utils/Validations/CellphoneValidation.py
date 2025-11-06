@@ -1,9 +1,12 @@
 from phonenumbers import PhoneNumber
 from phonenumbers import is_valid_number, parse
+import phonenumbers
 
 def cellphone_validation(num:PhoneNumber) -> bool:
-    num =  parse(num, "BR")
-    if is_valid_number(num):
+    
+    try:
+        num =  parse(num, "BR")
+        valid = is_valid_number(num)
         return True
-    else:
+    except Exception:
         return False

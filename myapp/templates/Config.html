@@ -4,98 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lanciare - Perfil e Configurações</title>
-   <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleConfig.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleConfig.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-      <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
+    <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
 </head>
 <body>
 {% include 'components/Header.html' %}
 
-    <main>
-        <div class="container settings-page-layout">
-            
-            <aside class="settings-sidebar">
-                <div class="user-summary">
-                    <img src="{{photo}}" alt="User Avatar" class="avatar">
-                    <h3>{{name}}</h3>
-                    <p>@{{username}}</p>
+<main>
+  <div class="container settings-page-layout">
+    <aside class="settings-sidebar">
+      <div class="user-summary">
+        <img src="{{photo}}" alt="User Avatar" class="avatar">
+        <h3>{{name}}</h3>
+        <p>@{{username}}</p>
 
-                     <form id="avatar-upload-form" action="/changePhoto" method="post" enctype="multipart/form-data">
-        <div id="avatar-dropzone" class="dropzone">
+        <form id="avatar-upload-form" action="/changePhoto" method="post" enctype="multipart/form-data">
+          <div id="avatar-dropzone" class="dropzone">
             <p>Arraste uma imagem ou clique aqui</p>
             <input type="file" id="avatar-file" name="photo" accept="image/*" hidden>
+          </div>
+          <button type="submit" class="btn-primary" style="margin-top:10px;">Mudar Imagem</button>
+        </form>
+      </div>
+
+      <nav class="settings-nav">
+        <ul>
+          <li class="nav-item active" data-section="profile"><a href="#"><i class="fas fa-user-cog"></i> Perfil e Dados</a></li>
+          <li class="nav-item" data-section="contact"><a href="#"><i class="fas fa-phone"></i> Contato</a></li>
+          <li class="nav-item" data-section="bidding"><a href="#"><i class="fas fa-gavel"></i> Meus Lances</a></li>
+          <li class="nav-item" data-section="security"><i class="fas fa-lock"></i> Segurança</li>
+          <li class="nav-item separator"><hr></li>
+          <li class="nav-item"><a href="{{url_for('logout.logout')}}"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <section class="settings-content-area">
+      <!-- Perfil -->
+      <div id="profile" class="settings-section active-section">
+        <h2>Configurações de Perfil</h2>
+        <p class="section-description">Gerencie suas informações públicas e de contato.</p>
+        <div class="settings-form-card">
+          <form id="profile-form" action="/changeConfig" method="post" class="profile-form">
+            <div class="input-group">
+              <label for="name">Nome Completo</label>
+              <input type="text" id="name" value="{{name}}" name="name">
+            </div>
+            <div class="input-group">
+              <label for="username">Nome de Usuário</label>
+              <input type="text" id="username" value="{{username}}" name="username">
+            </div>
+            <div class="input-group">
+              <label for="email">Email</label>
+              <p>{{email}}</p>
+            </div>
+          
+            {%if user_type=="physical_person"%}
+             <div class="input-group">
+              <label for="gender">Sexo</label>
+              <select id="gender" name="gender">
+                <option value="{{gender}}">{{gender}}</option>
+                <option value="male" {% if gender == "male" %}selected{% endif %}>Masculino</option>
+                <option value="female" {% if gender == "female" %}selected{% endif %}>Feminino</option>
+                <option value="other" {% if gender == "other" %}selected{% endif %}>Outro</option>
+              </select>
+            </div>
+            {%endif%}
+            {% if msg %}
+              <p>{{msg}}</p>
+            {% endif %}
+            <div class="form-actions profile-actions">
+              <button type="submit" class="btn-primary">Salvar Alterações do Perfil</button>
+              <button type="button" class="btn-secondary">Cancelar</button>
+            </div>
+          </form>
         </div>
-        <button type="submit" class="btn-primary" style="margin-top:10px;">Mudar Imagem</button>
-    </form>
-                </div>
-                
-                <nav class="settings-nav">
-                    <ul>
-                        <li class="nav-item active" data-section="profile"><a href="#"><i class="fas fa-user-cog"></i> Perfil e Dados</a></li>
-                        <li class="nav-item" data-section="bidding"><a href="#"><i class="fas fa-gavel"></i> Meus Lances</a></li>
-                        <li class="nav-item" data-section="security"><i class="fas fa-lock"></i> Segurança</li>
-                        <li class="nav-item separator"><hr></li>
-                        <li class="nav-item" data-section="logout"><a href="{{url_for('logout.logout')}}"><i class="fas fa-sign-out-alt"></i> Sair da Conta</a></li>
-                    </ul>
-                </nav>
-            </aside>
+      </div>
 
-            <section class="settings-content-area">
-                    <div id="bidding" class="settings-section hidden-section">
-                    <h2>Meus Lances</h2>
-                    <p>Conteúdo para visualizar o histórico de lances e pagamentos.</p>
-                </div>
-                 <div id="security" class="settings-section hidden-section">
-                    <h2>Segurança</h2>
-                    <p>Conteúdo para alterar senha e configurar 2FA.</p>
-                </div>
-                <div id="profile" class="settings-section active-section">
-                    <h2>Configurações de Perfil</h2>
-                    <p class="section-description">Gerencie suas informações públicas e de contato.</p>
-                    
-                    <div class="settings-form-card">
-                        <form id="profile-form" action="/changeConfig" method="post" class="profile-form">
-                            <div class="input-group">
-                                <label for="name">Nome Completo</label>
-                                <input type="text" id="name" value={{name}} name="name">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="username">Nome de Usuário</label>
-                                <input type="text" id="username" value="{{username}}" name="username">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="email">Email</label>
-                                <p>{{email}}</p>
-                            </div>
-                            {%if msg%}
-                            <p>{{msg}}</p>
-                            {%endif%}
-                            
-                            <div class="form-actions profile-actions">
-                                <button type="submit" class="btn-primary">Salvar Alterações do Perfil</button>
-                                <button type="button" class="btn-secondary">Cancelar</button>
-                            </div>
-                        </form>
-                       
-                    </div>
-                </div>
-
-                    </div>
-                </div>
-                
-
-               
-
-            </section>
+      <!-- Contato -->
+      <div id="contact" class="settings-section hidden-section">
+        <h2>Contato e Informações Pessoais</h2>
+        <p class="section-description">Gerencie seus números de telefone e informações pessoais.</p>
+        <div class="settings-form-card">
+          <form id="contact-form" action="/changeContact" method="post" class="contact-form">
+            <div class="input-group">
+              <label for="cellphone1">Telefone Principal</label>
+              <input type="text" id="cellphone1" name="cellphone1" placeholder="(00) 90000-0000" value="{{cellphone1}}">
+            </div>
+            <div class="input-group">
+              <label for="cellphone2">Telefone Secundário</label>
+              <input type="text" id="cellphone2" name="cellphone2" placeholder="(00) 90000-0000" value="{{cellphone2}}">
+            </div>
+            <div class="input-group">
+              <label for="landline">Telefone Fixo</label>
+              <input type="text" id="landline" name="landline" placeholder="(00) 0000-0000" value="{{landline}}">
+            </div>
+           
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Salvar Contato</button>
+              <button type="button" class="btn-secondary">Cancelar</button>
+            </div>
+          </form>
         </div>
-    </main>
+      </div>
+
+      <!-- Lances -->
+      <div id="bidding" class="settings-section hidden-section">
+        <h2>Meus Lances</h2>
+        <p>Conteúdo para visualizar o histórico de lances e pagamentos.</p>
+      </div>
+
+      <!-- Segurança -->
+      <div id="security" class="settings-section hidden-section">
+        <h2>Segurança</h2>
+        <p>Conteúdo para alterar senha e configurar 2FA.</p>
+      </div>
+    </section>
+  </div>
+</main>
 
 {% include 'components/Footer.html' %}
-<script>  const email = "{{email}}";</script>
- <script src="{{ url_for('static', filename='js/mains/ConfigMain.js') }}"></script>
-
+<script>const email = "{{email}}";</script>
+<script src="{{ url_for('static', filename='js/mains/ConfigMain.js') }}"></script>
 </body>
 </html>

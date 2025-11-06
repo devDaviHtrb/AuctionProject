@@ -5,45 +5,37 @@ document.addEventListener("DOMContentLoaded", function () {
   function switchSection(sectionId) {
     console.log("Mudando para seção:", sectionId);
 
-    // Esconde tudo
     contentSections.forEach((s) => {
       s.classList.add("hidden-section");
       s.classList.remove("active-section");
     });
 
-    // Desativa botões
     navItems.forEach((i) => i.classList.remove("active"));
 
-    // Mostra a seção certa
     const target = document.getElementById(sectionId);
     if (target) {
       target.classList.remove("hidden-section");
       target.classList.add("active-section");
-    } else {
-      console.error("Seção não encontrada:", sectionId);
-      return;
     }
 
-    // Marca o botão ativo
     const btn = document.querySelector(
       `.nav-item[data-section="${sectionId}"]`
     );
     if (btn) btn.classList.add("active");
 
-    // Se for a aba de segurança, insere o formulário
     if (sectionId === "security") {
       target.innerHTML = `
         <h2>Segurança</h2>
         <form action="/auth/change" method="POST" class="security-form">
           <label for="email">Email</label>
-          <input type="email" name="email" id="email" placeholder="Digite seu email" value=${email} required>
+          <input type="email" name="email" id="email" value="${email}" required>
           <button type="submit">Trocar senha</button>
         </form>
       `;
     }
   }
 
-  // Inicializa
+  // Inicializa com o perfil aberto
   switchSection("profile");
 
   // Clique nas abas

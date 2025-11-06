@@ -827,16 +827,93 @@ footer {
   padding: 0px;
   margin: 0px;
 }
-
-.main-header {
-  top: 0;
-  left: 0;
+.auth-content input[type="text"],
+.auth-content input[type="email"],
+.auth-content input[type="password"],
+.auth-content input[type="tel"],
+.auth-content input[type="date"] {
   width: 100%;
-  z-index: 9999;
-  margin: 0;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1.8px solid;
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--dark-grey-text);
+  background-color: var(--light-bg);
+  transition: all 0.3s ease;
 }
 
-/* empurra o conteúdo pra baixo do header fixo */
-.auth-container {
-  margin-top: 0px;
+.auth-content input::placeholder {
+  color: var(--light-text);
+  font-style: italic;
+}
+
+.auth-content input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 6px rgba(255, 140, 0, 0.3);
+  outline: none;
+}
+
+/* Labels */
+.auth-content label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--primary-blue);
+  font-size: 14px;
+}
+
+/* Grupos de inputs */
+.input-group {
+  margin-bottom: 18px;
+  position: relative;
+}
+
+/* Campos lado a lado (como telefone 1 e 2) */
+.input-row {
+  display: flex;
+  gap: 15px;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+/* Checkbox e termos */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-orange);
+  cursor: pointer;
+}
+
+.terms-label {
+  font-size: 13px;
+  color: var(--dark-grey-text);
+  font-weight: 400;
+}
+
+/* Botões de próxima etapa */
+.step-navigation button {
+  min-width: 120px;
+}
+
+/* Mensagem de erro ou sucesso */
+#message {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  color: var(--accent-orange);
+}
+
+/* Efeito para inputs com erro */
+.input-error input {
+  border-color: #c0392b;
+  box-shadow: 0 0 6px rgba(192, 57, 43, 0.3);
 }
