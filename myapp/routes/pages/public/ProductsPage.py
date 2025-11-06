@@ -15,7 +15,7 @@ def ProductsPage(page: int = 1) -> Response:
     paginate_args = f"/paginate/auctions/{page}?{urlencode(query_params)}"
 
     return render_template(
-        "Auctions.html",
+        "Products.html",
         paginate_args=paginate_args,
         categories_amt=CATEGORIES_AMT,
         status_amt=STATUS_AMT

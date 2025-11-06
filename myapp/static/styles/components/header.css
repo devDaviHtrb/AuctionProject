@@ -323,3 +323,526 @@ body {
   transform: translateY(5px);
   color: #e63946;
 }
+
+/* ========== MENU DE CATEGORIAS ========== */
+.main-nav-header ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.main-nav-header ul li {
+  position: relative;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #0077cc;
+}
+
+/* Dropdown de categorias */
+.categorias-menu {
+  display: none;
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 10px 0;
+  z-index: 10;
+  min-width: 180px;
+}
+
+.categorias-menu li a {
+  display: block;
+  padding: 8px 15px;
+  color: #333;
+  text-decoration: none;
+}
+
+.categorias-menu li a:hover {
+  background: #f5f5f5;
+}
+
+/* Exibe o menu ao passar o mouse */
+.dropdown-categorias:hover .categorias-menu {
+  display: block;
+}
+
+/* ========== MODAL DE LOGIN ========== */
+.login-modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.login-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 350px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.login-content h2 {
+  margin-bottom: 20px;
+}
+
+.login-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.login-content button {
+  width: 100%;
+  padding: 10px;
+  background: #0077cc;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-content button:hover {
+  background: #005fa3;
+}
+
+.close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* ===== MENU HEADER ===== */
+.menu-header {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-header li {
+  position: relative;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #0077cc;
+}
+
+/* ===== DROPDOWN ===== */
+.categorias-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+  min-width: 200px;
+
+  /* inicialmente invisível */
+  opacity: 1;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 50;
+}
+
+.categorias-menu li a {
+  display: block;
+  padding: 10px 18px;
+  color: #333;
+  text-decoration: none;
+}
+
+.categorias-menu li a:hover {
+  background: #f4f4f4;
+}
+
+/* Exibe o dropdown ao passar o mouse */
+.dropdown-categorias:hover .categorias-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+:root {
+  --primary-blue: #0c2340;
+  --accent-orange: #ff8c00;
+  --light-bg: #ffffff;
+  --medium-bg: #f5f5f5;
+  --dark-grey-text: #333333;
+  --light-text: #666;
+  --white: #ffffff;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--dark-grey-text);
+  background-color: var(--light-bg);
+  line-height: 1.6;
+}
+
+/* ===== BOTÕES GERAIS ===== */
+.btn-primary {
+  background-color: var(--accent-orange);
+  color: var(--white);
+  padding: 10px 25px;
+  border-radius: 5px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #e67e00;
+}
+
+.btn-primary.inverse-btn {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  border: 2px solid var(--white);
+}
+
+.btn-primary.inverse-btn:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--primary-blue);
+}
+
+/* ===== HEADER ===== */
+.main-header {
+  background-color: var(--white);
+  padding: 15px 0;
+  border-bottom: 1px solid var(--medium-bg);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  border-radius: 5px;
+}
+
+.logo span {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-blue);
+}
+
+/* ===== MENU PRINCIPAL ===== */
+.menu-header {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  list-style: none;
+}
+
+.menu-header li {
+  position: relative;
+}
+
+.nav-link {
+  color: var(--dark-grey-text);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 8px 10px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary-blue);
+}
+
+/* ===== DROPDOWN CATEGORIAS ===== */
+.categorias-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  min-width: 200px;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  padding: 10px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 50;
+}
+
+.categorias-menu li a {
+  display: block;
+  padding: 10px 18px;
+  color: var(--dark-grey-text);
+  text-decoration: none;
+}
+
+.categorias-menu li a:hover {
+  background-color: var(--medium-bg);
+}
+
+.dropdown-categorias:hover .categorias-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ===== MODAL DE LOGIN ===== */
+#loginModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#loginModal.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* ===== CONTEÚDO DO LOGIN ===== */
+.login-content {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px 35px;
+  width: 380px;
+  height: 455px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transform: translateY(15px);
+  transition: transform 0.25s ease;
+}
+
+#loginModal.show .login-content {
+  transform: translateY(0);
+}
+
+.login-content h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin-bottom: 25px;
+}
+
+/* ===== FORMULÁRIO ===== */
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  text-align: left;
+  font-weight: 500;
+  color: #444;
+}
+
+.input-group input {
+  margin-top: 0px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
+  outline: none;
+}
+
+/* ===== BOTÃO LOGIN ===== */
+.btn-primary.login-submit {
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 12px;
+  background-color: var(--accent-orange);
+}
+
+.btn-primary.login-submit:hover {
+  background-color: #e67e00;
+}
+
+/* ===== LINKS ===== */
+.forgot-password {
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--primary-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgot-password:hover {
+  color: var(--accent-orange);
+  text-decoration: underline;
+}
+
+/* ===== MENSAGEM DE ERRO ===== */
+#message {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: crimson;
+  min-height: 20px;
+}
+
+/* ===== BOTÃO FECHAR ===== */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: #444;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close:hover {
+  color: var(--accent-orange);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 480px) {
+  .login-content {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  .btn-primary.login-submit {
+    font-size: 0.9rem;
+  }
+}
+
+
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 0.75em;
+}
+.divider:not(:empty)::after {
+  margin-left: 0.75em;
+}
+
+/* ====== BOTÃO GOOGLE ====== */
+.google-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #000000;
+  color: #444;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px;
+  height: 45px;
+  width: 100%;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.google-login img {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* ====== LINK DE CADASTRO ====== */
+.signup-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.sign-up-btn {
+  color: var(--accent-orange);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sign-up-btn:hover {
+  text-decoration: underline;
+}

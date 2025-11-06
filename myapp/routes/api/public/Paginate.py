@@ -84,7 +84,8 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
             "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
             "category": categories_dict.get(product.category),
             "room": product.product_room,
-            "photo_url": images.query.filter_by(product_id=product.product_id).first()
+            #fix it
+            "photo_url": " "
         }
         for product in paginated_products.items
     ]
@@ -97,4 +98,5 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
         "has_prev": paginated_products.has_prev
     }
 
+    print(response)
     return jsonify(response), 200

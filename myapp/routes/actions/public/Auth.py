@@ -18,14 +18,15 @@ AUTH_CONFIRM = links.AUTH_CONFIRM
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/auth/google/redirect")
-def google_redirect() -> Tuple[Response, int]:
+def google_redirect() -> Response:
     flow = create_flow()
 
     google.auth._helpers.CLOCK_SKEW_SECS = 2
 
     authorization_url, state = flow.authorization_url()
     session["state"] = state
-    return redirect(authorization_url), 303
+    return redirect(authorization_url)
+
 
 @auth_bp.route("/auth/google/validate")
 def google_validate() -> Response:
@@ -88,7 +89,7 @@ def auth(token:str) -> Tuple[Response, int]:
     token_data = get_by_pending(token)
 
     if (not token_data): #not token
-        return links.sign_up(), 400
+        return redirect(url_for(links.SIGN_UP_PAGE))
 
     type = token_data.get("type")
     data = token_data.get("user_data")
@@ -96,13 +97,13 @@ def auth(token:str) -> Tuple[Response, int]:
     if(type == "login"):
         user = users.query.get(data.get("user_id"))       
         if (not user):
-            return links.sign_up(), 400
+            return redirect(url_for(links.SIGN_UP_PAGE))
 
-        response =  links.profile()
+        response =  redirect(url_for(links.HOME_PAGE))
         init_session(user) ## <--
         set_cookies(request, response, user_id = user.user_id)
         pop_by_pending(token)
-        return response, 200
+        return response
     
     elif(type == "create"):
        
@@ -113,7 +114,7 @@ def auth(token:str) -> Tuple[Response, int]:
             user_repository.save_item(data)
         
         pop_by_pending(token)
-        return redirect(links.login()), 201
+        return redirect(url_for(links.HOME_PAGE))
 
     elif(type == "reset"):
         user = user_repository.get_by_email(
@@ -121,37 +122,43 @@ def auth(token:str) -> Tuple[Response, int]:
         )
         new_password = request.form.get("new_password", None)
         if (not user):
-            return links.sign_up(), 400
+            return redirect(url_for(links.SIGN_UP_PAGE))
         if (not new_password):
-            return links.change_password(token=token), 400
+            return redirect(url_for(
+                links.CHANGE_PASSWORD_PAGE,
+                token = token
+            ))
         user_repository.set_password(user,new_password)
 
     else:
-        return links.sign_up(), 400
+        return links.sign_up()
     
     pop_by_pending(token)
-    return links.login(), 200
+    return links.login()
 
 @auth_bp.route("/auth/resend")
 @auth_bp.route("/auth/resend/<string:email>")
 def resend(email:str = None) -> Tuple[Response, int]:
     if(not email):
-        return links.sign_up(), 400
+        return redirect(url_for(links.SIGN_UP_PAGE))
     token = get_by_emails_dict(email)
     msgs.auth_message(
         email = email,
         content = url_for(AUTH_CONFIRM, token = token)
     )
     if (not token):
-        return links.login(), 400
-    return links.wait_login(email), 200
+        return redirect(url_for(links.LOGIN_PAGE))
+    return redirect(url_for(
+        links.WAITING_PAGE,
+        email = email
+    ))
 
 @auth_bp.route("/auth/change", methods = ["POST"])
 def change_password() -> Response:
     email = request.form.get("email", None)
 
     if(not email or not user_repository.get_by_email(email)): # no have users with this email
-        return links.sing_up(), 400
+        return redirect(url_for(links.SIGN_UP_PAGE))
     #add in token
     token = add_token(
         type = "reset",
@@ -161,7 +168,10 @@ def change_password() -> Response:
         email =     email,
         content =   url_for(AUTH_CONFIRM,token=token, _external=True)
     )
-    return links.wait_change(email), 200 
+    return redirect(url_for(
+        links.WAITING_PAGE,
+        email = email
+    )) 
 
 
         

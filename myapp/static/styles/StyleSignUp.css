@@ -744,7 +744,6 @@ ul {
 .type-option:hover,
 .type-option input:checked ~ * {
   border-color: var(--accent-orange);
-  background-color: var(--medium-bg);
 }
 
 .type-option input:checked ~ * i,
@@ -827,4 +826,17 @@ footer {
   align-items: center;
   padding: 0px;
   margin: 0px;
+}
+
+.main-header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  margin: 0;
+}
+
+/* empurra o conteúdo pra baixo do header fixo */
+.auth-container {
+  margin-top: 0px;
 }

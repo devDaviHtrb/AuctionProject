@@ -26,6 +26,7 @@ products: [
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="{{  url_for('static', filename='styles/StyleIndex.css')  }}">
   <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
+  <link rel="stylesheet" href="{{  url_for('static', filename='styles/StyleLogIn.css')  }}">
 
 </head>
 
@@ -167,15 +168,23 @@ products: [
 
 
   {% include 'components/Footer.html' %}
+  <!-- Modal de Login -->
+  <div class="auth-box">
+    <div class="logo-auth">
+      <img src="https://via.placeholder.com/40x40/0C2340/FFFFFF?text=L" alt="Lanciare Logo">
+      <h1>Lanciare.</h1>
+    </div>
 
 </body>
 
 </html>
 </body>
+
 <script src="../static/js/mains/IndexMain.js" type="module"></script>
 <script type="module" src="../static/js/interactivity/Paginate.js"></script>
 <script src="{{  url_for('static', filename='js/components/header.js')  }}"></script>
 <script src="{{  url_for('static', filename='js/components/carousel.js')  }}"></script>
+<script src="{{  url_for('static', filename='js/mains/LoginMain.js')  }}" type="module"></script>
 
 
 </html>

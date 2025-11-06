@@ -1,8 +1,13 @@
 // SignUpMain.js
 import { signIn } from "../interactivity/SignUp.js";
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const signUpBtn = document.getElementById("signUpBtn");
+
+  document.getElementById("openLogin").href = window.location.href
+
+  
 
   signUpBtn.addEventListener("click", async (e) => {
     e.preventDefault();

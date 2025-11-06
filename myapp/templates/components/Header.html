@@ -15,23 +15,70 @@
     </div>
 
     <nav class="main-nav-header">
-      <ul>
-        <a style="text-decoration: none" href="#">Categorias</a>
-        <a style="text-decoration: none" href="{{url_for('auctionsPage.AuctionsPage')}}">Leilões</a>
-        <a style="text-decoration: none" href="#">Contato</a>
+      <ul class="menu-header">
+        <li class="dropdown-categorias">
+          <a href="#" class="nav-link">Categorias</a>
+          <ul class="categorias-menu">
+            <li><a href="#">Tecnologia</a></li>
+            <li><a href="#">Moda</a></li>
+            <li><a href="#">Casa & Jardim</a></li>
+            <li><a href="#">Colecionáveis</a></li>
+          </ul>
+        </li>
+
+        <li><a href="{{url_for('productsPage.ProductsPage')}}" class="nav-link">Leilões</a></li>
+        <li><a href="#" class="nav-link">Contato</a></li>
       </ul>
+
+
       {% if not user %}
       <div class="auth-buttons-header">
-        <a style="text-decoration: none" href="{{url_for('loginPage.LoginPage')}}" class="btn-login-header">Sign In /
-          Sign Up</a>
-      </div>
-      {% else %}
+        <a href="#" id="openLogin" class="btn-login-header">Sign In / Sign Up</a>
 
+        <!-- Modal de Login -->
+        <div id="loginModal">
+          <div class="login-content" id="login-cc">
+            <span id="closeLogin" class="close">&times;</span>
+            <h2 style="margin-bottom: 10px;">Entrar</h2>
+
+            <form id="login-form">
+              <div class="input-group">
+                <label for="login-email">Email ou Usuário</label>
+                <input type="text" id="login-email" placeholder="seu@email.com" required>
+              </div>
+
+              <div class="input-group">
+                <label for="login-password">Senha</label>
+                <input type="password" id="login-password" required>
+                <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+              </div>
+
+
+              <button type="submit" class="btn-primary login-submit">Entrar</button>
+
+
+              <button type="button" class="google-login" style="background-color: #0C2340;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" alt="Google">
+                Entrar com Google
+              </button>
+            </form>
+
+            <div class="signup-link">
+              <p>Não tem conta?
+                <a href="{{url_for('signUpPage.SignUpPage')}}" class="sign-up-btn">Cadastre-se agora</a>
+              </p>
+            </div>
+
+            <p class="message" id="message"></p>
+          </div>
+        </div>
+      </div>
+
+      {% else %}
       <div class="user-menu-header">
         <button id="userButton" class="user-button">
           <img src="{{ user.photo }}" alt="User" class="user-avatar" />
         </button>
-
         <div id="dropdownMenu" class="dropdown hidden">
           <p class="dropdown-header">Olá, {{ user.name }}</p>
           <p class="dropdown-header">R$ {{ user.wallet }}</p>
@@ -42,8 +89,9 @@
           <a href="{{url_for('logout.logout')}}" class="dropdown-item logout">Sair</a>
         </div>
       </div>
-
       {% endif %}
     </nav>
+
   </div>
+
 </header>
