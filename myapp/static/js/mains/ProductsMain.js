@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3>${product.product_name}</h3>
                     <p class="price">R$ ${product.min_bid || '0,00'}</p>
                     <p class="time-left"><i class="far fa-clock"></i> Tempo: ${product.time_left || '--:--:--'}</p>
-                    <button class="btn-bid">DAR LANCE</button>
+                    <a href="/auction/${product.room}"><button class="btn-bid" >DAR LANCE</button></a>
                 </div>
             `;
             productsGrid.insertAdjacentHTML('beforeend', card);

@@ -25,12 +25,16 @@ product_images = [links:str]
 
                 <div class="gallery-section">
                     <div class="main-image-display">
-                        <img id="main-photo" src="{{ product_images[0].image }}" alt="Foto Principal">
+                        <img id="main-photo" src="{{ product_images[0].image if product_images[0] else '#'}}"
+                            alt="Foto Principal">
                     </div>
                     <div class="thumbnails">
-                        {% for link in product_images %}
-                        <img src="{{ link.image }}" class="thumb active">
+                        <img id="" src="{{ product_images[0].image if product_images[0] else '#' }}"
+                            class="thumb active">
+                        {% for image in product_images[1:] %}
+                        <img src="{{ image.image }}" class="thumb">
                         {% endfor %}
+
                     </div>
                 </div>
 
@@ -46,8 +50,11 @@ product_images = [links:str]
 
                     <div class="bid-timer">
                         <i class="far fa-clock"></i>
-                        <span id="time-left">Tempo restante: 02h 35m 12s</span>
+                        <span id="time-left" data-start="{{ product.start_datetime.isoformat() }}"
+                            data-duration="{{ product.duration }}">
+                        </span>
                     </div>
+
 
                     <div class="bid-controls">
                         <div class="bid-input-group">
@@ -55,7 +62,7 @@ product_images = [links:str]
                             <input type="number" id="bid-amount" placeholder="R$ {{ product.min_bid }}" step="50.00">
                             <button class="btn-bid submit-bid-btn"><i class="fas fa-gavel"></i> DAR LANCE</button>
                         </div>
-                        <p class="bid-policy">Você será notificado por e-mail sobre lances superiores.</p>
+                        <p class="bid-policy">Você será notificado sobre lances superiores.</p>
                     </div>
 
                     <div class="seller-info">
@@ -129,18 +136,25 @@ product_images = [links:str]
                         </ul>
                         {% endif %}
 
+                        {% set ns = namespace(items=[]) %}
+                        {% for current in technical_features %}
+                        {% set _ = ns.items.append((current.technical_feature_name, current.value)) %}
+                        {% endfor %}
+
+                        {% set technical_features_content = ns.items %}
 
 
+                        {% set non_null_process = technical_features_content | selectattr(1) | list %}
 
+                        {% if non_null_process %}
                         <h3>Especificações Técnicas</h3>
-                        <ul class="specs-list">
-                            <li><i class="fas fa-check-circle"></i> Condição: <span id="spec-condition">Usado (Ótimo
-                                    Estado)</span></li>
-                            <li><i class="fas fa-check-circle"></i> Material: <span id="spec-material">Metal e
-                                    Couro</span></li>
-                            <li><i class="fas fa-check-circle"></i> Data de Início: <span id="spec-start">30/10/2025 às
-                                    10:00</span></li>
+                        <ul>
+                            {% for label, value in non_null_process %}
+                            <li>{{ label }}: {{ value }}</li>
+                            {% endfor %}
                         </ul>
+                        {% endif %}
+
                     </div>
                 </div>
 
@@ -167,43 +181,36 @@ product_images = [links:str]
                 </div>
             </section>
 
+            {% if products %}
             <section class="recommendations-section">
                 <h2>Você Também Pode Gostar</h2>
                 <div class="product-grid recommended-grid">
+                    {% for current_product in products %}
                     <div class="product-card">
                         <div class="product-image"
-                            style="background-image: url('https://via.placeholder.com/250x180/E0E0E0/333333?text=Relicario');">
+                            style="background-image: url('{{ current_product.image if current_product.image }}');">
                         </div>
-                        <h3>Relicário de Prata Antigo</h3>
-                        <p class="price">R$ 550,00</p>
-                        <p class="time-left"><i class="far fa-clock"></i> Tempo: 12h 00m</p>
-                        <button class="btn-bid">DAR LANCE</button>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image"
-                            style="background-image: url('https://via.placeholder.com/250x180/E0E0E0/333333?text=Obra+Arte');">
-                        </div>
-                        <h3>Pintura a Óleo Moderna</h3>
-                        <p class="price">R$ 3.500,00</p>
-                        <p class="time-left"><i class="far fa-clock"></i> Tempo: 05h 10m</p>
-                        <button class="btn-bid">DAR LANCE</button>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image"
-                            style="background-image: url('https://via.placeholder.com/250x180/E0E0E0/333333?text=Celular+Raro');">
-                        </div>
-                        <h3>Celular Clássico Ed. Limitada</h3>
-                        <p class="price">R$ 1.100,00</p>
-                        <p class="time-left"><i class="far fa-clock"></i> Tempo: 23h 45m</p>
-                        <button class="btn-bid">DAR LANCE</button>
-                    </div>
-                </div>
-            </section>
+                        <h3>{{ current_product.product_name }}</h3>
+                        <p class="price">R$ {{ current_product.min_bid }}</p>
 
+                        <p class="time-left recommended-timer" data-start="{{ current_product.start_datetime.isoformat() }}"
+                            data-duration="{{ current_product.duration }}">
+                            <i class="far fa-clock"></i>
+                            <span class="timer-text">Carregando...</span>
+                        </p>
+
+                        <a href="/auction/{{ current_product.product_room }}">
+                            <button class="btn-bid">DAR LANCE</button>
+                        </a>
+                    </div>
+                    {% endfor %}
+            </section>
+            {% endif %}
         </div>
     </main>
 
     {% include "components/Footer.html" %}
 </body>
+<script src="{{  url_for('static', filename='js/mains/AuctionMain.js')  }}"></script>
 
 </html>

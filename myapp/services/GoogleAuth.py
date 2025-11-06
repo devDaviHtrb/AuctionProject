@@ -8,7 +8,7 @@ from google.auth.transport import Request
 from googleapiclient.discovery import build
 import os
 
-REDIRECT_URI = "http://127.0.0.1:5000/auth/google/validate"
+REDIRECT_URI = Config.REDIRECT_URI
 GOOGLE_CLIENT_ID = Config.GOOGLE_CLIENT_ID
 GOOGLE_SECRETS = Config.GOOGLE_SECRECT
 GOOGLE_PROJECT_ID = Config.GOOGLE_PROJECT_ID

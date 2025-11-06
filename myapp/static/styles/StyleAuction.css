@@ -683,9 +683,14 @@ ul {
     margin-top: 10px;
 }
 
+.seller-info{
+    display: flex;
+}
+
 .seller-info p {
     font-size: 14px;
     color: var(--light-text);
+    margin: 0px 10px;
     margin-bottom: 5px;
 }
 
@@ -780,7 +785,10 @@ ul {
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
 
-
+main{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 /* Responsividade para Detalhes */
 @media (max-width: 992px) {
     .main-content-area {

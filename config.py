@@ -31,6 +31,7 @@ class Config:
     GOOGLE_SECRECT =        getenv("GOOGLE_SECRECT")
     GOOGLE_PROJECT_ID =     getenv("GOOGLE_PROJECT_ID")
     GOOGLE_REDIRECT_URIS =  getenv("GOOGLE_REDIRECT_URIS")
+    REDIRECT_URI =          getenv("REDIRECT_URI")
     
     #FLASK
     SOCKETIO_ASYNC_MODE =   "threading"  

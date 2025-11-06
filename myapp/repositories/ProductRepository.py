@@ -6,6 +6,7 @@ from myapp.models.Products import products
 from myapp.models.Bids import bids
 from myapp.models.Users import users
 from myapp.models.Images import images
+from myapp.models.TechnicalFeaturesValues import technical_features_values
 from myapp.setup.InitSqlAlchemy import db
 import myapp.repositories.AddressRepository as address_repository
 import myapp.repositories.BidRepository as bids_repository
@@ -101,3 +102,12 @@ def last_bid(product:products, ignores_ids:List[int], chunk_size:int = 10) -> Op
             if(bid_user):
                 return bid, bid_user
         offset += chunk_size
+
+def get_technical_features_values(product: products) -> List[technical_features_values]:
+    return technical_features_values.query.join(
+        technical_features,
+        technical_features_values.technical_feature_id == technical_features.technical_feature_id,
+        isouter=True
+    ).filter(
+        technical_features_values.product_id == products.product_id
+    ).all()
