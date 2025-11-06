@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bash + psql Terminal</title>
+    <style>
+        body {
+            background-color: #0c0c0c;
+            color: #d1d5db;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .terminal {
+            background: #0f172a;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 900px;
+            height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .line {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .prompt {
+            color: #22c55e;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .input-line {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e2e8f0;
+            font-family: inherit;
+            font-size: 16px;
+            flex: 1 1 auto;
+        }
+
+        .output {
+            white-space: pre;
+            margin-left: 1em;
+            color: #cbd5e1;
+            font-size: 15px;
+        }
+
+        .err {
+            color: #f87171;
+        }
+
+        .ok {
+            color: #4ade80;
+        }
+
+        .table {
+            white-space: pre;
+            color: #a5f3fc;
+            margin-left: 1em;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="terminal" class="terminal"></div>
+
+    <script>
+        const term = document.getElementById('terminal');
+        let mode = 'bash'; // 'bash' ou 'psql'
+        let sqlBuffer = '';
+        let history = [];
+        let histIndex = -1;
+
+        function newPrompt() {
+            const line = document.createElement('div');
+            line.className = 'line';
+            const prompt = document.createElement('span');
+            prompt.className = 'prompt';
+            prompt.textContent = mode === 'bash' ? 'user@web:~$' : 'psql=>';
+            const input = document.createElement('input');
+            input.className = 'input-line';
+            line.appendChild(prompt);
+            line.appendChild(input);
+            term.appendChild(line);
+            input.focus();
+
+            input.addEventListener('keydown', async (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = input.value.trim();
+                    if (cmd) { history.push(cmd); histIndex = history.length; }
+                    input.disabled = true;
+                    if (mode === 'bash') await handleBash(cmd);
+                    else await handlePSQL(cmd);
+                    newPrompt();
+                } else if (e.key === 'ArrowUp') {
+                    if (histIndex > 0) histIndex--;
+                    if (history[histIndex]) input.value = history[histIndex];
+                    e.preventDefault();
+                } else if (e.key === 'ArrowDown') {
+                    if (histIndex < history.length - 1) histIndex++;
+                    input.value = history[histIndex] || '';
+                    e.preventDefault();
+                }
+            });
+            term.scrollTop = term.scrollHeight;
+        }
+
+        async function handleBash(cmd) {
+            const output = document.createElement('div');
+            output.className = 'output';
+            term.appendChild(output);
+
+            if (!cmd) return;
+
+            if (cmd === 'clear') { term.innerHTML = ''; return; }
+
+            if (cmd === 'help') {
+                output.innerHTML = `Comandos disponíveis:
+  clear ........ limpa a tela
+  psql ......... entra no modo SQL
+  entry ........ entra em -r rota
+  help ......... mostra esta ajuda`;
+                term.scrollTop = term.scrollHeight;
+                return;
+            }
+
+            if (cmd === 'history') {
+                output.textContent = history.map((h, i) => `${i + 1}  ${h}`).join('\n');
+                term.scrollTop = term.scrollHeight;
+                return;
+            }
+
+            if (cmd === 'exit') {
+                output.textContent = 'logout';
+                term.scrollTop = term.scrollHeight;
+                window.location.href = "/"
+                return;
+            }
+
+            if (cmd === 'psql') {
+                mode = 'psql';
+                const msg = document.createElement('div');
+                msg.className = 'ok';
+                msg.textContent = 'Entrando no modo psql (digite \\q para sair, \\? para ajuda)';
+                term.appendChild(msg);
+                term.scrollTop = term.scrollHeight;
+                return;
+            }
+            // --- Comando entry -r /rota ---
+            if (cmd.startsWith('entry')) {
+                const match = cmd.match(/-r\s+(\S+)/);
+                if (!match) {
+                    output.innerHTML = "<span class='err'>Uso: entry -r &lt;rota&gt;</span>";
+                    term.scrollTop = term.scrollHeight;
+                    return;
+                }
+
+                const route = match[1];
+                output.innerHTML = `<span class='ok'>→ Chamando rota ${route}...</span>`;
+                term.scrollTop = term.scrollHeight;
+
+                try {
+                    const res = await fetch(route);
+                    const text = await res.text();
+
+                    try {
+                        const json = JSON.parse(text);
+                        output.innerHTML = `<pre class='table'>${JSON.stringify(json, null, 2)}</pre>`;
+                    } catch {
+                        output.innerHTML = `<pre class='table'>${text}</pre>`;
+                    }
+                } catch (e) {
+                    output.innerHTML = `<span class='err'>Erro ao acessar ${route}: ${e.message}</span>`;
+                }
+                term.scrollTop = term.scrollHeight;
+                return;
+            }
+
+
+            output.textContent = `bash: ${cmd}: comando não encontrado`;
+            term.scrollTop = term.scrollHeight;
+        }
+
+        async function handlePSQL(cmd) {
+            const output = document.createElement('div');
+            output.className = 'output';
+            term.appendChild(output);
+
+            if (cmd === '\\q') { mode = 'bash'; output.textContent = ''; return; }
+
+            if (cmd === '\\?') {
+                output.innerHTML = `Comandos psql:
+  \\q ............ sair do modo SQL
+  \\? ............ mostrar ajuda
+  (ou digite SQL normalmente; finalize com ;)`;
+                return;
+            }
+
+            if (!cmd) return;
+
+            sqlBuffer += cmd + '\n';
+            if (!sqlBuffer.trim().endsWith(';')) {
+                const cont = document.createElement('div');
+                cont.className = 'line';
+                const dots = document.createElement('span');
+                dots.className = 'prompt';
+                dots.textContent = '   ...';
+                const input = document.createElement('input');
+                input.className = 'input-line';
+                cont.appendChild(dots);
+                cont.appendChild(input);
+                term.appendChild(cont);
+                input.focus();
+                input.addEventListener('keydown', async (e) => {
+                    if (e.key === 'Enter') {
+                        input.disabled = true;
+                        await handlePSQL(input.value.trim());
+                    }
+                });
+                return;
+            }
+
+            try {
+                const res = await fetch('/admin/bash/psql', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sql: sqlBuffer })
+                });
+                const data = await res.json();
+                sqlBuffer = '';
+                if (!res.ok) output.innerHTML = `<span class='err'>${data.error}</span>`;
+                else if (data.type === 'select') output.innerHTML = formatTable(data.rows, data.cols);
+                else if (data.type === 'modify') output.innerHTML = `<span class='ok'>${data.rowcount} linha(s) afetadas.</span>`;
+                else output.textContent = JSON.stringify(data);
+            } catch (e) {
+                output.innerHTML = `<span class='err'>${e.message}</span>`;
+            }
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function formatTable(rows, cols) {
+            if (!rows.length) return '(0 rows)';
+            const keys = cols && cols.length ? cols : Object.keys(rows[0]);
+            const widths = {};
+            keys.forEach(k => widths[k] = Math.max(k.length, ...rows.map(r => String(r[k] ?? '').length)));
+            const header = keys.map(k => pad(k, widths[k])).join(' | ');
+            const sep = keys.map(k => '-'.repeat(widths[k])).join('-+-');
+            const body = rows.map(r => keys.map(k => pad(String(r[k] ?? ''), widths[k])).join(' | ')).join('\n');
+            return `<pre class='table'>${header}\n${sep}\n${body}\n(${rows.length} row${rows.length > 1 ? 's' : ''})</pre>`;
+        }
+        function pad(str, len) { return str + ' '.repeat(len - str.length); }
+
+        // inicialização
+        const banner = document.createElement('div');
+        banner.innerHTML = "<span class='ok'>Bem-vindo ao Bash Web — digite <b>psql</b> para entrar no modo SQL, ou <b>help</b> para ajuda</span>";
+        term.appendChild(banner);
+        newPrompt();
+    </script>
+</body>
+
+</html>

@@ -85,7 +85,7 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
             "category": categories_dict.get(product.category),
             "room": product.product_room,
             #fix it
-            "photo_url": " "
+            "photo_url": images.query.filter_by(product_id=product.product_id).first().image if images.query.filter_by(product_id=product.product_id).first() else "#"
         }
         for product in paginated_products.items
     ]

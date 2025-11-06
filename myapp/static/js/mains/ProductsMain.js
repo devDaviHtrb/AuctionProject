@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const photoUrl = product.photo_url?.photo_url || 'https://via.placeholder.com/250x180/E0E0E0/333333?text=Sem+Imagem';
             const card = `
                 <div class="product-card">
-                    <div class="product-image" style="background-image: url('${photoUrl}');"></div>
+                    <div class="product-image" style="background-image: url('${ product.photo_url}');"></div>
                     ${product.badge ? `<span class="badge ${product.badge_class || ''}">${product.badge}</span>` : ''}
                     <h3>${product.product_name}</h3>
                     <p class="price">R$ ${product.min_bid || '0,00'}</p>
