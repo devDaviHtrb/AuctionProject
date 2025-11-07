@@ -3,6 +3,7 @@ from myapp.models.Users import users
 from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.setup.InitSqlAlchemy import db
 from typing import Tuple
+from myapp.utils.Unmask import unmask
 from myapp.utils.Validations.validations import is_phone_number
 
 change_contact_bp = Blueprint("changeContact", __name__)
@@ -17,11 +18,7 @@ def change_contact() -> Tuple[Response, int]:
     for phone in phones:
         if phone != None:
             unf_phone = phone
-            phone = phone.replace(" ", "")
-            phone =  phone.replace("\n", "")
-            phone = phone.replace("(", "")
-            phone = phone.replace(")", "")
-            phone = phone.replace("-", "")
+            phone = unmask(phone)
             phones[phones.index(unf_phone)] = phone
     for phone in phones:
         if phone != None and phone!="":

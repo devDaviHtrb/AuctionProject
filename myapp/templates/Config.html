@@ -60,8 +60,19 @@
               <label for="email">Email</label>
               <p>{{email}}</p>
             </div>
-          
+            {%if cpf%}
+            <div class="input-group">
+              <label for="cpf">CPF</label>
+              <p>{{cpf}}</p>
+            </div>
+          {%endif%}
             {%if user_type=="physical_person"%}
+              {%if rg%}
+            <div class="input-group">
+              <label for="rg">Rg</label>
+              <p>{{rg}}</p>
+            </div>
+          {%endif%}
              <div class="input-group">
               <label for="gender">Sexo</label>
               <select id="gender" name="gender">
@@ -71,6 +82,21 @@
                 <option value="other" {% if gender == "other" %}selected{% endif %}>Outro</option>
               </select>
             </div>
+             {%if not cpf or not rg%}
+            <h2>Informações Faltantes</h2>
+            {%endif%}
+            {%if not cpf%}
+            <div class="input-group">
+              <label for="cpf">Adicionar CPF</label>
+              <input type="text" id="cpf" value="{{cpf}}" name="cpf">
+            </div>
+          {%endif%}
+          {%if not rg%}
+            <div class="input-group">
+              <label for="rg">Adicionar Rg</label>
+              <input type="text" id="rg" value="{{rg}}" name="rg">
+            </div>
+          {%endif%}
             {%endif%}
             {% if msg %}
               <p>{{msg}}</p>
@@ -85,7 +111,7 @@
 
       <!-- Contato -->
       <div id="contact" class="settings-section hidden-section">
-        <h2>Contato e Informações Pessoais</h2>
+        <h2>Contato</h2>
         <p class="section-description">Gerencie seus números de telefone e informações pessoais.</p>
         <div class="settings-form-card">
           <form id="contact-form" action="/changeContact" method="post" class="contact-form">
@@ -126,7 +152,10 @@
 </main>
 
 {% include 'components/Footer.html' %}
-<script>const email = "{{email}}";</script>
+<script>const email = "{{email}}";
+  {%if not cpf%}const cpf = document.getElementById("cpf"){%endif%}
+  {%if not rg%}const rg = document.getElementById("rg"){%endif%}
+</script>
 <script src="{{ url_for('static', filename='js/mains/ConfigMain.js') }}"></script>
 </body>
 </html>

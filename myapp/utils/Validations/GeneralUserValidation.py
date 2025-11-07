@@ -1,3 +1,4 @@
+from myapp.utils.Unmask import unmask
 from myapp.utils.Validations.validations import *
 from flask import Request
 from myapp.utils.GetMissingInfo import get_missing_info
@@ -77,21 +78,11 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
              "content": "Invalid email"
         }, 400
     
-    if data.get("cellphone1", None):
-        if not is_phone_number(data["cellphone1"]):
-            return {
-                 "Type":    "InputError",
-                 "content": "Invalid chellphone"
-            }, 400
-    if data.get("cellphone2", None):
-        if not is_phone_number(data["cellphone2"]):
-            return {
-                 "Type":    "InputError",
-                 "content": "Invalid chellphone"
-            }, 400
-    if data.get("landline", None):
-        if not is_phone_number(data["landline"]):
-            return {
+    for phone in ["cellphone1", "cellphone2", "landline"]:
+        if data.get(phone, None):
+            data[phone] = unmask(data[phone])
+            if not is_phone_number(data[phone]):
+                return {
                  "Type":    "InputError",
                  "content": "Invalid chellphone"
             }, 400
@@ -105,40 +96,48 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     
     
     if user_type == "physical_person":
-            if data.get("cpf", None) and data.get("rg", None):
-                if is_cpf(data["cpf"]) and is_rg(data["rg"]):
-                    if not User_validation(data["username"], data["email"], data["cpf"],rg=data["rg"]):
+            cpf = data.get("cpf", None)
+            rg = data.get("rg", None)
+
+            if cpf:
+                cpf = unmask(cpf)
+                if not is_cpf(data["cpf"]):
+                      return  {
+                         "Type":    "InputError",
+                         "content": "Invalid CPF"
+                    }, 400
+                
+            if rg:
+                rg = unmask(rg)
+                if not is_rg(data["rg"]):
+                      return  {
+                         "Type":    "InputError",
+                         "content": "Invalid Rg"
+                    }, 400
+            
+            if not User_validation(data["username"], data["email"], cpf=cpf,rg=rg):
                         return {
                              "Type":    "InputError",
                              "content": "There is already a user with that name, email, CPF or Rg"
                         }, 400
-                else:
-                    return  {
+    elif user_type=="legal_person":
+        cnpj = unmask(data.get("cnpj", None))
+        if not is_cnpj(cnpj):
+                      return  {
                          "Type":    "InputError",
-                         "content": "Invalid CPF or Rg"
+                         "content": "Invalid Rg"
                     }, 400
-            if not User_validation(data["username"], data["email"]):
-                        return  {
-                             "Type":    "InputError",
-                             "content": "There is already a user with that name, email"
-                        }, 400
-                       
-    elif data.get("cnpj", None):
-        if is_cnpj(data["cnpj"]) and state_tax_registration_validation(data["state_tax_registration"], data["state"]):
-            if not User_validation(data["username"], data["email"], data["cpf"], cnpj=data["cnpj"]):
-                return {
-                     "Type":    "InputError",
-                     "content": "There is already a user with that name, email or CNPJ"
-                }, 400
-        else:
+        
+        if not state_tax_registration_validation(data["state_tax_registration"], data["state"]):
             return {
                  "Type":    "InputError",
                  "content": "Invalid CNPJ or state_tax_registration"
             }, 400
-        if not User_validation(data["username"], data["email"], data["cpf"], cnpj=data["cnpj"]):
+        
+        if not User_validation(data["username"], data["email"], cpf=cpf, cnpj=cnpj):
                 return {
                      "Type":    "InputError",
-                     "content": "There is already a user with that name, email"
+                     "content": "There is already a user with that name, email, cpf or cnpj"
                 }, 400
     return {
          "Type":    "Valid",
