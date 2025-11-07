@@ -113,7 +113,7 @@ CREATE TABLE legal_persons (
 	state_tax_registration CHAR(17), 
 	legal_business_name VARCHAR(255) NOT NULL, 
 	trade_name VARCHAR(255) NOT NULL, 
-	scrap_purchase_authorization BOOLEAN NOT NULL, 
+	scrap_purchase_authorization BOOLEAN, 
 	PRIMARY KEY (user_id), 
 	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 )
