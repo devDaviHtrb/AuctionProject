@@ -17,6 +17,8 @@ product_images = [links:str]
 
 <body>
     {% include "components/Header.html" %}
+    <!-- Container geral de notificações -->
+    <div id="notification-container"></div>
 
     <main>
         <div class="container item-detail-layout">
@@ -44,7 +46,15 @@ product_images = [links:str]
                     <h1 id="item-title">{{ product.product_name }}</h1>
 
                     <div class="current-bid-box">
-                        <p>Lance Atual:</p>
+                        <p id="p3" class="item-category">Lance Atual:                    
+                            (
+                                {% if not last_bid %}
+                                    nenhum lance
+                                {% else %}
+                                    <a target="_blank" href="/profile/{{ last_bid.username }}">{{ last_bid.username }}</a>
+                                {% endif %}
+                            )
+                        </p>
                         <span id="current-price" class="price-display">R$ {{ product.min_bid }}</span>
                     </div>
 
@@ -58,7 +68,7 @@ product_images = [links:str]
 
                     <div class="bid-controls">
                         <div class="bid-input-group">
-                            <label for="bid-amount">Seu Lance (Mínimo R$ {{ product.min_bid }})</label>
+                            <label id="p2" for="bid-amount">Seu Lance (Mínimo R$ {{ product.min_bid }})</label>
                             <input type="number" id="bid-amount" placeholder="R$ {{ product.min_bid }}" step="50.00">
                             <button class="btn-bid submit-bid-btn"><i class="fas fa-gavel"></i> DAR LANCE</button>
                         </div>
@@ -159,25 +169,24 @@ product_images = [links:str]
                 </div>
 
                 <div class="bids-history-panel">
-                    <h2>Histórico de Lances</h2>
-                    <ul class="bid-history-list">
-                        <li class="bid-entry">
-                            <span class="bidder">Usuário A</span>
-                            <span class="bid-value">R$ 1.800,00</span>
-                            <span class="bid-time">15:30:10</span>
-                        </li>
-                        <li class="bid-entry">
-                            <span class="bidder">Usuário B</span>
-                            <span class="bid-value">R$ 1.750,00</span>
-                            <span class="bid-time">15:29:55</span>
-                        </li>
-                        <li class="bid-entry">
-                            <span class="bidder">Usuário C</span>
-                            <span class="bid-value">R$ 1.700,00</span>
-                            <span class="bid-time">15:29:01</span>
-                        </li>
+                    <h2 >Histórico de Lances</h2>
+                    <div id="p5">
+                        {% if not last_bid %}
+                        <p id="p5" class="no-bids">Seja o primeiro a dar um lance!</p>
+                        {% endif %}
+                    </div>
+                    <ul id="p4" class="bid-history-list">
+                        {% for current_bid in last_bids %}
+                            <li class="bid-entry">
+                                <span class="bidder"><a href="/profile/{{ current_bid.username }}">
+                                    {{ current_bid.username }}
+                                </a></span>
+                                <span class="bid-value">R$ {{ current_bid.bid_value }}</span>
+                                <span class="bid-time">{{ current_bid.bid_datetime.strftime('%d %b %Y, %H:%M') }}</span>
+                            </li>
+                        {% endfor %}
                     </ul>
-                    <p class="no-bids">Seja o primeiro a dar um lance!</p>
+                    
                 </div>
             </section>
 
@@ -211,6 +220,12 @@ product_images = [links:str]
 
     {% include "components/Footer.html" %}
 </body>
+<script>
+    window.user = {{ 'true' if user else 'false' }};
+    window.roomId = {{ product.product_room | tojson }};
+    window.product_id = {{ product.product_id }}
+</script>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js" ></script>
 <script src="{{  url_for('static', filename='js/mains/AuctionMain.js')  }}"></script>
 
 </html>

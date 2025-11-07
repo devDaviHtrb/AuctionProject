@@ -4,6 +4,6 @@ export function manageLoginResponse(data) {
     document.getElementById("login-cc").style.height = "482px"
     document.getElementById("message").classList.add("active");
   } else if (data.redirect) {
-    window.location.href = data.redirect;
+    window.location.href = window.location.href;
   }
 }
