@@ -37,3 +37,9 @@ services:
 
 volumes:
   pgdata:
+
+networks:
+  private_network:
+    driver: bridge
+  public_network:
+    driver: bridge
