@@ -22,4 +22,8 @@ def init_session(user: users) -> None:
     if session["user_type"] == "physical_person":
         session["gender"] = p_user.gender
         session["rg"] = p_user.rg
+    elif session["user_type"]== "legal_person":
+        session["legal_business_name"] = l_user.legal_business_name
+        session["trade_name"] = l_user.trade_name
+        session["state_tax_registration"] = l_user.state_tax_registration
        

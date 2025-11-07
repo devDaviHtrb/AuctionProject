@@ -6,6 +6,7 @@ def get_missing_info(
     datakey:List[str],
     nullAbleValues:List[str],
 ) -> Tuple[Dict[str, Any], int]:
+    
     data = {}
     missingInfo = []
     for requiredData in datakey:
@@ -14,6 +15,9 @@ def get_missing_info(
             missingInfo.append(requiredData)
         else:
             data[requiredData] = value
+    if data.get("trade_name"):
+        data["name"] = data["trade_name"]
+        missingInfo.remove("name")
 
     if missingInfo:
         return {

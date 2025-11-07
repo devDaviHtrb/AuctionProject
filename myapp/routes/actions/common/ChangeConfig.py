@@ -1,12 +1,12 @@
 
 from flask import Blueprint, request, Response, redirect, session, url_for
 from myapp.models.Users import users
-from myapp.models.LegalPerson import legal_persons
-from myapp.models.PhysicalPerson import physical_persons
-from myapp.utils.LinksUrl import CONFIG_PAGE, configPage
+from myapp.services.ChangeLPData import change_lp_data
+from myapp.services.ChangePPData import change_pp_data
+from myapp.utils.LinksUrl import CONFIG_PAGE
 from typing import Tuple
 from myapp.utils.Unmask import unmask
-from myapp.utils.Validations.validations import is_cpf, is_rg
+from myapp.utils.Validations.validations import is_cpf, User_validation
 from myapp.setup.InitSqlAlchemy import db
 
 change_config_bp = Blueprint("changeConfig", __name__)
@@ -22,34 +22,24 @@ def change_config() -> Tuple[Response, int]:
     username = request.form["username"]
     name = request.form["name"]
 
-    existing_user = users.query.filter_by(username=username).first()
-
-    if existing_user:
-        if existing_user.user_id != session.get("user_id"):
+    if session.get("username")!=username:
+        if not User_validation(username=username):
             return redirect(url_for(CONFIG_PAGE, msg="There are an user with this username")), 400
         
     current_user = users.query.filter_by(user_id=session.get("user_id")).first()
 
     if session["user_type"]=="physical_person":
-        physical_person=  physical_persons.query.filter_by(user_id=current_user.user_id)
-        gender = request.form["gender"]
-        rg = request.form.get("rg", None)
-        if rg:
-            rg = unmask(rg)
-            if is_rg(rg):
-                physical_person.rg = rg
-                session["rg"] = rg
-            else:
-                return redirect(url_for(CONFIG_PAGE, msg="Invalid Rg")), 400
-
-        physical_person.gender = gender
-        session["gender"] = gender
-    
+        change_pp_data(request, current_user)
+    elif session["user_type"] == "legal_person":
+       change_lp_data(request, current_user)
+            
 
     cpf = request.form.get("cpf", None)
     if cpf:
         cpf = unmask(cpf)
         if is_cpf(cpf):
+            if not User_validation(cpf=cpf):
+                return redirect(url_for(CONFIG_PAGE, msg="There are an user with this CPF")), 400
             current_user.cpf = cpf
             session["cpf"] = cpf
         else:

@@ -1,19 +1,14 @@
 import { signIn } from "../interactivity/SignUp.js";
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const signUpBtn = document.getElementById("signUpBtn");
-
-  document.getElementById("openLogin").href = window.location.href
-
-  
+  document.getElementById("openLogin").href = window.location.href;
 
   signUpBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     await signIn();
   });
 
-  // === Controle de passos ===
   const steps = [
     document.getElementById("step-1"),
     document.getElementById("step-2"),
@@ -64,12 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === Tipo de conta (PF/PJ) ===
   const radios = document.querySelectorAll("input[name='account_type']");
   const userTypeInput = document.getElementById("userType");
-
-  const pfFields = document.querySelectorAll(".pf-field");
-  const pjFields = document.querySelectorAll(".pj-field");
+  const pfFields = document.querySelectorAll(".pp_field");
+  const pjFields = document.querySelectorAll(".lp_field");
 
   function toggleTypeFields() {
     const selected = document.querySelector(
@@ -77,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ).value;
     userTypeInput.value = selected;
 
-    // Mostra ou esconde os campos
     pfFields.forEach(
       (el) =>
         (el.style.display = selected === "physical_person" ? "block" : "none")
@@ -87,15 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
         (el.style.display = selected === "legal_person" ? "block" : "none")
     );
 
-    // Atualiza a cor do botão selecionado
     const typeOptions = document.querySelectorAll(".type-option");
     typeOptions.forEach((opt) => {
       const input = opt.querySelector("input[name='account_type']");
-      if (input.checked) {
-        opt.classList.add("active");
-      } else {
-        opt.classList.remove("active");
-      }
+      opt.classList.toggle("active", input.checked);
     });
   }
 
@@ -103,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
     radio.addEventListener("change", toggleTypeFields);
   });
 
-  // === Inicialização ===
   toggleTypeFields();
   updateSteps();
 });

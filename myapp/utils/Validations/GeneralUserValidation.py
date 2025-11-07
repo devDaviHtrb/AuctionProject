@@ -16,13 +16,6 @@ datakey = [
     "cellphone2",
     "landline",
     "photo", 
-    "street_name", 
-    "street_number", 
-    "apt",
-    "zip_code",
-    "district",
-    "city",
-    "state"
 ]
 nullAbleValues = [
     "cellphone2",
@@ -36,34 +29,29 @@ nullAbleValues = [
 nullAbleValues += [
     "cellphone1",
     "landline",
-    "street_name",
-    "street_number",
-    "apt",
-    "zip_code",
-    "district",
-    "city",
-    "state",
     "rg",
-    'state_tax_registration', 'legal_business_name', 'trade_name'
 ]
 
 def set_type(user_type:str) -> None:
-     global datakey
-     datakey += [
-        "rg",
-        "birth_date",
-        "gender"
-    ] if user_type == "physical_person" else [
-        "cnpj", 
-        "state_tax_registration",
-        "legal_business_name",
-        "trade_name",
-        "scrap_purchase_authorization"
-    ]
+    global datakey
+    base_keys = datakey
+
+    if user_type == "physical_person":
+        base_keys += ["rg", "birth_date", "gender"]
+    else:
+        base_keys += [
+            "cnpj",
+            "state_tax_registration",
+            "legal_business_name",
+            "trade_name",
+            "scrap_purchase_authorization",
+        ]
+    return base_keys
 
 def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     user_type = request.form.get("userType", "physical_person")
-    set_type(user_type)
+    datakey = set_type(user_type)
+    
     data, code = get_missing_info(
         request,
         datakey,
@@ -93,22 +81,23 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                  "Type":    "InputError",
                  "content": "Invalid location data"
             }, 400
-    
-    
-    if user_type == "physical_person":
-            cpf = data.get("cpf", None)
-            rg = data.get("rg", None)
-
-            if cpf:
-                cpf = unmask(cpf)
-                if not is_cpf(data["cpf"]):
-                      return  {
+    cpf = data.get("cpf", None)
+    if cpf:
+        cpf = unmask(cpf)
+        data["cpf"] = cpf
+        if not is_cpf(data["cpf"]):
+            return  {
                          "Type":    "InputError",
                          "content": "Invalid CPF"
                     }, 400
+    
+    if user_type == "physical_person":
+            
+            rg = data.get("rg", None)
                 
             if rg:
                 rg = unmask(rg)
+                data["rg"] = rg
                 if not is_rg(data["rg"]):
                       return  {
                          "Type":    "InputError",
@@ -122,22 +111,27 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                         }, 400
     elif user_type=="legal_person":
         cnpj = unmask(data.get("cnpj", None))
+        data["cnpj"] = cnpj
         if not is_cnpj(cnpj):
+                      
                       return  {
                          "Type":    "InputError",
-                         "content": "Invalid Rg"
+                         "content": "Invalid CNPJ"
                     }, 400
-        
-        if not state_tax_registration_validation(data["state_tax_registration"], data["state"]):
+        state_tax_registration =  unmask(data.get("state_tax_registration"))
+        print( data["state"])
+        data["state_tax_registration"] = state_tax_registration
+        print(state_tax_registration_validation(data["state_tax_registration"], uf=str(data["state"])))
+        if state_tax_registration_validation(data["state_tax_registration"], uf=str(data["state"]))==False:
             return {
                  "Type":    "InputError",
-                 "content": "Invalid CNPJ or state_tax_registration"
+                 "content": "state_tax_registration"
             }, 400
         
-        if not User_validation(data["username"], data["email"], cpf=cpf, cnpj=cnpj):
+        if not User_validation(data["username"], data["email"], cpf=cpf, cnpj=cnpj, state_tax_registration=state_tax_registration, trade_name=data["trade_name"], legal_business_name=data["legal_business_name"]):
                 return {
                      "Type":    "InputError",
-                     "content": "There is already a user with that name, email, cpf or cnpj"
+                     "content": "There is already a user with that trade_name, legal businnes name, state tax registration, email, cpf or cnpj"
                 }, 400
     return {
          "Type":    "Valid",
