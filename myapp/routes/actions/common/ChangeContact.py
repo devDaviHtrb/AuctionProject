@@ -29,9 +29,9 @@ def change_contact() -> Tuple[Response, int]:
     user_id = session.get("user_id")
     current_user = users.query.filter_by(user_id=user_id).first()
 
-    current_user.cellphone1 = cellphone1
-    current_user.cellphone2 = cellphone2
-    current_user.landline = landline
+    current_user.cellphone1 = phones[0]
+    current_user.cellphone2 = phones[1]
+    current_user.landline = phones[2]
 
     session["cellphone1"] = phones[0]
     session["cellphone2"] = phones[1]

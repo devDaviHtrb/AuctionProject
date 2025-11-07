@@ -1,5 +1,6 @@
 from myapp.extensions import *
 
+
 def init_extensions(app: Flask) -> SocketIO:
   
     
@@ -17,7 +18,7 @@ def init_extensions(app: Flask) -> SocketIO:
     create_tables(app, db)
 
     init_authDecorator(app)
-
+    
 
 
     return socketIo
