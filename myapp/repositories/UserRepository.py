@@ -99,3 +99,12 @@ def save_item(data: Dict[str, Any]) -> users:
     
     db.session.commit()
     return user
+
+def force_logout_all():
+    users.query.filter_by(admin_user=False).update({ "force_logout": True })
+    db.session.commit()
+
+
+def force_logout_user(username):
+    users.query.filter_by(username=username).update({ "force_logout": True })
+    db.session.commit()

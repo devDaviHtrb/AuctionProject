@@ -74,6 +74,7 @@ CREATE TABLE users (
 	password_token_expiration_datetime TIMESTAMP WITHOUT TIME ZONE, 
 	api_token VARCHAR(255), 
 	password_token VARCHAR(255), 
+	force_logout BOOLEAN NOT NULL, 
 	PRIMARY KEY (user_id)
 )
 

@@ -132,10 +132,13 @@
 
             if (cmd === 'help') {
                 output.innerHTML = `Comandos disponíveis:
-  clear ........ limpa a tela
-  psql ......... entra no modo SQL
-  entry ........ entra em -r rota
-  help ......... mostra esta ajuda`;
+  clear ..................................... limpa a tela
+  psql ...................................... entra no modo SQL
+  entry ..................................... entra em -r rota
+  help ...................................... mostra esta ajuda
+  /forceLogoutUser/username ............... desloga qualquer usuario não admin pelo username (entry)
+  /forceLogoutAll ........................... desloga todos os usuarios não admin (entry)`;
+
                 term.scrollTop = term.scrollHeight;
                 return;
             }

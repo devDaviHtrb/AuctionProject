@@ -4,6 +4,7 @@ from myapp.models.Users import users
 from myapp.services.InitSession import init_session
 from myapp.services.CookiesService import fernet
 from myapp.utils.LinksUrl import LOGIN_PAGE
+from myapp.setup.InitSqlAlchemy import db
 
 publicRoutes = []
 commonRoutes = []
@@ -15,7 +16,6 @@ def init_authDecorator(app: Flask) -> None:
         endpoint = request.endpoint
         # public routes
         user_id = session.get("user_id", None)
-        
         if not user_id:
             cookie_user_id = request.cookies.get("user_id")
             if cookie_user_id:
@@ -28,6 +28,12 @@ def init_authDecorator(app: Flask) -> None:
                         user_id = None
                 except:
                     user_id = None
+        else:
+            user = users.query.get(user_id)
+            if user.force_logout == True:
+                user.force_logout = False
+                db.session.commit()
+                return redirect(url_for("logout.logout"))
 
         if endpoint in publicRoutes:
             return
