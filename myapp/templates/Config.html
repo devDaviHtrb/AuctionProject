@@ -98,7 +98,7 @@
             </div>
           {%endif%}
             {%endif%}
-            {% if msg %}
+            {% if msg and msg!="sucessful"%}
               <p>{{msg}}</p>
             {% endif %}
             <div class="form-actions profile-actions">
