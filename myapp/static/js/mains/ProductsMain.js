@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputsPrice = filterPriceBox.querySelectorAll('.price-inputs input');
     const btnApplyPrice = filterPriceBox.querySelector('.btn-filter-apply');
     const btnClearFilters = document.querySelector('.btn-clear-filters');
+    const sortSelect = document.getElementById('sort'); // select de ordenação
 
     let currentPage = 1;
     let totalPages = 1;
@@ -19,29 +20,90 @@ document.addEventListener('DOMContentLoaded', () => {
         category: null,
         status: null,
         price_range: null,
-        name: null
+        name: null,
+        sort: null  // adiciona sort nos filtros
     };
 
-    // --- Renderização de produtos ---
+    // --- Formata tempo ---
+    function formatTime(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        let parts = [];
+        if (days > 0) parts.push(`${days}d`);
+        if (hours > 0) parts.push(`${hours}h`);
+        if (minutes > 0) parts.push(`${minutes}m`);
+        parts.push(`${seconds}s`);
+        return parts.join(" ");
+    }
+
+    // --- Configura timer ---
+    function setupProductTimer(timerElement, startTimeISO, durationMinutes, buttonElement) {
+        const startTime = new Date(startTimeISO).getTime();
+        const durationMs = durationMinutes * 60 * 1000;
+        const endTime = startTime + durationMs;
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            if (now < startTime) {
+                timerElement.textContent = `Começa em ${formatTime(startTime - now)}`;
+                timerElement.style.color = "#007bff";
+                if (buttonElement) {
+                    buttonElement.disabled = true;
+                    buttonElement.textContent = "AGUARDANDO";
+                }
+            } else if (now >= startTime && now <= endTime) {
+                timerElement.textContent = `Tempo restante: ${formatTime(endTime - now)}`;
+                timerElement.style.color = "#28a745";
+                if (buttonElement) {
+                    buttonElement.disabled = false;
+                    buttonElement.textContent = "DAR LANCE";
+                }
+            } else {
+                timerElement.textContent = "ENCERRADO";
+                timerElement.style.color = "#dc3545";
+                if (buttonElement) {
+                    buttonElement.disabled = true;
+                    buttonElement.textContent = "ENCERRADO";
+                }
+                clearInterval(interval);
+            }
+        }
+
+        updateTimer();
+        const interval = setInterval(updateTimer, 1000);
+    }
+
+    // --- Renderiza produtos ---
     function renderProducts(products) {
         productsGrid.innerHTML = '';
+
         products.forEach(product => {
             const photoUrl = product.photo_url?.photo_url || 'https://via.placeholder.com/250x180/E0E0E0/333333?text=Sem+Imagem';
-            const card = `
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('${ product.photo_url}');"></div>
-                    ${product.badge ? `<span class="badge ${product.badge_class || ''}">${product.badge}</span>` : ''}
-                    <h3>${product.product_name}</h3>
-                    <p class="price">R$ ${product.min_bid || '0,00'}</p>
-                    <p class="time-left"><i class="far fa-clock"></i> Tempo: ${product.time_left || '--:--:--'}</p>
-                    <a href="/auction/${product.room}"><button class="btn-bid" >DAR LANCE</button></a>
-                </div>
+
+            const card = document.createElement('div');
+            card.classList.add('product-card');
+            card.innerHTML = `
+                <div class="product-image" style="background-image: url('${photoUrl}');"></div>
+                ${product.badge ? `<span class="badge ${product.badge_class || ''}">${product.badge}</span>` : ''}
+                <h3>${product.product_name}</h3>
+                <p class="price">R$ ${parseFloat(product.min_bid || 0).toFixed(2)}</p>
+                <p class="time-left"><i class="far fa-clock"></i> <span class="timer-text">--:--:--</span></p>
+                <a href="/auction/${product.room}"><button class="btn-bid">DAR LANCE</button></a>
             `;
-            productsGrid.insertAdjacentHTML('beforeend', card);
+            
+            productsGrid.appendChild(card);
+
+            const timerElement = card.querySelector('.timer-text');
+            const buttonElement = card.querySelector('.btn-bid');
+            setupProductTimer(timerElement, product.start_datetime, product.duration, buttonElement);
         });
     }
 
-    // --- Paginação ---
+    // --- Renderiza paginação ---
     function renderPagination(current, total) {
         paginationList.innerHTML = `
             <li class="page-item prev ${current === 1 ? 'disabled' : ''}">
@@ -71,15 +133,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Carrega produtos via AJAX ---
     function loadProducts(page = 1) {
         showLoading();
-        let url = window.paginate_args;
-        if( page > 1){
-            url = `/paginate/auction/${page}?`
-        }
-
+        showLoading();
+        let url = page > 1 ? `/paginate/auction/${page}?` : window.paginate_args;
         if (filters.category) url += `category=${filters.category}&`;
         if (filters.status) url += `status=${filters.status}&`;
         if (filters.price_range) url += `price_range=${filters.price_range}&`;
         if (filters.name) url += `name=${filters.name}&`;
+        if (filters.sort) url += `sort=${filters.sort}&`;
 
         fetch(url)
             .then(res => res.json())
@@ -96,10 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Erro ao carregar produtos:', err);
                 hideLoading();
             });
-        window.scrollTo({ top: 100, behavior: 'smooth' });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- Paginação (cliques) ---
+    // --- Paginação ---
     paginationList.addEventListener('click', e => {
         e.preventDefault();
         const target = e.target.closest('.page-link');
@@ -112,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target.parentElement.classList.contains('next')) page = currentPage + 1;
 
         loadProducts(Number(page));
-        window.scrollTo({ top: 100, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // --- Filtros por link ---
@@ -124,19 +185,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const type = link.dataset.type;
             const val = link.dataset.val;
 
-            // Atualiza filtros
             filters[type] = val;
 
-            // Marca visualmente o link ativo
             document.querySelectorAll(`[data-type="${type}"]`).forEach(l => l.classList.remove('active-filter'));
             link.classList.add('active-filter');
 
-            // Atualiza apenas o parâmetro da URL (sem perder os outros)
             const url = new URL(window.location.href);
             url.searchParams.set(type, val);
-
-            // Atualiza sem recarregar a página
             history.pushState({}, '', url);
+
             loadProducts(1);
         });
     });
@@ -158,7 +215,18 @@ document.addEventListener('DOMContentLoaded', () => {
         loadProducts(1);
     });
 
-    // --- Limpar filtros ---
+    // --- Ordenação ---
+    sortSelect.addEventListener('change', () => {
+        const val = sortSelect.value;
+        switch(val) {
+            case "Mais Recentes": filters.sort = "recent_desc"; break;
+            case "Menos Recentes": filters.sort = "recent_asc"; break; // exemplo: por tempo restante crescente
+            case "Menor Preço": filters.sort = "price_asc"; break;
+            case "Maior Preço": filters.sort = "price_desc"; break;
+            default: filters.sort = null; break;
+        }
+        loadProducts(1);
+    });
 
     // --- Inicializa ---
     loadProducts(1);

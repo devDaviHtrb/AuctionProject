@@ -3,9 +3,9 @@
  Arquivo: 01_modelo_fisico.sql
  Autor: Nascimento, Gabriel
  Curso/Turma: 213
- SGBD: PostgreSQL Vers√£o: 15
- Objetivo: Cria√ß√£o do modelo f√≠sico (DDL)
- Execu√ß√£o esperada: rodar primeiro, em BD vazio
+ SGBD: PostgreSQL Vers„o: 15
+ Objetivo: CriaÁ„o do modelo fÌsico (DDL)
+ ExecuÁ„o esperada: rodar primeiro, em BD vazio
  ============================================================ */
 
 

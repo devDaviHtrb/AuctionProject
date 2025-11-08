@@ -3,9 +3,9 @@ from flask import Response, request
 from myapp.models.Categories import categories
 from myapp.models.Products import products
 from myapp.models.ProductStatuses import product_statuses
-from myapp.models.Users import users
 from myapp.models.Images import images
 from typing import Tuple
+from sqlalchemy import asc, desc
 
 paginate_bp = Blueprint("paginate", __name__)
 
@@ -16,23 +16,21 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
 
     # Get optional filters from query parameters
     category_name = request.args.get("category")
-
     status_filter = request.args.get("status")
     name_filter = request.args.get("name")
     price_range = request.args.get("price_range")  # e.g., "100-500"
+    sort_type = request.args.get("sort")  # new parameter for ordering
 
     query = products.query
 
-    # Filter by type of page
-    if type == "auctions":
-        pass  # all products by default, filters applied below
-    elif type == "myItems":
-        user_id=session.get("user_id", None)
+    # Filter by page type
+    if type == "myItems":
+        user_id = session.get("user_id", None)
         if not user_id:
             return jsonify({"Error": "No access"}), 401
         query = query.filter_by(user_id=user_id)
 
-
+    # Filter by name
     if name_filter:
         query = query.filter(products.product_name.ilike(f"%{name_filter}%"))
 
@@ -43,17 +41,13 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
             return jsonify({"Error": "Category not found"}), 400
         query = query.filter_by(category=category.category_id)
 
-    # Filter by status (e.g., 'active', 'sold')
+    # Filter by status
     if status_filter:
-        # busca case-insensitive pelo nome do status
         status = product_statuses.query.filter(
             product_statuses.product_status == status_filter.lower()
         ).first()
-
         if not status:
             return jsonify({"Error": f"Status '{status_filter}' not found"}), 400
-
-        # filtra produtos que têm esse status
         query = query.filter(products.product_status == status.product_status_id)
 
     # Filter by price range
@@ -64,8 +58,20 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
         except ValueError:
             return jsonify({"Error": "Invalid price range format. Use min-max"}), 400
 
-    # Apply pagination
-    paginated_products = query.order_by(products.product_id).paginate(
+    # --- Sorting ---
+    if sort_type == "recent_asc":
+        query = query.order_by(asc(products.start_datetime))
+    elif sort_type == "recent_desc":
+        query = query.order_by(desc(products.start_datetime))
+    elif sort_type == "price_asc":
+        query = query.order_by(asc(products.min_bid))
+    elif sort_type == "price_desc":
+        query = query.order_by(desc(products.min_bid))
+    else:
+        query = query.order_by(products.product_id)  # default order
+
+    # Pagination
+    paginated_products = query.paginate(
         page=current_page,
         per_page=items_per_page
     )
@@ -75,20 +81,22 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
         cat.category_id: cat.category_name for cat in categories.query.order_by(categories.category_id).all()
     }
 
-    # Build response
-    products_response = [
-        {
+    # Build products response
+    products_response = []
+    for product in paginated_products.items:
+        image_obj = images.query.filter_by(product_id=product.product_id).first()
+        photo_url = {"photo_url": image_obj.image} if image_obj else None
+
+        products_response.append({
             "product_name": product.product_name,
             "description": product.description,
             "min_bid": str(product.min_bid) if product.min_bid else None,
             "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
+            "duration": product.duration,
             "category": categories_dict.get(product.category),
             "room": product.product_room,
-            #fix it
-            "photo_url": images.query.filter_by(product_id=product.product_id).first().image if images.query.filter_by(product_id=product.product_id).first() else "#"
-        }
-        for product in paginated_products.items
-    ]
+            "photo_url": photo_url
+        })
 
     response = {
         "products": products_response,
@@ -98,5 +106,4 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
         "has_prev": paginated_products.has_prev
     }
 
-    print(response)
     return jsonify(response), 200

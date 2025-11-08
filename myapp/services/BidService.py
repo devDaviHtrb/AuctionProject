@@ -12,20 +12,23 @@ from datetime import datetime
 from typing import Optional, Tuple, Dict, Any
 from decimal import Decimal
 
+MISSING_INFO =      101 # Missing Informations
+INVALID_PRODUCT =   102 # Invalid Product
+INSUFICIENT_FUNDS = 103 # Insuficient funds
+BID_VALUE_ERROR =   104 # Bid must be higher than current highest bid
+OTHER_BIDS_ERROR =  105 # The sum of all your bids exceeds your balance
+PROCESS_ERROR =     106 # Error processing bid
 
-
-INTERN_MONEY = "intern_money"
-RECEIVED = "received"
 
 def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[str, Any]]:
     product_id = product.product_id
     try:
         if not product or product_repository.get_status(product) != "occurring":
-            return False, "Invalid Product"
+            return False, INVALID_PRODUCT
 
         user = users.query.get(user_id)
         if user.wallet < value:
-            return False, "Insufficient funds"
+            return False, INSUFICIENT_FUNDS
 
         last_bid = (
             db.session.query(bids)
@@ -36,7 +39,7 @@ def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[st
         )
 
         if last_bid and value <= last_bid.bid_value:
-            return False, "Bid must be higher than current highest bid"
+            return False, BID_VALUE_ERROR
 
         subquery = (
             db.session.query(
@@ -68,7 +71,7 @@ def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[st
 
         t_sum = sum([current.bid_value for current in active_bids], Decimal('0'))
         if t_sum + Decimal(value) > user.wallet:
-            return False, "The sum of all your bids exceeds your balance."
+            return False, OTHER_BIDS_ERROR
 
         new_bid = bid_repository.save_item({
             "bid_value": value,
@@ -85,4 +88,4 @@ def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[st
     except SQLAlchemyError as e:
         db.session.rollback()
         print("Error:", e)
-        return False, "Error processing bid"
+        return False, PROCESS_ERROR

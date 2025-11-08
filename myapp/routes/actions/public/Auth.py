@@ -85,7 +85,7 @@ def google_validate() -> Response:
     return response
 
 @auth_bp.route("/auth/confirm/<string:token>", methods = ["POST", "GET"])
-def auth(token:str) -> Tuple[Response, int]:
+def auth(token:str) -> Response:
     token_data = get_by_pending(token)
 
     if (not token_data): #not token
@@ -111,7 +111,9 @@ def auth(token:str) -> Tuple[Response, int]:
             data.get("email")
         )
         if (not user):
-            user_repository.save_item(data)
+            new_user = user_repository.save_item(data)
+            init_session(new_user) ## <--
+            set_cookies(request, response, user_id = new_user.user_id)
         
         pop_by_pending(token)
         return redirect(url_for(links.HOME_PAGE))

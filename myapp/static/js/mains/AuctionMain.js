@@ -1,10 +1,16 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // === 1. GALERIA DE FOTOS ===
     const mainPhoto = document.getElementById('main-photo');
     const thumbnails = document.querySelectorAll('.thumb');
 
+    if (!sessionStorage.getItem("noScroll")) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+        sessionStorage.removeItem("noScroll");
+    }
+
     thumbnails.forEach(thumb => {
-        thumb.addEventListener('click', function() {
+        thumb.addEventListener('click', function () {
             thumbnails.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
             mainPhoto.src = this.getAttribute('src');
@@ -17,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPriceDisplay = document.getElementById('current-price');
     const timeLeftDisplay = document.getElementById('time-left');
 
-    bidButton.addEventListener('click', function() {
-        if (!window.user){
+    bidButton.addEventListener('click', function () {
+        if (!window.user.logged) {
             document.getElementById("loginModal").style.display = "flex";
             setTimeout(() => document.getElementById("loginModal").classList.add("show"), 10);
             return;
@@ -30,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if(window.user.wallet < newBid)
+        if (window.user.logged.wallet < newBid)
             showNotification('error', "Lance Inválidado. Saldo Insuficiente")
 
         bidInput.value = '';
@@ -40,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         socket.emit('emit_bid', {
             value: newBid
         });
-        
+
     });
 
     // === 3. FUNÇÃO GERAL DE CRONÔMETRO ===
@@ -58,6 +64,36 @@ document.addEventListener('DOMContentLoaded', function() {
         parts.push(`${seconds}s`);
         return parts.join(" ");
     }
+    if (window.user.logged) {
+        if (window.user.logged) {
+            if (document.getElementById("winner-user").innerHTML === window.user.username) {
+                document.getElementById("dlt-btn").style.display = "inline-block";
+            }
+        }
+    }
+
+    document.getElementById("dlt-btn").addEventListener("click", async () => {
+        if (!window.user.logged) {
+            showNotification('error', `Você nao esta logado`);
+            return;
+        }
+        try {
+            const response = await fetch(`/del/bid/${window.product_id}`, {
+                method: "DELETE",
+            });
+
+            // Lê a resposta do servidor
+            const data = await response.json();
+
+            if (response.ok) {
+                showNotification('bid', `Lance(s) retirado(s)`);
+            } else {
+                showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
+            }
+        } catch (err) {
+            showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
+        }
+    });
 
     function setupTimer(element, relatedButton) {
         const startTime = new Date(element.dataset.start).getTime();
@@ -151,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // === 5. SOCKETIO INTEGRATION ===
-    if (window.user) {
+    if (window.user.logged) {
         const socket = io();
         window.socket = socket;
 
@@ -163,20 +199,34 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = data.response;
             if (!response) return;
 
-            switch(response.type) {
+            switch (response.type) {
                 case 'entry':
                     showNotification('join', `${response.username} entrou na sala!`);
                     break;
                 case 'error':
-                    showNotification('error', `Erro: ${response.error}`);
+                    const errors = {
+                        101: "Informações faltantes",
+                        102: "Produto invalido",
+                        103: "Você não tem dinheiro suficiente",
+                        104: "Lance menor que o valor minimo",
+                        105: "A soma de todos os seus lances ultrapassa seu saldo",
+                        106: "Erro ao processar. Tente novamente"
+
+                    }
+                    showNotification('error', `Erro: ${errors[response.error]}`);
                     break;
                 case 'bid':
                     showNotification('bid', `${response.username} deu um lance de R$ ${response.value}`);
                     // Atualiza o preço atual
-                    document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')})`;
-                    bidInput.placeholder = `R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')}`;
+                    document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')})`;
+                    bidInput.placeholder = `R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`;
                     currentPriceDisplay.textContent = `R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')}`;
-                    document.getElementById("p3").innerHTML = `Lance Atual: (<a target="_blank" href="/profile/${response.username}">${ response.username })</a>`
+                    document.getElementById("p3").innerHTML = `Lance Atual: (
+                        <a id="winner-user" style="margin-left:1px;margin-right:1px;" target="_blank" href="/profile/${response.username}">${response.username}</a>
+                        )
+                        <button class="delete-btn" id="dlt-btn" style="display: none; marin-left:4px">
+                            retirar lance(s)
+                        </button>`
                     document.getElementById("p4").innerHTML = `
                     <li class="bid-entry">
                         <span class="bidder"><a href="/profile/${response.username}">
@@ -187,6 +237,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     </li>
                     ` + document.getElementById("p4").innerHTML;
                     document.getElementById("p5").innerHTML = "";
+
+                    if (window.user.logged) {
+                        if (document.getElementById("winner-user").innerHTML === window.user.username) {
+                            document.getElementById("dlt-btn").style.display = "inline-block";
+                        }
+
+                    }
+
+                    break;
+                case 'delete':
+                    sessionStorage.setItem("noScroll", "true");
+                    location.reload();
                     break;
             }
         });

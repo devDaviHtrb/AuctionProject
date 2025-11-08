@@ -608,6 +608,7 @@ ul {
     color: var(--light-text);
     font-size: 14px;
     font-weight: 500;
+    text-decoration: underline;
 }
 
 .info-section h1 {
@@ -864,4 +865,17 @@ main{
 }
 @keyframes fadeOut {
     to { opacity: 0; transform: translateX(100%); }
+}
+
+
+.delete-btn {
+  background: none;       /* sem fundo */
+  border: none;           /* sem borda */
+  color: red;             /* cor vermelha */
+  text-decoration: underline; /* sublinhado */
+  cursor: pointer;        /* muda o cursor ao passar */
+}
+
+.delete-btn:hover {
+  opacity: 0.8;           /* leve efeito visual ao passar */
 }

@@ -7,10 +7,10 @@ logout_bp = Blueprint("logout", __name__)
 
 
 @logout_bp.route("/logout", methods=["GET", "POST"])
-def logout() -> Tuple[Response, int]:
-    response = make_response(redirect(url_for(HOME_PAGE)))
+def logout() -> Response:
+    response = redirect(url_for(HOME_PAGE))
     response.delete_cookie("user_id")
     for key in session.keys():
         session[key] = None
         print(session[key])
-    return response, 200
+    return response

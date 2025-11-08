@@ -61,5 +61,6 @@ def AuctionPage(roomToken):
         product_legal = legal_infos.query.filter_by(product_id = product.product_id).first(),
         technical_features = product_repository.get_technical_features_values(product),
         last_bid = last_bid,
-        last_bids = last_bids
+        last_bids = last_bids,
+        
     )

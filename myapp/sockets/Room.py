@@ -10,6 +10,14 @@ from flask_login import current_user
 
 anonymous_users_number = 0
 
+MISSING_INFO =      101 # Missing Informations
+INVALID_PRODUCT =   102 # Invalid Product
+INSUFICIENT_FUNDS = 103 # Insuficient funds
+BID_VALUE_ERROR =   104 # Bid must be higher than current highest bid
+OTHER_BIDS_ERROR =  105 # The sum of all your bids exceeds your balance
+PROCESS_ERROR =     106 # Error processing bid
+
+
 @socket_io.on("join_room")
 def handle_join(data: Dict[str, Any]) -> None:
     print(data)
@@ -58,7 +66,7 @@ def handle_emit(data: Dict[str, Any]) -> None:
     if missingInfo:
         response = {
             "type": "error",
-            "error": "Missing Information",
+            "error": MISSING_INFO,
             "MissingInformation": missingInfo  
         }
         return emit("server_content", {"response":response}, to=request.sid)
