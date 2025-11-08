@@ -1,6 +1,6 @@
 from config import Config
 from datetime import date
-from typing import Mapping, Any
+from typing import Mapping, Any, Tuple
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from google.oauth2.credentials import Credentials
@@ -8,11 +8,15 @@ from google.auth.transport import Request
 from googleapiclient.discovery import build
 import os
 
-REDIRECT_URI = Config.REDIRECT_URI
-GOOGLE_CLIENT_ID = Config.GOOGLE_CLIENT_ID
-GOOGLE_SECRETS = Config.GOOGLE_SECRECT
-GOOGLE_PROJECT_ID = Config.GOOGLE_PROJECT_ID
-GOOGLE_REDIRECT_URIS = Config.GOOGLE_REDIRECT_URIS.split(',')
+#========================= GOOGLE API ========================
+REDIRECT_URI =          Config.REDIRECT_URI
+GOOGLE_CLIENT_ID =      Config.GOOGLE_CLIENT_ID
+GOOGLE_SECRETS =        Config.GOOGLE_SECRECT
+GOOGLE_PROJECT_ID =     Config.GOOGLE_PROJECT_ID
+GOOGLE_REDIRECT_URIS =  Config.GOOGLE_REDIRECT_URIS.split(',')
+#=============================================================
+
+#================================= STANDART CONFIG ==================================
 GOOGLE_CONFIG = {
     "web":{
         "client_id":                    GOOGLE_CLIENT_ID,
@@ -24,6 +28,7 @@ GOOGLE_CONFIG = {
         "redirect_uris":                GOOGLE_REDIRECT_URIS
     }
 }
+#=====================================================================================
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
@@ -46,7 +51,7 @@ def get_id_info(credentials: Credentials, request_session: Request) -> Mapping[s
     )
 
 
-def get_extra_user_info(credentials: Credentials):
+def get_extra_user_info(credentials: Credentials) -> Tuple[date, str]:
     service = build('people', 'v1', credentials = credentials)
     profile = service.people().get(
         resourceName='people/me',

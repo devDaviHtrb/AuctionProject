@@ -1,7 +1,6 @@
 
 from flask import Blueprint, redirect, session, url_for, Response, request, make_response
-from myapp.utils.LinksUrl import HOME_PAGE, home
-from typing import Tuple
+from myapp.utils.LinksUrl import HOME_PAGE
 
 logout_bp = Blueprint("logout", __name__)
 

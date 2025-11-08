@@ -1,4 +1,3 @@
-/* Overlay ocupando toda a tela */
 #loading-overlay {
     position: fixed;
     top: 0;
@@ -7,18 +6,16 @@
     height: 100%;
     background: rgba(255, 255, 255, 0.9);
     z-index: 9999;
-    display: none; /* inicialmente escondido */
+    display: none; 
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
-/* Quando ativo, mostrar overlay */
 #loading-overlay.active {
     display: flex;
 }
 
-/* Loader central (spinner CSS) */
 .loader {
         width: 48px;
         height: 48px;
@@ -51,7 +48,6 @@
           75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
       }
 
-/* Texto do loader (opcional) */
 #loading-overlay p {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;

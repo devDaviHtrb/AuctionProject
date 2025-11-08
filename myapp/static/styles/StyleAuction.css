@@ -1,15 +1,13 @@
-/* Variáveis de Cores */
 :root {
     --primary-blue: #0C2340;
     --accent-orange: #FF8C00;
-    --light-bg: #FFFFFF; /* Fundo principal BRANCO */
-    --medium-bg: #F5F5F5; /* Para seções de contraste */
+    --light-bg: #FFFFFF; 
+    --medium-bg: #F5F5F5; 
     --dark-grey-text: #333333;
     --light-text: #666;
     --white: #FFFFFF;
 }
 
-/* Base */
 * {
     margin: 0;
     padding: 0;
@@ -38,7 +36,6 @@ ul {
     list-style: none;
 }
 
-/* Botões e CTA's */
 .btn-primary {
     background-color: var(--accent-orange);
     color: var(--white);
@@ -102,7 +99,6 @@ ul {
     gap: 5px;
 }
 
-/* Header */
 .main-header {
     background-color: var(--white);
     padding: 15px 0;
@@ -119,7 +115,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 150px; /* Garante espaço para logo */
+    min-width: 150px; 
 }
 
 .main-header .logo img {
@@ -143,7 +139,7 @@ ul {
     width: 100%;
     padding: 12px 40px 12px 15px;
     border: 1px solid var(--medium-bg);
-    border-radius: 25px; /* Mais moderno, arredondado */
+    border-radius: 25px; 
     font-size: 14px;
     color: var(--dark-grey-text);
     background-color: var(--light-bg);
@@ -182,7 +178,6 @@ ul {
     font-weight: 600;
 }
 
-/* Hero Carousel (FULL WIDTH) */
 .hero-carousel {
     position: relative;
     width: 100%;
@@ -197,12 +192,12 @@ ul {
 
 .carousel-item {
     min-width: 100%;
-    height: 450px; /* Altura definida */
+    height: 450px; 
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
-    text-align: left; /* Alinhamento à esquerda para o texto */
+    text-align: left; 
     color: var(--white);
     position: relative;
 }
@@ -221,7 +216,7 @@ ul {
     position: relative;
     z-index: 10;
     max-width: 600px;
-    padding-left: 40px; /* Para dar espaço da borda */
+    padding-left: 40px; 
 }
 
 .carousel-caption h1 {
@@ -236,7 +231,6 @@ ul {
     margin-bottom: 30px;
 }
 
-/* Controles e Dots do Carrossel */
 .carousel-control {
     position: absolute;
     top: 50%;
@@ -288,7 +282,7 @@ ul {
     transform: scale(1.2);
 }
 
-/* Categorias (Inspirado na Image 8f127d.png) */
+
 .categories-section {
     padding: 40px 20px;
     margin-bottom: 50px;
@@ -332,7 +326,6 @@ ul {
     color: var(--dark-grey-text);
 }
 
-/* Product Section */
 .product-section {
     margin-bottom: 70px;
 }
@@ -347,7 +340,7 @@ ul {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* Largura mínima ligeiramente maior */
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
     gap: 25px;
     margin-bottom: 30px;
 }
@@ -417,7 +410,7 @@ ul {
     font-weight: 600;
 }
 .product-card .badge.promo {
-    background-color: #c0392b; /* Vermelho para promoções */
+    background-color: #c0392b; 
 }
 
 
@@ -426,7 +419,6 @@ ul {
     margin-top: 40px;
 }
 
-/* About Us Banner */
 .about-us-banner {
     background-color: var(--medium-bg);
     padding: 70px 0;
@@ -463,7 +455,7 @@ ul {
     margin-bottom: 30px;
 }
 
-/* Footer */
+
 .main-footer {
     background-color: var(--primary-blue);
     color: var(--white);
@@ -510,7 +502,6 @@ ul {
     opacity: 1;
 }
 
-/* Responsividade Básica */
 @media (max-width: 1024px) {
     .header-content {
         flex-wrap: wrap;
@@ -538,7 +529,7 @@ ul {
         flex-wrap: wrap;
     }
     .category-item {
-        flex-basis: 20%; /* Para caber mais na linha */
+        flex-basis: 20%; 
     }
     .about-content-wrapper {
         flex-direction: column;
@@ -548,9 +539,6 @@ ul {
         margin-bottom: 20px;
     }
 }
-/* ===================================
-   ESTILOS DA PÁGINA DE DETALHES DO ITEM
-   =================================== */
 
 .item-detail-layout {
     padding-top: 40px;
@@ -563,7 +551,7 @@ ul {
     margin-bottom: 50px;
 }
 
-/* --- Galeria de Fotos (Esquerda) --- */
+
 .gallery-section {
     flex: 1;
     max-width: 60%;
@@ -598,7 +586,6 @@ ul {
     border-color: var(--accent-orange);
 }
 
-/* --- Informações e Lance (Direita) --- */
 .info-section {
     flex: 1;
     max-width: 40%;
@@ -640,7 +627,7 @@ ul {
 
 .bid-timer {
     font-size: 16px;
-    color: #c0392b; /* Vermelho para urgência */
+    color: #c0392b;
     font-weight: 600;
     margin-bottom: 25px;
     display: flex;
@@ -648,7 +635,6 @@ ul {
     gap: 8px;
 }
 
-/* Controle de Lance */
 .bid-controls {
     padding: 20px;
     border: 2px solid var(--accent-orange);
@@ -692,7 +678,6 @@ ul {
     margin-bottom: 5px;
 }
 
-/* --- Seção de Detalhes e Histórico (Abaixo da Dobra) --- */
 .details-and-history {
     display: flex;
     gap: 40px;
@@ -739,11 +724,10 @@ ul {
 }
 
 
-/* Histórico de Lances */
 .bid-history-list {
     max-height: 300px;
     overflow-y: auto;
-    padding-right: 10px; /* Espaço para a barra de rolagem */
+    padding-right: 10px; 
 }
 .bid-history-list::-webkit-scrollbar { width: 8px; }
 .bid-history-list::-webkit-scrollbar-thumb { background-color: var(--accent-orange); border-radius: 4px; }
@@ -758,7 +742,7 @@ ul {
 .bid-entry:last-child { border-bottom: none; }
 
 .bidder { font-weight: 600; color: var(--primary-blue); }
-.bid-value { font-weight: 700; color: #27ae60; } /* Verde para o valor do lance */
+.bid-value { font-weight: 700; color: #27ae60; } 
 .bid-time { color: var(--light-text); }
 
 .no-bids {
@@ -768,7 +752,6 @@ ul {
 }
 
 
-/* --- Recomendações --- */
 .recommendations-section {
     margin-top: 50px;
 }
@@ -779,7 +762,7 @@ ul {
 }
 
 .recommended-grid {
-    /* Reutiliza o grid da home page, mas sem o espaçamento extra */
+    
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
 
@@ -787,7 +770,6 @@ main{
     margin-top: 20px;
     margin-bottom: 20px;
 }
-/* Responsividade para Detalhes */
 @media (max-width: 992px) {
     .main-content-area {
         flex-direction: column;
@@ -835,7 +817,7 @@ main{
     right: 20px;
     z-index: 10000;
     display: flex;
-    flex-direction: column-reverse; /* novas aparecem embaixo */
+    flex-direction: column-reverse; 
     gap: 10px;
 }
 
@@ -852,13 +834,13 @@ main{
         height 0.4s ease, 
         padding 0.4s ease, 
         transform 0.4s ease,
-        opacity 0.4s ease; /* adiciona suavização ao redimensionar */
+        opacity 0.4s ease; 
     overflow: hidden;
 }
 
-.notification.join { background-color: #4CAF50; }   /* Verde */
-.notification.error { background-color: #f44336; }  /* Vermelho */
-.notification.bid   { background-color: #2196F3; }  /* Azul */
+.notification.join { background-color: #4CAF50; }   
+.notification.error { background-color: #f44336; }  
+.notification.bid   { background-color: #2196F3; }  
 
 @keyframes slideIn {
     to { opacity: 1; transform: translateX(0); }
@@ -869,13 +851,14 @@ main{
 
 
 .delete-btn {
-  background: none;       /* sem fundo */
-  border: none;           /* sem borda */
-  color: red;             /* cor vermelha */
-  text-decoration: underline; /* sublinhado */
-  cursor: pointer;        /* muda o cursor ao passar */
+  background: none;        
+  background: none;        
+  border: none;            
+  color: red;              
+  text-decoration: underline;
+  cursor: pointer;        
 }
 
 .delete-btn:hover {
-  opacity: 0.8;           /* leve efeito visual ao passar */
+  opacity: 0.8;           
 }

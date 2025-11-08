@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const fileInput = document.getElementById("photoInput");
     if (!fileInput.files.length) {
-      msg.textContent = "Select a image first.";
+      msg.textContent = "Selecione primeiro uma imagem.";
       return;
     }
 
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         msg.textContent = `⚠️ ${data.error}`;
       }
     } catch (err) {
-      msg.textContent = "❌ Request error.";
+      msg.textContent = "Erro no request.";
       console.error(err);
     }
   });

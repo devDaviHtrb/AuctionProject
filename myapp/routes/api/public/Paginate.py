@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, jsonify, session
+from flask import Blueprint, jsonify, session
 from flask import Response, request
 from myapp.models.Categories import categories
 from myapp.models.Products import products
@@ -19,29 +19,28 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
     status_filter = request.args.get("status")
     name_filter = request.args.get("name")
     price_range = request.args.get("price_range")  # e.g., "100-500"
-    sort_type = request.args.get("sort")  # new parameter for ordering
+    sort_type = request.args.get("sort") 
 
     query = products.query
 
-    # Filter by page type
+    
     if type == "myItems":
         user_id = session.get("user_id", None)
         if not user_id:
             return jsonify({"Error": "No access"}), 401
         query = query.filter_by(user_id=user_id)
 
-    # Filter by name
     if name_filter:
         query = query.filter(products.product_name.ilike(f"%{name_filter}%"))
 
-    # Filter by category
+    
     if category_name:
         category = categories.query.filter_by(category_name=category_name).first()
         if not category:
             return jsonify({"Error": "Category not found"}), 400
         query = query.filter_by(category=category.category_id)
 
-    # Filter by status
+
     if status_filter:
         status = product_statuses.query.filter(
             product_statuses.product_status == status_filter.lower()
@@ -50,7 +49,7 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
             return jsonify({"Error": f"Status '{status_filter}' not found"}), 400
         query = query.filter(products.product_status == status.product_status_id)
 
-    # Filter by price range
+
     if price_range:
         try:
             min_price, max_price = map(float, price_range.split("-"))
@@ -58,7 +57,7 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
         except ValueError:
             return jsonify({"Error": "Invalid price range format. Use min-max"}), 400
 
-    # --- Sorting ---
+    
     if sort_type == "recent_asc":
         query = query.order_by(asc(products.start_datetime))
     elif sort_type == "recent_desc":
@@ -70,18 +69,18 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
     else:
         query = query.order_by(products.product_id)  # default order
 
-    # Pagination
+    
     paginated_products = query.paginate(
         page=current_page,
         per_page=items_per_page
     )
 
-    # Build categories dictionary
+    
     categories_dict = {
         cat.category_id: cat.category_name for cat in categories.query.order_by(categories.category_id).all()
     }
 
-    # Build products response
+    
     products_response = []
     for product in paginated_products.items:
         image_obj = images.query.filter_by(product_id=product.product_id).first()

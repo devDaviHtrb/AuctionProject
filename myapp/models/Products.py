@@ -1,4 +1,3 @@
-from __future__ import annotations
 import secrets
 from sqlalchemy import ForeignKey
 from myapp.setup.InitSqlAlchemy import db
@@ -27,4 +26,3 @@ class products(db.Model):
     end_datetime = db.Column(db.DateTime, nullable=True)
     duration = db.Column(db.Integer, nullable = False) # In Seconds
 
-    

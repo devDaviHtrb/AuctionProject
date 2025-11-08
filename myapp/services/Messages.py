@@ -1,14 +1,15 @@
-from flask import url_for, current_app
 import smtplib
 from myapp.utils.Async import make_async
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from config import Config
 
-CORPORATION_EMAIL = Config.CORPORATION_EMAIL
-CORPORATION_PASSWORD = Config.CORPORATION_PASSWORD 
-SMTP_SERVER = "smtp.gmail.com"
-PORT = 587  
+#====================== EMAIL ======================
+CORPORATION_EMAIL =     Config.CORPORATION_EMAIL
+CORPORATION_PASSWORD =  Config.CORPORATION_PASSWORD 
+SMTP_SERVER =           "smtp.gmail.com"
+PORT =                  587  
+#===================================================
 
 def send_email(recipient_email: str, subject:str, content:str) -> str:
     msg = MIMEMultipart()
@@ -30,19 +31,19 @@ def send_email(recipient_email: str, subject:str, content:str) -> str:
         return str(e)
 
 @make_async
-def win_message() -> str:
+def win_message() -> None:
     pass
 
 @make_async
-def sell_message() -> str:
+def sell_message() -> None:
     pass
 
 @make_async
-def buy_message() -> str:
+def buy_message() -> None:
     pass
 
 @make_async
-def payment_message() -> str:
+def payment_message() -> None:
     pass
 
 @make_async

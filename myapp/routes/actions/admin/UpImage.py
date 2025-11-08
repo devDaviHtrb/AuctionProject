@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, Response
 from myapp.utils.UploadImage import upload_image
+from typing import Tuple, Union
 
 HTML = """
 <!DOCTYPE html>
@@ -44,7 +45,7 @@ HTML = """
 up_image_bp = Blueprint("upImage", __name__)
 
 @up_image_bp.route("/upImage", methods=["POST", "GET"])
-def receive():
+def receive() -> Union[str, Tuple[Response, int]]:
     if request.method == "POST":
         image = request.files.get("image")
         if not image:
@@ -52,6 +53,5 @@ def receive():
         urls = upload_image([image], "Users_photos")
         if not urls:
             return "Erro ao enviar a imagem", 500
-        # retorna a URL do Cloudinary para o frontend
-        return jsonify(urls)
+        return jsonify(urls), 200
     return HTML

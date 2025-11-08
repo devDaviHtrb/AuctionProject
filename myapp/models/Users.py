@@ -1,9 +1,7 @@
-from __future__ import annotations
 from myapp.setup.InitSqlAlchemy import db
 from flask_login import UserMixin
 
 class users(db.Model, UserMixin):
-    
     user_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable= False)
     username = db.Column(db.String(50), nullable= False)
@@ -24,5 +22,4 @@ class users(db.Model, UserMixin):
     authenticated = True
     active = True
     anonymous = False
-
     

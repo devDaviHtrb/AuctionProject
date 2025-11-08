@@ -14,15 +14,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const dynamicContainer = document.getElementById('category-features');
   let photosFiles = [];
 
-  // --- Mapa de recursos por categoria ---
   let featuresMap = {};
   try {
     const res = await fetch("/get/relationship/categories");
     if (!res.ok) throw new Error("Erro ao buscar categorias");
     featuresMap = await res.json();
-    console.log(featuresMap);
 
-    // --- Preenche o select de categorias ---
     Object.keys(featuresMap).forEach(category => {
       const option = document.createElement('option');
       option.value = category;
@@ -31,10 +28,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
   } catch (err) {
-    console.error("Erro ao carregar categorias:", err);
+    console.error(err);
   }
 
-  // --- Upload de fotos ---
   fileUpload.addEventListener('change', (e) => {
     const newFiles = Array.from(e.target.files);
 
@@ -71,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     fileUpload.value = '';
   });
 
-  // --- Campos dinâmicos ---
   categorySelect.addEventListener('change', () => {
     dynamicContainer.innerHTML = '';
     const selected = categorySelect.value;
@@ -95,7 +90,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // --- Submissão do formulário ---
   const form = document.querySelector('.item-submission-form');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -117,7 +111,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const result = await response.json();
       alert('Item submetido com sucesso!');
-      console.log(result);
 
       form.reset();
       dynamicContainer.innerHTML = '';

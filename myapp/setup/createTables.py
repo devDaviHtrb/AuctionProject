@@ -18,7 +18,7 @@ HEADER = f"""
 
 """
 
-def drop_all_tables(db: SQLAlchemy):
+def drop_all_tables(db: SQLAlchemy) -> None:
     try:
         db.drop_all()  
         db.session.commit()
@@ -41,7 +41,7 @@ def create_tables(app:Flask, db:SQLAlchemy) -> None:
     erase_file(DATABASE_SRC)
 
     with app.app_context():
-        #drop_all_tables(db)
+        #drop_all_tables(db) #:O
         db.create_all()
         dialect = postgresql.dialect()
         write_file(DATABASE_SRC, HEADER)

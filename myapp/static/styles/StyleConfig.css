@@ -1,15 +1,13 @@
-/* Variáveis de Cores */
 :root {
   --primary-blue: #0c2340;
   --accent-orange: #ff8c00;
-  --light-bg: #ffffff; /* Fundo principal BRANCO */
-  --medium-bg: #f5f5f5; /* Para seções de contraste */
+  --light-bg: #ffffff; 
+  --medium-bg: #f5f5f5; 
   --dark-grey-text: #333333;
   --light-text: #666;
   --white: #ffffff;
 }
 
-/* Base */
 * {
   margin: 0;
   padding: 0;
@@ -38,7 +36,6 @@ ul {
   list-style: none;
 }
 
-/* Botões e CTA's */
 .btn-primary {
   background-color: var(--accent-orange);
   color: var(--white);
@@ -102,7 +99,6 @@ ul {
   gap: 5px;
 }
 
-/* Header */
 .main-header {
   background-color: var(--white);
   padding: 15px 0;
@@ -119,7 +115,7 @@ ul {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 150px; /* Garante espaço para logo */
+  min-width: 150px; 
 }
 
 .main-header .logo img {
@@ -143,7 +139,7 @@ ul {
   width: 100%;
   padding: 12px 40px 12px 15px;
   border: 1px solid var(--medium-bg);
-  border-radius: 25px; /* Mais moderno, arredondado */
+  border-radius: 25px; 
   font-size: 14px;
   color: var(--dark-grey-text);
   background-color: var(--light-bg);
@@ -182,7 +178,6 @@ ul {
   font-weight: 600;
 }
 
-/* Hero Carousel (FULL WIDTH) */
 .hero-carousel {
   position: relative;
   width: 100%;
@@ -197,12 +192,12 @@ ul {
 
 .carousel-item {
   min-width: 100%;
-  height: 450px; /* Altura definida */
+  height: 450px; 
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
-  text-align: left; /* Alinhamento à esquerda para o texto */
+  text-align: left; 
   color: var(--white);
   position: relative;
 }
@@ -221,7 +216,7 @@ ul {
   position: relative;
   z-index: 10;
   max-width: 600px;
-  padding-left: 40px; /* Para dar espaço da borda */
+  padding-left: 40px; 
 }
 
 .carousel-caption h1 {
@@ -236,7 +231,6 @@ ul {
   margin-bottom: 30px;
 }
 
-/* Controles e Dots do Carrossel */
 .carousel-control {
   position: absolute;
   top: 50%;
@@ -288,7 +282,6 @@ ul {
   transform: scale(1.2);
 }
 
-/* Categorias (Inspirado na Image 8f127d.png) */
 .categories-section {
   padding: 40px 20px;
   margin-bottom: 50px;
@@ -332,7 +325,6 @@ ul {
   color: var(--dark-grey-text);
 }
 
-/* Product Section */
 .product-section {
   margin-bottom: 70px;
 }
@@ -350,7 +342,7 @@ ul {
   grid-template-columns: repeat(
     auto-fit,
     minmax(230px, 1fr)
-  ); /* Largura mínima ligeiramente maior */
+  ); 
   gap: 25px;
   margin-bottom: 30px;
 }
@@ -420,7 +412,7 @@ ul {
   font-weight: 600;
 }
 .product-card .badge.promo {
-  background-color: #c0392b; /* Vermelho para promoções */
+  background-color: #c0392b; 
 }
 
 .view-all {
@@ -428,7 +420,6 @@ ul {
   margin-top: 40px;
 }
 
-/* About Us Banner */
 .about-us-banner {
   background-color: var(--medium-bg);
   padding: 70px 0;
@@ -465,7 +456,6 @@ ul {
   margin-bottom: 30px;
 }
 
-/* Footer */
 .main-footer {
   background-color: var(--primary-blue);
   color: var(--white);
@@ -512,7 +502,6 @@ ul {
   opacity: 1;
 }
 
-/* Responsividade Básica */
 @media (max-width: 1024px) {
   .header-content {
     flex-wrap: wrap;
@@ -540,7 +529,7 @@ ul {
     flex-wrap: wrap;
   }
   .category-item {
-    flex-basis: 20%; /* Para caber mais na linha */
+    flex-basis: 20%;
   }
   .about-content-wrapper {
     flex-direction: column;
@@ -550,9 +539,6 @@ ul {
     margin-bottom: 20px;
   }
 }
-/* ===================================
-   ESTILOS DA PÁGINA DE PERFIL/CONFIGURAÇÕES
-   =================================== */
 
 .settings-page-layout {
   display: flex;
@@ -560,7 +546,6 @@ ul {
   padding: 40px 20px;
 }
 
-/* --- Sidebar (Esquerda) --- */
 .settings-sidebar {
   flex-basis: 250px;
   flex-shrink: 0;
@@ -636,7 +621,6 @@ ul {
   font-weight: 600;
 }
 
-/* --- Conteúdo Principal --- */
 .settings-content-area {
   flex-grow: 1;
 }
@@ -672,7 +656,6 @@ ul {
   border: 1px solid var(--medium-bg);
 }
 
-/* Estilos de Formulário (Reutilizado do cadastro) */
 .settings-form-card .input-group {
   margin-bottom: 20px;
 }
@@ -698,14 +681,12 @@ ul {
   margin-top: 5px;
 }
 
-/* Ações no Formulário */
 .form-actions.profile-actions {
   padding-top: 20px;
   border-top: 1px solid var(--medium-bg);
   margin-top: 30px;
 }
 
-/* Toggles de Notificação */
 .notification-toggle {
   display: flex;
   justify-content: space-between;
@@ -721,7 +702,6 @@ ul {
   color: var(--dark-grey-text);
 }
 
-/* Estilos de Toggle Switch (Simples) */
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -769,7 +749,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .settings-page-layout {
     flex-direction: column;
@@ -790,12 +769,12 @@ input:checked + .slider:before {
     border: 1px solid var(--medium-bg);
   }
   .nav-item {
-    flex-basis: 48%; /* Dois itens por linha */
+    flex-basis: 48%; 
     text-align: center;
     margin-bottom: 0;
   }
   .nav-item.separator {
-    display: none; /* Esconde o separador */
+    display: none; 
   }
   .nav-item a {
     justify-content: center;
@@ -805,7 +784,7 @@ input:checked + .slider:before {
     font-size: 18px;
   }
   .nav-item a span {
-    display: none; /* Esconde o texto no mobile (ou reajustar se quiser manter) */
+    display: none; 
   }
 }
 
@@ -825,9 +804,7 @@ input:checked + .slider:before {
   background-color: #e8eef9;
   border-color: #1a4b8c;
 }
-/* ============================
-   FORMULÁRIO DE SEGURANÇA
-   ============================ */
+
 .security-form {
   background-color: var(--white);
   border: 1px solid var(--medium-bg);
@@ -886,7 +863,6 @@ input:checked + .slider:before {
   background-color: #e67e00;
 }
 
-/* Feedback e estados */
 .security-form .success-message,
 .security-form .error-message {
   text-align: center;

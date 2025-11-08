@@ -1,5 +1,6 @@
 from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey
+
 class addresses(db.Model):
     address_id = db.Column(db.Integer, primary_key=True)
     street_name = db.Column(db.String(255), nullable=False)
@@ -11,5 +12,3 @@ class addresses(db.Model):
     state = db.Column(db.CHAR(2), nullable=False)
     principal_address = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey("users.user_id"))
-
-

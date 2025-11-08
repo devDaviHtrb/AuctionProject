@@ -9,9 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeLoginBtn = document.getElementById("closeLogin");
   const loginModal = document.getElementById("loginModal");
   const loginForm = document.getElementById("login-form");
-  const googleLoginBtn = document.querySelector(".google-login"); // novo botão Google
+  const googleLoginBtn = document.querySelector(".google-login"); 
 
-  // === ABRIR MODAL ===
   if (openLoginBtn && loginModal) {
     openLoginBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -20,28 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // === FECHAR MODAL (botão X) ===
   if (closeLoginBtn) {
-    closeLoginBtn.addEventListener("click", fecharModal);
+    closeLoginBtn.addEventListener("click", closeModal);
   }
 
-  // === FECHAR MODAL (clicar fora) ===
   window.addEventListener("click", (e) => {
-    if (e.target === loginModal) fecharModal();
+    if (e.target === loginModal) closeModal();
   });
 
-  // === FUNÇÃO PARA FECHAR O MODAL COM ANIMAÇÃO ===
-  function fecharModal() {
+  function closeModal() {
     loginModal.classList.remove("show");
     setTimeout(() => {
       loginModal.style.display = "none";
     }, 200);
   }
 
-  // === ENVIO DO FORMULÁRIO (botão ENTRAR) ===
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault(); // impede reload
+      e.preventDefault();
       message.innerHTML = "";
 
       const username = document.getElementById("login-email").value.trim();
@@ -54,12 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // === BOTÃO GOOGLE LOGIN (redirecionamento simulado) ===
   if (googleLoginBtn) {
     googleLoginBtn.addEventListener("click", () => {
-      // Aqui você coloca o redirect real do OAuth Google (exemplo Flask)
-      window.location.href = "/auth/google/redirect"; // rota de autenticação
+      window.location.href = "/auth/google/redirect";
     });
   }
 
 });
+

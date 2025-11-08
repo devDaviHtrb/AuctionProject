@@ -7,18 +7,17 @@ from myapp.models.Products import products
 from myapp.models.ProductStatuses import product_statuses
 import myapp.repositories.BidRepository as bid_repository
 import myapp.repositories.ProductRepository as product_repository
-import myapp.repositories.PaymentRepository as payment_repository
-from datetime import datetime
-from typing import Optional, Tuple, Dict, Any
+from typing import Tuple, Dict, Any
 from decimal import Decimal
 
+#=============================== ERRORS ===============================
 MISSING_INFO =      101 # Missing Informations
 INVALID_PRODUCT =   102 # Invalid Product
 INSUFICIENT_FUNDS = 103 # Insuficient funds
 BID_VALUE_ERROR =   104 # Bid must be higher than current highest bid
 OTHER_BIDS_ERROR =  105 # The sum of all your bids exceeds your balance
 PROCESS_ERROR =     106 # Error processing bid
-
+#======================================================================
 
 def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[str, Any]]:
     product_id = product.product_id
@@ -48,7 +47,6 @@ def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[st
             ).group_by(bids.product_id).subquery()
         )
 
-        # Query principal: junta os dados do produto e filtra apenas lances vencedores do usuário
         active_bids = (
             db.session.query(bids).join(
                 subquery, and_(

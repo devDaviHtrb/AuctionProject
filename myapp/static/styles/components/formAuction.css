@@ -2,15 +2,12 @@
     --primary-blue: #0C2340;
     --accent-orange: #FF8C00;
     --light-bg: #FFFFFF;
-    /* Fundo principal BRANCO */
     --medium-bg: #F5F5F5;
-    /* Para seções de contraste */
     --dark-grey-text: #333333;
     --light-text: #666;
     --white: #FFFFFF;
 }
 
-/* Base */
 * {
     margin: 0;
     padding: 0;
@@ -39,7 +36,6 @@ ul {
     list-style: none;
 }
 
-/* Botões e CTA's */
 .btn-primary {
     background-color: var(--accent-orange);
     color: var(--white);
@@ -103,7 +99,6 @@ ul {
     gap: 5px;
 }
 
-/* Header */
 .main-header {
     background-color: var(--white);
     padding: 15px 0;
@@ -121,7 +116,6 @@ ul {
     align-items: center;
     gap: 10px;
     min-width: 150px;
-    /* Garante espaço para logo */
 }
 
 .main-header .logo img {
@@ -146,7 +140,6 @@ ul {
     padding: 12px 40px 12px 15px;
     border: 1px solid var(--medium-bg);
     border-radius: 25px;
-    /* Mais moderno, arredondado */
     font-size: 14px;
     color: var(--dark-grey-text);
     background-color: var(--light-bg);
@@ -185,7 +178,6 @@ ul {
     font-weight: 600;
 }
 
-/* Hero Carousel (FULL WIDTH) */
 .hero-carousel {
     position: relative;
     width: 100%;
@@ -201,13 +193,11 @@ ul {
 .carousel-item {
     min-width: 100%;
     height: 450px;
-    /* Altura definida */
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
     text-align: left;
-    /* Alinhamento à esquerda para o texto */
     color: var(--white);
     position: relative;
 }
@@ -227,7 +217,6 @@ ul {
     z-index: 10;
     max-width: 600px;
     padding-left: 40px;
-    /* Para dar espaço da borda */
 }
 
 .carousel-caption h1 {
@@ -242,7 +231,6 @@ ul {
     margin-bottom: 30px;
 }
 
-/* Controles e Dots do Carrossel */
 .carousel-control {
     position: absolute;
     top: 50%;
@@ -294,7 +282,6 @@ ul {
     transform: scale(1.2);
 }
 
-/* Categorias (Inspirado na Image 8f127d.png) */
 .categories-section {
     padding: 40px 20px;
     margin-bottom: 50px;
@@ -338,29 +325,27 @@ ul {
     color: var(--dark-grey-text);
 }
 
-/* Product Section */
 .product-section {
     margin-bottom: 70px;
 }
 
-    /* container que segura os campos dinâmicos */
 #category-features {
   display: flex;
-  flex-wrap: wrap;         /* permite quebrar linha se não couber */
-  gap: 12px;               /* espaço entre os campos */
+  flex-wrap: wrap;         
+  gap: 12px;               
   align-items: flex-start;
   margin-top: 10px;
 }
 
-/* cada grupo label + input */
+
 #category-features .input-group {
   display: flex;
-  flex-direction: column;  /* mantém label em cima do input */
-  flex: 1 1 180px;         /* ocupa largura mínima de 180px e se ajusta */
+  flex-direction: column;  
+  flex: 1 1 180px;         
   min-width: 160px;
 }
 
-/* estilo dos inputs */
+
 #category-features label {
   font-size: 13px;
   margin-bottom: 4px;
@@ -388,7 +373,6 @@ ul {
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    /* Largura mínima ligeiramente maior */
     gap: 25px;
     margin-bottom: 30px;
 }
@@ -460,7 +444,6 @@ ul {
 
 .product-card .badge.promo {
     background-color: #c0392b;
-    /* Vermelho para promoções */
 }
 
 
@@ -469,7 +452,7 @@ ul {
     margin-top: 40px;
 }
 
-/* About Us Banner */
+
 .about-us-banner {
     background-color: var(--medium-bg);
     padding: 70px 0;
@@ -506,7 +489,7 @@ ul {
     margin-bottom: 30px;
 }
 
-/* Footer */
+
 .main-footer {
     background-color: var(--primary-blue);
     color: var(--white);
@@ -553,7 +536,7 @@ ul {
     opacity: 1;
 }
 
-/* Responsividade Básica */
+
 @media (max-width: 1024px) {
     .header-content {
         flex-wrap: wrap;
@@ -587,7 +570,6 @@ ul {
 
     .category-item {
         flex-basis: 20%;
-        /* Para caber mais na linha */
     }
 
     .about-content-wrapper {
@@ -611,9 +593,6 @@ ul {
 }
 
 
-/* ===================================
-   ESTILOS DA PÁGINA DE CADASTRO (ADICIONADOS ABAIXO DOS ESTILOS ANTERIORES)
-   =================================== */
 
 .form-page-main {
     padding: 40px 0;
@@ -665,7 +644,6 @@ ul {
     border-radius: 5px;
 }
 
-/* --- Estilo do Upload de Fotos --- */
 .photo-area {
     border: 2px dashed var(--medium-bg);
     padding: 20px;
@@ -736,8 +714,6 @@ ul {
     opacity: 1;
 }
 
-
-/* --- Estilo dos Campos de Formulário --- */
 .input-group {
     margin-bottom: 20px;
 }
@@ -786,7 +762,6 @@ ul {
     flex: 1;
 }
 
-/* Rádio Buttons */
 .radio-group label {
     font-weight: 400;
     display: inline-flex;
@@ -801,8 +776,6 @@ ul {
     margin-right: 5px;
 }
 
-
-/* --- Ações do Formulário --- */
 .form-actions {
     text-align: center;
     padding-top: 30px;
@@ -823,7 +796,6 @@ ul {
     background-color: #999;
 }
 
-/* Mídia Queries para formulário */
 @media (max-width: 600px) {
     .row-split {
         flex-direction: column;

@@ -1,7 +1,6 @@
 from myapp.setup.InitImageDb import cloudinary
 from myapp.utils.Async import make_async
 
-
 @make_async
 def async_upload_image(file, data, folder:str) -> bool:
     try:

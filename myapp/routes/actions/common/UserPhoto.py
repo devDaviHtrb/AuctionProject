@@ -1,13 +1,14 @@
-from flask import Blueprint, redirect, request, jsonify, session, url_for
+from flask import Blueprint, redirect, request, jsonify, session, url_for, Response
 from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.utils.UploadImage import upload_image
 from myapp.models.Users import users
 from myapp.setup.InitSqlAlchemy import db
+from typing import Tuple
 
 changePhoto_bp = Blueprint("changePhoto", __name__)
 
 @changePhoto_bp.route("/changePhoto", methods=["POST"])
-def update_profile_photo():
+def update_profile_photo() -> Tuple[Response, int]:
     try:
         user_id = session.get("user_id")
 
@@ -20,7 +21,6 @@ def update_profile_photo():
         if not url:
             return jsonify({"error": "Upload error"}), 500
 
-        # Atualiza no banco
         user = users.query.filter_by(user_id=user_id).first()
         if not user:
             return jsonify({"error": "User not found"}), 404
@@ -32,5 +32,5 @@ def update_profile_photo():
         return redirect(url_for(CONFIG_PAGE, msg="sucessful")), 200
 
     except Exception as e:
-        print("❌ Error on update user photo:", e)
+        print("Error on update user photo:", e)
         return jsonify({"error": "Internal Error"}), 500

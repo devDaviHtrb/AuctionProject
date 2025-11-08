@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Bash + psql Terminal</title>
+    <title>Lanciare - Admin</title>
     <style>
         body {
             background-color: #0c0c0c;
@@ -82,7 +82,7 @@
 
     <script>
         const term = document.getElementById('terminal');
-        let mode = 'bash'; // 'bash' ou 'psql'
+        let mode = 'bash'; 
         let sqlBuffer = '';
         let history = [];
         let histIndex = -1;
@@ -162,7 +162,7 @@
                 term.scrollTop = term.scrollHeight;
                 return;
             }
-            // --- Comando entry -r /rota ---
+    
             if (cmd.startsWith('entry')) {
                 const match = cmd.match(/-r\s+(\S+)/);
                 if (!match) {
@@ -266,9 +266,9 @@
         }
         function pad(str, len) { return str + ' '.repeat(len - str.length); }
 
-        // inicialização
+        
         const banner = document.createElement('div');
-        banner.innerHTML = "<span class='ok'>Bem-vindo ao Bash Web — digite <b>psql</b> para entrar no modo SQL, ou <b>help</b> para ajuda</span>";
+        banner.innerHTML = "<span class='ok'>Bem-vindo ao Bash Web — Digite <b>help</b> para ajuda</span>";
         term.appendChild(banner);
         newPrompt();
     </script>

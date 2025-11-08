@@ -1,11 +1,12 @@
-from flask import render_template, Blueprint,redirect, session, url_for
+from flask import render_template, Blueprint, Response
 
 home = Blueprint("homePage", __name__)
 
 @home.route("/")
-def HomePage():
+def HomePage() -> Response:
     return render_template(
         "Index.html",
+        # fix it
         top_products = [
             {
                 "photo": "#",
@@ -33,5 +34,3 @@ def HomePage():
             }
          ]
     )
-
-

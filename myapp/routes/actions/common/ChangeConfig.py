@@ -1,11 +1,8 @@
 
 from flask import Blueprint, request, Response, redirect, session, url_for
 from myapp.models.Users import users
-from myapp.models.LegalPerson import legal_persons
 from myapp.models.PhysicalPerson import physical_persons
-from myapp.utils.LinksUrl import CONFIG_PAGE, configPage
-from typing import Tuple
-from myapp.utils.Validations.UserValidation import User_validation
+from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.setup.InitSqlAlchemy import db
 
 change_config_bp = Blueprint("changeConfig", __name__)
@@ -17,7 +14,7 @@ DAY = HOUR*24
 #the inputs values will be wrote with cookies values
 #input ids must have the same name as cookies
 @change_config_bp.route("/changeConfig", methods=["POST"])
-def change_config() -> Tuple[Response, int]:
+def change_config() -> Response:
     username = request.form["username"]
     name = request.form["name"]
     
@@ -25,7 +22,7 @@ def change_config() -> Tuple[Response, int]:
     existing_user = users.query.filter_by(username=username).first()
     if existing_user:
         if existing_user.user_id != session.get("user_id"):
-            return redirect(url_for(CONFIG_PAGE, msg="There are an user with this username")), 400
+            return redirect(url_for(CONFIG_PAGE, msg="There are an user with this username"))
     
     current_user = users.query.filter_by(user_id=session.get("user_id")).first()
     current_user.username = username

@@ -6,8 +6,8 @@ from flask import Blueprint, jsonify, request
 from typing import  Dict, Tuple
 from config import Config
 
-INTERNAL_TOKEN_API = Config.INTERNAL_TOKEN_API
-ASAAS_USER_ID =  1 #ID OF ASSAS USER
+INTERNAL_TOKEN_API =    Config.INTERNAL_TOKEN_API
+ASAAS_USER_ID =         1 #ID OF ASSAS USER, SORRY :(
 webhook_bp = Blueprint("webhook", __name__)
 
 
@@ -47,7 +47,7 @@ def payments_webhook() -> Tuple[Dict[str, bool], int]:
     }
 
     if (payment_event == "PAYMENT_RECEIVED"):
-        user.wallet += value*100
+        user.wallet += value
         data["confirmation_datetime"] = date_created
         db.session.commit()
         

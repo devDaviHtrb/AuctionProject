@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     await signIn();
   });
 
-  // === Controle de passos ===
   const steps = [
     document.getElementById("step-1"),
     document.getElementById("step-2"),
@@ -64,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === Tipo de conta (PF/PJ) ===
   const radios = document.querySelectorAll("input[name='account_type']");
   const userTypeInput = document.getElementById("userType");
 
@@ -77,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ).value;
     userTypeInput.value = selected;
 
-    // Mostra ou esconde os campos
     pfFields.forEach(
       (el) =>
         (el.style.display = selected === "physical_person" ? "block" : "none")
@@ -87,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         (el.style.display = selected === "legal_person" ? "block" : "none")
     );
 
-    // Atualiza a cor do botão selecionado
     const typeOptions = document.querySelectorAll(".type-option");
     typeOptions.forEach((opt) => {
       const input = opt.querySelector("input[name='account_type']");
@@ -103,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
     radio.addEventListener("change", toggleTypeFields);
   });
 
-  // === Inicialização ===
   toggleTypeFields();
   updateSteps();
 });

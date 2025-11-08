@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Loading Overlay ---
     const loadingOverlay = document.getElementById('loading-overlay');
     const showLoading = () => loadingOverlay?.classList.add('active');
     const hideLoading = () => loadingOverlay?.classList.remove('active');
 
-    // --- Elementos principais ---
     const productsGrid = document.querySelector('.product-grid');
     const paginationList = document.querySelector('.pagination-list');
     const filterPriceBox = document.querySelector('.price-range-filter');
@@ -21,10 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         status: null,
         price_range: null,
         name: null,
-        sort: null  // adiciona sort nos filtros
+        sort: null 
     };
 
-    // --- Formata tempo ---
     function formatTime(ms) {
         const totalSeconds = Math.floor(ms / 1000);
         const days = Math.floor(totalSeconds / (3600 * 24));
@@ -40,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return parts.join(" ");
     }
 
-    // --- Configura timer ---
     function setupProductTimer(timerElement, startTimeISO, durationMinutes, buttonElement) {
         const startTime = new Date(startTimeISO).getTime();
         const durationMs = durationMinutes * 60 * 1000;
@@ -77,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const interval = setInterval(updateTimer, 1000);
     }
 
-    // --- Renderiza produtos ---
     function renderProducts(products) {
         productsGrid.innerHTML = '';
 
@@ -103,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Renderiza paginação ---
     function renderPagination(current, total) {
         paginationList.innerHTML = `
             <li class="page-item prev ${current === 1 ? 'disabled' : ''}">
@@ -130,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    // --- Carrega produtos via AJAX ---
     function loadProducts(page = 1) {
         showLoading();
         showLoading();
@@ -153,14 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 hideLoading();
             })
             .catch(err => {
-                console.error('Erro ao carregar produtos:', err);
+                console.error( err);
                 hideLoading();
             });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- Paginação ---
     paginationList.addEventListener('click', e => {
         e.preventDefault();
         const target = e.target.closest('.page-link');
@@ -176,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // --- Filtros por link ---
     document.querySelectorAll('[data-type][data-val]').forEach(link => {
         link.addEventListener('click', e => {
             e.preventDefault();
@@ -198,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Filtro de preço ---
     btnApplyPrice.addEventListener('click', () => {
         const min = inputsPrice[0].value.trim();
         const max = inputsPrice[1].value.trim();
@@ -215,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadProducts(1);
     });
 
-    // --- Ordenação ---
     sortSelect.addEventListener('change', () => {
         const val = sortSelect.value;
         switch(val) {
@@ -228,6 +217,5 @@ document.addEventListener('DOMContentLoaded', () => {
         loadProducts(1);
     });
 
-    // --- Inicializa ---
     loadProducts(1);
 });

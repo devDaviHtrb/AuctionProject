@@ -998,15 +998,6 @@ Modulos
     docker-compose up -d
     ```
 
-    Or run it in Linux/Mac:
-    ```bash
-    ./run_docker.sh #--help
-    ```
-    and it for Windows:
-    ```bash
-    run_docker.bat #--help
-    ```
-
     If you don't want to build it manually, you can get it from Docker Hub:
 
     ```bash

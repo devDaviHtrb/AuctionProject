@@ -4,7 +4,6 @@ const listContainer = document.getElementById("autocompleteList");
 let suggestions = []; // irá receber os dados da API
 let currentFocus = -1;
 
-// Função para buscar os dados da API
 async function fetchSuggestions() {
     try {
         const response = await fetch('/get/searchs-info');
@@ -13,14 +12,12 @@ async function fetchSuggestions() {
         // [[name, link], ...]
         suggestions = await response.json();
     } catch (error) {
-        console.error("Erro ao buscar sugestões:", error);
+        console.error("Error :", error);
     }
 }
 
-// Chama a função para carregar os dados ao iniciar
 fetchSuggestions();
 
-// Evento de input para autocomplete
 searchInput.addEventListener("input", function () {
     const query = this.value.toLowerCase();
     listContainer.innerHTML = "";
@@ -50,7 +47,6 @@ searchInput.addEventListener("input", function () {
     });
 });
 
-// Evento de teclado para navegação
 searchInput.addEventListener("keydown", function (e) {
     let items = listContainer.getElementsByClassName("autocomplete-item");
     if (!items) return;
@@ -83,12 +79,10 @@ function removeActive(items) {
     for (let item of items) item.classList.remove("active");
 }
 
-// Fechar lista ao clicar fora
 document.addEventListener("click", function (e) {
     if (!e.target.closest(".search-bar")) listContainer.innerHTML = "";
 });
 
-// Dropdown do usuário
 const userButton = document.getElementById("userButton");
 const dropdownMenu = document.getElementById("dropdownMenu");
 

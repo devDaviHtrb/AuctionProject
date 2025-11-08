@@ -54,7 +54,7 @@ def login() -> Tuple[Response, int]:
             }), 200
 
         init_session(user)
-        response = make_response(profile())
+        response = profile() #json
         set_cookies(request, response, user_id = user.user_id)
 
         return response, 200

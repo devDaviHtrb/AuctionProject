@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const contentSections = document.querySelectorAll(".settings-section");
 
   function switchSection(sectionId) {
-    console.log("Mudando para seção:", sectionId);
 
     contentSections.forEach((s) => {
       s.classList.add("hidden-section");
@@ -35,10 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Inicializa com o perfil aberto
   switchSection("profile");
 
-  // Clique nas abas
   navItems.forEach((item) => {
     item.addEventListener("click", (e) => {
       e.preventDefault();
@@ -47,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Upload da imagem de perfil
   const dropzone = document.getElementById("avatar-dropzone");
   const fileInput = document.getElementById("avatar-file");
 

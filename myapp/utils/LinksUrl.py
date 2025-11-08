@@ -1,7 +1,7 @@
 from flask import Response, jsonify, redirect, url_for
 import myapp.repositories.CategoryRepository as category_repository
 
-# -- set consts of pages--
+#======================= CONST OF PAGES =======================
 PROFILE_PAGE =          "configPage.ConfigPage"
 WAITING_PAGE =          "waitingPage.WaitingPage"
 CHANGE_PASSWORD_PAGE =  "changePasswordPage.ChangePasswordPage"
@@ -10,13 +10,15 @@ SIGN_UP_PAGE =          "signUpPage.SignUpPage"
 CONFIG_PAGE =           "configPage.ConfigPage"
 HOME_PAGE =             "homePage.HomePage"
 PRODUCTS_PAGE =         "productsPage.ProductsPage"
+#==============================================================
 
-# -- set consts of back-end--
+#============= CONST OF BACK-END =============
 AUTH_GOOGLE_REDIRECT =  "auth.google_redirect"
 AUTH_GOOGLE_VALIDATE =  "auth.google_validate"
 AUTH_CONFIRM =          "auth.auth"
 AUTH_RESEND =           "auth.resend"
 AUTH_CHANGE_PASSWORD =  "auth.change_password"
+#=============================================
 
 def wait_sign_up() -> Response:
     redirect_url = url_for(

@@ -15,7 +15,7 @@ def serchs_info() -> Tuple[Response, int]:
     return jsonify(SEARCHS_INFO), 200
 
 @gets_bp.route("/get/relationship/categories")
-def get_relationship_categories():
+def get_relationship_categories() -> Tuple[Response, int]:
     relatioship = category_repository.get_relationship_categories_features()
     #convert
     for key in relatioship:

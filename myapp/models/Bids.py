@@ -1,4 +1,3 @@
-from __future__ import annotations
 from myapp.setup.InitSqlAlchemy import db
 from datetime import datetime
 from sqlalchemy import ForeignKey

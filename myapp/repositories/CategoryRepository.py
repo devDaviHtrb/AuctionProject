@@ -28,7 +28,7 @@ def get_relationship_categories_features() -> Dict[categories, List[technical_fe
         for category_name, category_id in all_categories
     } 
 
-def get_categories_frequency():
+def get_categories_frequency() -> List[categories]:
     results = (
         categories.query
         .outerjoin(products, products.category == categories.category_id)

@@ -1,4 +1,3 @@
-from __future__ import annotations
 from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey
 from datetime import datetime
@@ -17,7 +16,3 @@ class payments(db.Model):
     payment_status = db.Column(db.Integer, ForeignKey("payment_statuses.payment_status_id"))
 
     asaas_payment_id = db.Column(db.Integer, nullable = True)
-
-
-    
-        

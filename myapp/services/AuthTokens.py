@@ -3,12 +3,14 @@ import threading as thread
 from typing import Dict, Any, Optional
 
 pending = {} 
-"""{
-    token: {
-        "type":         str(sing_in | login | reset)
-        "user_data":    {str: Any}
-    }
-}"""
+#======================= TOKEN =======================
+#{
+#    token: {
+#        "type":         str(sing_in | login | reset)
+#        "user_data":    {str: Any}
+#    }
+#}
+#======================================================
 emails = {} # {email: token}
 
 
@@ -34,7 +36,6 @@ def get_by_emails_dict(key:str) -> Optional[str]:
     return emails.get(key, None)
 
 def pop_by_pending(key:str) -> None:
-    print("::::::::::", pending, emails)
     if (not key in pending):
         return
     data = pending.get(key).get("user_data")

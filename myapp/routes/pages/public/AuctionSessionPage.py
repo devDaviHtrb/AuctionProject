@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, abort
+from flask import render_template, Blueprint, abort, Response
 from myapp.models.Images import images
 from myapp.models.Products import products
 from myapp.models.Categories import categories
@@ -11,8 +11,8 @@ import myapp.repositories.ProductRepository as product_repository
 
 auction = Blueprint("auctionPage", __name__)
 
-@auction.route("/auction/<roomToken>")
-def AuctionPage(roomToken):
+@auction.route("/auction/<string:roomToken>")
+def AuctionPage(roomToken: str) -> Response:
     product = products.query.join(
         product_statuses,
         product_statuses.product_status_id == products.product_status,

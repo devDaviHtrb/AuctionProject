@@ -3,7 +3,6 @@ from typing import Dict, Optional, Any
 def init_context(app: Flask) -> None:
     @app.context_processor
     def inject_user() -> Dict[str, Optional[Dict[str, Any]]]:
-        # pega os links do cache
         search_links = []#_cached_search_links()
 
         user_id = session.get("user_id")

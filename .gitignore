@@ -11,7 +11,7 @@ __pycache__/
 .venv
 
 # =========================
-# IDEs e Editores
+# IDEs and Editors
 # =========================
 .vscode/
 .idea/
@@ -19,7 +19,7 @@ __pycache__/
 *.swo
 
 # =========================
-# Configurações Locais
+# Local Settings
 # =========================
 instance/
 config_local.py
@@ -30,7 +30,7 @@ obs.txt
 database.csv
 
 # =========================
-# Banco de Dados
+# DATABASE
 # =========================
 *.db
 *.sqlite3

@@ -5,12 +5,15 @@ from myapp.models.Products import products
 from myapp.services.Win import set_winner
 import myapp.repositories.ProductRepository as product_repository
 
-# Estrutura para armazenar timer + end_datetime em cache
 products_timers = {}
-"""{product_id: {
-        "timer": thread.Timer,
-        "end_datetime": datetime
-    }}"""
+#============= TIMER =============
+#{
+#   product_id: {
+#        "timer": thread.Timer,
+#        "end_datetime": datetime
+#    }
+#}
+#=================================
 
 def close_auction(product_id: int) -> None:
     product = products.query.get(product_id)

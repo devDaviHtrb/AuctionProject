@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // === 1. GALERIA DE FOTOS ===
     const mainPhoto = document.getElementById('main-photo');
     const thumbnails = document.querySelectorAll('.thumb');
 
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // === 2. LANCE PRINCIPAL ===
     const bidButton = document.querySelector('.submit-bid-btn');
     const bidInput = document.getElementById('bid-amount');
     const currentPriceDisplay = document.getElementById('current-price');
@@ -41,15 +39,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         bidInput.value = '';
 
-        // Emitir o lance via SocketIO
-        console.log("foi::::")
         socket.emit('emit_bid', {
             value: newBid
         });
 
     });
 
-    // === 3. FUNÇÃO GERAL DE CRONÔMETRO ===
     function formatTime(ms) {
         const totalSeconds = Math.floor(ms / 1000);
         const days = Math.floor(totalSeconds / (3600 * 24));
@@ -82,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 method: "DELETE",
             });
 
-            // Lê a resposta do servidor
             const data = await response.json();
 
             if (response.ok) {
@@ -143,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setupTimer(timer, button);
     });
 
-    // === 4. FUNÇÃO DE POP-UP ===
     function showNotification(type, message) {
         const container = document.getElementById('notification-container');
         if (!container) return;
@@ -152,17 +145,14 @@ document.addEventListener('DOMContentLoaded', function () {
         notif.className = `notification ${type}`;
         notif.textContent = message;
 
-        // Adiciona a nova notificação no final (parte de baixo)
         container.appendChild(notif);
 
-        // Se houver mais de 5 notificações, remove a mais antiga (a primeira)
         const notifs = container.querySelectorAll('.notification');
         if (notifs.length > 6) {
             notifs[0].classList.add("fade-out");
             setTimeout(() => notifs[0].remove(), 300);
         }
 
-        // Remove automaticamente após 5 segundos
         setTimeout(() => {
             notif.classList.add("fade-out");
             setTimeout(() => notif.remove(), 300);
@@ -173,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
 
-        // Mês abreviado em português (ou inglês, se preferir)
         const monthNames = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
         const month = monthNames[date.getMonth()];
 
@@ -184,15 +173,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${day} ${month} ${year}, ${hours}:${minutes}`;
     }
 
-
-
-    // === 5. SOCKETIO INTEGRATION ===
     if (window.user.logged) {
         const socket = io();
         window.socket = socket;
 
-        // Entrar na sala (exemplo)
-        console.log("join:::")
         socket.emit('join_room', { room_id: window.roomId });
 
         socket.on('server_content', (data) => {
@@ -217,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     break;
                 case 'bid':
                     showNotification('bid', `${response.username} deu um lance de R$ ${response.value}`);
-                    // Atualiza o preço atual
+                    
                     document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')})`;
                     bidInput.placeholder = `R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`;
                     currentPriceDisplay.textContent = `R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')}`;

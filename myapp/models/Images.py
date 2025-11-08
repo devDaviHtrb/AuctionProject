@@ -1,5 +1,6 @@
 from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey
+
 class images(db.Model):
     image_id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String(255), nullable=False)

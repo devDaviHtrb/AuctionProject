@@ -1,5 +1,6 @@
 from myapp.setup.InitSqlAlchemy import db
 from sqlalchemy import ForeignKey
+
 class legal_infos(db.Model):
     legal_infos_id = db.Column(db.Integer, primary_key=True)
     process_number = db.Column(db.CHAR(25), nullable=False)
@@ -10,3 +11,4 @@ class legal_infos(db.Model):
     judge_name =db.Column(db.String(255), nullable=False)
     extra_notes =  db.Column(db.Text, nullable=True)
     product_id = db.Column(db.Integer, ForeignKey("products.product_id"))
+    

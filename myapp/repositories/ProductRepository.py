@@ -109,5 +109,5 @@ def get_technical_features_values(product: products) -> List[technical_features_
         technical_features_values.technical_feature_id == technical_features.technical_feature_id,
         isouter=True
     ).filter(
-        technical_features_values.product_id == products.product_id
+        technical_features_values.product_id == product.product_id
     ).all()

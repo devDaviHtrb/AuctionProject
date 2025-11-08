@@ -2,11 +2,14 @@ from flask import Request, Response
 from config import Config
 from cryptography.fernet import Fernet
 
+#=========== CRYPT ===========
 FERNET_KEY = Config.FERNET_KEY
-fernet = Fernet(b'GvM4_3m4k9s0Jk8L9q5F8E8j3xD1s0O4nLQz7U2QHkY=')#hihihi
+fernet = Fernet(FERNET_KEY)
+#=============================
 
 HOUR = 3600
 DAY = HOUR*24
+
 COOKIES_DEFAULT = {
     "StyleMode":{
         "value":    "light",

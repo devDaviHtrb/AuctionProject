@@ -5,8 +5,8 @@ from myapp.setup.InitSqlAlchemy import db
 from datetime import datetime
 from typing import List, Optional
 
-INTERN_MONEY = "intern_money"
-RECEIVED = "received"
+INTERN_MONEY =  "intern_money"
+RECEIVED =      "received"
 
 def set_winner(product: products, ignores:Optional[List[int]]=None) -> None:
     if ignores is None:

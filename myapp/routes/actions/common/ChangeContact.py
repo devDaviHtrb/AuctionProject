@@ -8,7 +8,7 @@ from myapp.utils.Validations.validations import is_phone_number
 change_contact_bp = Blueprint("changeContact", __name__)
 
 @change_contact_bp.route("/changeContact", methods=["POST"])
-def change_contact() -> Tuple[Response, int]:
+def change_contact() -> Response:
     cellphone1 = request.form.get("cellphone1", None)
     cellphone2 = request.form.get("cellphone2", None)
     landline = request.form.get("landline", None)
@@ -26,7 +26,7 @@ def change_contact() -> Tuple[Response, int]:
     for phone in phones:
         if phone != None and phone!="":
             if not is_phone_number(phone):
-                return redirect(url_for(CONFIG_PAGE, msg="invalid cellphone")), 400
+                return redirect(url_for(CONFIG_PAGE, msg="invalid cellphone"))
 
 
     user_id = session.get("user_id")
@@ -42,4 +42,4 @@ def change_contact() -> Tuple[Response, int]:
 
     db.session.commit()
 
-    return redirect(url_for(CONFIG_PAGE, msg="sucessful")), 200
+    return redirect(url_for(CONFIG_PAGE, msg="sucessful"))
