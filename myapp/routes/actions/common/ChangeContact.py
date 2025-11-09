@@ -1,9 +1,9 @@
 from flask import Blueprint, request, Response, redirect, session, url_for
-from myapp.models.Users import users
 from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.setup.InitSqlAlchemy import db
-from typing import Tuple
 from myapp.utils.Validations.validations import is_phone_number
+from typing import Tuple
+import myapp.repositories.UserRepository as user_repository
 
 change_contact_bp = Blueprint("changeContact", __name__)
 
@@ -30,7 +30,7 @@ def change_contact() -> Response:
 
 
     user_id = session.get("user_id")
-    current_user = users.query.filter_by(user_id=user_id).first()
+    current_user = user_repository.get_by_id(user_id)
 
     current_user.cellphone1 = cellphone1
     current_user.cellphone2 = cellphone2

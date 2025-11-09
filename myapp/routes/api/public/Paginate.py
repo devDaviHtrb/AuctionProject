@@ -87,22 +87,22 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
         photo_url = {"photo_url": image_obj.image} if image_obj else None
 
         products_response.append({
-            "product_name": product.product_name,
-            "description": product.description,
-            "min_bid": str(product.min_bid) if product.min_bid else None,
-            "start_datetime": product.start_datetime.isoformat() if product.start_datetime else None,
-            "duration": product.duration,
-            "category": categories_dict.get(product.category),
-            "room": product.product_room,
-            "photo_url": photo_url
+            "product_name":     product.product_name,
+            "description":      product.description,
+            "min_bid":          str(product.min_bid) if product.min_bid else None,
+            "start_datetime":   product.start_datetime.isoformat() if product.start_datetime else None,
+            "duration":         product.duration,
+            "category":         categories_dict.get(product.category),
+            "room":             product.product_room,
+            "photo_url":        photo_url
         })
 
     response = {
-        "products": products_response,
+        "products":     products_response,
         "current_page": paginated_products.page,
-        "total_pages": paginated_products.pages,
-        "has_next": paginated_products.has_next,
-        "has_prev": paginated_products.has_prev
+        "total_pages":  paginated_products.pages,
+        "has_next":     paginated_products.has_next,
+        "has_prev":     paginated_products.has_prev
     }
 
     return jsonify(response), 200

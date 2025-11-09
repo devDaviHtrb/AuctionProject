@@ -1,9 +1,9 @@
 
 from flask import Blueprint, request, Response, redirect, session, url_for
-from myapp.models.Users import users
-from myapp.models.PhysicalPerson import physical_persons
 from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.setup.InitSqlAlchemy import db
+import myapp.repositories.UserRepository as user_repository
+import myapp.repositories.PhysicalPersonRepository as physical_person_repository
 
 change_config_bp = Blueprint("changeConfig", __name__)
 
@@ -19,15 +19,15 @@ def change_config() -> Response:
     name = request.form["name"]
     
 
-    existing_user = users.query.filter_by(username=username).first()
+    existing_user = user_repository.get_by_username(username)
     if existing_user:
         if existing_user.user_id != session.get("user_id"):
             return redirect(url_for(CONFIG_PAGE, msg="There are an user with this username"))
     
-    current_user = users.query.filter_by(user_id=session.get("user_id")).first()
+    current_user = user_repository.get_by_id(session.get("user_id"))
     current_user.username = username
     current_user.name = name
-    physical_person=  physical_persons.query.filter_by(user_id=current_user.user_id)
+    physical_person=  physical_person_repository.get_by_id(current_user.user_id)
     if physical_person:
         gender = request.form["gender"]
         physical_person.gender = gender

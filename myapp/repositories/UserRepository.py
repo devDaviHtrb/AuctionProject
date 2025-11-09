@@ -2,10 +2,13 @@ from myapp.models.Users import users
 from myapp.models.LegalPerson import legal_persons
 from myapp.models.PhysicalPerson import physical_persons
 from myapp.models.Settings import settings
-from myapp.setup.InitSqlAlchemy import db
+from myapp.models.Bids import bids
+from myapp.models.Products import products
+from myapp.models.ProductStatuses import product_statuses
 import myapp.repositories.SettingRepository as setting_repository
 from werkzeug.security import generate_password_hash
-from typing import Optional, Tuple, Dict, Any
+from myapp.setup.InitSqlAlchemy import db, func, and_
+from typing import Optional, Tuple, Dict, Any, List
 
 from myapp.utils.UploadImage import upload_image
 
@@ -23,6 +26,12 @@ def get_by_email(wanted_email:str) -> Optional[users]:
     return db.session.query(users).filter(
         users.email == wanted_email
     ).first()
+
+def get_by_username(wanted_username: str) -> Optional[users]:
+    return users.query.filter_by(username = wanted_username).first()
+
+def get_by_id(wanted_id: int) -> Optional[users]:
+    return users.query.get(wanted_id)
 
 def get_two_factor_auth(user:users) -> Optional[bool]:
     setting = db.session.query(settings).filter_by(user_id = user.user_id).first()
@@ -99,3 +108,42 @@ def save_item(data: Dict[str, Any]) -> users:
     
     db.session.commit()
     return user
+
+def delete_bids_by_product_id_user_id(user_id:int, product_id:int) -> None:
+    stmt = delete(bids).where(
+        bids.product_id == product_id,
+        bids.user_id == user_id
+    )
+    db.session.execute(stmt)
+    db.session.commit()
+
+def get_by_api_token(wanted_token:str) -> Optional[users]:
+    return users.query.filter_by(api_token = wanted_token).first()
+
+# differents of product_id(parameter)
+def get_winner_bids_with_restriction(user:users, product:products) -> List[bids]:
+    subquery = (
+        db.session.query(
+            bids.product_id,
+            func.max(bids.bid_value).label('max_value')
+        ).group_by(bids.product_id).subquery()
+    )
+
+    return (
+        db.session.query(bids).join(
+            subquery, and_(
+            bids.product_id == subquery.c.product_id,
+            bids.bid_value == subquery.c.max_value
+            )
+        ).join(
+            products,
+            bids.product_id == products.product_id
+        ).join(
+            product_statuses,
+            product_statuses.product_status_id == products.product_status
+        ).filter(
+            product_statuses.product_status_id == product.product_status,
+            bids.product_id != product.product_id,
+            bids.user_id == user.user_id, 
+        )
+    )

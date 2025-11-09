@@ -1,12 +1,9 @@
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import func, and_
 from myapp.setup.InitSqlAlchemy import db
-from myapp.models.Bids import bids
-from myapp.models.Users import users
 from myapp.models.Products import products
-from myapp.models.ProductStatuses import product_statuses
 import myapp.repositories.BidRepository as bid_repository
 import myapp.repositories.ProductRepository as product_repository
+import myapp.repositories.UserRepository as user_repository
 from typing import Tuple, Dict, Any
 from decimal import Decimal
 
@@ -19,53 +16,24 @@ OTHER_BIDS_ERROR =  105 # The sum of all your bids exceeds your balance
 PROCESS_ERROR =     106 # Error processing bid
 #======================================================================
 
+OCCURRING = "Ativo"
+
 def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[str, Any]]:
     product_id = product.product_id
     try:
-        if not product or product_repository.get_status(product) != "occurring":
+        if not product or product_repository.get_status(product) != OCCURRING:
             return False, INVALID_PRODUCT
 
-        user = users.query.get(user_id)
+        user = user_repository.get_by_id(user_id)
         if user.wallet < value:
             return False, INSUFICIENT_FUNDS
 
-        last_bid = (
-            db.session.query(bids)
-            .filter_by(product_id=product_id)
-            .order_by(bids.bid_value.desc())
-            .with_for_update()
-            .first()
-        )
+        last_bid = product_repository.get_last_bid(product)
 
         if last_bid and value <= last_bid.bid_value:
             return False, BID_VALUE_ERROR
-
-        subquery = (
-            db.session.query(
-                bids.product_id,
-                func.max(bids.bid_value).label('max_value')
-            ).group_by(bids.product_id).subquery()
-        )
-
-        active_bids = (
-            db.session.query(bids).join(
-                subquery, and_(
-                bids.product_id == subquery.c.product_id,
-                bids.bid_value == subquery.c.max_value
-                )
-            ).join(
-                products,
-                bids.product_id == products.product_id
-            ).join(
-                product_statuses,
-                product_statuses.product_status_id == products.product_status
-            ).filter(
-                product_statuses.product_status_id == product.product_status,
-                bids.product_id != product.product_id,
-                bids.user_id == user.user_id, 
-            )
-        )
         
+        active_bids = user_repository.get_winner_bids_with_restriction(user, product)
 
         t_sum = sum([current.bid_value for current in active_bids], Decimal('0'))
         if t_sum + Decimal(value) > user.wallet:

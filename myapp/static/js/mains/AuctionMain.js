@@ -60,11 +60,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return parts.join(" ");
     }
     if (window.user.logged) {
-        if (window.user.logged) {
-            if (document.getElementById("winner-user").innerHTML === window.user.username) {
-                document.getElementById("dlt-btn").style.display = "inline-block";
-            }
+        if (document.getElementById("winner-user").innerHTML === window.user.username) {
+            document.getElementById("dlt-btn").style.display = "inline-block";
         }
+        
     }
 
     document.getElementById("dlt-btn").addEventListener("click", async () => {
@@ -197,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         106: "Erro ao processar. Tente novamente"
 
                     }
+                    console.log(response)
                     showNotification('error', `Erro: ${errors[response.error]}`);
                     break;
                 case 'bid':
@@ -223,8 +223,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById("p5").innerHTML = "";
 
                     if (window.user.logged) {
-                        if (document.getElementById("winner-user").innerHTML === window.user.username) {
-                            document.getElementById("dlt-btn").style.display = "inline-block";
+                        if (response.username === window.user.username) {
+                            sessionStorage.setItem("noScroll", "true");
+                            location.reload();
                         }
 
                     }

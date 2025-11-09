@@ -4,12 +4,13 @@ def init_extensions(app: Flask) -> SocketIO:
   
     
     #Listing blueprints
-    register_routes(app)
-    register_handlers(app)
 
     #Socket initialization
-    socketIo = init_socket(app) 
+    socket_io = init_socket(app) 
     create_SocketEvents()
+
+    #Flask Cache
+    init_cache(app)
     
     #Db initialization
     db = init_db(app)
@@ -18,6 +19,7 @@ def init_extensions(app: Flask) -> SocketIO:
 
     init_authDecorator(app)
 
+    register_routes(app)
+    register_handlers(app)
 
-
-    return socketIo
+    return socket_io

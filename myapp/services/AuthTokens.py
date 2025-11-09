@@ -2,7 +2,6 @@ from secrets import token_hex
 import threading as thread
 from typing import Dict, Any, Optional
 
-pending = {} 
 #======================= TOKEN =======================
 #{
 #    token: {
@@ -11,6 +10,7 @@ pending = {}
 #    }
 #}
 #======================================================
+pending = {} 
 emails = {} # {email: token}
 
 

@@ -1,4 +1,3 @@
-from myapp.models.Users import users
 import myapp.repositories.UserRepository as user_repository
 import requests
 from typing import Tuple, Dict ,Any
@@ -15,7 +14,7 @@ INTERNAL_TOKEN_API =    Config.INTERNAL_TOKEN_API
 
 #HELP func create_asaas_customer
 def create_asaas_customer(user_id:int) -> Tuple[Dict[str, Any], int]:
-    user = users.query.get(user_id)
+    user = user_repository.get_by_id(user_id)
     if (not user):
         return {
             "description": "user does not exist"

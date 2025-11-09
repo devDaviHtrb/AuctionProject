@@ -62,5 +62,11 @@ class Config:
     DEBUG =     getenv("DEBUG", False)
     #=====================================
 
+    #===================== FLASK CACHE =====================
+    CACHE_TYPE =            getenv("CACHE_TYPE")
+    CACHE_REDIS_URL=        getenv("CACHE_REDIS_URL")
+    CACHE_DEFAULT_TIMEOUT = getenv("CACHE_DEFAULT_TIMEOUT")
+    #=======================================================
+
     # Avoid unnecessary warnings from SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS =    False

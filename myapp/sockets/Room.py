@@ -1,12 +1,10 @@
 from flask_socketio import emit, join_room, rooms
 from typing import Dict, Any, List, Optional
 from myapp.setup.InitSocket import socket_io
-from myapp.models.Products import products
-from myapp.models.Bids import bids
 import myapp.repositories.ProductRepository as product_repository
 from myapp.services.BidService import make_bid
 from flask import request, session
-from flask_login import current_user
+from datetime import datetime, timedelta
 
 anonymous_users_number = 0
 
@@ -19,6 +17,10 @@ OTHER_BIDS_ERROR =  105 # The sum of all your bids exceeds your balance
 PROCESS_ERROR =     106 # Error processing bid
 #======================================================================
 
+OCCURRING = "Ativo"
+
+last_emit_times: dict[str, Dict[int, datetime]] = {}
+
 @socket_io.on("join_room")
 def handle_join(data: Dict[str, Any]) -> None:
     print(data)
@@ -27,10 +29,10 @@ def handle_join(data: Dict[str, Any]) -> None:
     username =  session.get("username", None)
     if (None in [room_id, user_id]):
         return
-    product = products.query.filter_by(product_room = room_id).first()
+    product = product_repository.get_by_room_id(room_id)
     if(not product):
         return
-    if(product_repository.get_status(product) != 'occurring'):
+    if(product_repository.get_status(product) != OCCURRING):
         return
     
     join_room(room_id)
@@ -40,6 +42,14 @@ def handle_join(data: Dict[str, Any]) -> None:
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser",
     }
 
+    if(not room_id in last_emit_times ):
+        last_emit_times[room_id] = {user_id : datetime.utcnow()}
+    elif(not user_id in last_emit_times[room_id]):
+        last_emit_times[room_id][user_id] = datetime.utcnow()
+    elif(datetime.utcnow - last_emit_times[room_id][user_id] > timedelta(minutes=5)):
+        last_emit_times[room_id][user_id] = datetime.utcnow()
+    else:
+        return
     emit("server_content", {"response": response}, to = room_id)
 
 def get_room_id(auction_rooms: List[str], sid:str) -> Optional[str]:
@@ -58,12 +68,13 @@ def handle_emit(data: Dict[str, Any]) -> None:
     username =  session.get("username", None)
 
     value = max(float(data.get("value", 0)), 0)
-    product = products.query.filter_by(product_room = room_id).first()
+    product = product_repository.get_by_room_id(room_id)
     print(data)
 
-    missingInfo = [i for i in [room_id, value, product] if i is None]
+    missingInfo = [k for k, v in [("room_id", room_id), ("value", value), ("product", product)] if v is None]
 
     if missingInfo:
+        print(missingInfo)
         response = {
             "type": "error",
             "error": MISSING_INFO,

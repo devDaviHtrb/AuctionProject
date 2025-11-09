@@ -1,7 +1,6 @@
 from flask import session
 from myapp.models.Users import users
-from myapp.models.LegalPerson import legal_persons
-from myapp.models.PhysicalPerson import physical_persons
+import myapp.repositories.PhysicalPersonRepository as physical_person_repository
 
 DEFAULT_IMAGE = "https://res.cloudinary.com/dnet6nodm/image/upload/v1762029407/Users_photos/xlch6finabqgecvcac6r.png"
 
@@ -17,9 +16,8 @@ def init_session(user: users) -> None:
     session["cellphone2"] =     user.cellphone2
     session["landllne"] =       user.landline
 
-    l_user = legal_persons.query.filter_by(user_id=user.user_id).first()
-    p_user = physical_persons.query.filter_by(user_id=user.user_id).first()
-    session["user_type"] = "physical_person" if not l_user else "legal_person"
+    p_user = physical_person_repository.get_by_id(user.user_id)
+    session["user_type"] = "physical_person" if p_user else "legal_person"
 
     if session["user_type"] == "physical_person":
         session["gender"] = p_user.gender

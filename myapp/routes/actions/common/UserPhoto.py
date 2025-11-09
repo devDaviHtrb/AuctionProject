@@ -1,9 +1,9 @@
 from flask import Blueprint, redirect, request, jsonify, session, url_for, Response
 from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.utils.UploadImage import upload_image
-from myapp.models.Users import users
 from myapp.setup.InitSqlAlchemy import db
 from typing import Tuple
+import myapp.repositories.UserRepository as user_repository
 
 changePhoto_bp = Blueprint("changePhoto", __name__)
 
@@ -21,7 +21,7 @@ def update_profile_photo() -> Tuple[Response, int]:
         if not url:
             return jsonify({"error": "Upload error"}), 500
 
-        user = users.query.filter_by(user_id=user_id).first()
+        user = user_repository.get_by_id(user_id)
         if not user:
             return jsonify({"error": "User not found"}), 404
 

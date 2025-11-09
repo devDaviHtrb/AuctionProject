@@ -3,7 +3,6 @@ import myapp.repositories.UserRepository as user_repository
 from myapp.services.InitSession import init_session
 from myapp.services.GoogleAuth import create_flow, get_id_info, get_extra_user_info
 from myapp.services.AuthTokens import *
-from myapp.models.Users import users
 from myapp.services.CookiesService import set_cookies
 import myapp.utils.LinksUrl as links
 import google.auth.transport.requests
@@ -100,7 +99,7 @@ def auth(token:str) -> Response:
     data = token_data.get("user_data")
     
     if(type == "login"):
-        user = users.query.get(data.get("user_id"))       
+        user = user_repository.get_by_email(data.get("user_id"))       
         if (not user):
             return redirect(url_for(SIGN_UP_PAGE))
 
@@ -118,7 +117,9 @@ def auth(token:str) -> Response:
         if (not user):
             new_user = user_repository.save_item(data)
             init_session(new_user) ## <--
+            response =  redirect(url_for(HOME_PAGE))
             set_cookies(request, response, user_id = new_user.user_id)
+            return response
         
         pop_by_pending(token)
         return redirect(url_for(HOME_PAGE))

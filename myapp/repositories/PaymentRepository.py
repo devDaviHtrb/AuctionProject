@@ -40,3 +40,6 @@ def set_status(payment:payments, new_status:str) -> None:
     if(new_fk):
         payment.payment_status = new_fk
         db.session.commit()
+
+def get_by_id(wanted_id:int) -> Optional[payments]:
+    return payments.query.get(wanted_id)

@@ -1,8 +1,8 @@
 from functools import wraps
 from flask import Flask, request, session, abort, redirect, url_for
-from myapp.models.Users import users
 from myapp.services.InitSession import init_session
 from myapp.services.CookiesService import fernet
+import myapp.repositories.UserRepository as user_repository
 from myapp.utils.LinksUrl import LOGIN_PAGE
 
 publicRoutes = []
@@ -21,7 +21,7 @@ def init_authDecorator(app: Flask) -> None:
             if cookie_user_id:
                 try:
                     user_id = int(fernet.decrypt(cookie_user_id.encode()))
-                    user = users.query.get(user_id)
+                    user = user_repository.get_by_id(user_id)
                     if user:
                         init_session(user)
                     else:

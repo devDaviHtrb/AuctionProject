@@ -10,11 +10,15 @@ from myapp.models.TechnicalFeaturesValues import technical_features_values
 from myapp.setup.InitSqlAlchemy import db
 import myapp.repositories.AddressRepository as address_repository
 import myapp.repositories.BidRepository as bids_repository
-import myapp.repositories.CategoryRepository as category_repository
+from myapp.models.LegalInfos import legal_infos
 from typing import Dict, Any, List, Optional, Tuple
 from sqlalchemy import select
 
 from myapp.utils.UploadImage import upload_image
+
+CANCELED =  "Cancelados"
+FINISHED =  "Finalizados" 
+
 
 def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) -> products:
     if data.get("product_status"):
@@ -111,3 +115,74 @@ def get_technical_features_values(product: products) -> List[technical_features_
     ).filter(
         technical_features_values.product_id == product.product_id
     ).all()
+
+def get_room_id_by_id(wanted_id:int) -> Optional[str]:
+    return db.session.execute(
+        select(products.product_room).where(
+            products.product_id == wanted_id
+        )
+    ).scalar()
+
+
+def get_and_status_by_room_id(wanted_room_id:str) -> Optional[products]:
+    return products.query.join(
+        product_statuses,
+        product_statuses.product_status_id == products.product_status,
+        isouter = True
+    ).filter(products.product_room == wanted_room_id).first()
+
+def get_images(product: products) -> List[images]:
+    return images.query.filter_by(product_id = product.product_id).all()
+
+#get the join of product, images and status of differents actives products order by room_id(random)
+def get_and_images_and_status_diffents_valids_randomly(
+    product:products,
+    limit:int = 3
+) -> List[products]:
+    return products.query.join(
+        images,
+        images.product_id == products.product_id,
+        isouter = True
+    ).join(
+        product_statuses,
+        product_statuses.product_status_id == products.product_status,
+        isouter=True
+    ).order_by(
+        products.product_room
+    ).filter(
+        products.product_room != product.product_room,
+        product_statuses.product_status != CANCELED,
+        product_statuses.product_status != FINISHED
+    ).distinct().limit(limit).all()
+
+def get_value_datetime_username_of_last_bids(product:products) -> Optional[bids]:
+    return (
+        db.session.query(
+            bids.bid_value, bids.bid_datetime, users.username
+        ).join(
+            users, bids.user_id == users.user_id
+        ).filter(
+            bids.product_id == product.product_id
+        ).order_by(bids.bid_value.desc())
+    )
+
+def get_category(product:products) -> str:
+    return categories.query.get(product.category).category_name
+
+def get_legal_info(product:products) -> str:
+    legal_infos.query.filter_by(product_id = product.product_id).first()
+
+def get_by_id(wanted_id:int) -> Optional[products]:
+    return products.query.get(wanted_id)
+
+def get_by_room_id(wanted_room_id:int ) -> Optional[products]:
+    return products.query.filter_by(product_room = wanted_room_id).first()
+
+def get_last_bid(product:products) -> Optional[bids]:
+    return (
+            db.session.query(bids)
+            .filter_by(product_id=product.product_id)
+            .order_by(bids.bid_value.desc())
+            .with_for_update()
+            .first()
+        )

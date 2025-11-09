@@ -1,11 +1,11 @@
-from flask import jsonify, Blueprint, request, url_for, Response, make_response
-from myapp.models.Users import users
+from flask import jsonify, Blueprint, request, url_for, Response
 import myapp.repositories.UserRepository as user_repository
 from myapp.services.AuthTokens import add_token
 from myapp.services.Messages import auth_message
 from myapp.services.InitSession import init_session
 from myapp.services.CookiesService import set_cookies
 from myapp.utils.LinksUrl import profile, AUTH_CONFIRM, AUTH_RESEND
+import myapp.repositories.UserRepository as user_repository
 from typing import Tuple
 from werkzeug.security import check_password_hash
 from datetime import datetime
@@ -22,7 +22,9 @@ def login() -> Tuple[Response, int]:
             msg = "Fill in all fields"
             return jsonify({"InputError": msg}), 400
         
-        user = users.query.filter_by(username=name).first()
+        user = user_repository.get_by_username(name)
+        if(not user):
+            user = user_repository.get_by_email(name)
         
         if not user or not check_password_hash(user.password, password):
             msg = "This user is wrong or don't exists"

@@ -1,11 +1,10 @@
 import threading as thread
 from datetime import datetime, timedelta
 from myapp.setup.InitSocket import socket_io
-from myapp.models.Products import products
 from myapp.services.Win import set_winner
 import myapp.repositories.ProductRepository as product_repository
+from myapp.sockets.Room import last_emit_times
 
-products_timers = {}
 #============= TIMER =============
 #{
 #   product_id: {
@@ -14,14 +13,17 @@ products_timers = {}
 #    }
 #}
 #=================================
+products_timers = {}
+
+OCCURRING = "Ativo"
 
 def close_auction(product_id: int) -> None:
-    product = products.query.get(product_id)
+    product = product_repository.get_by_id(product_id)
 
     if not product:
         return
 
-    status = product_repository.get_status(product).lower() == "occurring"
+    status = product_repository.get_status(product).lower() == OCCURRING
     if (status):
         room_id = product_id
         socket_io.emit(
@@ -42,6 +44,8 @@ def close_auction(product_id: int) -> None:
         product.end_datetime = products_timers[product_id]["end_datetime"]
         product_repository.set_status(product, "finished")
         products_timers.pop(product_id, None)
+
+        last_emit_times.pop(room_id, None)
 
 
 def start_auction_timer(product_id: int, seconds: int) -> None:

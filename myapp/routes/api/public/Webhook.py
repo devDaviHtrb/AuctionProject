@@ -1,7 +1,6 @@
 from myapp.setup.InitSqlAlchemy import db
-from myapp.models.Payments import payments
-from myapp.models.Users import users
 import myapp.repositories.PaymentRepository as payments_repository
+import myapp.repositories.UserRepository as user_repository
 from flask import Blueprint, jsonify, request
 from typing import  Dict, Tuple
 from config import Config
@@ -28,11 +27,11 @@ def payments_webhook() -> Tuple[Dict[str, bool], int]:
     date_created = body.get("dateCreated")
     status = payment_data.get("status")
 
-    payment = payments.query.filter(payments.asaas_payment_id == asaas_payment_id)
+    payment = payments_repository.get_by_id(asaas_payment_id)
 
     payment_event = body.get("event")
 
-    user = users.query.filter(users.api_token == customer_id)
+    user = user_repository.get_by_api_token(customer_id)
 
     data = {
         "amount":                   value,
