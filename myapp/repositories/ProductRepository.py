@@ -7,10 +7,11 @@ from myapp.models.Bids import bids
 from myapp.models.Users import users
 from myapp.models.Images import images
 from myapp.models.TechnicalFeaturesValues import technical_features_values
+from myapp.models.LegalInfos import legal_infos
+from myapp.setup.InitCache import cache, cache_key
 from myapp.setup.InitSqlAlchemy import db
 import myapp.repositories.AddressRepository as address_repository
 import myapp.repositories.BidRepository as bids_repository
-from myapp.models.LegalInfos import legal_infos
 from typing import Dict, Any, List, Optional, Tuple
 from sqlalchemy import select
 
@@ -18,6 +19,7 @@ from myapp.utils.UploadImage import upload_image
 
 CANCELED =  "Cancelados"
 FINISHED =  "Finalizados" 
+OCCURRING = "Ativo"
 
 
 def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) -> products:
@@ -79,12 +81,13 @@ def set_status(product:products, new_status: str) -> None:
         product.product_status = new_fk
         db.session.commit()
 
+@cache.memoize(timeout=600)
 def get_actives() -> List[products]:
     query = db.session.query(products).join(
         product_statuses,
         products.product_status == product_statuses.product_status_id
     ).filter(
-        product_statuses.product_status == "active"
+        product_statuses.product_status == OCCURRING
     )
 
     return query.all()
@@ -107,6 +110,7 @@ def last_bid(product:products, ignores_ids:List[int], chunk_size:int = 10) -> Op
                 return bid, bid_user
         offset += chunk_size
 
+@cache.memoize(timeout=600, make_name=cache_key)
 def get_technical_features_values(product: products) -> List[technical_features_values]:
     return technical_features_values.query.join(
         technical_features,
@@ -116,6 +120,7 @@ def get_technical_features_values(product: products) -> List[technical_features_
         technical_features_values.product_id == product.product_id
     ).all()
 
+@cache.memoize(timeout=600)
 def get_room_id_by_id(wanted_id:int) -> Optional[str]:
     return db.session.execute(
         select(products.product_room).where(
@@ -124,17 +129,19 @@ def get_room_id_by_id(wanted_id:int) -> Optional[str]:
     ).scalar()
 
 
-def get_and_status_by_room_id(wanted_room_id:str) -> Optional[products]:
+def get_a_and_status_by_room_id(wanted_room_id:str) -> Optional[products]:
     return products.query.join(
         product_statuses,
         product_statuses.product_status_id == products.product_status,
         isouter = True
     ).filter(products.product_room == wanted_room_id).first()
 
+@cache.memoize(timeout=600, make_name=cache_key)
 def get_images(product: products) -> List[images]:
     return images.query.filter_by(product_id = product.product_id).all()
 
 #get the join of product, images and status of differents actives products order by room_id(random)
+@cache.memoize(timeout=300, make_name=cache_key)
 def get_and_images_and_status_diffents_valids_randomly(
     product:products,
     limit:int = 3
@@ -166,9 +173,11 @@ def get_value_datetime_username_of_last_bids(product:products) -> Optional[bids]
         ).order_by(bids.bid_value.desc())
     )
 
+@cache.memoize(timeout=600, make_name=cache_key)
 def get_category(product:products) -> str:
     return categories.query.get(product.category).category_name
 
+@cache.memoize(timeout=600, make_name=cache_key)
 def get_legal_info(product:products) -> str:
     legal_infos.query.filter_by(product_id = product.product_id).first()
 

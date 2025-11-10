@@ -6,7 +6,7 @@ auction = Blueprint("auctionPage", __name__)
 
 @auction.route("/auction/<string:roomToken>")
 def AuctionPage(roomToken: str) -> Response:
-    product = product_repository.get_and_status_by_room_id(roomToken)
+    product = product_repository.get_a_and_status_by_room_id(roomToken)
     if (not product):
         abort(400)
 

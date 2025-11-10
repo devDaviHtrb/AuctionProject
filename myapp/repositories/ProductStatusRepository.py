@@ -3,6 +3,7 @@ from myapp.models.Products import products
 from sqlalchemy import func
 from typing import List, Tuple
 
+
 def get_status_frequencies() -> List[Tuple[str, int]]:
     results = (
         product_statuses.query
