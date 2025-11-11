@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint, abort, Response
+from myapp.utils.Async import run_async_functions
 import myapp.repositories.ProductRepository as product_repository
 import myapp.repositories.UserRepository as user_repository
 
@@ -11,13 +12,53 @@ def AuctionPage(roomToken: str) -> Response:
         abort(400)
 
     product_images = product_repository.get_images(product)
-    pdts = product_repository.get_and_images_and_status_diffents_valids_randomly(product)
-    last_bids = product_repository.get_value_datetime_username_of_last_bids(product)
-    last_bid = last_bids.first()
-    category = product_repository.get_category(product)
-    legal_info = product_repository.get_legal_info(product)
-    user = user_repository.get_by_id(product.user_id)
-    technical_feature = product_repository.get_technical_features_values(product)
+
+    # parameters(list[func, *args, **kargs])
+    results = run_async_functions([
+        (
+            product_repository.get_and_images_and_status_diffents_valids_randomly,
+            product,
+            {}
+        ),
+        (
+            product_repository.get_value_datetime_username_of_last_bids,
+            product,
+            {}
+        ),
+        (
+            last_bids.first,
+            (),
+            {}
+        ),
+        (
+            product_repository.get_category,
+            product,
+            {}
+        ),
+        (
+            product_repository.get_legal_info,
+            product,
+            {}
+        ),
+        (
+            user_repository.get_by_id,
+            product.user_id,
+            {}
+        ),
+        (
+            product_repository.get_technical_features_values,
+            product,
+            {}
+        )
+
+    ])
+    pdts =              results[0]
+    last_bids =         results[1]
+    last_bid =          results[2]
+    category =          results[3]
+    legal_info =        results[4]
+    user =              results[5]
+    technical_feature = results[6]
 
 
     return render_template(

@@ -74,6 +74,7 @@ def home() -> Response:
     redirect_url = url_for(HOME_PAGE)
     return jsonify({"redirect": redirect_url})
 
+
 def get_search_links():
     all_categories = category_repository.get_all_name_id()
 
