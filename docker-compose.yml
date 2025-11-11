@@ -15,6 +15,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - private_network
 
   redis:
     image: redis:7
@@ -37,11 +39,20 @@ services:
     env_file:
       - .env
     ports:
-      - "5000:5000"
+      - "127.0.0.1:5000:5000"
     volumes:
       - ./:/app
-    command: flask run --host=0.0.0.0 --port=5000
+    command: flask run --host=0.0.0.0
+    networks:
+      - public_network
+      - private_network
 
 volumes:
   pgdata:
   redis_data:
+
+networks:
+  private_network:
+    driver: bridge
+  public_network:
+    driver: bridge
