@@ -1,5 +1,5 @@
 from flask import Request, Response
-from config import Config
+from myapp.config import Config
 from cryptography.fernet import Fernet
 
 #=========== CRYPT ===========

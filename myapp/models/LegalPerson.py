@@ -7,4 +7,7 @@ class legal_persons(db.Model):
     state_tax_registration = db.Column(db.CHAR(17), nullable=True)
     legal_business_name =  db.Column(db.String(255), nullable=False)
     trade_name = db.Column(db.String(255), nullable=False)
-    scrap_purchase_authorization =  db.Column(db.Boolean, nullable=False)
+    scrap_purchase_authorization =  db.Column(db.Boolean,  default=False, nullable=True)
+
+
+

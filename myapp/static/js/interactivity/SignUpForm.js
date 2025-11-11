@@ -22,10 +22,11 @@ export function getSignUpForm(route) {
     if (document.getElementById("userType").value == "legal_person") {
       form = {
         ...commomForm,
+        legal_business_name: document.getElementById("legal_business_name").value,
         cnpj: document.getElementById("cnpj").value,
         trade_name: document.getElementById("trade_name").value,
-        legal_businnes_name: document.getElementById("legal_businnes_name")
-          .value,
+        state_tax_registration: document.getElementById("state_tax_registration").value,
+        state: document.getElementById("state").value,
         userType: "legal_person",
       };
     } else {

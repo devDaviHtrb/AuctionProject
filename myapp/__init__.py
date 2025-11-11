@@ -1,4 +1,4 @@
-from config import Config
+from myapp.config import Config
 from flask import Flask
 from flask_socketio import SocketIO
 from typing import Tuple

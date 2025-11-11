@@ -1,6 +1,6 @@
 import cloudinary 
 import cloudinary.uploader
-from config import Config
+from myapp.config import Config
 
 #==================== CLOUDINARY ====================
 CLOUDINARY_CLOUD_NAME = Config.CLOUDINARY_CLOUD_NAME

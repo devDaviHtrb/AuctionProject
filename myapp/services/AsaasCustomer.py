@@ -1,7 +1,7 @@
 import myapp.repositories.UserRepository as user_repository
 import requests
 from typing import Tuple, Dict ,Any
-from config import Config
+from myapp.config import Config
 
 #===================== API =====================
 URL_API =               Config.URL_API

@@ -18,6 +18,7 @@ class users(db.Model, UserMixin):
     password_token_expiration_datetime = db.Column(db.DateTime, nullable=True)
     api_token = db.Column(db.String(255), nullable=True)
     password_token = db.Column(db.String(255), nullable=True)
+    force_logout = db.Column(db.Boolean, default=False, nullable=False)
 
     authenticated = True
     active = True

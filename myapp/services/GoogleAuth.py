@@ -1,4 +1,4 @@
-from config import Config
+from myapp.config import Config
 from datetime import date
 from typing import Mapping, Any, Tuple
 from google.oauth2 import id_token

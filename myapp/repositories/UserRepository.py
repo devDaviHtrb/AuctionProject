@@ -149,3 +149,13 @@ def get_winner_bids_with_restriction(user:users, product:products) -> List[bids]
             bids.user_id == user.user_id, 
         )
     )
+
+
+def force_logout_all():
+    users.query.filter_by(admin_user=False).update({ "force_logout": True })
+    db.session.commit()
+
+
+def force_logout_user(username):
+    users.query.filter_by(username=username).update({ "force_logout": True })
+    db.session.commit()

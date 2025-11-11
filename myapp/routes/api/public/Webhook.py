@@ -3,7 +3,7 @@ import myapp.repositories.PaymentRepository as payments_repository
 import myapp.repositories.UserRepository as user_repository
 from flask import Blueprint, jsonify, request
 from typing import  Dict, Tuple
-from config import Config
+from myapp.config import Config
 
 INTERNAL_TOKEN_API =    Config.INTERNAL_TOKEN_API
 ASAAS_USER_ID =         1 #ID OF ASSAS USER, SORRY :(

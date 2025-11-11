@@ -9,14 +9,15 @@ import myapp.repositories.UserRepository as user_repository
 from typing import Tuple
 from werkzeug.security import check_password_hash
 from datetime import datetime
-
+from myapp.setup.InitSqlAlchemy import db
 login_bp = Blueprint("login", __name__)
 
 @login_bp.route("/login", methods=["POST", "GET"])
 def login() -> Tuple[Response, int]:
     if request.method == "POST":
-        name = request.form["username"]
-        password = request.form["password"]
+
+        name =      request.form["username"]
+        password =  request.form["password"]
 
         if not name or not password:
             msg = "Fill in all fields"

@@ -1,6 +1,8 @@
 from flask import Blueprint, request, Response, redirect, session, url_for
 from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.setup.InitSqlAlchemy import db
+from typing import Tuple
+from myapp.utils.Unmask import unmask
 from myapp.utils.Validations.validations import is_phone_number
 from typing import Tuple
 import myapp.repositories.UserRepository as user_repository
@@ -17,11 +19,7 @@ def change_contact() -> Response:
     for phone in phones:
         if phone != None:
             unf_phone = phone
-            phone = phone.replace(" ", "")
-            phone =  phone.replace("\n", "")
-            phone = phone.replace("(", "")
-            phone = phone.replace(")", "")
-            phone = phone.replace("-", "")
+            phone = unmask(phone)
             phones[phones.index(unf_phone)] = phone
     for phone in phones:
         if phone != None and phone!="":
@@ -32,9 +30,9 @@ def change_contact() -> Response:
     user_id = session.get("user_id")
     current_user = user_repository.get_by_id(user_id)
 
-    current_user.cellphone1 = cellphone1
-    current_user.cellphone2 = cellphone2
-    current_user.landline = landline
+    current_user.cellphone1 = phones[0]
+    current_user.cellphone2 = phones[1]
+    current_user.landline = phones[2]
 
     session["cellphone1"] = phones[0]
     session["cellphone2"] = phones[1]

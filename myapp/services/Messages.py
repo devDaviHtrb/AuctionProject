@@ -2,7 +2,7 @@ import smtplib
 from myapp.utils.Async import make_async
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config import Config
+from myapp.config import Config
 
 #====================== EMAIL ======================
 CORPORATION_EMAIL =     Config.CORPORATION_EMAIL
