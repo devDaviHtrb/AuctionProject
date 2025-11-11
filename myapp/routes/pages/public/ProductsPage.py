@@ -11,13 +11,13 @@ products_page_bp = Blueprint("productsPage", __name__)
 def ProductsPage(page: int = 1) -> Response:
 
     results = run_async_functions([
-        (category_repository.get_categories_frequency,(),{},)
+        (category_repository.get_categories_frequency,(),{},),
         (product_status_repository.get_status_frequencies, (), {})
     ])
-
     categories_amt =    results[0]
     status_amt =        results[1]
 
+    print("debug:", results, flush=True)
     query_params = {key: request.args[key] for key in request.args}
     paginate_args = f"/paginate/auctions/{page}?{urlencode(query_params)}"
 

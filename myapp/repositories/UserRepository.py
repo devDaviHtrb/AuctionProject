@@ -8,7 +8,8 @@ from myapp.models.ProductStatuses import product_statuses
 from myapp.setup.InitCache import cache, cache_key
 import myapp.repositories.SettingRepository as setting_repository
 from werkzeug.security import generate_password_hash
-from myapp.setup.InitSqlAlchemy import db, func, and_
+from myapp.setup.InitSqlAlchemy import db
+from sqlalchemy import func, and_
 from typing import Optional, Tuple, Dict, Any, List
 
 from myapp.utils.UploadImage import upload_image

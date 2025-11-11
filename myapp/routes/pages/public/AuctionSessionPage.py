@@ -17,48 +17,45 @@ def AuctionPage(roomToken: str) -> Response:
     results = run_async_functions([
         (
             product_repository.get_and_images_and_status_diffents_valids_randomly,
-            product,
+            (product,),
             {}
         ),
         (
             product_repository.get_value_datetime_username_of_last_bids,
-            product,
-            {}
-        ),
-        (
-            last_bids.first,
-            (),
+            (product,),
             {}
         ),
         (
             product_repository.get_category,
-            product,
+            (product,),
             {}
         ),
         (
             product_repository.get_legal_info,
-            product,
+            (product,),
             {}
         ),
         (
             user_repository.get_by_id,
-            product.user_id,
+            (product.user_id,),
             {}
         ),
         (
             product_repository.get_technical_features_values,
-            product,
+            (product,),
             {}
         )
-
     ])
+
+    print("debug:", results, flush=True)
     pdts =              results[0]
     last_bids =         results[1]
-    last_bid =          results[2]
-    category =          results[3]
-    legal_info =        results[4]
-    user =              results[5]
-    technical_feature = results[6]
+    category =          results[2]
+    legal_info =        results[3]
+    user =              results[4]
+    technical_feature = results[5]
+
+    last_bid =          last_bids.first()
 
 
     return render_template(
