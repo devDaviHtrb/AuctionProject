@@ -20,12 +20,11 @@ def execute_sql():
     try:
         result = db.session.execute(text(sql))
 
-        # 🔹 SELECT → converter RowMapping para dict
+     
         if sql.lower().startswith('select'):
             rows = [dict(r) for r in result.mappings().all()]
             return jsonify({'type': 'select', 'rows': rows, "cols":list(result.keys())}), 200
 
-        # 🔹 Outros comandos → commit + contagem de linhas
         else:
             db.session.commit()
             return jsonify({'type': 'modify', 'rowcount': result.rowcount}), 200

@@ -98,5 +98,5 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
         "has_prev": paginated_products.has_prev
     }
 
-    print(response)
+
     return jsonify(response), 200

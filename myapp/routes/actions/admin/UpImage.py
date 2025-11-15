@@ -52,6 +52,6 @@ def receive():
         urls = upload_image([image], "Users_photos")
         if not urls:
             return "Erro ao enviar a imagem", 500
-        # retorna a URL do Cloudinary para o frontend
+        
         return jsonify(urls)
     return HTML

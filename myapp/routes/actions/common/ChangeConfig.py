@@ -1,4 +1,3 @@
-
 from flask import Blueprint, request, Response, redirect, session, url_for
 from myapp.models.Users import users
 from myapp.services.ChangeLPData import change_lp_data

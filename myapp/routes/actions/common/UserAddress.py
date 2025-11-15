@@ -1,4 +1,5 @@
-from flask import Blueprint, Response, session, request, jsonify
+from flask import Blueprint, Response, redirect, session, request, jsonify, url_for
+from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.utils.Validations.AdressValidation import adress_validation
 import myapp.repositories.AddressRepository as address_repository
 from typing import Tuple
@@ -41,9 +42,7 @@ def user_address() -> Tuple[Response, int]:
         state,
         city
     )):
-        return jsonify({
-            "Error": "Fake info"
-        }), 400
+        return redirect(url_for(CONFIG_PAGE, msg="fake info"))
     
     address_repository.save_item(data)
     return jsonify({

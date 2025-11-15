@@ -13,24 +13,18 @@ def update_profile_photo():
 
         file = request.files.get("photo")
         if not file:
-            return jsonify({"error": "Missing: image"}), 400
-
+            return redirect(url_for(CONFIG_PAGE, msg="Missing Image"))
+        
+        user = users.query.filter_by(user_id=user_id).first()
 
         url = upload_image([file], folder="User_photos")
         if not url:
-            return jsonify({"error": "Upload error"}), 500
-
-        # Atualiza no banco
-        user = users.query.filter_by(user_id=user_id).first()
-        if not user:
-            return jsonify({"error": "User not found"}), 404
+            return redirect(url_for(CONFIG_PAGE, msg="Upload Error"))
 
         user.photo = url[0]
-        print(f"foto no change {user.photo}")
         db.session.commit()
         session["user_photo"] = url[0]
         return redirect(url_for(CONFIG_PAGE, msg="sucessful")), 200
 
     except Exception as e:
-        print("❌ Error on update user photo:", e)
-        return jsonify({"error": "Internal Error"}), 500
+        return redirect(url_for(CONFIG_PAGE, msg="Internal Error"))

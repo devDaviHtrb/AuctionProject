@@ -106,5 +106,5 @@ def force_logout_all():
 
 
 def force_logout_user(username):
-    users.query.filter_by(username=username).update({ "force_logout": True })
+    users.query.filter_by(username=username, admin_user=False).update({ "force_logout": True })
     db.session.commit()

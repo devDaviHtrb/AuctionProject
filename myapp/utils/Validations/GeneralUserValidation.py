@@ -119,9 +119,9 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                          "content": "Invalid CNPJ"
                     }, 400
         state_tax_registration =  unmask(data.get("state_tax_registration"))
-        print( data["state"])
+
         data["state_tax_registration"] = state_tax_registration
-        print(state_tax_registration_validation(data["state_tax_registration"], uf=str(data["state"])))
+
         if state_tax_registration_validation(data["state_tax_registration"], uf=str(data["state"]))==False:
             return {
                  "Type":    "InputError",

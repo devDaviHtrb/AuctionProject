@@ -8,6 +8,6 @@ profile = Blueprint("profilePage", __name__)
 
 def ProfilePage() -> Response:
     user = users.query.filter_by(user_id = session["user_id"]).first()
-    print(user)
+
 
     return render_template("Profile.html", name=session["username"], email=user.email, photo_url = user.photo )

@@ -57,9 +57,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     photos = request.files.get("photos")
     for photo in photos:
         if photo:
-            if validateImg(photo):
-                print("ok")
-            else:
+            if not validateImg(photo):
                 return {
                     "Type":    "InputError",
                     "content": "Invalid file"
