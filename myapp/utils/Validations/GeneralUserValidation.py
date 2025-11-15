@@ -1,3 +1,4 @@
+from datetime import datetime
 from myapp.utils.Unmask import unmask
 from myapp.utils.Validations.validations import *
 from flask import Request
@@ -59,7 +60,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     )
     if (code != 200):
          return data, code
-    
+    data["birth_date"] =  datetime.strptime(data["birth_date"], "%Y-%m-%d").date()
     if not is_email(data["email"]):
         return {
              "Type":    "InputError",

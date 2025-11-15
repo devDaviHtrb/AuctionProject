@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
@@ -7,14 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lanciare - Login e Cadastro</title>
     <link rel="stylesheet" href="style.css">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleSignUp.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="auth-body">
-
     {% include "components/Header.html" %}
 
     <div class="auth-container">
@@ -24,7 +21,6 @@
                 <h1>Lanciare.</h1>
             </div>
 
-            ```
             <div id="content-register" class="auth-content">
                 <h2>Criar Nova Conta</h2>
 
@@ -35,13 +31,15 @@
                     <div class="stepper-steps">
                         <div id="step-1-label" class="step-label active-step">Tipo</div>
                         <div id="step-2-label" class="step-label">Dados</div>
-                        <div id="step-3-label" class="step-label">Finalizar</div>
+                        <div id="step-3-label" class="step-label">Documentos</div>
+                        <div id="step-4-label" class="step-label">Contato</div>
+                        <div id="step-5-label" class="step-label">Finalizar</div>
                     </div>
                 </div>
 
                 <div id="registration-form">
 
-                    <!-- STEP 1: Tipo de Conta -->
+                    <!-- STEP 1 -->
                     <div class="registration-step active-step-content" id="step-1">
                         <h3>1. Escolha seu Tipo de Conta</h3>
                         <div class="type-selection">
@@ -60,112 +58,110 @@
                         </div>
                         <input type="hidden" id="userType" value="physical_person">
                         <div class="step-navigation">
-                            <button type="button" class="btn-primary next-step">
-                                Avançar <i class="fas fa-arrow-right"></i>
-                            </button>
+                            <button type="button" class="btn-primary next-step">Avançar <i
+                                    class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
 
-                    <!-- STEP 2: Dados Pessoais / Empresa -->
+                    <!-- STEP 2 -->
                     <div class="registration-step hidden-step" id="step-2">
                         <h3 id="step-2-title">2. Dados Pessoais / Empresariais</h3>
 
                         <div class="input-group">
-                            <label for="username">Nome de Usuário <span class="required">*</span></label>
-                            <input type="text" id="username" placeholder="joaosilva" required>
+                            <label for="username">Nome de Usuário *</label>
+                            <input type="text" id="username" required>
                         </div>
 
                         <div class="input-group pp_field" id="complete_name">
-                            <label for="name">Nome Completo <span class="required">*</span></label>
-                            <input type="text" id="name" placeholder="João da Silva" required>
+                            <label for="name">Nome Completo *</label>
+                            <input type="text" id="name" required>
                         </div>
 
                         <div class="input-group lp_field">
-                            <label for="legal_business_name">Razão Social <span class="required">*</span></label>
-                            <input type="text" id="legal_business_name" placeholder="Lanciare Soluções Ltda." required>
+                            <label for="legal_business_name">Razão Social *</label>
+                            <input type="text" id="legal_business_name" required>
                         </div>
 
                         <div class="input-group lp_field">
-                            <label for="trade_name">Nome Fantasia <span class="required">*</span></label>
-                            <input type="text" id="trade_name" placeholder="Lanciare" required>
+                            <label for="trade_name">Nome Fantasia *</label>
+                            <input type="text" id="trade_name" required>
                         </div>
 
                         <div class="input-group">
-                            <label for="email">Email <span class="required">*</span></label>
-                            <input type="email" id="email" placeholder="joao@email.com" required>
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" required>
                         </div>
 
                         <div class="input-group">
-                            <label for="password">Senha <span class="required">*</span></label>
+                            <label for="password">Senha *</label>
                             <input type="password" id="password" required>
                         </div>
 
-                        <div class="input-group">
-                            <label for="cpf">CPF </label>
+                        <div class="step-navigation">
+                            <button type="button" class="btn-secondary prev-step"><i class="fas fa-arrow-left"></i>
+                                Voltar</button>
+                            <button type="button" class="btn-primary next-step">Próximo <i
+                                    class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: DOCUMENTOS -->
+                    <div class="registration-step hidden-step" id="step-3">
+                        <h3>3. Dados Pessoais</h3>
+
+                        <div class="input-group pp_field">
+                            <label for="cpf">CPF</label>
                             <input type="text" id="cpf" placeholder="000.000.000-00">
                         </div>
 
-                        <div class="input-group lp_field">
-                            <label for="cnpj">CNPJ <span class="required">*</span></label>
-                            <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+                        <div class="input-group pp_field">
+                            <label for="rg">RG</label>
+                            <input type="text" id="rg" placeholder="00.000.000-0">
                         </div>
-                        <div class="input-group lp_field">
-                            <label for="trade_name">Inscrição Estadual <span class="required">*</span></label>
-                            <input type="text" id="state_tax_registration" placeholder="Lanciare" required>
-                        </div>
-                        <div class="input-group lp_field">
-                            <label for="uf">UF (Estado) <span class="required">*</span></label>
-                            <select id="state" required>
-                                <option value="">Selecione</option>
-                                <option value="AC">Acre (AC)</option>
-                                <option value="AL">Alagoas (AL)</option>
-                                <option value="AP">Amapá (AP)</option>
-                                <option value="AM">Amazonas (AM)</option>
-                                <option value="BA">Bahia (BA)</option>
-                                <option value="CE">Ceará (CE)</option>
-                                <option value="DF">Distrito Federal (DF)</option>
-                                <option value="ES">Espírito Santo (ES)</option>
-                                <option value="GO">Goiás (GO)</option>
-                                <option value="MA">Maranhão (MA)</option>
-                                <option value="MT">Mato Grosso (MT)</option>
-                                <option value="MS">Mato Grosso do Sul (MS)</option>
-                                <option value="MG">Minas Gerais (MG)</option>
-                                <option value="PA">Pará (PA)</option>
-                                <option value="PB">Paraíba (PB)</option>
-                                <option value="PR">Paraná (PR)</option>
-                                <option value="PE">Pernambuco (PE)</option>
-                                <option value="PI">Piauí (PI)</option>
-                                <option value="RJ">Rio de Janeiro (RJ)</option>
-                                <option value="RN">Rio Grande do Norte (RN)</option>
-                                <option value="RS">Rio Grande do Sul (RS)</option>
-                                <option value="RO">Rondônia (RO)</option>
-                                <option value="RR">Roraima (RR)</option>
-                                <option value="SC">Santa Catarina (SC)</option>
-                                <option value="SP">São Paulo (SP)</option>
-                                <option value="SE">Sergipe (SE)</option>
-                                <option value="TO">Tocantins (TO)</option>
-                            </select>
+                        <div class="input-group pp_field">
+                            <label for="birth_date">Ano de Nascimento *</label>
+                            <input type="date" id="birth_date" placeholder="1980" min="1900" max="2025" required>
                         </div>
 
                         <div class="input-group pp_field">
-                            <label for="rg">RG </label>
-                            <input type="text" id="rg" placeholder="12.345.678-9">
-                        </div>
-
-                        <div class="input-group pp_field">
-                            <label for="birth_date">Ano de Nascimento <span class="required">*</span></label>
-                            <input type="date" id="birth_date" placeholder="1980" min="1900" max="2025">
-                        </div>
-
-                        <div class="input-group pp_field">
-                            <label for="gender">Sexo <span class="required">*</span></label>
-                            <select id="gender">
+                            <label for="gender">Sexo</label>
+                            <select id="gender" required>
                                 <option value="">Selecione</option>
                                 <option value="male" data-gender="M">Masculino</option>
                                 <option value="female" data-gender="F">Feminino</option>
                                 <option value="other" data-gender="O">Outro</option>
                             </select>
                         </div>
+
+                        <div class="input-group lp_field">
+                            <label for="cnpj">CNPJ *</label>
+                            <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required>
+                        </div>
+
+                        <div class="input-group lp_field">
+                            <label for="state_tax_registration">Inscrição Estadual *</label>
+                            <input type="text" id="state_tax_registration" placeholder="000.000.000.000" required>
+                        </div>
+
+                        <div class="input-group lp_field">
+                            <label for="state">UF *</label>
+                            <select id="state" required>
+                                <option value="">Selecione</option>
+                                <option value="SP">São Paulo</option>
+                            </select>
+                        </div>
+
+                        <div class="step-navigation">
+                            <button type="button" class="btn-secondary prev-step"><i class="fas fa-arrow-left"></i>
+                                Voltar</button>
+                            <button type="button" class="btn-primary next-step">Próximo <i
+                                    class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: TELEFONES -->
+                    <div class="registration-step hidden-step" id="step-4">
+                        <h3>4. Contatos</h3>
 
                         <div class="input-group">
                             <label for="cellphone1">Telefone Principal</label>
@@ -190,40 +186,32 @@
                         </div>
                     </div>
 
-                    <!-- STEP 3: Finalização -->
-                    <div class="registration-step hidden-step" id="step-3">
-                        <h3 id="step-3-title">3. Finalização</h3>
+                    <!-- STEP 5: FINALIZAÇÃO -->
+                    <div class="registration-step hidden-step" id="step-5">
+                        <h3>5. Finalização</h3>
                         <p>Revise seus dados antes de criar a conta.</p>
                         <p id="msg" style="color: red; margin-top: 20px; margin-bottom: 20px;"></p>
 
                         <div class="input-group checkbox-group">
-
                             <input type="checkbox" id="terms-accept" required>
-                            <label for="terms-accept" class="terms-label">
-                                Eu li e aceito os <a href="#">Termos de Uso</a> e a <a href="#">Política de
-                                    Privacidade</a>.
-                            </label>
+                            <label for="terms-accept">Aceito os Termos de Uso e Política de Privacidade.</label>
                         </div>
 
                         <div class="step-navigation">
                             <button type="button" class="btn-secondary prev-step"><i class="fas fa-arrow-left"></i>
                                 Voltar</button>
-                            <button id="signUpBtn" class="btn-primary final-submit"><i class="fas fa-check"></i> CRIAR
-                                CONTA</button>
+                            <button id="signUpBtn" class="btn-primary final-submit"><i class="fas fa-check"></i> Criar
+                                Conta</button>
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
-        ```
-
     </div>
 
     <script src="{{ url_for('static', filename='js/mains/SignUpMain.js') }}" type="module"></script>
-
     {% include "components/Footer.html" %}
-
 </body>
 
 </html>

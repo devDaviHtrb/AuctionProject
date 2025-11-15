@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Loading Overlay ---
+  
     const loadingOverlay = document.getElementById('loading-overlay');
     const showLoading = () => loadingOverlay?.classList.add('active');
     const hideLoading = () => loadingOverlay?.classList.remove('active');
 
-    // --- Elementos principais ---
+
     const productsGrid = document.querySelector('.product-grid');
     const paginationList = document.querySelector('.pagination-list');
     const filterPriceBox = document.querySelector('.price-range-filter');
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         name: null
     };
 
-    // --- Renderização de produtos ---
+
     function renderProducts(products) {
         productsGrid.innerHTML = '';
         products.forEach(product => {
