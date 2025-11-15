@@ -13,6 +13,9 @@ product_images = [links:str]
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
     <link rel="stylesheet" href="{{  url_for('static', filename='styles/StyleAuction.css')  }}">
+    <link rel="shortcut icon"
+        href="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
+        type="image/x-icon">
 </head>
 
 <body>
@@ -70,7 +73,8 @@ product_images = [links:str]
                     <div class="bid-controls">
                         <div class="bid-input-group">
                             <label id="p2" for="bid-amount">Seu Lance (Mínimo R$ {{ product.min_bid + 1 }})</label>
-                            <input type="number" id="bid-amount" placeholder="R$ {{ product.min_bid + 1 }}" step="50.00">
+                            <input type="number" id="bid-amount" placeholder="R$ {{ product.min_bid + 1 }}"
+                                step="50.00">
                             <button class="btn-bid submit-bid-btn"><i class="fas fa-gavel"></i> DAR LANCE</button>
                         </div>
                         {% if user %}
@@ -229,7 +233,7 @@ product_images = [links:str]
 <script>
     window.user = {
         logged: {{ 'true' if user else 'false' }},
-        username: "{{ user.name if user else '' }}"
+    username: "{{ user.name if user else '' }}"
     };
     window.roomId = {{ product.product_room | tojson }};
     window.product_id = {{ product.product_id }}
