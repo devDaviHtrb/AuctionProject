@@ -18,18 +18,9 @@ def change_lp_data(request, current_user):
 
     if is_cnpj(cnpj):
         return redirect(url_for(CONFIG_PAGE, msg="Invalid Rg"))
-    if not User_validation(
-        cnpj =                      cnpj,
-        trade_name =                trade_name if session.get("trade_name") else None,
-        state_tax_registration =    state_tax_registration if session.get("state_tax_registration") else None,
-        legal_business_name =       legal_business_name if session.get("legal_business_name") else None
-    ):
-        return redirect(
-            url_for(
-                CONFIG_PAGE,
-                msg = "There are an user with this trade name, cnpj, state tax registration or legal business name"
-            )
-        )
+    if not User_validation(cnpj=cnpj, trade_name=trade_name if session.get("trade_name") else None, state_tax_registration= state_tax_registration if session.get("state_tax_registration") 
+    else None, legal_business_name=legal_business_name if session.get("legal_business_name") else None):
+        return redirect(url_for(CONFIG_PAGE, msg="There are an user with this trade name, cnpj, state tax registration or legal business name"))
     
     legal_person.cnpj =                     cnpj if cnpj else legal_person.cnpj
     legal_person.trade_name =               trade_name

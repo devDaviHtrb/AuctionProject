@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  
     const loadingOverlay = document.getElementById('loading-overlay');
     const showLoading = () => loadingOverlay?.classList.add('active');
     const hideLoading = () => loadingOverlay?.classList.remove('active');

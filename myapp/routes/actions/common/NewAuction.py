@@ -10,7 +10,7 @@ newAuction_bp = Blueprint("newAuction", __name__)
 @newAuction_bp.route("/new/Auction", methods=["POST"])
 def new_auction() -> Tuple[Response, int]:
     data, code = general_validation(request)
-    print("foi validado")
+
     if(code != 200):
         return data, code
     

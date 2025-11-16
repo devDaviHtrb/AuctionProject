@@ -35,7 +35,7 @@ def User_validation(
     existing_lp = legal_persons.query.filter(or_(*filters_lp)).first() if filters_lp else None
 
     if user or existing_lp or existing_pp:
-        print(user.name)
+
         return False
     else:
         return True

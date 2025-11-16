@@ -1,3 +1,4 @@
+from datetime import datetime
 from myapp.utils.Unmask import unmask
 from myapp.utils.Validations.validations import *
 from flask import Request
@@ -59,7 +60,7 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
     )
     if (code != 200):
          return data, code
-    
+    data["birth_date"] =  datetime.strptime(data["birth_date"], "%Y-%m-%d").date()
     if not is_email(data["email"]):
         return {
              "Type":    "InputError",
@@ -119,9 +120,9 @@ def general_validation(request:Request) -> Tuple[Dict[str, Any], int]:
                          "content": "Invalid CNPJ"
                     }, 400
         state_tax_registration =  unmask(data.get("state_tax_registration"))
-        print( data["state"])
+
         data["state_tax_registration"] = state_tax_registration
-        print(state_tax_registration_validation(data["state_tax_registration"], uf=str(data["state"])))
+
         if state_tax_registration_validation(data["state_tax_registration"], uf=str(data["state"]))==False:
             return {
                  "Type":    "InputError",

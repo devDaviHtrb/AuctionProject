@@ -7,11 +7,11 @@ admin_bp = Blueprint("admin", __name__)
 def force_logout_user(username):
    
     if not username:
-        abort(400, description="Informe o nome de usuário (username).")
+        abort(400, description="Write the username (username).")
 
     force_user(username)
 
-    return jsonify({"message": f"Usuário '{username}' marcado para logout caso não seja administrador."}), 200
+    return jsonify({"message": f"User '{username}' was forced to logout if who isn't an administrator."}), 200
 
 
 @admin_bp.route("/forceLogoutAll", methods=["POST", "GET"])
@@ -19,4 +19,4 @@ def force_logout_all():
     
     force_all()
 
-    return jsonify({"message": "Todos os usuários não administradores foram marcados para logout."}), 200
+    return jsonify({"message": "All the not administrator users was forced to logout."}), 200

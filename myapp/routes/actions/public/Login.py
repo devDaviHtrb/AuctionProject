@@ -9,7 +9,7 @@ import myapp.repositories.UserRepository as user_repository
 from typing import Tuple
 from werkzeug.security import check_password_hash
 from datetime import datetime
-from myapp.setup.InitSqlAlchemy import db
+
 login_bp = Blueprint("login", __name__)
 
 @login_bp.route("/login", methods=["POST", "GET"])

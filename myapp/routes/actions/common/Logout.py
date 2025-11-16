@@ -1,5 +1,6 @@
 
-from flask import Blueprint, redirect, session, url_for, Response, request, make_response
+from flask import Blueprint, session, url_for, Response, make_response
+from myapp.utils.LinksUrl import HOME_PAGE
 from typing import Tuple
 from myapp.utils.LinksUrl import HOME_PAGE
 
@@ -13,5 +14,5 @@ def logout() -> Tuple[Response, int]:
     response.delete_cookie("user_id")
     for key in session.keys():
         session[key] = None
-        print(session[key])
+
     return response

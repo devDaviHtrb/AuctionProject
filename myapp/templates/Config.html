@@ -189,11 +189,91 @@
           </div>
         </div>
 
+        <div id="addresses" class="settings-section hidden-section">
+          <h2>Endereços</h2>
+          <p class="section-description">Gerencie seus endereços de entrega e cobrança.</p>
+
+          <div class="settings-form-card">
+            <h3>Adicionar Novo Endereço</h3>
+            <form action="/addAddress" method="post" class="address-form">
+              <div class="input-row">
+                <div class="input-group">
+                  <label for="street_name">Rua</label>
+                  <input type="text" name="street_name" id="street_name" required>
+                </div>
+                <div class="input-group">
+                  <label for="street_number">Número</label>
+                  <input type="text" name="street_number" id="street_number" required>
+                </div>
+              </div>
+              <div class="input-row">
+                <div class="input-group">
+                  <label for="apt">Complemento</label>
+                  <input type="text" name="apt" id="apt">
+                </div>
+                <div class="input-group">
+                  <label for="zip_code">CEP</label>
+                  <input type="text" name="zip_code" id="zip_code" required>
+                </div>
+              </div>
+              <div class="input-row">
+                <div class="input-group">
+                  <label for="district">Bairro</label>
+                  <input type="text" name="district" id="district" required>
+                </div>
+                <div class="input-group">
+                  <label for="city">Cidade</label>
+                  <input type="text" name="city" id="city" required>
+                </div>
+                <div class="input-group">
+                  <label for="state">UF</label>
+                  <input type="text" name="state" id="state" maxlength="2" required>
+                </div>
+              </div>
+
+              <div class="checkbox-group">
+                <input type="checkbox" name="principal_address" id="principal_address">
+                <label for="principal_address">Definir como endereço principal</label>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn-primary">Adicionar Endereço</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="settings-form-card">
+            <h3>Meus Endereços</h3>
+            {% if addresses %}
+            {% for addr in addresses %}
+            <div class="address-item">
+              <p><strong>{{ addr.street_name }}, {{ addr.street_number }}</strong> {{ addr.apt or "" }}</p>
+              <p>{{ addr.district }} - {{ addr.city }}/{{ addr.state }}</p>
+              <p>CEP: {{ addr.zip_code }}</p>
+              {% if addr.principal_address %}
+              <p><span class="badge">Principal</span></p>
+              {% endif %}
+
+              <form action="/removeAddress/{{ addr.address_id }}" method="post" style="display:inline;">
+                <button type="submit" class="btn-danger">Remover</button>
+              </form>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Você ainda não possui endereços cadastrados.</p>
+            {% endif %}
+          </div>
+        </div>
+
         <!-- Lances -->
         <div id="bidding" class="settings-section hidden-section">
+
           <h2>Meus Lances</h2>
-          <p>Conteúdo para visualizar o histórico de lances e pagamentos.</p>
+
+          <!-- Onde o AJAX vai injetar os cards -->
+          <div id="bids-container"></div>
         </div>
+
 
         <!-- Segurança -->
         <div id="security" class="settings-section hidden-section">
@@ -205,7 +285,10 @@
   </main>
 
   {% include 'components/Footer.html' %}
-  <script>const email = "{{email}}";</script>
+  <script>
+    const email = "{{email}}";
+    const defaultSection = "{{section}}";
+  </script>
   <script src="{{ url_for('static', filename='js/mains/ConfigMain.js') }}"></script>
 </body>
 

@@ -20,6 +20,7 @@ def execute_sql() -> Tuple[Response, int]:
     try:
         result = db.session.execute(text(sql))
 
+     
         if sql.lower().startswith('select'):
             rows = [dict(r) for r in result.mappings().all()]
             return jsonify({'type': 'select', 'rows': rows, "cols":list(result.keys())}), 200

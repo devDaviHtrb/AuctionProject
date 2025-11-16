@@ -99,6 +99,7 @@ ul {
   gap: 5px;
 }
 
+/* Header */
  
 .header-content {
   display: flex;
@@ -877,4 +878,142 @@ input:checked + .slider:before {
   background-color: rgba(255, 0, 0, 0.08);
   color: #c0392b;
   border: 1px solid #e74c3c;
+}
+
+/* Lista */
+.bid-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Cada card */
+.bid-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 18px;
+  margin-bottom: 14px;
+  background: #f7f7fa;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover no card */
+.bid-item:hover {
+  transform: scale(1.02);
+  border-color: #0c2340;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Bloco de informações */
+.bid-info {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Botão/link alinhado à direita */
+.bid-link-btn {
+  margin-left: 20px;
+  white-space: nowrap; /* evita quebra */
+}
+
+.bid-link-btn a {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #0c2340;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+}
+
+/* Hover no botão */
+.bid-link-btn a:hover {
+  background-color: #143a68;
+  transform: scale(1.05);
+}
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.page-btn,
+.page-current {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.page-btn {
+  background: #0c2340;
+  color: #fff;
+}
+
+.page-btn:hover {
+  background: #123a6c;
+}
+
+.page-current {
+  background: #dce4ef;
+  color: #0c2340;
+  font-weight: bold;
+}
+.bids-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bid-card {
+  position: relative;
+  padding: 12px 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.bid-card:hover,
+.bid-card:focus-within {
+  transform: scale(1.03);
+  border-color: #0c2340;
+}
+
+.bid-info {
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100% - 120px); /* reserva espaço pro botão */
+}
+
+.bid-link-btn {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+
+.bid-link-btn a {
+  display: inline-block;
+  padding: 8px 14px;
+  background-color: #0c2340;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.bid-link-btn a:hover {
+  background-color: #143a68;
+  transform: scale(1.05);
 }
