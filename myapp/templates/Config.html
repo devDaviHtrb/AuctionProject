@@ -264,9 +264,13 @@
 
         <!-- Lances -->
         <div id="bidding" class="settings-section hidden-section">
+
           <h2>Meus Lances</h2>
-          <p>Conteúdo para visualizar o histórico de lances e pagamentos.</p>
+
+          <!-- Onde o AJAX vai injetar os cards -->
+          <div id="bids-container"></div>
         </div>
+
 
         <!-- Segurança -->
         <div id="security" class="settings-section hidden-section">
@@ -278,7 +282,10 @@
   </main>
 
   {% include 'components/Footer.html' %}
-  <script>const email = "{{email}}";</script>
+  <script>
+    const email = "{{email}}";
+    const defaultSection = "{{section}}";
+  </script>
   <script src="{{ url_for('static', filename='js/mains/ConfigMain.js') }}"></script>
 </body>
 

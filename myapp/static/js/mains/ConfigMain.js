@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const contentSections = document.querySelectorAll(".settings-section");
 
   function switchSection(sectionId) {
-    console.log("Mudando para seção:", sectionId);
-
     contentSections.forEach((s) => {
       s.classList.add("hidden-section");
       s.classList.remove("active-section");
@@ -18,10 +16,12 @@ document.addEventListener("DOMContentLoaded", function () {
       target.classList.add("active-section");
     }
 
-    const btn = document.querySelector(
-      `.nav-item[data-section="${sectionId}"]`
-    );
+    const btn = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
     if (btn) btn.classList.add("active");
+
+    if (sectionId === "bidding") {
+      loadBids(1);
+    }
 
     if (sectionId === "security") {
       target.innerHTML = `
@@ -35,10 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Inicializa com o perfil aberto
-  switchSection("profile");
-
-  // Clique nas abas
   navItems.forEach((item) => {
     item.addEventListener("click", (e) => {
       e.preventDefault();
@@ -47,7 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Upload da imagem de perfil
+  // Inicializa com a seção padrão ou perfil
+  switchSection(defaultSection || "profile");
+
+  // Upload de avatar
   const dropzone = document.getElementById("avatar-dropzone");
   const fileInput = document.getElementById("avatar-file");
 
@@ -73,5 +72,55 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.readAsDataURL(file);
       }
     });
+  }
+
+  function attachEvents() {
+    document.querySelectorAll(".page-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const p = Number(btn.dataset.page);
+        loadBids(p);
+      });
+    });
+  }
+
+  function loadBids(page = 1) {
+    fetch(`/api/bids?page=${page}`)
+      .then((r) => r.json())
+      .then((data) => {
+        let html = "";
+        html += `<div class="bids-list">`;
+
+        if (data.bids.length === 0) {
+          html += `<p>Você ainda não fez nenhum lance.</p>`;
+        }
+
+        for (let b of data.bids) {
+          html += `
+            <div class="bid-card ${b.status}">
+              <div class="bid-info">
+                <strong>${b.product_name}</strong><br>
+                <span>Lance: R$ ${b.amount.toFixed(2)}</span><br>
+                <span>Status: ${b.status}</span>
+              </div>
+              <div class="bid-link-btn">
+                <a href="/produto/${b.room}">Abrir sala</a>
+              </div>
+            </div>
+          `;
+        }
+
+        html += `</div>`;
+
+        html += `
+          <div class="pagination">
+            <a class="page-btn" ${data.page <= 1 ? "style='pointer-events:none;opacity:0.5;'" : ""} data-page="${data.page - 1}">◀</a>
+            <span class="page-current">Página ${data.page} de ${data.total_pages}</span>
+            <a class="page-btn" ${data.page >= data.total_pages ? "style='pointer-events:none;opacity:0.5;'" : ""} data-page="${data.page + 1}">▶</a>
+          </div>
+        `;
+
+        document.getElementById("bids-container").innerHTML = html;
+        attachEvents();
+      });
   }
 });
