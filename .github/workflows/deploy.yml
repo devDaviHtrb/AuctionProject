@@ -18,7 +18,7 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ~/AuctionProject
-          git reset .
+          git restore .
           git pull origin main
           docker compose down
           docker compose up -d --build
