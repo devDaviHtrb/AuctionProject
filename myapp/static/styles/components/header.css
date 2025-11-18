@@ -814,3 +814,11 @@ body {
 .sign-up-btn:hover {
   text-decoration: underline;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}

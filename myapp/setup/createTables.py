@@ -6,18 +6,6 @@ from sqlalchemy.dialects import postgresql
 from flask import Flask
 import pkgutil
 
-HEADER = f"""
- ============================================================
- Arquivo: 01_modelo_fisico.sql
- Autor: Nascimento, Gabriel
- Curso/Turma: 213
- SGBD: PostgreSQL Versão: 15
- Objetivo: Criação do modelo físico (DDL)
- Execução esperada: rodar primeiro, em BD vazio
- ============================================================ */
-
-"""
-
 def drop_all_tables(db: SQLAlchemy) -> None:
     try:
         db.drop_all()  
@@ -38,17 +26,17 @@ def create_tables(app:Flask, db:SQLAlchemy) -> None:
         import_module(f"myapp.models.{model}")
     
     #using the db in app
-    erase_file(DATABASE_SRC)
+    #erase_file(DATABASE_SRC)
 
     with app.app_context():
         #drop_all_tables(db) #:O
         db.create_all()
         dialect = postgresql.dialect()
-        write_file(DATABASE_SRC, HEADER)
+        #write_file(DATABASE_SRC, HEADER)
         for table in db.metadata.sorted_tables:
             if dialect:
                 sql = str(CreateTable(table).compile(dialect=dialect))
             else:
                 sql = str(CreateTable(table))
             sql += '\n'
-            write_file(DATABASE_SRC, sql)
+            #write_file(DATABASE_SRC, sql)
