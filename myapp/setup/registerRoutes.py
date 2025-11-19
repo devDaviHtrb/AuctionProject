@@ -36,7 +36,7 @@ def register_routes(app: Flask, folder:str="myapp/routes", package:str="myapp.ro
         
         module_name = f"{package}.{item[:-3]}" #removing: .py print(  )
         module = import_module(module_name)
-        # *****too expansive, fix later*****
+   
         for _, obj in getmembers(module):
             if isinstance(obj, Blueprint):
                 app.register_blueprint(obj)
