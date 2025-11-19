@@ -1,9 +1,9 @@
 from myapp.utils.Validations.ZipCodeValidation import zip_code_validation
 
 #The keys are in portuguese because the module 
-NEIGHBORHOOD =  "bairro"
+NEIGHBORHOOD =  "district"
 UF =            "uf"
-CITY =          "cidade"
+CITY =          "city"
 
 def adress_validation(
     zip_code:str,
@@ -12,6 +12,7 @@ def adress_validation(
     city:str
 ) -> bool:
     adress = zip_code_validation(zip_code)
+    print(adress.keys())
     if adress:
         if district != adress[NEIGHBORHOOD] or state!=adress[UF] or city!=adress[CITY]:
             return False

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanciare - Meus Lances em Andamento</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/StyleBids.css') }}">
+</head>
+
+<body>
+
+    {% include 'components/Header.html' %}
+    <main>
+        <div class="container my-bids-page">
+            <h1 class="page-title">Meus Lances Ativos</h1>
+
+            <div class="bids-layout">
+
+                <aside class="bids-filters">
+                    <div class="filter-box">
+                        <h3><i class="fas fa-filter"></i> Status</h3>
+                        <ul class="filter-list">
+                            <li class="active"><a href="#">Em Andamento (8)</a></li>
+                            <li><a href="#">Vencidos (3)</a></li>
+                            <li><a href="#">Arrematados (2)</a></li>
+                        </ul>
+                    </div>
+                    <div class="filter-box">
+                        <h3><i class="fas fa-sort-amount-down"></i> Ordenar</h3>
+                        <select id="bid-sort">
+                            <option>Tempo Restante</option>
+                            <option>Valor do Lance</option>
+                            <option>Data do Lance</option>
+                        </select>
+                    </div>
+                </aside>
+
+                <section class="bids-list">
+
+                    <div class="bid-card active-bid">
+                        <div class="bid-item-photo"
+                            style="background-image: url('https://via.placeholder.com/150x110/E0E0E0/333333?text=Item+1');">
+                        </div>
+                        <div class="bid-item-details">
+                            <h3>Relógio Rolex Submariner Original</h3>
+                            <p class="category">Categoria: Relógios de Luxo</p>
+                            <div class="bid-status-row">
+                                <div class="status-info">
+                                    <p>Seu Lance:</p>
+                                    <span class="my-bid-price">R$ 1.850,00</span>
+                                </div>
+                                <div class="status-info">
+                                    <p>Lance Atual:</p>
+                                    <span class="current-bid-price">R$ 1.900,00</span>
+                                </div>
+                            </div>
+                            <div class="time-status">
+                                <i class="far fa-clock"></i>
+                                <span class="time-left-bid">Você está perdendo! Tempo: 00h 45m 12s</span>
+                            </div>
+                        </div>
+                        <div class="bid-actions">
+                            <button class="btn-bid" onclick="alert('Abrindo detalhes do lance...')">VER
+                                DETALHES</button>
+                            <a href="#" class="quick-bid-link">Dar um lance rápido</a>
+                        </div>
+                    </div>
+
+                    <div class="bid-card leading-bid">
+                        <div class="bid-item-photo"
+                            style="background-image: url('https://via.placeholder.com/150x110/E0E0E0/333333?text=Item+2');">
+                        </div>
+                        <div class="bid-item-details">
+                            <h3>Pintura a Óleo de Artista Local</h3>
+                            <p class="category">Categoria: Arte</p>
+                            <div class="bid-status-row">
+                                <div class="status-info">
+                                    <p>Seu Lance:</p>
+                                    <span class="my-bid-price">R$ 3.500,00</span>
+                                </div>
+                                <div class="status-info">
+                                    <p>Lance Atual:</p>
+                                    <span class="current-bid-price">R$ 3.500,00</span>
+                                </div>
+                            </div>
+                            <div class="time-status">
+                                <i class="far fa-clock"></i>
+                                <span class="time-left-bid leading">Você está liderando! Tempo: 02h 10m 50s</span>
+                            </div>
+                        </div>
+                        <div class="bid-actions">
+                            <button class="btn-bid update-bid"
+                                onclick="alert('Abrindo modal de novo lance...')">ATUALIZAR LANCE</button>
+                        </div>
+                    </div>
+
+                    <div class="bid-card">
+                        <div class="bid-item-photo"
+                            style="background-image: url('https://via.placeholder.com/150x110/E0E0E0/333333?text=Item+3');">
+                        </div>
+                        <div class="bid-item-details">
+                            <h3>Console Retrô Edição Limitada</h3>
+                            <p class="category">Categoria: Eletrônicos</p>
+                            <div class="bid-status-row">
+                                <div class="status-info">
+                                    <p>Seu Lance:</p>
+                                    <span class="my-bid-price">R$ 800,00</span>
+                                </div>
+                                <div class="status-info">
+                                    <p>Lance Atual:</p>
+                                    <span class="current-bid-price">R$ 750,00</span>
+                                </div>
+                            </div>
+                            <div class="time-status">
+                                <i class="far fa-clock"></i>
+                                <span class="time-left-bid long-time">Faltam 5 Dias, 12h</span>
+                            </div>
+                        </div>
+                        <div class="bid-actions">
+                            <button class="btn-bid" onclick="alert('Abrindo detalhes...')">VER DETALHES</button>
+                        </div>
+                    </div>
+
+                    <div class="no-bids-message">
+                        <i class="fas fa-hourglass-half"></i>
+                        <p>Nenhum lance ativo encontrado no momento. Comece a dar lances em nossos leilões!</p>
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    {% include 'components/Footer.html' %}
+</body>
+
+</html>

@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Inicializa com a seção padrão ou perfil
+
   switchSection(defaultSection || "profile");
 
-  // Upload de avatar
+
   const dropzone = document.getElementById("avatar-dropzone");
   const fileInput = document.getElementById("avatar-file");
 
@@ -83,44 +83,87 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function loadBids(page = 1) {
-    fetch(`/api/bids?page=${page}`)
+    // --- AJAX para novo endereço ---
+  const newAddressForm = document.getElementById("new-address-form");
+
+  if (newAddressForm) {
+    newAddressForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(newAddressForm);
+
+      fetch("/new/address", {
+        method: "POST",
+        body: formData
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.success) {
+  
+            newAddressForm.reset();
+
+           
+            loadAddresses();
+
+          } else {
+            alert(data.error || "Erro ao adicionar endereço.");
+          }
+        })
+        .catch(() => alert("Erro inesperado ao enviar o endereço."));
+    });
+  }
+   function loadAddresses() {
+    fetch("/api/addresses")
       .then((r) => r.json())
-      .then((data) => {
-        let html = "";
-        html += `<div class="bids-list">`;
+      .then((addresses) => {
+        const container = document.querySelector("#addresses .settings-form-card:nth-of-type(2)");
 
-        if (data.bids.length === 0) {
-          html += `<p>Você ainda não fez nenhum lance.</p>`;
-        }
-
-        for (let b of data.bids) {
-          html += `
-            <div class="bid-card ${b.status}">
-              <div class="bid-info">
-                <strong>${b.product_name}</strong><br>
-                <span>Lance: R$ ${b.amount.toFixed(2)}</span><br>
-                <span>Status: ${b.status}</span>
-              </div>
-              <div class="bid-link-btn">
-                <a href="/produto/${b.room}">Abrir sala</a>
-              </div>
-            </div>
-          `;
-        }
-
-        html += `</div>`;
-
-        html += `
-          <div class="pagination">
-            <a class="page-btn" ${data.page <= 1 ? "style='pointer-events:none;opacity:0.5;'" : ""} data-page="${data.page - 1}">◀</a>
-            <span class="page-current">Página ${data.page} de ${data.total_pages}</span>
-            <a class="page-btn" ${data.page >= data.total_pages ? "style='pointer-events:none;opacity:0.5;'" : ""} data-page="${data.page + 1}">▶</a>
-          </div>
+        let html = `
+          <h3>Meus Endereços</h3>
         `;
 
-        document.getElementById("bids-container").innerHTML = html;
-        attachEvents();
+        if (!addresses.length) {
+          html += `<p>Você ainda não possui endereços cadastrados.</p>`;
+        } else {
+          for (let addr of addresses) {
+            html += `
+              <div class="address-item">
+                <p><strong>${addr.street_name}, ${addr.street_number}</strong> ${addr.apt || ""}</p>
+                <p>${addr.district} - ${addr.city}/${addr.state}</p>
+                <p>CEP: ${addr.zip_code}</p>
+                ${addr.principal_address ? `<p><span class="badge">Principal</span></p>` : ""}
+
+                <form class="remove-address-form" data-id="${addr.address_id}" style="display:inline;">
+                  <button type="submit" class="btn-danger">Remover</button>
+                </form>
+              </div>
+            `;
+          }
+        }
+
+        container.innerHTML = html;
+
+        attachRemoveAddressEvents();
       });
+  }
+
+
+  function attachRemoveAddressEvents() {
+    document.querySelectorAll(".remove-address-form").forEach((form) => {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const id = form.dataset.id;
+
+        fetch(`/removeAddress/${id}`, {
+          method: "POST"
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.success) {
+              loadAddresses();
+            }
+          });
+      });
+    });
   }
 });

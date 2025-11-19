@@ -39,7 +39,10 @@
             <li class="nav-item active" data-section="profile"><a href="#"><i class="fas fa-user-cog"></i> Perfil e
                 Dados</a></li>
             <li class="nav-item" data-section="contact"><a href="#"><i class="fas fa-phone"></i> Contato</a></li>
-            <li class="nav-item" data-section="bidding"><a href="#"><i class="fas fa-gavel"></i> Meus Lances</a></li>
+            <li class="nav-item" data-section="addresses"><a href="#"><i class="fas fa-map-marker-alt"></i>
+                Endereços</a></li>
+            <li class="nav-item"><a href="/userBids"><i class="fas fa-gavel"></i> Meus Lances</a>
+            </li>
             <li class="nav-item" data-section="security"><i class="fas fa-lock"></i> Segurança</li>
             <li class="nav-item separator">
               <hr>
@@ -195,7 +198,7 @@
 
           <div class="settings-form-card">
             <h3>Adicionar Novo Endereço</h3>
-            <form action="/addAddress" method="post" class="address-form">
+            <form id="new-address-form" class="address-form">
               <div class="input-row">
                 <div class="input-group">
                   <label for="street_name">Rua</label>

@@ -1,4 +1,5 @@
 from flask import Blueprint, Response, redirect, session, request, jsonify, url_for
+from myapp.models.Addresses import addresses
 from myapp.utils.LinksUrl import CONFIG_PAGE
 from myapp.utils.Validations.AdressValidation import adress_validation
 import myapp.repositories.AddressRepository as address_repository
@@ -16,7 +17,9 @@ def user_address() -> Tuple[Response, int]:
     district =request.form.get("district", None)
     city = request.form.get("city", None)
     state = request.form.get("state", None)
-    principal_address = request.form.get("principal_adress", None)
+    principal_address = True if request.form.get("principal_address", None) else False
+
+    
 
     data = {
         "user_id":              user_id,
@@ -28,7 +31,7 @@ def user_address() -> Tuple[Response, int]:
         "state":                state,
         "principal_address":    principal_address
     }
-    missingInfo = [k for k in data if data[k] is None]
+    missingInfo = [k for k in data if data[k] and k != "principal_address" is None]
     if (missingInfo):
         return jsonify({
             "Error":        "Missing info",
@@ -46,5 +49,33 @@ def user_address() -> Tuple[Response, int]:
     
     address_repository.save_item(data)
     return jsonify({
-        "Address": data
+        "Address": data,
+        "success": True
     }), 201
+
+
+
+
+
+@address_bp.route("/api/addresses", methods=["GET"])
+def api_addresses():
+
+   
+    user_addresses = addresses.query.filter_by(user_id=session.get("user_id")).all()
+
+
+    result = [{
+        "address_id": addr.address_id,
+        "street_name": addr.street_name,
+        "street_number": addr.street_number,
+        "apt": addr.apt,
+        "district": addr.district,
+        "city": addr.city,
+        "state":addr.state,
+        "zip_code": addr.zip_code,
+        "principal_address": addr.principal_address
+    } for addr in user_addresses]
+
+    return jsonify(result)
+
+
