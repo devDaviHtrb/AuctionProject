@@ -45,42 +45,44 @@ document.addEventListener("DOMContentLoaded", () => {
     progressBar.style.width = `${progress}%`;
   }
 
-nextButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
+  nextButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
 
-    const currentStepElement = steps[currentStep];
+      const currentStepElement = steps[currentStep];
 
 
-    const requiredFields = currentStepElement.querySelectorAll("input[required], select[required], textarea[required]");
+      const requiredFields = currentStepElement.querySelectorAll("input[required], select[required], textarea[required]");
 
-    let isValid = true;
-    console.log("STEP:", currentStep);
-console.log("FIELDS:", requiredFields);
-requiredFields.forEach(f => console.log(f.id, f.value));
+      let isValid = true;
+      console.log("STEP:", currentStep);
+      console.log("FIELDS:", requiredFields);
+      requiredFields.forEach(f => console.log(f.id, f.value));
 
-    requiredFields.forEach((field) => {
-      if (!field.value.trim()) {
-        field.reportValidity();
-        isValid = false;
-      } else if (!field.checkValidity()) {
-        field.reportValidity();
-        isValid = false;
+      requiredFields.forEach((field) => {
+        if(field.id === "rg" || field.id === "cpf"){
+          field.required="False";
+        }
+        else if (!field.value.trim()) {
+          field.reportValidity();
+          isValid = false;
+        } else if (!field.checkValidity()) {
+          field.reportValidity();
+          isValid = false;
+        }
+      });
+
+      if (!isValid) {
+        return;
       }
+
+
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        updateSteps();
+      }
+
     });
-    alert(isValid)
-
-    if (!isValid) {
-      return; 
-    }
-
-
-    if (currentStep < steps.length - 1) {
-      currentStep++;
-      updateSteps();
-    }
-
   });
-});
 
   prevButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -96,47 +98,47 @@ requiredFields.forEach(f => console.log(f.id, f.value));
   const pfFields = document.querySelectorAll(".pp_field");
   const pjFields = document.querySelectorAll(".lp_field");
 
-function toggleTypeFields() {
-  const selected = document.querySelector(
-    "input[name='account_type']:checked"
-  ).value;
+  function toggleTypeFields() {
+    const selected = document.querySelector(
+      "input[name='account_type']:checked"
+    ).value;
 
-  userTypeInput.value = selected;
+    userTypeInput.value = selected;
 
 
-  pfFields.forEach((el) => {
-    el.style.display = selected === "physical_person" ? "block" : "none";
+    pfFields.forEach((el) => {
+      el.style.display = selected === "physical_person" ? "block" : "none";
 
-    const input = el.querySelector("input, select, textarea");
-    if (input) {
-      if (selected === "physical_person") {
-        input.setAttribute("required", "true");
-      } else {
-        input.removeAttribute("required");
+      const input = el.querySelector("input, select, textarea");
+      if (input) {
+        if (selected === "physical_person") {
+          input.setAttribute("required", "true");
+        } else {
+          input.removeAttribute("required");
+        }
       }
-    }
-  });
+    });
 
 
-  pjFields.forEach((el) => {
-    el.style.display = selected === "legal_person" ? "block" : "none";
+    pjFields.forEach((el) => {
+      el.style.display = selected === "legal_person" ? "block" : "none";
 
-    const input = el.querySelector("input, select, textarea");
-    if (input) {
-      if (selected === "legal_person") {
-        input.setAttribute("required", "true");
-      } else {
-        input.removeAttribute("required");
+      const input = el.querySelector("input, select, textarea");
+      if (input) {
+        if (selected === "legal_person") {
+          input.setAttribute("required", "true");
+        } else {
+          input.removeAttribute("required");
+        }
       }
-    }
-  });
+    });
 
-  const typeOptions = document.querySelectorAll(".type-option");
-  typeOptions.forEach((opt) => {
-    const input = opt.querySelector("input[name='account_type']");
-    opt.classList.toggle("active", input.checked);
-  });
-}
+    const typeOptions = document.querySelectorAll(".type-option");
+    typeOptions.forEach((opt) => {
+      const input = opt.querySelector("input[name='account_type']");
+      opt.classList.toggle("active", input.checked);
+    });
+  }
 
 
   radios.forEach((radio) => {

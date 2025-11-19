@@ -1,5 +1,6 @@
 from flask import Response, jsonify, redirect, url_for
 import myapp.repositories.CategoryRepository as category_repository
+from typing import Tuple, List
 
 #======================= CONST OF PAGES =======================
 PROFILE_PAGE =          "configPage.ConfigPage"
@@ -75,7 +76,7 @@ def home() -> Response:
     return jsonify({"redirect": redirect_url})
 
 
-def get_search_links():
+def get_search_links() -> List[Tuple[str, str]]:
     all_categories = category_repository.get_all_name_id()
 
     links = [(name, f"{url_for(PRODUCTS_PAGE)}?category={name}") for name, _ in all_categories]

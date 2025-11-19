@@ -8,15 +8,47 @@ async function fetchSuggestions() {
     try {
         const response = await fetch('/get/searchs-info');
         if (!response.ok) throw new Error(`Erro: ${response.status} ${response.statusText}`);
-
         // [[name, link], ...]
         suggestions = await response.json();
+        buildCategoriesList(suggestions);
     } catch (error) {
         console.error("Error :", error);
     }
 }
+function getType(str, p1, p2) {
+    let start = -1;
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === p1) {
+            start = i + 1; // começa depois do p1
+        } else if (str[i] === p2 && start !== -1) {
+            return str.slice(start, i);
+        }
+    }
+
+    return "";
+}
+
 
 fetchSuggestions();
+function buildCategoriesList(list) {
+    const ul = document.getElementById("categories-ul");
+    ul.innerHTML = "";
+
+    list.forEach(item => {
+        console.log(getType(item[1], '?', '='))
+        if(getType(item[1], '?', '=') === "category"){
+            const li = document.createElement("li");
+            const a  = document.createElement("a");
+            
+            a.textContent = item.name;
+            a.href = item.link;
+            a.innerHTML = item[0];
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+    });
+}
+
 
 searchInput.addEventListener("input", function () {
     const query = this.value.toLowerCase();

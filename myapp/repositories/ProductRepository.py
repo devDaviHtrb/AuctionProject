@@ -111,14 +111,25 @@ def last_bid(product:products, ignores_ids:List[int], chunk_size:int = 10) -> Op
         offset += chunk_size
 
 @cache.memoize(timeout=600, make_name=cache_key)
-def get_technical_features_values(product: products) -> List[technical_features_values]:
-    return technical_features_values.query.join(
-        technical_features,
-        technical_features_values.technical_feature_id == technical_features.technical_feature_id,
-        isouter=True
-    ).filter(
-        technical_features_values.product_id == product.product_id
-    ).all()
+def get_technical_features_name_and_values(product: products):
+    results = (
+        db.session.query(
+            technical_features.technical_feature_name,
+            technical_features_values.value
+        )
+        .join(
+            technical_features,
+            technical_features_values.technical_feature_id == technical_features.technical_feature_id,
+            isouter=True
+        )
+        .filter(
+            technical_features_values.product_id == product.product_id
+        )
+        .all()
+    )
+
+    return results
+
 
 @cache.memoize(timeout=600)
 def get_room_id_by_id(wanted_id:int) -> Optional[str]:

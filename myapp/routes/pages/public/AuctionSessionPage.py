@@ -41,7 +41,7 @@ def AuctionPage(roomToken: str) -> Response:
             {}
         ),
         (
-            product_repository.get_technical_features_values,
+            product_repository.get_technical_features_name_and_values,
             (product,),
             {}
         )

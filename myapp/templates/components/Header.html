@@ -17,25 +17,30 @@
 
     <nav class="main-nav-header">
       <ul class="menu-header">
-        <li class="dropdown-categorias">
-          <a href="#" class="nav-link">Categorias</a>
-          <ul class="categorias-menu">
-            <li><a href="#">Tecnologia</a></li>
-            <li><a href="#">Moda</a></li>
-            <li><a href="#">Casa & Jardim</a></li>
-            <li><a href="#">Colecionáveis</a></li>
+        <li class="dropdown-categories-header">
+          <a href="/products" class="nav-link">Leilões</a>
+          <ul id="categories-ul" class="categories-header-menu">
           </ul>
         </li>
 
-        <li><a href="{{url_for('productsPage.ProductsPage')}}" class="nav-link">Leilões</a></li>
-        <li><a href="#" class="nav-link">Contato</a></li>
+        <li class="dropdown-categories-header">
+          <a href="/nos" class="nav-link">Empresa</a>
+          <ul class="categories-header-menu">
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Serviços</a></li>
+            <li><a href="#">Como Funciona</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Políticas</a></li>
+          </ul>
+        </li>
+        <li><a href="/contato" class="nav-link">Contato</a></li>
       </ul>
 
 
       {% if not user %}
       <div class="auth-buttons-header">
         <a href="#" id="openLogin" class="btn-login-header">Sign In / Sign Up</a>
-
+        
         <!-- Modal de Login -->
         <div id="loginModal">
           <div class="login-content" id="login-cc">

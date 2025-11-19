@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  
+
     const loadingOverlay = document.getElementById('loading-overlay');
     const showLoading = () => loadingOverlay?.classList.add('active');
     const hideLoading = () => loadingOverlay?.classList.remove('active');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         status: null,
         price_range: null,
         name: null,
-        sort: null 
+        sort: null
     };
 
     function formatTime(ms) {
@@ -43,8 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const durationMs = durationMinutes * 60 * 1000;
         const endTime = startTime + durationMs;
 
+        let interval = null; 
+
         function updateTimer() {
             const now = new Date().getTime();
+
             if (now < startTime) {
                 timerElement.textContent = `Começa em ${formatTime(startTime - now)}`;
                 timerElement.style.color = "#007bff";
@@ -52,27 +55,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     buttonElement.disabled = true;
                     buttonElement.textContent = "AGUARDANDO";
                 }
-            } else if (now >= startTime && now <= endTime) {
+            }
+            else if (now <= endTime) {
                 timerElement.textContent = `Tempo restante: ${formatTime(endTime - now)}`;
                 timerElement.style.color = "#28a745";
                 if (buttonElement) {
                     buttonElement.disabled = false;
                     buttonElement.textContent = "DAR LANCE";
                 }
-            } else {
+            }
+            else {
                 timerElement.textContent = "ENCERRADO";
                 timerElement.style.color = "#dc3545";
                 if (buttonElement) {
                     buttonElement.disabled = true;
                     buttonElement.textContent = "ENCERRADO";
                 }
+
+
                 clearInterval(interval);
             }
         }
 
+        interval = setInterval(updateTimer, 1000);
         updateTimer();
-        const interval = setInterval(updateTimer, 1000);
     }
+
 
     function renderProducts(products) {
         productsGrid.innerHTML = '';
@@ -90,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="time-left"><i class="far fa-clock"></i> <span class="timer-text">--:--:--</span></p>
                 <a href="/auction/${product.room}"><button class="btn-bid">DAR LANCE</button></a>
             `;
-            
+
             productsGrid.appendChild(card);
 
             const timerElement = card.querySelector('.timer-text');
@@ -138,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(url)
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 renderProducts(data.products);
                 currentPage = data.current_page;
                 totalPages = data.total_pages;
@@ -147,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hideLoading();
             })
             .catch(err => {
-                console.error( err);
+                console.error(err);
                 hideLoading();
             });
 
@@ -208,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sortSelect.addEventListener('change', () => {
         const val = sortSelect.value;
-        switch(val) {
+        switch (val) {
             case "Mais Recentes": filters.sort = "recent_desc"; break;
             case "Menos Recentes": filters.sort = "recent_asc"; break; // exemplo: por tempo restante crescente
             case "Menor Preço": filters.sort = "price_asc"; break;

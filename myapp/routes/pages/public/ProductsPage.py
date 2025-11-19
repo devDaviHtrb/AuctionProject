@@ -16,7 +16,6 @@ def ProductsPage(page: int = 1) -> Response:
     ])
     categories_amt =    results[0]
     status_amt =        results[1]
-
     print("debug:", results, flush=True)
     query_params = {key: request.args[key] for key in request.args}
     paginate_args = f"/paginate/auctions/{page}?{urlencode(query_params)}"
