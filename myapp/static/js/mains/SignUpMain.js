@@ -82,6 +82,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
     });
+<<<<<<< HEAD
+=======
+ 
+
+    if (!isValid) {
+      return; 
+    }
+
+
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      updateSteps();
+    }
+
+>>>>>>> 33ff04f012c1ca54c7de2482c7f84322f129d60a
   });
 
   prevButtons.forEach((btn) => {
