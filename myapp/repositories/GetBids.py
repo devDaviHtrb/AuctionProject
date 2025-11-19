@@ -53,7 +53,7 @@ def get_winner_bids(user_id):
         .join(products, bids.product_id == products.product_id)
         .filter(
             bids.user_id == user_id,
-            bids.winner == 1,
+            bids.winner == True,
             products.product_status == 4
         )
         .all()
