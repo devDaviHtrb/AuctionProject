@@ -99,8 +99,7 @@ ul {
   gap: 5px;
 }
 
-/* Header */
- 
+  
 .header-content {
   display: flex;
   justify-content: space-between;

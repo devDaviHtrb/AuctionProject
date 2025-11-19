@@ -1,16 +1,12 @@
-/* Variáveis de Cores */
-:root {
+ :root {
     --primary-blue: #0C2340;
     --accent-orange: #FF8C00;
-    --light-bg: #FFFFFF; /* Fundo principal BRANCO */
-    --medium-bg: #F5F5F5; /* Para seções de contraste */
-    --dark-grey-text: #333333;
+    --light-bg: #FFFFFF;      --medium-bg: #F5F5F5;      --dark-grey-text: #333333;
     --light-text: #666;
     --white: #FFFFFF;
 }
 
-/* Base */
-* {
+ * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -38,8 +34,7 @@ ul {
     list-style: none;
 }
 
-/* Botões e CTA's */
-.btn-primary {
+ .btn-primary {
     background-color: var(--accent-orange);
     color: var(--white);
     padding: 10px 25px;
@@ -102,8 +97,7 @@ ul {
     gap: 5px;
 }
 
-/* Header */
-.main-header {
+ .main-header {
     background-color: var(--white);
     padding: 15px 0;
     border-bottom: 1px solid var(--medium-bg);
@@ -119,8 +113,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 150px; /* Garante espaço para logo */
-}
+    min-width: 150px;  }
 
 .main-header .logo img {
     border-radius: 5px;
@@ -143,8 +136,7 @@ ul {
     width: 100%;
     padding: 12px 40px 12px 15px;
     border: 1px solid var(--medium-bg);
-    border-radius: 25px; /* Mais moderno, arredondado */
-    font-size: 14px;
+    border-radius: 25px;      font-size: 14px;
     color: var(--dark-grey-text);
     background-color: var(--light-bg);
 }
@@ -182,8 +174,7 @@ ul {
     font-weight: 600;
 }
 
-/* Hero Carousel (FULL WIDTH) */
-.hero-carousel {
+ .hero-carousel {
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -197,13 +188,11 @@ ul {
 
 .carousel-item {
     min-width: 100%;
-    height: 450px; /* Altura definida */
-    background-size: cover;
+    height: 450px;      background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
-    text-align: left; /* Alinhamento à esquerda para o texto */
-    color: var(--white);
+    text-align: left;      color: var(--white);
     position: relative;
 }
 
@@ -221,8 +210,7 @@ ul {
     position: relative;
     z-index: 10;
     max-width: 600px;
-    padding-left: 40px; /* Para dar espaço da borda */
-}
+    padding-left: 40px;  }
 
 .carousel-caption h1 {
     font-size: 50px;
@@ -236,8 +224,7 @@ ul {
     margin-bottom: 30px;
 }
 
-/* Controles e Dots do Carrossel */
-.carousel-control {
+ .carousel-control {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -288,8 +275,7 @@ ul {
     transform: scale(1.2);
 }
 
-/* Categorias (Inspirado na Image 8f127d.png) */
-.categories-section {
+ .categories-section {
     padding: 40px 20px;
     margin-bottom: 50px;
 }
@@ -332,8 +318,7 @@ ul {
     color: var(--dark-grey-text);
 }
 
-/* Product Section */
-.product-section {
+ .product-section {
     margin-bottom: 70px;
 }
 
@@ -347,8 +332,7 @@ ul {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* Largura mínima ligeiramente maior */
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));      gap: 25px;
     margin-bottom: 30px;
 }
 
@@ -417,8 +401,7 @@ ul {
     font-weight: 600;
 }
 .product-card .badge.promo {
-    background-color: #c0392b; /* Vermelho para promoções */
-}
+    background-color: #c0392b;  }
 
 
 .view-all {
@@ -426,8 +409,7 @@ ul {
     margin-top: 40px;
 }
 
-/* About Us Banner */
-.about-us-banner {
+ .about-us-banner {
     background-color: var(--medium-bg);
     padding: 70px 0;
     text-align: center;
@@ -463,8 +445,7 @@ ul {
     margin-bottom: 30px;
 }
 
-/* Footer */
-.main-footer {
+ .main-footer {
     background-color: var(--primary-blue);
     color: var(--white);
     padding: 40px 0 20px;
@@ -510,8 +491,7 @@ ul {
     opacity: 1;
 }
 
-/* Responsividade Básica */
-@media (max-width: 1024px) {
+ @media (max-width: 1024px) {
     .header-content {
         flex-wrap: wrap;
         justify-content: center;
@@ -538,8 +518,7 @@ ul {
         flex-wrap: wrap;
     }
     .category-item {
-        flex-basis: 20%; /* Para caber mais na linha */
-    }
+        flex-basis: 20%;      }
     .about-content-wrapper {
         flex-direction: column;
         text-align: center;
@@ -548,10 +527,7 @@ ul {
         margin-bottom: 20px;
     }
 }
-/* ===================================
-   ESTILOS DA PÁGINA MEUS LANCES (MY BIDS)
-   =================================== */
-
+ 
 .my-bids-page {
     padding-top: 40px;
     padding-bottom: 60px;
@@ -579,16 +555,14 @@ ul {
     color: var(--dark-grey-text);
 }
 
-/* Seleção de Ordenação */
-#bid-sort {
+ #bid-sort {
     width: 100%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid var(--medium-bg);
 }
 
-/* --- Cartão de Lance --- */
-.bids-list {
+ .bids-list {
     flex-grow: 1;
 }
 
@@ -596,21 +570,17 @@ ul {
     display: flex;
     background-color: var(--white);
     border: 1px solid var(--medium-bg);
-    border-left: 5px solid var(--light-text); /* Borda esquerda para status */
-    border-radius: 8px;
+    border-left: 5px solid var(--light-text);      border-radius: 8px;
     padding: 15px;
     margin-bottom: 20px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     transition: border-left-color 0.3s;
 }
 
-/* Cores de status (Simuladas) */
-.bid-card.leading-bid {
-    border-left-color: #27ae60; /* Verde para Liderando */
-}
+ .bid-card.leading-bid {
+    border-left-color: #27ae60;  }
 .bid-card.active-bid {
-    border-left-color: var(--accent-orange); /* Laranja para Perdendo/Acompanhando */
-}
+    border-left-color: var(--accent-orange);  }
 
 .bid-item-photo {
     width: 150px;
@@ -674,8 +644,7 @@ ul {
 }
 
 .time-status .leading {
-    color: #27ae60; /* Verde para liderando */
-}
+    color: #27ae60;  }
 
 .bid-actions {
     display: flex;
@@ -715,8 +684,7 @@ ul {
 }
 
 
-/* Responsividade */
-@media (max-width: 992px) {
+ @media (max-width: 992px) {
     .bids-layout {
         flex-direction: column;
         gap: 20px;
@@ -729,8 +697,7 @@ ul {
         margin-right: 15px;
     }
     .bids-filters .filter-box h3 {
-        display: none; /* Esconde título do filtro em mobile */
-    }
+        display: none;      }
     .bids-filters .filter-list {
         display: flex;
         gap: 10px;

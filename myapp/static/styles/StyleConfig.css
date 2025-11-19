@@ -99,8 +99,7 @@ ul {
   gap: 5px;
 }
 
-/* Header */
- 
+  
 .header-content {
   display: flex;
   justify-content: space-between;
@@ -880,15 +879,13 @@ input:checked + .slider:before {
   border: 1px solid #e74c3c;
 }
 
-/* Lista */
-.bid-checklist {
+ .bid-checklist {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* Cada card */
-.bid-item {
+ .bid-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -902,25 +899,21 @@ input:checked + .slider:before {
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover no card */
-.bid-item:hover {
+ .bid-item:hover {
   transform: scale(1.02);
   border-color: #0c2340;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-/* Bloco de informações */
-.bid-info {
+ .bid-info {
   flex: 1;
   font-size: 14px;
   line-height: 1.5;
 }
 
-/* Botão/link alinhado à direita */
-.bid-link-btn {
+ .bid-link-btn {
   margin-left: 20px;
-  white-space: nowrap; /* evita quebra */
-}
+  white-space: nowrap;  }
 
 .bid-link-btn a {
   display: inline-block;
@@ -934,8 +927,7 @@ input:checked + .slider:before {
   transition: 0.2s ease-in-out;
 }
 
-/* Hover no botão */
-.bid-link-btn a:hover {
+ .bid-link-btn a:hover {
   background-color: #143a68;
   transform: scale(1.05);
 }
@@ -993,8 +985,7 @@ input:checked + .slider:before {
 .bid-info {
   display: flex;
   flex-direction: column;
-  max-width: calc(100% - 120px); /* reserva espaço pro botão */
-}
+  max-width: calc(100% - 120px);  }
 
 .bid-link-btn {
   position: absolute;
