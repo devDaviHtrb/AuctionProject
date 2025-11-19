@@ -4,4 +4,5 @@ def unmask(var):
     var = var.replace("(", "")
     var = var.replace(")", "")
     var = var.replace("-", "")
+    var = var.replace(".", "")
     return var

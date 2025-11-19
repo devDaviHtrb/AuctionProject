@@ -67,7 +67,7 @@ requiredFields.forEach(f => console.log(f.id, f.value));
         isValid = false;
       }
     });
-    alert(isValid)
+ 
 
     if (!isValid) {
       return; 
