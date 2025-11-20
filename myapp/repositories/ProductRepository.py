@@ -42,7 +42,7 @@ def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) 
         print("Db connection error")
     new_product = products(**data)
     db.session.add(new_product)
-    db.session.flush()  # cria o product_id
+    db.session.flush()   
 
     if data.get("photos_url"):
         for url in data["photos_url"]:
