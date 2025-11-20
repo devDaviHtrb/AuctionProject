@@ -3,11 +3,11 @@ from myapp.models.Products import products
 from myapp.models.TechnicalFeatures import technical_features
 from myapp.models.CategoryTechnicalFeatures import category_technical_features
 from myapp.setup.InitSqlAlchemy import db
-from myapp.setup.InitCache import cache
+from myapp.setup.InitCache import cached
 from sqlalchemy import select, func
 from typing import List, Dict, Any
 
-@cache.memoize(timeout=1800)
+@cached(timeout=1800)
 def get_all_name_id() -> List[Dict[str, Any]]:
     results = db.session.execute(
         select(categories.category_name, categories.category_id)
@@ -15,7 +15,7 @@ def get_all_name_id() -> List[Dict[str, Any]]:
     
     return [(c_name, c_id, ) for c_name, c_id in results]
 
-@cache.memoize(timeout=1800)
+@cached(timeout=1800)
 def get_technical_feature_id(category_id:int) -> List[technical_features]:
     return technical_features.query.join(
         category_technical_features,
@@ -24,7 +24,7 @@ def get_technical_feature_id(category_id:int) -> List[technical_features]:
         category_id == category_technical_features.category_id
     ).all()
 
-@cache.memoize(timeout=1800)
+@cached(timeout=1800)
 def get_relationship_categories_features() -> Dict[categories, List[technical_features]]:
     all_categories = get_all_name_id()
     return {
