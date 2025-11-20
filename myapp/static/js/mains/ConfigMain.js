@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-    // --- AJAX para novo endereço ---
+     
   const newAddressForm = document.getElementById("new-address-form");
 
   if (newAddressForm) {

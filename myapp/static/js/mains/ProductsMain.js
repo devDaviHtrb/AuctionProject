@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputsPrice = filterPriceBox.querySelectorAll('.price-inputs input');
     const btnApplyPrice = filterPriceBox.querySelector('.btn-filter-apply');
     const btnClearFilters = document.querySelector('.btn-clear-filters');
-    const sortSelect = document.getElementById('sort'); // select de ordenação
+    const sortSelect = document.getElementById('sort');  
 
     let currentPage = 1;
     let totalPages = 1;
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const val = sortSelect.value;
         switch (val) {
             case "Mais Recentes": filters.sort = "recent_desc"; break;
-            case "Menos Recentes": filters.sort = "recent_asc"; break; // exemplo: por tempo restante crescente
+            case "Menos Recentes": filters.sort = "recent_asc"; break;  
             case "Menor Preço": filters.sort = "price_asc"; break;
             case "Maior Preço": filters.sort = "price_desc"; break;
             default: filters.sort = null; break;
