@@ -56,8 +56,8 @@ products: [
           </div>
         </div>
       </div>
-      <button class="carousel-control prev" aria-label="Previous">&#10094;</button>
-      <button class="carousel-control next" aria-label="Next">&#10095;</button>
+      <button class="carousel-control prev" id="prev" aria-label="Previous">&#10094;</button>
+      <button class="carousel-control next" id="next" aria-label="Next">&#10095;</button>
       <div class="carousel-dots"></div>
     </section>
 
@@ -98,18 +98,18 @@ products: [
       <h2>Leilões em Destaque</h2>
       <div class="product-grid">
         {% for product in top_products %}
-          <div class="product-card">
-            <div class="product-image" style="background-image: url('{{ top_products[1].photo }}');"></div>
-            <span class="badge promo">OFERTA</span>
-            <h3>{{ product.name }}</h3>
-            <p class="price">R$ {{ product.price }}</p>
-            <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ product.time }}</p>
-            <button class="btn-bid">DAR LANCE</button>
-          </div>
+        <div class="product-card">
+          <div class="product-image" style="background-image: url('{{ top_products[1].photo }}');"></div>
+          <span class="badge promo">OFERTA</span>
+          <h3>{{ product.name }}</h3>
+          <p class="price">R$ {{ product.price }}</p>
+          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ product.time }}</p>
+          <button class="btn-bid">DAR LANCE</button>
+        </div>
         {% endfor %}
-      <div class="view-all">
-        <a href="/products" class="btn-text">VER TODOS OS LEILÕES <i class="fas fa-arrow-right"></i></a>
-      </div>
+        <div class="view-all">
+          <a href="/products" class="btn-text">VER TODOS OS LEILÕES <i class="fas fa-arrow-right"></i></a>
+        </div>
     </section>
     <section class="how-it-works container">
       <h2>Como Funciona</h2>
@@ -135,7 +135,8 @@ products: [
 
     <section class="about-us-banner">
       <div class="container about-content-wrapper">
-        <img src="https://res.cloudinary.com/dnet6nodm/image/upload/v1763516218/Users_photos/rei2hp8dmkzjrso2le3u.png" alt="Lanciare Icon" class="about-icon">
+        <img src="https://res.cloudinary.com/dnet6nodm/image/upload/v1763516218/Users_photos/rei2hp8dmkzjrso2le3u.png"
+          alt="Lanciare Icon" class="about-icon">
         <div class="about-content">
           <h2>"ONDE CADA LANCE CONTA UMA HISTÓRIA."</h2>
           <p>A Lanciare foi criada com o propósito de reinventar o conceito de leilões: união de sofisticação,
@@ -154,11 +155,10 @@ products: [
 </html>
 </body>
 
-<script src="../static/js/mains/IndexMain.js" type="module"></script>
+<script src="{{  url_for('static', filename='js/mains/IndexMain.js')  }}" type="module"></script>
 <script type="module" src="../static/js/interactivity/Paginate.js"></script>
-
+<script type="module" src="{{  url_for('static', filename='js/mains/LoginMain.js')  }}"></script>
 <script src="{{  url_for('static', filename='js/components/carousel.js')  }}"></script>
-
 
 
 </html>

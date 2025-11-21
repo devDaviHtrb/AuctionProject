@@ -1,5 +1,5 @@
 <header class="main-header">
-   <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/components/header.css') }}">
   <div class="container header-content">
     <a href="/">
       <div class="logo" style="text-decoration: none;">
@@ -40,7 +40,7 @@
       {% if not user %}
       <div class="auth-buttons-header">
         <a href="#" id="openLogin" class="btn-login-header">Sign In / Sign Up</a>
-        
+
         <!-- Modal de Login -->
         <div id="loginModal">
           <div class="login-content" id="login-cc">
@@ -64,7 +64,9 @@
 
 
               <button type="button" class="google-login" style="background-color: #0C2340;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" alt="Google">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png"
+                  alt="Google">
                 Entrar com Google
               </button>
             </form>

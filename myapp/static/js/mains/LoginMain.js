@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (openLoginBtn && loginModal) {
     openLoginBtn.addEventListener("click", (e) => {
+      alert("FOI GABRIEL")
       e.preventDefault();
       loginModal.style.display = "flex";
       setTimeout(() => loginModal.classList.add("show"), 10);

@@ -1,7 +1,7 @@
 const searchInput = document.getElementById("searchInput");
 const listContainer = document.getElementById("autocompleteList");
 
-let suggestions = [];  
+let suggestions = []; // irá receber os dados da API
 let currentFocus = -1;
 
 async function fetchSuggestions() {
@@ -19,7 +19,7 @@ function getType(str, p1, p2) {
     let start = -1;
     for (let i = 0; i < str.length; i++) {
         if (str[i] === p1) {
-            start = i + 1;  
+            start = i + 1; // começa depois do p1
         } else if (str[i] === p2 && start !== -1) {
             return str.slice(start, i);
         }
@@ -117,11 +117,11 @@ document.addEventListener("click", function (e) {
 
 const userButton = document.getElementById("userButton");
 const dropdownMenu = document.getElementById("dropdownMenu");
-
-userButton.addEventListener("click", (e) => {
+if (userButton)
+{userButton.addEventListener("click", (e) => {
     e.stopPropagation();
     dropdownMenu.classList.toggle("hidden");
-});
+});}
 
 document.addEventListener("click", (e) => {
     if (!dropdownMenu.contains(e.target) && !userButton.contains(e.target)) {

@@ -3,7 +3,7 @@ import { prevSlide } from "../interactivity/PrevSlide.js";
 
 let index = 0;
 const slides = Array.from(document.querySelectorAll(".slide"));
-
+console.log("foi")
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
 
@@ -22,3 +22,5 @@ document.querySelectorAll(".slide").forEach((slide) => {
     window.location.href = "/auctions";
   });
 });
+
+

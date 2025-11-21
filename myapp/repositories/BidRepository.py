@@ -3,6 +3,7 @@ from myapp.models.Products import products
 from myapp.models.ProductStatuses import product_statuses
 from myapp.models.Users import users
 from myapp.setup.InitSqlAlchemy import db
+from myapp.setup.InitCache import cache, cache_key
 from sqlalchemy import func
 from typing import Dict, Any, List, Optional
 

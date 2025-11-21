@@ -1,55 +1,21 @@
 from flask import Flask
-from functools import wraps
 from flask_caching import Cache
-from sqlalchemy.orm import Mapper
-from typing import Callable, Any, Tuple, Optional
+from typing import Callable
 
 cache = Cache()
+redis_conn = None
 
-def extract_pk(instance: Any) -> Tuple[Any, ...]:
-    mapper: Mapper = instance.__class__.__mapper__
-    pk_cols = mapper.primary_key
-    return tuple(getattr(instance, col.key) for col in pk_cols)
+from typing import Callable
 
-def serialize_arg(name: str, value: Any) -> str:
-    if hasattr(value, "__mapper__"):
-        pk = extract_pk(value)
-        if len(pk) == 1:
-            pk_repr = str(pk[0])
-        else:
-            pk_repr = "-".join(str(v) for v in pk)
-        return f"{name}={pk_repr}"
-
-    if isinstance(value, (list, tuple)):
-        return f"{name}=" + "[" + ",".join(
-            serialize_arg("", v).split("=")[-1] for v in value
-        ) + "]"
-
-    if isinstance(value, dict):
-        ordered = sorted(value.items())
-        items = ",".join(
-            f"{k}:{serialize_arg('', v).split('=')[-1]}" for k, v in ordered
-        )
-        return f"{name}={{{ {items} }}}"
-
-    return f"{name}={value}"
-
-
-def build_cache_key(
-    func: Callable[..., Any],
-    args,
-    kwargs
-) -> str:
-
-    parts: list[str] = []
-
-    prefix: str = f"{func.__module__}.{func.__qualname__}"
-
-    for i, arg in enumerate(args):
-        parts.append(serialize_arg(f"arg{i}", arg))
-
+def cache_key(func: Callable, *args, **kwargs) -> str:
+    data = []
     for key, value in sorted(kwargs.items()):
-        parts.append(serialize_arg(key, value))
+        if hasattr(value, "__mapper__"):
+            pk_cols = value.__mapper__.primary_key
+            pk_values = [getattr(value, col.name) for col in pk_cols]
+            data.append(f"{key}={ '-'.join(str(v) for v in pk_values) }")
+        else:
+            data.append(f"{key}={value}")
 
     return prefix + ":" + "|".join(parts)
 
@@ -71,8 +37,12 @@ def cached(timeout: int = 300) -> Callable[[Callable[..., Any]], Callable[..., A
 
         return wrapper
     return decorator
+    prefix = f"{func.__module__}.{func.__name__}"
+    print(prefix + "|".join(data) )
+    return f"{prefix}:" + "|".join(data)
 
 
 def init_cache(app: Flask) -> Cache:
     cache.init_app(app)
+
     return cache

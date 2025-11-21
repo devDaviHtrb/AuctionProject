@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 5000);  
+        autoSlideInterval = setInterval(nextSlide, 5000); // Muda a cada 5 segundos
     }
 
     function resetAutoSlide() {
