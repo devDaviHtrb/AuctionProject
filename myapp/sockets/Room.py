@@ -70,7 +70,7 @@ def handle_emit(data: Dict[str, Any]) -> None:
 
     value = max(float(data.get("value", 0)), 0)
     product = product_repository.get_by_room_id(room_id)
-    print(data)
+    print(data, flush=True)
 
     missingInfo = [k for k, v in [("room_id", room_id), ("value", value), ("product", product)] if v is None]
 
@@ -81,6 +81,7 @@ def handle_emit(data: Dict[str, Any]) -> None:
             "MissingInformation": missingInfo  
         }
         emit("server_content", {"response":response}, to=request.sid)
+        print(response, flush=True)
         return
 
     data = {
@@ -99,6 +100,7 @@ def handle_emit(data: Dict[str, Any]) -> None:
     response = data
     if (not flag):
         emit("server_content", {"response": {"type": "error", "error":out}}, to=request.sid)
-        return 
+        return
+    
     response["datetime"] = out.bid_datetime.isoformat()
     emit("server_content", {"response": response}, to=room_id)

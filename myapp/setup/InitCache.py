@@ -75,4 +75,5 @@ def cached(timeout: int = 300) -> Callable[[Callable[..., Any]], Callable[..., A
 
 def init_cache(app: Flask) -> Cache:
     cache.init_app(app)
+    cache.clear()
     return cache

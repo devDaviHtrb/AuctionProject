@@ -111,11 +111,15 @@ def save_item(data: Dict[str, Any]) -> users:
     return user
 
 def delete_bids_by_product_id_user_id(user_id:int, product_id:int) -> None:
-    stmt = delete(bids).where(
-        bids.product_id == product_id,
-        bids.user_id == user_id
+    (
+        db.session.query(bids)
+        .filter(
+            bids.user_id == user_id,
+            bids.product_id == product_id,
+        )
+        .delete(synchronize_session=False)
     )
-    db.session.execute(stmt)
+
     db.session.commit()
 
 def get_by_api_token(wanted_token:str) -> Optional[users]:

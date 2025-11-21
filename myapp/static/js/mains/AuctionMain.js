@@ -1,4 +1,6 @@
+// DONT EDIT  
 document.addEventListener('DOMContentLoaded', function () {
+
     const mainPhoto = document.getElementById('main-photo');
     const thumbnails = document.querySelectorAll('.thumb');
 
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (window.user.logged.wallet < newBid)
+        if (window.user.wallet < newBid)
             showNotification('error', "Lance Inválidado. Saldo Insuficiente")
 
         bidInput.value = '';
@@ -59,12 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
         parts.push(`${seconds}s`);
         return parts.join(" ");
     }
-
     if (window.user.logged) {
         if (document.getElementById("winner-user").innerHTML === window.user.username) {
             document.getElementById("dlt-btn").style.display = "inline-block";
         }
-        
     }
 
     document.getElementById("dlt-btn").addEventListener("click", async () => {
@@ -93,13 +93,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const startTime = new Date(element.dataset.start).getTime();
         const durationMinutes = parseFloat(element.dataset.duration);
         const durationMs = durationMinutes * 60 * 1000;
+
         let endTime = startTime + durationMs;
-        element.dataset.endTime = endTime;
+        if (element.dataset.dynamicEndTime) {
+            endTime = parseInt(element.dataset.dynamicEndTime);
+        }
+
         const timerText = element.querySelector('.timer-text') || element;
 
         function updateTimer() {
             const now = new Date().getTime();
-            let end = parseInt(element.dataset.endTime);
+
+            if (element.dataset.dynamicEndTime) {
+                endTime = parseInt(element.dataset.dynamicEndTime);
+            }
 
             if (now < startTime) {
                 const diff = startTime - now;
@@ -109,8 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     relatedButton.disabled = true;
                     relatedButton.textContent = "AGUARDANDO";
                 }
-            } else if (now >= startTime && now <= end) {
-                const diff = end - now;
+            } else if (now >= startTime && now <= endTime) {
+                const diff = endTime - now;
                 timerText.textContent = `Tempo restante: ${formatTime(diff)}`;
                 timerText.style.color = "#28a745";
                 if (relatedButton) {
@@ -190,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 case 'entry':
                     showNotification('join', `${response.username} entrou na sala!`);
                     break;
+
                 case 'error':
                     const errors = {
                         101: "Informações faltantes",
@@ -201,28 +209,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                     showNotification('error', `Erro: ${errors[response.error]}`);
                     break;
-                case 'bid':
-                    showNotification('bid', `${response.username} deu um lance de R$ ${response.value}`);
 
-                    const resetTimerEl = document.getElementById("time-left");
-                    if (resetTimerEl && resetTimerEl.dataset.endTime) {
-                        const now = Date.now();
-                        const remaining = parseInt(resetTimerEl.dataset.endTime) - now;
-                        const twoMin = 2 * 60 * 1000;
-                        if (remaining <= twoMin) {
-                            resetTimerEl.dataset.endTime = now + twoMin;
-                        }
-                    }
-                    
+                case 'bid':
+                    showNotification('bid', `${response.username} deu um lance de R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`);
+
                     document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')})`;
                     bidInput.placeholder = `R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`;
                     currentPriceDisplay.textContent = `R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')}`;
+
                     document.getElementById("p3").innerHTML = `Lance Atual: (
                         <a id="winner-user" style="margin-left:1px;margin-right:1px;" target="_blank" href="/profile/${response.username}">${response.username}</a>
                         )
                         <button class="delete-btn" id="dlt-btn" style="display: none; marin-left:4px">
                             retirar lance(s)
                         </button>`
+
                     document.getElementById("p4").innerHTML = `
                     <li class="bid-entry">
                         <span class="bidder"><a href="/profile/${response.username}">
@@ -235,17 +236,41 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById("p5").innerHTML = "";
 
                     if (window.user.logged) {
-                        if (response.username === window.user.username) {
-                            sessionStorage.setItem("noScroll", "true");
-                            location.reload();
+                        if (document.getElementById("winner-user").innerHTML === window.user.username) {
+                            document.getElementById("dlt-btn").style.display = "inline-block";
                         }
                     }
+
+                    document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')})`;
+                    bidInput.placeholder = `R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`;
+                    currentPriceDisplay.textContent = `R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')}`;
+
+
+                    if (timeLeftDisplay) {
+                        const now = Date.now();
+                        let currentEnd = parseInt(timeLeftDisplay.dataset.dynamicEndTime || 0);
+
+                        if (!currentEnd) {
+                            const start = new Date(timeLeftDisplay.dataset.start).getTime();
+                            const duration = parseFloat(timeLeftDisplay.dataset.duration) * 60000;
+                            currentEnd = start + duration;
+                        }
+
+                        const remaining = currentEnd - now;
+
+                        if (remaining < 120000) {
+                            const newEndTime = now + 120000;
+                            timeLeftDisplay.dataset.dynamicEndTime = newEndTime;
+                        }
+                    }
+
                     break;
 
                 case 'delete':
                     sessionStorage.setItem("noScroll", "true");
                     location.reload();
                     break;
+                    
             }
         });
     }

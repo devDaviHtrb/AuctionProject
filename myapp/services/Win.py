@@ -1,7 +1,7 @@
 from myapp.models.Products import products
 import myapp.repositories.ProductRepository as product_repository
 import myapp.repositories.PaymentRepository as payment_repository
-from myapp.setup.InitSqlAlchemy import db
+from myapp.setup.InitSqlAlchemy import db, get_session
 from datetime import datetime
 from typing import List, Optional
 
@@ -11,44 +11,51 @@ RECEIVED =      "received"
 def set_winner(product: products, ignores:Optional[List[int]]=None) -> None:
     if ignores is None:
         ignores = []
-    while(True):
+
+    while True:
+
         winner_bid, winner_user = product_repository.last_bid(
-            product =       product,
-            ignores_ids =   ignores,
-            chunk_size =    10
+            product=product,
+            ignores_ids=ignores,
+            chunk_size=10
         )
-        print(winner_bid.user_id, flush=True)
+
         if not winner_bid or not winner_user:
             return
+
+        print(winner_bid.user_id, flush=True)
+
+        session = get_session()
+
         try:
-            with db.session.begin(): 
+            seller_user = product_repository.get_user(product, session=session)
+            bid_value = winner_bid.bid_value
 
-                seller_user = product_repository.get_user(product)
-                bid_value = winner_bid.bid_value
+            winner_user.wallet -= bid_value
+            seller_user.wallet += bid_value
+            winner_bid.winner = True
 
-                winner_user.wallet -= bid_value
-                seller_user.wallet += bid_value
-                winner_bid.winner = True
+            session.add(winner_user)
+            session.add(seller_user)
+            session.add(winner_bid)
 
-            
-                product.user_id = winner_user.user_id
+            data = {
+                "amount": bid_value,
+                "confirmation_datetime": datetime.utcnow(),
+                "payer_user_id": seller_user.user_id,
+                "payee_user_id": winner_user.user_id,
+                "payment_method": INTERN_MONEY,
+                "payment_status": RECEIVED
+            }
 
-                
-                data = {
-                    "amount": bid_value,
-                    "confirmation_datetime":    datetime.utcnow(),
-                    "payer_user_id":            seller_user.user_id,
-                    "payee_user_id":            winner_user.user_id,
-                    "payment_method":           INTERN_MONEY,
-                    "payment_status":           RECEIVED
-                }
+            payment_repository.save_item(data, session=session)
 
-                
-                payment_repository.save_item(data)
-
+            session.commit()
 
         except Exception as e:
-            db.session.rollback()
-            print("Error:"+ e, flush=True)
+            session.rollback()
+            print("Error:", e, flush=True)
             ignores.append(winner_bid.bid_id)
-        
+
+        finally:
+            session.close()

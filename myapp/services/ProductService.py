@@ -94,13 +94,11 @@ def close_auction(product_id: int) -> None:
 
         room_id = product.product_room
 
-
         rooms = socket_io.server.manager.rooms.get("/", {})
         if room_id in rooms:
             for client in list(rooms[room_id]):
-                socket_io.leave_room(client, room_id)
+                socket_io.server.leave_room(client, room_id, namespace="/")
 
-        
         set_winner(product)
 
         timer_info = products_timers_close.get(product_id)
@@ -112,6 +110,7 @@ def close_auction(product_id: int) -> None:
         products_timers_close.pop(product_id, None)
 
     print(f"[CLOSE] Auction {product_id} closed.", flush=True)
+
 
 
 def start_close_timer(product_id: int, seconds: int) -> None:
@@ -135,6 +134,7 @@ def start_close_timer(product_id: int, seconds: int) -> None:
 
 
 def restart_closes() -> None:
+    print()
     app = current_app._get_current_object()
     with app.app_context():
         active_products = product_repository.get_actives()
@@ -153,6 +153,7 @@ def restart_closes() -> None:
                 continue
 
             start_close_timer(product.product_id, int(remaining))
+            print(remaining, now, product.start_datetime, flush=True)
             print(f"[RESTART_CLOSE] Scheduled close for {product.product_id}.", flush=True)
 
 

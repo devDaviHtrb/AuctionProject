@@ -13,6 +13,7 @@ import myapp.repositories.AddressRepository as address_repository
 import myapp.repositories.BidRepository as bids_repository
 from typing import Dict, Any, List, Optional, Tuple
 from sqlalchemy import select
+from sqlalchemy.orm import sessionmaker
 
 from myapp.utils.UploadImage import upload_image
 
@@ -61,8 +62,11 @@ def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) 
 
     return new_product
 
-def get_user(product:products) -> users:
-    return users.query.get(product.user_id)
+
+def get_user(product:products, session:Optional[sessionmaker] = None) -> users:
+    if (sessionmaker is None):
+        return users.query.get(product.user_id)
+    return session.query(users).get(product.user_id)
 
 def get_status(product:products) -> str:
     stmt = select(product_statuses).where(
