@@ -13,14 +13,15 @@ def set_winner(product: products, ignores:Optional[List[int]]=None) -> None:
         ignores = []
     while(True):
         winner_bid, winner_user = product_repository.last_bid(
-            product,
-            chunk_size=10,
-            ignores = ignores
+            product =       product,
+            ignores_ids =   ignores,
+            chunk_size =    10
         )
+        print(winner_bid.user_id, flush=True)
+        if not winner_bid or not winner_user:
+            return
         try:
             with db.session.begin(): 
-                if not winner_bid or not winner_user:
-                    return
 
                 seller_user = product_repository.get_user(product)
                 bid_value = winner_bid.bid_value
@@ -48,5 +49,6 @@ def set_winner(product: products, ignores:Optional[List[int]]=None) -> None:
 
         except Exception as e:
             db.session.rollback()
+            print("Error:"+ e, flush=True)
             ignores.append(winner_bid.bid_id)
         

@@ -47,56 +47,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nextButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-
       const currentStepElement = steps[currentStep];
-
-
       const requiredFields = currentStepElement.querySelectorAll("input[required], select[required], textarea[required]");
 
       let isValid = true;
-      console.log("STEP:", currentStep);
-      console.log("FIELDS:", requiredFields);
-      requiredFields.forEach(f => console.log(f.id, f.value));
 
       requiredFields.forEach((field) => {
-        if(field.id === "rg" || field.id === "cpf"){
-          field.required="False";
+        if (field.id === "rg" || field.id === "cpf") {
+          field.removeAttribute("required");
         }
-        else if (!field.value.trim()) {
-          field.reportValidity();
-          isValid = false;
-        } else if (!field.checkValidity()) {
+        if (!field.value.trim() || !field.checkValidity()) {
           field.reportValidity();
           isValid = false;
         }
       });
 
-      if (!isValid) {
-        return;
-      }
-
+      if (!isValid) return;
 
       if (currentStep < steps.length - 1) {
         currentStep++;
         updateSteps();
       }
-
     });
-<<<<<<< HEAD
-=======
- 
-
-    if (!isValid) {
-      return; 
-    }
-
-
-    if (currentStep < steps.length - 1) {
-      currentStep++;
-      updateSteps();
-    }
-
->>>>>>> 33ff04f012c1ca54c7de2482c7f84322f129d60a
   });
 
   prevButtons.forEach((btn) => {
@@ -112,55 +84,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const userTypeInput = document.getElementById("userType");
   const pfFields = document.querySelectorAll(".pp_field");
   const pjFields = document.querySelectorAll(".lp_field");
+  const typeOptions = document.querySelectorAll(".type-option");
 
   function toggleTypeFields() {
-    const selected = document.querySelector(
-      "input[name='account_type']:checked"
-    ).value;
+    const selectedRadio = document.querySelector("input[name='account_type']:checked");
+    if (!selectedRadio) return;
+    const selected = selectedRadio.value;
 
     userTypeInput.value = selected;
 
-
     pfFields.forEach((el) => {
       el.style.display = selected === "physical_person" ? "block" : "none";
-
-      const input = el.querySelector("input, select, textarea");
-      if (input) {
-        if (selected === "physical_person") {
-          input.setAttribute("required", "true");
-        } else {
-          input.removeAttribute("required");
-        }
-      }
+      const inputs = el.querySelectorAll("input, select, textarea");
+      inputs.forEach(input => {
+        if (selected === "physical_person") input.setAttribute("required", "true");
+        else input.removeAttribute("required");
+      });
     });
-
 
     pjFields.forEach((el) => {
       el.style.display = selected === "legal_person" ? "block" : "none";
-
-      const input = el.querySelector("input, select, textarea");
-      if (input) {
-        if (selected === "legal_person") {
-          input.setAttribute("required", "true");
-        } else {
-          input.removeAttribute("required");
-        }
-      }
+      const inputs = el.querySelectorAll("input, select, textarea");
+      inputs.forEach(input => {
+        if (selected === "legal_person") input.setAttribute("required", "true");
+        else input.removeAttribute("required");
+      });
     });
 
-    const typeOptions = document.querySelectorAll(".type-option");
     typeOptions.forEach((opt) => {
       const input = opt.querySelector("input[name='account_type']");
       opt.classList.toggle("active", input.checked);
     });
   }
 
-
   radios.forEach((radio) => {
     radio.addEventListener("change", toggleTypeFields);
+    radio.addEventListener("click", toggleTypeFields);
   });
 
   toggleTypeFields();
   updateSteps();
 });
-

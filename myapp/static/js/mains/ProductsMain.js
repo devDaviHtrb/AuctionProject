@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputsPrice = filterPriceBox.querySelectorAll('.price-inputs input');
     const btnApplyPrice = filterPriceBox.querySelector('.btn-filter-apply');
     const btnClearFilters = document.querySelector('.btn-clear-filters');
-    const sortSelect = document.getElementById('sort');  
+    const sortSelect = document.getElementById('sort');
 
     let currentPage = 1;
     let totalPages = 1;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const durationMs = durationMinutes * 60 * 1000;
         const endTime = startTime + durationMs;
 
-        let interval = null; 
+        let interval = null;
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -135,18 +135,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadProducts(page = 1) {
         showLoading();
-        showLoading();
-        let url = page > 1 ? `/paginate/auction/${page}?` : window.paginate_args;
-        if (filters.category) url += `category=${filters.category}&`;
-        if (filters.status) url += `status=${filters.status}&`;
-        if (filters.price_range) url += `price_range=${filters.price_range}&`;
-        if (filters.name) url += `name=${filters.name}&`;
-        if (filters.sort) url += `sort=${filters.sort}&`;
+        
+        let url = `/paginate/auction/${page}?`;
+
+        const params = [];
+
+        if (filters.category) params.push(`category=${filters.category}`);
+        if (filters.status) params.push(`status=${filters.status}`);
+        if (filters.price_range) params.push(`price_range=${filters.price_range}`);
+        if (filters.name) params.push(`name=${filters.name}`);
+        if (filters.sort) params.push(`sort=${filters.sort}`);
+
+        url += params.join("&");
 
         fetch(url)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 renderProducts(data.products);
                 currentPage = data.current_page;
                 totalPages = data.total_pages;
@@ -162,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
 
     paginationList.addEventListener('click', e => {
         e.preventDefault();
@@ -219,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const val = sortSelect.value;
         switch (val) {
             case "Mais Recentes": filters.sort = "recent_desc"; break;
-            case "Menos Recentes": filters.sort = "recent_asc"; break;  
+            case "Menos Recentes": filters.sort = "recent_asc"; break;
             case "Menor Preço": filters.sort = "price_asc"; break;
             case "Maior Preço": filters.sort = "price_desc"; break;
             default: filters.sort = null; break;

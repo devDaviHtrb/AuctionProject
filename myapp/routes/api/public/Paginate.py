@@ -43,8 +43,9 @@ def paginate(type: str, page: int) -> Tuple[Response, int]:
 
     if status_filter:
         status = product_statuses.query.filter(
-            product_statuses.product_status == status_filter.lower()
+            product_statuses.product_status == status_filter
         ).first()
+
         if not status:
             return jsonify({"Error": f"Status '{status_filter}' not found"}), 400
         query = query.filter(products.product_status == status.product_status_id)

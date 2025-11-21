@@ -7,7 +7,7 @@ from myapp.models.Users import users
 from myapp.models.Images import images
 from myapp.models.TechnicalFeaturesValues import technical_features_values
 from myapp.models.LegalInfos import legal_infos
-from myapp.setup.InitCache import cache, cached
+from myapp.setup.InitCache import cached
 from myapp.setup.InitSqlAlchemy import db
 import myapp.repositories.AddressRepository as address_repository
 import myapp.repositories.BidRepository as bids_repository
@@ -16,9 +16,10 @@ from sqlalchemy import select
 
 from myapp.utils.UploadImage import upload_image
 
-CANCELED =  "Cancelados"
-FINISHED =  "Finalizados" 
-OCCURRING = "Ativo"
+CANCELED =          "Suspenso"
+FINISHED =          "Finalizado" 
+OCCURRING =         "Ativo"
+NOT_OCCURRING  =    "Nao_Iniciado"
 
 
 def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) -> products:
@@ -73,7 +74,7 @@ def get_status(product:products) -> str:
 def set_status(product:products, new_status: str) -> None:
     new_fk = db.session.execute(
         select(product_statuses.product_status_id)
-        .where(product_statuses.product_status == new_status.lower())
+        .where(product_statuses.product_status == new_status)
     ).scalar()
 
     if new_fk:
@@ -91,6 +92,17 @@ def get_actives() -> List[products]:
 
     return query.all()
 
+@cached(timeout=600)
+def get_inactives() -> List[products]:
+    query = db.session.query(products).join(
+        product_statuses,
+        products.product_status == product_statuses.product_status_id
+    ).filter(
+        product_statuses.product_status == NOT_OCCURRING
+    )
+
+    return query.all()
+
 def last_bid(product:products, ignores_ids:List[int], chunk_size:int = 10) -> Optional[Tuple[bids, users]]:
     offset = 0
     while True:
@@ -101,7 +113,7 @@ def last_bid(product:products, ignores_ids:List[int], chunk_size:int = 10) -> Op
         )
 
         if not consulted_bids:
-            return
+            return (None, None)
 
         for bid in consulted_bids:
             bid_user = bids_repository.is_valid(bid, ignores_ids)

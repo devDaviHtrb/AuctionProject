@@ -1,5 +1,5 @@
 from myapp.extensions import *
-
+from myapp.services.ProductService import restart_closes, restart_open
 
 def init_extensions(app: Flask) -> SocketIO:
     
@@ -20,5 +20,9 @@ def init_extensions(app: Flask) -> SocketIO:
     #Listing blueprints
     register_routes(app)
     register_handlers(app)
+
+    with app.app_context():
+        restart_open()
+        restart_closes()
 
     return socket_io

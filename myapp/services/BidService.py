@@ -1,6 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError
 from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Products import products
+from myapp.services.ProductService import add_time_to_auction
 import myapp.repositories.BidRepository as bid_repository
 import myapp.repositories.ProductRepository as product_repository
 import myapp.repositories.UserRepository as user_repository
@@ -17,6 +18,7 @@ PROCESS_ERROR =     106 # Error processing bid
 #======================================================================
 
 OCCURRING = "Ativo"
+MINUTE =    60
 
 def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[str, Any]]:
     product_id = product.product_id
@@ -48,6 +50,8 @@ def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[st
         product.min_bid = value
 
         db.session.commit()
+
+        add_time_to_auction(product_id, MINUTE * 2)
 
         return True, new_bid
 

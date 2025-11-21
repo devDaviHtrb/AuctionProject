@@ -1,8 +1,11 @@
 from flask import Blueprint, Response, request, jsonify
 from myapp.utils.Validations.GeneralProductValidation import general_validation
+from myapp.services.ProductService import start_open_timer
 import myapp.repositories.ProductRepository as product_repository
 import myapp.repositories.TechnicalFeatureValueRepository as tch_feat_val_repository
 import myapp.repositories.CategoryRepository as category_repository
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from typing import Tuple
 
 newAuction_bp = Blueprint("newAuction", __name__)
@@ -44,6 +47,14 @@ def new_auction() -> Tuple[Response, int]:
             "category_id":          product.category,
             "technical_feature_id": feature_id
         })
+
+    start_datetime = product.start_datetime
+    if(start_datetime):
+        start_open_timer(
+            product.product_id,
+            (start_datetime - datetime.now(ZoneInfo("UTC"))).total_seconds()
+        )
+
     return jsonify({
         "Type": "created"
     }), 201

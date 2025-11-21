@@ -42,14 +42,15 @@ def handle_join(data: Dict[str, Any]) -> None:
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser",
     }
 
-    if(not room_id in last_emit_times ):
-        last_emit_times[room_id] = {user_id : datetime.utcnow()}
-    elif(not user_id in last_emit_times[room_id]):
+    if room_id not in last_emit_times:
+        last_emit_times[room_id] = {user_id: datetime.utcnow()}
+    elif user_id not in last_emit_times[room_id]:
         last_emit_times[room_id][user_id] = datetime.utcnow()
-    elif(datetime.utcnow - last_emit_times[room_id][user_id] > timedelta(minutes=5)):
+    elif datetime.utcnow() - last_emit_times[room_id][user_id] > timedelta(minutes=5):
         last_emit_times[room_id][user_id] = datetime.utcnow()
     else:
         return
+
     emit("server_content", {"response": response}, to = room_id)
 
 def get_room_id(auction_rooms: List[str], sid:str) -> Optional[str]:
@@ -74,13 +75,13 @@ def handle_emit(data: Dict[str, Any]) -> None:
     missingInfo = [k for k, v in [("room_id", room_id), ("value", value), ("product", product)] if v is None]
 
     if missingInfo:
-        print(missingInfo)
         response = {
             "type": "error",
             "error": MISSING_INFO,
             "MissingInformation": missingInfo  
         }
-        return emit("server_content", {"response":response}, to=request.sid)
+        emit("server_content", {"response":response}, to=request.sid)
+        return
 
     data = {
         "type": "bid",
@@ -94,9 +95,10 @@ def handle_emit(data: Dict[str, Any]) -> None:
         product =       product,
         value =         value,
     )
-
+    print(flag, out, flush=True)
     response = data
     if (not flag):
-        return emit("server_content", {"response": {"type": "error", "error":out}}, to=request.sid)
+        emit("server_content", {"response": {"type": "error", "error":out}}, to=request.sid)
+        return 
     response["datetime"] = out.bid_datetime.isoformat()
-    return emit("server_content", {"response": response}, to=room_id)
+    emit("server_content", {"response": response}, to=room_id)

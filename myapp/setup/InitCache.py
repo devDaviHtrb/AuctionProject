@@ -65,7 +65,7 @@ def cached(timeout: int = 300) -> Callable[[Callable[..., Any]], Callable[..., A
                 return cached_value
 
             result: Any = func(*args, **kwargs)
-            cache.set(key, result, timeout=timeout)
+            #cache.set(key, result, timeout=timeout)
             print(key, flush=True)
             return result
 

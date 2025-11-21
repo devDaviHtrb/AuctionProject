@@ -281,11 +281,11 @@ body {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
-.input-group input {
+.input-group-header input {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.input-group input:focus {
+.input-group-header input:focus {
   border-color: #0078ff;
   box-shadow: 0 0 6px rgba(0, 120, 255, 0.2);
   outline: none;
@@ -509,7 +509,7 @@ body {
   line-height: 1.6;
 }
 
-.btn-primary {
+.btn-primary-header {
   background-color: var(--accent-orange);
   color: var(--white);
   padding: 10px 25px;
@@ -521,17 +521,17 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.btn-primary:hover {
+.btn-primary-header:hover {
   background-color: #e67e00;
 }
 
-.btn-primary.inverse-btn {
+.btn-primary-header.inverse-btn {
   background-color: var(--white);
   color: var(--primary-blue);
   border: 2px solid var(--white);
 }
 
-.btn-primary.inverse-btn:hover {
+.btn-primary-header.inverse-btn:hover {
   background-color: rgba(255, 255, 255, 0.9);
   color: var(--primary-blue);
 }
@@ -671,20 +671,20 @@ body {
   gap: 18px;
 }
 
-.input-group {
+.input-group-header {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.input-group label {
+.input-group-header label {
   font-size: 0.9rem;
   text-align: left;
   font-weight: 500;
   color: #444;
 }
 
-.input-group input {
+.input-group-header input {
   margin-top: 0px;
   padding: 10px 12px;
   border: 1px solid #ccc;
@@ -693,13 +693,13 @@ body {
   transition: all 0.2s ease;
 }
 
-.input-group input:focus {
+.input-group-header input:focus {
   border-color: var(--accent-orange);
   box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
   outline: none;
 }
 
-.btn-primary.login-submit {
+.btn-primary-header.login-submit {
   width: 100%;
   font-size: 1rem;
   font-weight: 600;
@@ -708,11 +708,11 @@ body {
   background-color: var(--accent-orange);
 }
 
-.btn-primary.login-submit:hover {
+.btn-primary-header.login-submit:hover {
   background-color: #e67e00;
 }
 
-.forgot-password {
+.forgot-password-header {
   text-align: left;
   font-size: 0.85rem;
   color: var(--primary-blue);
@@ -720,7 +720,7 @@ body {
   transition: color 0.2s;
 }
 
-.forgot-password:hover {
+.forgot-password-header:hover {
   color: var(--accent-orange);
   text-decoration: underline;
 }
@@ -752,7 +752,7 @@ body {
     padding: 30px 20px;
   }
 
-  .btn-primary.login-submit {
+  .btn-primary-header.login-submit {
     font-size: 0.9rem;
   }
 }

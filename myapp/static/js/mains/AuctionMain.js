@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         parts.push(`${seconds}s`);
         return parts.join(" ");
     }
+
     if (window.user.logged) {
         if (document.getElementById("winner-user").innerHTML === window.user.username) {
             document.getElementById("dlt-btn").style.display = "inline-block";
@@ -92,11 +93,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const startTime = new Date(element.dataset.start).getTime();
         const durationMinutes = parseFloat(element.dataset.duration);
         const durationMs = durationMinutes * 60 * 1000;
-        const endTime = startTime + durationMs;
+        let endTime = startTime + durationMs;
+        element.dataset.endTime = endTime;
         const timerText = element.querySelector('.timer-text') || element;
 
         function updateTimer() {
             const now = new Date().getTime();
+            let end = parseInt(element.dataset.endTime);
+
             if (now < startTime) {
                 const diff = startTime - now;
                 timerText.textContent = `Começa em ${formatTime(diff)}`;
@@ -105,8 +109,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     relatedButton.disabled = true;
                     relatedButton.textContent = "AGUARDANDO";
                 }
-            } else if (now >= startTime && now <= endTime) {
-                const diff = endTime - now;
+            } else if (now >= startTime && now <= end) {
+                const diff = end - now;
                 timerText.textContent = `Tempo restante: ${formatTime(diff)}`;
                 timerText.style.color = "#28a745";
                 if (relatedButton) {
@@ -194,13 +198,21 @@ document.addEventListener('DOMContentLoaded', function () {
                         104: "Lance menor que o valor minimo",
                         105: "A soma de todos os seus lances ultrapassa seu saldo",
                         106: "Erro ao processar. Tente novamente"
-
                     }
-                    console.log(response)
                     showNotification('error', `Erro: ${errors[response.error]}`);
                     break;
                 case 'bid':
                     showNotification('bid', `${response.username} deu um lance de R$ ${response.value}`);
+
+                    const resetTimerEl = document.getElementById("time-left");
+                    if (resetTimerEl && resetTimerEl.dataset.endTime) {
+                        const now = Date.now();
+                        const remaining = parseInt(resetTimerEl.dataset.endTime) - now;
+                        const twoMin = 2 * 60 * 1000;
+                        if (remaining <= twoMin) {
+                            resetTimerEl.dataset.endTime = now + twoMin;
+                        }
+                    }
                     
                     document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')})`;
                     bidInput.placeholder = `R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`;
@@ -227,10 +239,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             sessionStorage.setItem("noScroll", "true");
                             location.reload();
                         }
-
                     }
-
                     break;
+
                 case 'delete':
                     sessionStorage.setItem("noScroll", "true");
                     location.reload();
