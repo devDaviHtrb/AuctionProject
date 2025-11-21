@@ -9,11 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeLoginBtn = document.getElementById("closeLogin");
   const loginModal = document.getElementById("loginModal");
   const loginForm = document.getElementById("login-form");
-  const googleLoginBtn = document.querySelector(".google-login"); 
+  const googleLoginBtn = document.querySelector(".google-login");
 
   if (openLoginBtn && loginModal) {
     openLoginBtn.addEventListener("click", (e) => {
-      alert("FOI GABRIEL")
       e.preventDefault();
       loginModal.style.display = "flex";
       setTimeout(() => loginModal.classList.add("show"), 10);
