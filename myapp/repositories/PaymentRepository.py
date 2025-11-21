@@ -2,7 +2,6 @@ from myapp.models.PaymentStatuses import payment_statuses
 from myapp.models.PaymentMethods import payment_methods
 from myapp.models.Payments import payments
 from myapp.setup.InitSqlAlchemy import db
-from myapp.setup.InitCache import cache, cache_key
 from typing import Dict, Any, Optional
 from sqlalchemy import select
 

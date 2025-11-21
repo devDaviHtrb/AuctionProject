@@ -1,18 +1,13 @@
 from myapp.models.ProductStatuses import product_statuses
 from myapp.models.Categories import categories
 from myapp.models.TechnicalFeatures import technical_features
-from myapp.models.CategoryTechnicalFeatures import category_technical_features
 from myapp.models.Products import products
 from myapp.models.Bids import bids
 from myapp.models.Users import users
 from myapp.models.Images import images
 from myapp.models.TechnicalFeaturesValues import technical_features_values
 from myapp.models.LegalInfos import legal_infos
-<<<<<<< HEAD
 from myapp.setup.InitCache import cached
-=======
-from myapp.setup.InitCache import cache, cache_key
->>>>>>> fe3448605d45a0dc62218b1d40b03e8a0686d7db
 from myapp.setup.InitSqlAlchemy import db
 import myapp.repositories.AddressRepository as address_repository
 import myapp.repositories.BidRepository as bids_repository
@@ -86,7 +81,7 @@ def set_status(product:products, new_status: str) -> None:
         product.product_status = new_fk
         db.session.commit()
 
-@cache.memoize(timeout=600)
+@cached(timeout=600)
 def get_actives() -> List[products]:
     query = db.session.query(products).join(
         product_statuses,
@@ -126,7 +121,7 @@ def last_bid(product:products, ignores_ids:List[int], chunk_size:int = 10) -> Op
                 return bid, bid_user
         offset += chunk_size
 
-@cache.memoize(timeout=600, make_name=cache_key)
+@cached(timeout=600)
 def get_technical_features_name_and_values(product: products):
     results = (
         db.session.query(
@@ -147,7 +142,7 @@ def get_technical_features_name_and_values(product: products):
     return results
 
 
-@cache.memoize(timeout=600)
+@cached(timeout=600)
 def get_room_id_by_id(wanted_id:int) -> Optional[str]:
     return db.session.execute(
         select(products.product_room).where(
@@ -163,12 +158,12 @@ def get_a_and_status_by_room_id(wanted_room_id:str) -> Optional[products]:
         isouter = True
     ).filter(products.product_room == wanted_room_id).first()
 
-@cache.memoize(timeout=600, make_name=cache_key)
+@cached(timeout=600)
 def get_images(product: products) -> List[images]:
     return images.query.filter_by(product_id = product.product_id).all()
 
 #get the join of product, images and status of differents actives products order by room_id(random)
-@cache.memoize(timeout=300, make_name=cache_key)
+@cached(timeout=300)
 def get_and_images_and_status_diffents_valids_randomly(
     product:products,
     limit:int = 3
@@ -200,11 +195,11 @@ def get_value_datetime_username_of_last_bids(product:products) -> Optional[bids]
         ).order_by(bids.bid_value.desc())
     )
 
-@cache.memoize(timeout=600, make_name=cache_key)
+@cached(timeout=600)
 def get_category(product:products) -> str:
     return categories.query.get(product.category).category_name
 
-@cache.memoize(timeout=600, make_name=cache_key)
+@cached(timeout=600)
 def get_legal_info(product:products) -> str:
     legal_infos.query.filter_by(product_id = product.product_id).first()
 

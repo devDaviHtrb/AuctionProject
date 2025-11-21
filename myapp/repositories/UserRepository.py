@@ -5,7 +5,6 @@ from myapp.models.Settings import settings
 from myapp.models.Bids import bids
 from myapp.models.Products import products
 from myapp.models.ProductStatuses import product_statuses
-from myapp.setup.InitCache import cache, cache_key
 import myapp.repositories.SettingRepository as setting_repository
 from werkzeug.security import generate_password_hash
 from myapp.setup.InitSqlAlchemy import db
