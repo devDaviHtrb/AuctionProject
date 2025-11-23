@@ -153,13 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch(`/removeAddress/${id}`, {
         method: "POST"
       })
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.success) {
-            loadAddresses();
-          }
-        })
-        .catch(() => alert("Erro ao remover endereço."));
     }
   });
 

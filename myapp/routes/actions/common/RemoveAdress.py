@@ -11,7 +11,7 @@ removeAddress = Blueprint("removeAdress", __name__)
 def remove_address(address_id):
     addr = addresses.query.get(address_id)
     if not addr or addr.user_id != session.get("user_id"):
-        return redirect(url_for(CONFIG_PAGE, msg=[addr.city, addr.user_id==session.get("user_id")]))
+        return redirect(url_for(CONFIG_PAGE, msg="Invalid address"))
     
     db.session.delete(addr)
     db.session.commit()
