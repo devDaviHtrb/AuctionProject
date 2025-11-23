@@ -116,8 +116,8 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("/api/addresses")
       .then((r) => r.json())
       .then((addresses) => {
-        const container = document.getElementById("addresses")
-        alert(container.innerText)
+        const container = document.getElementById("addresses_container")
+     
         
         let html = `
           <h3>Meus Endereços</h3>
