@@ -12,11 +12,11 @@ def adress_validation(
     city:str
 ) -> bool:
     adress = zip_code_validation(zip_code)
-    print(adress.keys())
+    print(adress)
     if adress:
         if district != adress[NEIGHBORHOOD] or state!=adress[UF] or city!=adress[CITY]:
-            return False
+            return adress
         else:
             return True
     else:
-        return False
+        return adress
