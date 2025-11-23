@@ -15,8 +15,8 @@ def adress_validation(
     print(adress)
     if adress:
         if district != adress[NEIGHBORHOOD] or state!=adress[UF] or city!=adress[CITY]:
-            return [district==adress[NEIGHBORHOOD],state==adress[UF], city-=adress[CITY]]
+            return adress
         else:
             return True
     else:
-        return ["não há endereço"]
+        return adress
