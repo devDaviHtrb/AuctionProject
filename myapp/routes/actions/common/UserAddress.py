@@ -45,7 +45,7 @@ def user_address() -> Tuple[Response, int]:
         state,
         city
     )):
-        return redirect(url_for(CONFIG_PAGE, msg="fake info"))
+        return redirect(url_for(CONFIG_PAGE, msg=state))
     
     address_repository.save_item(data)
     return jsonify({
