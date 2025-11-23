@@ -16,7 +16,7 @@ def user_address() -> Tuple[Response, int]:
     zip_code = request.form.get("zip_code", None)
     district =request.form.get("district", None)
     city = request.form.get("city", None)
-    state = request.form.get("state", None)
+    state = request.form.get("uf", None)
     principal_address = True if request.form.get("principal_address", None) else False
 
     
