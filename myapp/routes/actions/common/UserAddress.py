@@ -38,18 +38,14 @@ def user_address() -> Tuple[Response, int]:
             "MissigInfo":   missingInfo
         }), 400
     data["apt"] = apt
-    
-    return redirect(url_for(CONFIG_PAGE, msg=adress_validation(
+
+    if(not adress_validation(
         zip_code,
         district,
         state,
         city
-    )))
-    #if(not adress_validation(
-        #zip_code,
-       # district,
-        ## city
-    ## return redirect(url_for(CONFIG_PAGE, msg="fake info"))
+    )):
+        return redirect(url_for(CONFIG_PAGE, msg="fake info"))
     
     address_repository.save_item(data)
     return jsonify({
