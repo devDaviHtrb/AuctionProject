@@ -43,9 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-
   switchSection(defaultSection || "profile");
-
 
   const dropzone = document.getElementById("avatar-dropzone");
   const fileInput = document.getElementById("avatar-file");
@@ -83,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-    // --- AJAX para novo endereço ---
+
   const newAddressForm = document.getElementById("new-address-form");
 
   if (newAddressForm) {
@@ -99,12 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((r) => r.json())
         .then((data) => {
           if (data.success) {
-  
             newAddressForm.reset();
-
-           
             loadAddresses();
-
           } else {
             alert(data.error || "Erro ao adicionar endereço.");
           }
@@ -112,12 +106,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(() => alert("Erro inesperado ao enviar o endereço."));
     });
   }
-   function loadAddresses() {
+
+  function loadAddresses() {
     fetch("/api/addresses")
       .then((r) => r.json())
       .then((addresses) => {
-        const container = document.getElementById("addresses_container")
-     
+        const container = document.getElementById("addresses_container");
         
         let html = `
           <h3>Meus Endereços</h3>
@@ -144,27 +138,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
         container.innerHTML = html;
 
-        attachRemoveAddressEvents();
+
       });
   }
 
 
-  function attachRemoveAddressEvents() {
-    document.querySelectorAll(".remove-address-form").forEach((form) => {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const id = form.dataset.id;
+  document.addEventListener("submit", function (e) {
+    const form = e.target;
 
-        fetch(`/removeAddress/${id}`, {
-          method: "POST"
+    if (form.classList.contains("remove-address-form")) {
+      e.preventDefault();
+      const id = form.dataset.id;
+
+      fetch(`/removeAddress/${id}`, {
+        method: "POST"
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.success) {
+            loadAddresses();
+          }
         })
-          .then((r) => r.json())
-          .then((data) => {
-            if (data.success) {
-              loadAddresses();
-            }
-          });
-      });
-    });
-  }
+        .catch(() => alert("Erro ao remover endereço."));
+    }
+  });
+
 });
