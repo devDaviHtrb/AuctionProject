@@ -28,6 +28,11 @@ def get_by_email(wanted_email:str) -> Optional[users]:
         users.email == wanted_email
     ).first()
 
+def get_by_cpf(wanted_cpf:str) -> Optional[users]:
+    return db.session.query(users).filter(
+        users.cpf == wanted_cpf
+    ).first()
+
 def get_by_username(wanted_username: str) -> Optional[users]:
     return users.query.filter_by(username = wanted_username).first()
 

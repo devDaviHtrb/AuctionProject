@@ -41,9 +41,11 @@ def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) 
         data["photos_url"] = product_imgs
     else:
         print("Db connection error")
+
+    data["first_value"] = data["min_bid"]
     new_product = products(**data)
     db.session.add(new_product)
-    db.session.flush()  # cria o product_id
+    db.session.flush() 
 
     if data.get("photos_url"):
         for url in data["photos_url"]:

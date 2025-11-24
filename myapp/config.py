@@ -5,7 +5,6 @@ from os import getenv
 
 load_dotenv()
 
-
 class Config:
     #The constructor method isn't necessary because this class is only a container of static attributes for the server.
     #The attributes are in uppercase in order to follow Flask's standardization.
@@ -16,8 +15,8 @@ class Config:
     #============================================
 
     #================== API TOKEN ==================
-    API_TOKEN =         getenv("API_TOKEN")
-    SANDBOX_API_TOKEN = getenv("SANDBOX_API_TOKEN")
+    API_TOKEN =         '$' + getenv("API_TOKEN")
+    SANDBOX_API_TOKEN = '$' + getenv("SANDBOX_API_TOKEN")
     #===============================================
 
     #================== BANK ID ==================

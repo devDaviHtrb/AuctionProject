@@ -5,8 +5,8 @@ from myapp.setup.InitSqlAlchemy import db, get_session
 from datetime import datetime
 from typing import List, Optional
 
-INTERN_MONEY =  "intern_money"
-RECEIVED =      "received"
+INTERN_MONEY =  "Transferencia"
+RECEIVED =      "payment_received"
 
 def set_winner(product: products, ignores:Optional[List[int]]=None) -> None:
     if ignores is None:
@@ -27,9 +27,15 @@ def set_winner(product: products, ignores:Optional[List[int]]=None) -> None:
 
         session = get_session()
 
+        session = get_session()
+
         try:
             seller_user = product_repository.get_user(product, session=session)
             bid_value = winner_bid.bid_value
+
+            winner_user = session.merge(winner_user)
+            seller_user = session.merge(seller_user)
+            winner_bid = session.merge(winner_bid)
 
             winner_user.wallet -= bid_value
             seller_user.wallet += bid_value
@@ -51,6 +57,8 @@ def set_winner(product: products, ignores:Optional[List[int]]=None) -> None:
             payment_repository.save_item(data, session=session)
 
             session.commit()
+            return 
+
 
         except Exception as e:
             session.rollback()

@@ -6,7 +6,7 @@ class payments(db.Model):
     payment_id = db.Column(db.Integer, primary_key=True)
     amount =  db.Column(db.DECIMAL(10, 2), nullable=False)
     opening_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    due_datetime =  db.Column(db.Date, nullable=False, default=datetime.utcnow) #change for date
+    due_date =  db.Column(db.Date, nullable=False, default=datetime.utcnow) #change for date
     confirmation_datetime =  db.Column(db.DateTime, nullable=True)
 
     payer_user_id =  db.Column(db.Integer, ForeignKey("users.user_id"))
@@ -15,4 +15,4 @@ class payments(db.Model):
     payment_method = db.Column(db.Integer, ForeignKey("payment_methods.payment_method_id"))
     payment_status = db.Column(db.Integer, ForeignKey("payment_statuses.payment_status_id"))
 
-    asaas_payment_id = db.Column(db.Integer, nullable = True)
+    asaas_payment_id = db.Column(db.String(255), nullable = True)

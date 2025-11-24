@@ -8,14 +8,15 @@ import myapp.repositories.UserRepository as user_repository
 from typing import Tuple, Dict, Any
 from decimal import Decimal
 
-#=============================== ERRORS ===============================
+#===================================== ERRORS =====================================
 MISSING_INFO =      101 # Missing Informations
 INVALID_PRODUCT =   102 # Invalid Product
 INSUFICIENT_FUNDS = 103 # Insuficient funds
 BID_VALUE_ERROR =   104 # Bid must be higher than current highest bid
 OTHER_BIDS_ERROR =  105 # The sum of all your bids exceeds your balance
 PROCESS_ERROR =     106 # Error processing bid
-#======================================================================
+WINNER_USER_BID =   107 # The winning bid and the current bid have the same users.
+#==================================================================================
 
 OCCURRING = "Ativo"
 MINUTE =    60
@@ -35,6 +36,12 @@ def make_bid(user_id: int, product: products, value: int) -> Tuple[bool, Dict[st
         if last_bid and value <= last_bid.bid_value:
             return False, BID_VALUE_ERROR
         
+        #BUSSINES RULES
+
+        if(last_bid and last_bid.user_id == user_id):
+            return False, WINNER_USER_BID
+
+
         active_bids = user_repository.get_winner_bids_with_restriction(user, product)
 
         t_sum = sum([current.bid_value for current in active_bids], Decimal('0'))

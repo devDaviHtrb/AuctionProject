@@ -67,27 +67,43 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    document.getElementById("dlt-btn").addEventListener("click", async () => {
-        if (!window.user.logged) {
-            showNotification('error', `Você nao esta logado`);
-            return;
-        }
-        try {
-            const response = await fetch(`/del/bid/${window.product_id}`, {
-                method: "DELETE",
-            });
+    document.getElementById("dlt-btn").addEventListener("click", () => {
+        const modal = document.getElementById("confirm-remove-bid");
+        modal.classList.add("show");
 
-            const data = await response.json();
+        const yes = document.getElementById("confirm-yes");
+        const no = document.getElementById("confirm-no");
 
-            if (response.ok) {
-                showNotification('bid', `Lance(s) retirado(s)`);
-            } else {
+    
+        no.onclick = () => modal.classList.remove("show");
+
+        
+        yes.onclick = async () => {
+            modal.classList.remove("show");
+
+            if (!window.user.logged) {
+                showNotification('error', `Você nao esta logado`);
+                return;
+            }
+
+            try {
+                const response = await fetch(`/del/bid/${window.product_id}`, {
+                    method: "DELETE",
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showNotification('bid', `Lance(s) retirado(s)`);
+                } else {
+                    showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
+                }
+            } catch (err) {
                 showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
             }
-        } catch (err) {
-            showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
-        }
+        };
     });
+
 
     function setupTimer(element, relatedButton) {
         const startTime = new Date(element.dataset.start).getTime();
@@ -205,16 +221,18 @@ document.addEventListener('DOMContentLoaded', function () {
                         103: "Você não tem dinheiro suficiente",
                         104: "Lance menor que o valor minimo",
                         105: "A soma de todos os seus lances ultrapassa seu saldo",
-                        106: "Erro ao processar. Tente novamente"
+                        106: "Erro ao processar. Tente novamente",
+                        107: "O lance vencedor já é seu",
+                        108: "Você não pode fazer mais lances nesse produto"
                     }
                     showNotification('error', `Erro: ${errors[response.error]}`);
                     break;
 
                 case 'bid':
-                    showNotification('bid', `${response.username} deu um lance de R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`);
+                    showNotification('bid', `${response.username} deu um lance de R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`);
 
-                    document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')})`;
-                    bidInput.placeholder = `R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`;
+                    document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')})`;
+                    bidInput.placeholder = `R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`;
                     currentPriceDisplay.textContent = `R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')}`;
 
                     document.getElementById("p3").innerHTML = `Lance Atual: (
@@ -238,11 +256,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (window.user.logged) {
                         if (document.getElementById("winner-user").innerHTML === window.user.username) {
                             document.getElementById("dlt-btn").style.display = "inline-block";
+                            location.reload();
                         }
                     }
 
-                    document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')})`;
-                    bidInput.placeholder = `R$ ${(parseFloat(response.value)+1).toFixed(2).replace('.', ',')}`;
+                    document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')})`;
+                    bidInput.placeholder = `R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`;
                     currentPriceDisplay.textContent = `R$ ${parseFloat(response.value).toFixed(2).replace('.', ',')}`;
 
 
@@ -270,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     sessionStorage.setItem("noScroll", "true");
                     location.reload();
                     break;
-                    
+
             }
         });
     }

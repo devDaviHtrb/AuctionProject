@@ -8,18 +8,21 @@ from datetime import datetime, timedelta
 
 anonymous_users_number = 0
 
-#=============================== ERRORS ===============================
+#===================================== ERRORS =====================================
 MISSING_INFO =      101 # Missing Informations
 INVALID_PRODUCT =   102 # Invalid Product
 INSUFICIENT_FUNDS = 103 # Insuficient funds
 BID_VALUE_ERROR =   104 # Bid must be higher than current highest bid
 OTHER_BIDS_ERROR =  105 # The sum of all your bids exceeds your balance
 PROCESS_ERROR =     106 # Error processing bid
-#======================================================================
+WINNER_USER_BID =   107 # The winning bid and the current bid have the same users.
+IN_BLACKLIST =      108 # The user has already withdrawn their bids.
+#==================================================================================
 
 OCCURRING = "Ativo"
 
-last_emit_times: dict[str, Dict[int, datetime]] = {}
+blacklist:Dict[str, List[int]] = {}
+last_emit_times: Dict[str, Dict[int, datetime]] = {}
 
 @socket_io.on("join_room")
 def handle_join(data: Dict[str, Any]) -> None:
@@ -42,11 +45,12 @@ def handle_join(data: Dict[str, Any]) -> None:
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser",
     }
 
+    # RELOAD LOCK
     if room_id not in last_emit_times:
         last_emit_times[room_id] = {user_id: datetime.utcnow()}
     elif user_id not in last_emit_times[room_id]:
         last_emit_times[room_id][user_id] = datetime.utcnow()
-    elif datetime.utcnow() - last_emit_times[room_id][user_id] > timedelta(minutes=5):
+    elif datetime.utcnow() - last_emit_times[room_id][user_id] > timedelta(minutes=7):
         last_emit_times[room_id][user_id] = datetime.utcnow()
     else:
         return
@@ -90,6 +94,10 @@ def handle_emit(data: Dict[str, Any]) -> None:
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser",
         "value": value
     }
+
+    if(room_id in blacklist and user_id in blacklist[room_id]):
+        emit("server_content", {"response":{"type":"error", "error": IN_BLACKLIST}}, to=request.sid)
+        return
 
     flag, out = make_bid(
         user_id =       user_id,
