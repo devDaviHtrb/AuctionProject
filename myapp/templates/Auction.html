@@ -18,6 +18,18 @@ product_images = [links:str]
         type="image/x-icon">
 </head>
 
+<div id="confirm-remove-bid" class="confirm-modal">
+    <div class="confirm-box">
+        <h3>Remover Lance</h3>
+        <p>Você tem certeza que deseja remover seu(s) lance(s)?<br>
+        <strong>Atenção:</strong> se remover, você não poderá mais dar novos lances neste produto.</p>
+
+        <div class="confirm-actions">
+            <button id="confirm-yes" class="confirm-btn yes">Sim, remover</button>
+            <button id="confirm-no" class="confirm-btn no">Cancelar</button>
+        </div>
+    </div>
+</div>
 <body>
     {% include "components/Header.html" %}
     <div id="notification-container"></div>
