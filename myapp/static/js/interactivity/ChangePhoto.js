@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("photo", fileInput.files[0]);
 
     try {
-      msg.textContent = "⏳ Sending...";
+      msg.textContent = "Sending...";
 
       const res = await fetch("/changePhoto", {
         method: "POST",
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         img.src = data.photo_url;
         msg.textContent = "Ok";
       } else {
-        msg.textContent = `⚠️ ${data.error}`;
+        msg.textContent = ` ${data.error}`;
       }
     } catch (err) {
       msg.textContent = "Erro no request.";

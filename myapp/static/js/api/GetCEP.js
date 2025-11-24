@@ -1,4 +1,4 @@
-// Busca CEP
+
     cepInput.addEventListener('blur', async () => {
       const cep = cepInput.value.replace(/\D/g, '');
       if(cep.length === 8){

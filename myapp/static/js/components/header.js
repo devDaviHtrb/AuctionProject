@@ -1,7 +1,7 @@
 const searchInput = document.getElementById("searchInput");
 const listContainer = document.getElementById("autocompleteList");
 
-let suggestions = []; // irá receber os dados da API
+let suggestions = []; 
 let currentFocus = -1;
 
 async function fetchSuggestions() {
@@ -19,7 +19,7 @@ function getType(str, p1, p2) {
     let start = -1;
     for (let i = 0; i < str.length; i++) {
         if (str[i] === p1) {
-            start = i + 1; // começa depois do p1
+            start = i + 1; 
         } else if (str[i] === p2 && start !== -1) {
             return str.slice(start, i);
         }

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputsPrice = filterPriceBox.querySelectorAll('.price-inputs input');
     const btnApplyPrice = filterPriceBox.querySelector('.btn-filter-apply');
     const btnClearFilters = document.querySelector('.btn-clear-filters');
-    const sortSelect = document.getElementById('sort'); // select de ordenação
+    const sortSelect = document.getElementById('sort'); 
 
     let currentPage = 1;
     let totalPages = 1;

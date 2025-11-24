@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 5000); // Muda a cada 5 segundos
+        autoSlideInterval = setInterval(nextSlide, 5000); 
     }
 
     function resetAutoSlide() {
@@ -52,11 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
         startAutoSlide();
     }
 
-    // Event Listeners for controls
+
     nextBtn.addEventListener('click', nextSlide);
     prevBtn.addEventListener('click', prevSlide);
 
-    // Initialize carousel
+   
     createDots();
     startAutoSlide();
 });
