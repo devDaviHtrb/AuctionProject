@@ -38,9 +38,8 @@
                     <div class="filter-box">
                         <h3><i class="fas fa-filter"></i> Status</h3>
                         <ul class="filter-list">
-                            <li class="active"><a href="#">Em Andamento (8)</a></li>
-                            <li><a href="#">Vencidos (3)</a></li>
-                            <li><a href="#">Arrematados (2)</a></li>
+                            <li class="active"><a href="#">Em Andamento ({{active_number}})</a></li>
+                            <li><a href="#">Vencidos ({{winner_number}})</a></li>
                         </ul>
                     </div>
                     <div class="filter-box">
@@ -62,57 +61,57 @@
                     {% else %}
                     {% for bid in bids %}
                     <div class="bid-card 
-                        {% if bid.status == 'winner' %}winner{% endif %}
-                        {% if bid.status == 'top' %}leading-bid{% endif %}
-                        {% if bid.status == 'outbid' %}active-bid{% endif %}">
+                        {% if bid['status'] == 'winner' %}winner{% endif %}
+                        {% if bid['status'] == 'top' %}leading-bid{% endif %}
+                        {% if bid['status'] == 'outbid' %}active-bid{% endif %}">
 
-                        <div class="bid-item-photo" style="background-image: url({{ bid.img_url }});"></div>
+                        <div class="bid-item-photo" style="background-image: url({{ bid['img_url'] }});"></div>
 
                         <div class="bid-item-details">
                             <h3>{{ bid.product.product_name }}</h3>
-                            <a href="/auction/{{ bid.product.product_room }}">Pagina do Leilão</a>
+                            <a href="/auction/{{ bid['product'].product_room }}">Pagina do Leilão</a>
 
-                            <p class="category">{{ bid.category }}</p>
+                            <p class="category">{{ bid['category'] }}</p>
 
                             <div class="bid-status-row">
                                 <div class="status-info">
-                                    <p>Seu Lance {% if bid.status == 'top' %}(Maior do Produto){% endif %}:</p>
-                                    <span class="my-bid-price">R$ {{ bid.bid.bid_value }}</span>
+                                    <p>Seu Lance {% if bid['status'] == 'top' %}(Maior do Produto){% endif %}:</p>
+                                    <span class="my-bid-price">R$ {{ bid['bid'].bid_value }}</span>
                                 </div>
 
                                 <div class="status-info">
-                                    {% if bid.status != 'winner' and bid.status != 'top' %}
+                                    {% if bid['status'] != 'winner' and bid['status'] != 'top' %}
                                     <p>Lance Atual:</p>
-                                    <span class="current-bid-price">R$ {{ bid.high_bid }}</span>
+                                    <span class="current-bid-price">R$ {{ bid['high_bid'] }}</span>
                                     {% endif %}
                                 </div>
                             </div>
 
                             <div class="time-status">
-                                {% if bid.status == 'top' %}
+                                {% if bid['status'] == 'top' %}
                                 <i class="far fa-clock"></i>
                                 <span class="time-left-bid leading">Você está ganhando! Tempo: 00h 45m 12s</span>
                                 {% endif %}
 
-                                {% if bid.status == 'outbid' %}
+                                {% if bid['status'] == 'outbid' %}
                                 <i class="far fa-clock"></i>
                                 <span class="time-left-bid">Você está perdendo! Tempo: 00h 45m 12s</span>
                                 {% endif %}
 
-                                {% if bid.status == 'winner' %}
+                                {% if bid['status'] == 'winner' %}
                                 <i class="far fa-clock"></i>
                                 <span class="time-left-bid">Você Ganhou! Finalizado</span>
                                 {% endif %}
                             </div>
                         </div>
 
-                        {% if bid.status != 'winner' %}
+                        {% if bid['status'] != 'winner' %}
                         <form action="{{ url_for('bid_routes.make_bid_route') }}" method="POST" class="bid-actions">
-                            <input type="hidden" name="product_id" value="{{ bid.product.product_id }}">
+                            <input type="hidden" name="product_id" value="{{ bid['product'].product_id }}">
 
                             <div class="input-group">
-                                <input type="number" name="bid_value" id="bid-{{ bid.product.product_id }}" required
-                                    placeholder="DIGITE SEU LANCE" min="{{ bid.product.min_bid }}">
+                                <input type="number" name="bid_value" id="bid-{{ bid['product'].product_id }}" required
+                                    placeholder="DIGITE SEU LANCE" min="{{ bid['product'].min_bid }}">
 
                                 <button type="submit" class="btn-bid fast">
                                     ATUALIZAR LANCE

@@ -104,4 +104,6 @@ def get_winner_bids(user_id):
 
 
 def get_interesting_user_bids(user_id):
-    return get_active_user_bids(user_id) + get_winner_bids(user_id)
+    active_bids = get_active_user_bids(user_id)
+    winner_bids = get_winner_bids(user_id)
+    return {"bids":active_bids+winner_bids, "active_bids_number":len(active_bids), "winner_bids_number":len(winner_bids) }
