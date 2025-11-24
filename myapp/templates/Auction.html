@@ -1,6 +1,3 @@
-<!--
-product_images = [links:str]
--->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -233,7 +230,7 @@ product_images = [links:str]
 <script>
     window.user = {
         logged: {{ 'true' if user else 'false' }},
-        username: "{{ user.name if user else '' }}"
+    username: "{{ user.name if user else '' }}"
     };
     window.roomId = {{ product.product_room | tojson }};
     window.product_id = {{ product.product_id }}
