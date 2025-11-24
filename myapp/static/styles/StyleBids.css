@@ -18,6 +18,13 @@ body {
     line-height: 1.6;
     background-color: var(--light-bg);
 }
+html, body {
+    height: 100%;
+}
+
+main {
+    flex: 1;
+}
 
 .container {
     max-width: 1200px;
