@@ -1,0 +1,28 @@
+.main-footer {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 40px 0 20px;
+    font-size: 14px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-links ul {
+    display: flex;
+    gap: 30px;
+}
+
+.footer-links ul li a {
+    color: var(--white);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+    opacity: 1;
+}
