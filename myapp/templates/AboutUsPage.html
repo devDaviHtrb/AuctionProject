@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - [Seu Site]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0C2340;
+            --accent-orange: #FF8C00;
+            --light-bg: #FFFFFF; 
+            --medium-bg: #F5F5F5;
+            --dark-grey-text: #333333;
+            --light-text: #666;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-grey-text);
+            line-height: 1.6;
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-blue);
+        }
+
+        ul {
+            list-style: none;
+        }
+        
+        /* General Buttons - Overriding base styles for more modern look */
+        .btn-primary, .btn-secondary {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border: none; /* Add border: none for button elements */
+            cursor: pointer;
+        }
+
+        /* Primary Button Style (Blue theme) */
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #08172c;
+        }
+
+        /* Secondary Button Style (Orange theme) */
+        .btn-secondary {
+            background-color: var(--accent-orange);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e67e00;
+        }
+
+        /* Inverse Button for white backgrounds */
+        .btn-primary.inverse-btn {
+            background-color: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-primary.inverse-btn:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+        
+        /* Header styles from your CSS */
+        .main-header {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--medium-bg);
+            background-color: var(--white);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px; 
+        }
+
+        .main-header .logo span {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .search-bar {
+            position: relative;
+            flex-grow: 1;
+            max-width: 450px;
+            margin: 0 30px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid var(--medium-bg);
+            border-radius: 25px; 
+            font-size: 14px;
+            color: var(--dark-grey-text);
+            background-color: var(--light-bg);
+        }
+
+        .search-bar .fas.fa-search {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 30px;
+            margin-right: 20px;
+        }
+
+        .main-nav ul li a {
+            color: var(--dark-grey-text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-blue);
+        }
+
+        .btn-login {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Footer styles from your CSS */
+        .main-footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 40px 0 20px;
+            font-size: 14px;
+            margin-top: 60px; /* Add margin to separate from page content */
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-links ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links ul li a {
+            color: var(--white);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            opacity: 1;
+        }
+
+        .social-media {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .social-media a {
+            color: var(--white);
+            font-size: 20px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-media a:hover {
+            opacity: 1;
+        }
+
+        /* --- ABOUT US PAGE SPECIFIC STYLES --- */
+        
+        .hero-banner {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .hero-banner p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .section-about {
+            padding: 40px 0;
+        }
+
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .grid-item {
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--accent-orange);
+            background-color: var(--white);
+        }
+
+        .grid-item i {
+            font-size: 40px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .grid-item h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark-grey-text);
+        }
+
+        .team-section {
+            background-color: var(--medium-bg);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .team-section h2 {
+            font-size: 36px;
+            color: var(--primary-blue);
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--medium-bg);
+            margin: 0 auto 15px;
+            object-fit: cover;
+            border: 3px solid var(--accent-orange);
+        }
+
+        .team-member h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+
+        .team-member p {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 1024px) {
+            .header-content {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .search-bar {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+                margin: 10px 0;
+            }
+            .main-nav {
+                order: 2;
+                margin-right: 0;
+            }
+            .main-header .logo {
+                order: 1;
+            }
+            
+            .mission-vision-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 36px;
+            }
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% include "components/Header.html" %}
+
+    <main>
+        
+        <section class="hero-banner">
+            <div class="container">
+                <h1>Conheça a Nossa História</h1>
+                <p>Construindo uma comunidade de leilões justa e emocionante desde 2025.</p>
+            </div>
+        </section>
+        
+        <section class="section-about">
+            <div class="container">
+                <h2 style="font-size: 32px; color: var(--primary-blue); text-align: center; margin-bottom: 40px; font-weight: 700;">Nosso Propósito</h2>
+                <div class="mission-vision-grid">
+                    
+                    <div class="grid-item">
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Missão</h3>
+                        <p>Facilitar a compra e venda de itens únicos por meio de um sistema de leilões online transparente, seguro e acessível para todos.</p>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <i class="fas fa-eye"></i>
+                        <h3>Visão</h3>
+                        <p>Ser a plataforma líder global em leilões online, reconhecida pela excelência no serviço e pela inovação tecnológica contínua.</p>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Valores</h3>
+                        <p>Transparência, Confiança, Comunidade, Inovação e Paixão por conectar vendedores e compradores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section-about">
+            <div class="container" style="max-width: 900px; text-align: center;">
+                <h2 style="font-size: 30px; color: var(--dark-grey-text); margin-bottom: 20px;">A História de Nossa Plataforma</h2>
+                <p style="font-size: 16px; margin-bottom: 25px;">Fundada por um grupo de entusiastas de antiguidades e tecnologia em 2025, a nossa plataforma nasceu da necessidade de um mercado de leilões que combinasse a emoção da disputa com a segurança do ambiente digital. Sempre focados em oferecer a melhor experiência ao usuário.</p>
+                <p style="font-size: 16px; margin-bottom: 30px;">Hoje, somos o lar de varios vendedores e itens, de colecionáveis raros a veículos e imóveis. Nosso compromisso é com você: garantir que cada lance seja justo e cada transação, impecável.</p>
+                <a href="#" class="btn-primary">Junte-se a Nós Hoje</a>
+            </div>
+        </section>
+        
+        <section class="team-section">
+            <div class="container">
+                <h2>Conheça a Nossa Equipe</h2>
+                <div class="team-grid">
+                    
+                    <div class="team-member">
+                        <div class="member-photo" style="background-image: url('placeholder-ceo.jpg');"></div>
+                        <h4>Ana Silva</h4>
+                        <p>CEO & Fundadora</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo" style="background-image: url('placeholder-cto.jpg');"></div>
+                        <h4>Bruno Mendes</h4>
+                        <p>CTO - Diretor de Tecnologia</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo" style="background-image: url('placeholder-cmo.jpg');"></div>
+                        <h4>Carla Rocha</h4>
+                        <p>CMO - Diretora de Marketing</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-photo" style="background-image: url('placeholder-support.jpg');"></div>
+                        <h4>Diego Farias</h4>
+                        <p>Chefe de Suporte ao Cliente</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    {% include "components/Footer.html" %}
+
+</body>
+</html>

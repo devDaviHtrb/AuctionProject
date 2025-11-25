@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - [Seu Site]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0C2340;
+            --accent-orange: #FF8C00;
+            --light-bg: #FFFFFF; 
+            --medium-bg: #F5F5F5;
+            --dark-grey-text: #333333;
+            --light-text: #666;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-grey-text);
+            line-height: 1.6;
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-blue);
+        }
+
+        ul {
+            list-style: none;
+        }
+        
+        .btn-primary, .btn-secondary {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #08172c;
+        }
+
+        .btn-secondary {
+            background-color: var(--accent-orange);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e67e00;
+        }
+
+        .btn-primary.inverse-btn {
+            background-color: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-primary.inverse-btn:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+        
+        .main-header {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--medium-bg);
+            background-color: var(--white);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px; 
+        }
+
+        .main-header .logo span {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .search-bar {
+            position: relative;
+            flex-grow: 1;
+            max-width: 450px;
+            margin: 0 30px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid var(--medium-bg);
+            border-radius: 25px; 
+            font-size: 14px;
+            color: var(--dark-grey-text);
+            background-color: var(--light-bg);
+        }
+
+        .search-bar .fas.fa-search {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 30px;
+            margin-right: 20px;
+        }
+
+        .main-nav ul li a {
+            color: var(--dark-grey-text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-blue);
+        }
+
+        .btn-login {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .main-footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 40px 0 20px;
+            font-size: 14px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-links ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links ul li a {
+            color: var(--white);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            opacity: 1;
+        }
+
+        .social-media {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .social-media a {
+            color: var(--white);
+            font-size: 20px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-media a:hover {
+            opacity: 1;
+        }
+
+        /* --- CONTACT PAGE FIRST DRAFT STYLES REINSTATED --- */
+        
+        .hero-banner {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .hero-banner p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .contact-grid {
+            display: flex;
+            gap: 40px;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+
+        .contact-info, .contact-form {
+            flex: 1;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .contact-info {
+            background-color: var(--medium-bg);
+        }
+        
+        .contact-form {
+            background-color: var(--white);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--medium-bg);
+        }
+
+        .contact-info h2, .contact-form h2 {
+            font-size: 30px;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .info-item i {
+            font-size: 24px;
+            color: var(--accent-orange);
+            width: 40px;
+            flex-shrink: 0;
+        }
+
+        .info-item p {
+            font-size: 16px;
+            color: var(--dark-grey-text);
+            margin: 0;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-grey-text);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--medium-bg);
+            border-radius: 5px;
+            font-size: 16px;
+            color: var(--dark-grey-text);
+            background-color: var(--white);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* CTA Section Style */
+        .cta-footer-section {
+            background-color: var(--medium-bg); 
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .cta-footer-section h2 {
+            font-size: 36px;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .cta-footer-section p {
+            font-size: 18px;
+            color: var(--dark-grey-text);
+            margin-bottom: 30px;
+        }
+        
+        .cta-buttons a {
+            margin: 0 10px;
+        }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 1024px) {
+            .contact-grid {
+                flex-direction: column;
+            }
+            .contact-info, .contact-form {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 36px;
+            }
+            .header-content {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .search-bar {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+                margin: 10px 0;
+            }
+            .main-nav {
+                order: 2;
+                margin-right: 0;
+            }
+            .main-header .logo {
+                order: 1;
+            }
+            .cta-buttons a {
+                display: block;
+                margin: 15px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% include "components/Header.html" %}
+
+    <main>
+        
+        <section class="hero-banner">
+            <div class="container">
+                <h1>Fale Conosco</h1>
+                <p>Nossa equipe de suporte está pronta para ajudar com qualquer dúvida ou problema.</p>
+            </div>
+        </section>
+        
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-grid">
+                    
+                    <div class="contact-info">
+                        <h2>Informações de Contato</h2>
+                        <p style="margin-bottom: 30px;">Antes de enviar uma mensagem, verifique nossa página de FAQ. Caso sua dúvida persista, use um dos canais abaixo:</p>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <p style="font-weight: 600;">E-mail de Suporte Geral</p>
+                                <p><a href="mailto:suporte@seusite.com.br">suporte@seusite.com.br</a></p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fas fa-headset"></i>
+                            <div>
+                                <p style="font-weight: 600;">Atendimento Telefônico (24/7)</p>
+                                <p><a href="tel:+5500999999999">+55 (00) 9999-9999</a></p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fas fa-user-tie"></i>
+                            <div>
+                                <p style="font-weight: 600;">Parcerias e Mídia</p>
+                                <p><a href="mailto:parcerias@seusite.com.br">parcerias@seusite.com.br</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h2>Envie-nos uma Mensagem</h2>
+                        <form action="#" method="POST">
+                            <div class="form-group">
+                                <label for="name">Nome Completo</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Assunto</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="" disabled selected>Selecione um Assunto</option>
+                                    <option value="duvida_lance">Dúvidas sobre Lances</option>
+                                    <option value="suporte_vendedor">Suporte ao Vendedor</option>
+                                    <option value="problema_tecnico">Problema Técnico/Bug</option>
+                                    <option value="outros">Outros</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Mensagem</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-secondary">Enviar Mensagem</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-footer-section">
+            <div class="container" style="max-width: 900px;">
+                <h2>Ainda Tem Dúvidas?</h2>
+                <p>Encontre respostas imediatas em nossa seção de Perguntas Frequentes ou comece sua jornada de leilões agora mesmo.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn-primary inverse-btn">Ver FAQ Completa</a>
+                    <a href="#" class="btn-secondary">Criar Conta Gratuita</a>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    {% include "components/Footer.html" %}
+</body>
+</html>
