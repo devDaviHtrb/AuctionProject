@@ -53,7 +53,7 @@ def user_address() -> Tuple[Response, int]:
 
         if current_principal:
             current_principal.principal_address = False
-            address_repository.save_item(current_principal.to_dict())
+            
 
     address_repository.save_item(data)
 
