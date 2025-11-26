@@ -287,7 +287,7 @@
                 <div class="form-actions">
                   <button type="submit" class="btn-primary">Adicionar Endereço</button>
                 </div>
-              </div> <!-- FECHAMENTO QUE FALTAVA -->
+              </div>
 
             </form>
           </div>
@@ -318,13 +318,16 @@
 
         <div id="security" class="settings-section hidden-section">
           <h2>Segurança</h2>
-          <form action="/auth/change" method="POST">
-            <div class="input-group">
-              <label for="email">Email</label>
-              <input type="text" name="email" id="email" required>
-            </div>
-            <button type="submit" class="btn-primary">Mudar Senha</button>
-          </form>
+          <p class="section-description">Altere seus dados relacionados à segurança.</p>
+          <div class="settings-form-card">
+            <form action="/auth/change" method="POST">
+              <div class="input-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" required>
+              </div>
+              <button type="submit" class="btn-primary">Mudar Senha</button>
+            </form>
+          </div>
         </div>
 
         <div id="bidding" class="settings-section hidden-section">
