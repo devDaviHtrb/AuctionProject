@@ -41,8 +41,7 @@
             <li class="nav-item" data-section="contact"><a href="#"><i class="fas fa-phone"></i> Contato</a></li>
             <li class="nav-item" data-section="addresses"><a href="#"><i class="fas fa-map-marker-alt"></i>
                 Endereços</a></li>
-            <li class="nav-item"><a href="/userBidsPage"><i class="fas fa-gavel"></i> Meus Lances</a>
-            </li>
+            <li class="nav-item"><a href="/userBidsPage"><i class="fas fa-gavel"></i> Meus Lances</a></li>
             <li class="nav-item" data-section="security"><a href="#"><i class="fas fa-lock"></i> Segurança</a></li>
             <li class="nav-item separator">
               <hr>
@@ -77,20 +76,24 @@
               </div>
               {%endif%}
               {%endif%}
+
               <div class="input-group">
                 <label for="username">Nome de Usuário</label>
                 <input type="text" id="username" value="{{username}}" name="username">
               </div>
+
               <div class="input-group">
                 <label for="email">Email</label>
                 <p>{{email}}</p>
               </div>
+
               {%if cpf%}
               <div class="input-group">
                 <label for="cpf">CPF</label>
                 <p>{{cpf}}</p>
               </div>
               {%endif%}
+
               {%if user_type=="physical_person"%}
               {%if rg%}
               <div class="input-group">
@@ -98,6 +101,7 @@
                 <p>{{rg}}</p>
               </div>
               {%endif%}
+
               <div class="input-group">
                 <label for="gender">Sexo</label>
                 <select id="gender" name="gender">
@@ -107,6 +111,7 @@
                   <option value="other" {% if gender=="other" %}selected{% endif %}>Outro</option>
                 </select>
               </div>
+
               {%if not cpf or not rg%}
               <h2>Informações Faltantes</h2>
               {%endif%}
@@ -129,36 +134,42 @@
               <div class="input-group">
                 <label for="cnpj">CNPJ</label>
                 <p>{{cnpj}}</p>
-                {%endif%}
-                {%if state_tax_registration%}
-                <div class="input-group">
-                  <label for="state_tax_registration">Adicionar state_tax_registration</label>
-                  <p>{{state_tax_registration}}</p>
-                </div>
-                {%endif%}
-                <h2>Informações Faltantes</h2>
-                {%if not cnpj%}
-                <div class="input-group">
-                  <label for="cnpj">Adicionar CNPJ</label>
-                  <input type="text" id="cnpj" value="{{cnpj}}" name="cnpj">
-                </div>
-                {%endif%}
-                {%if not state_tax_registration%}
-                <div class="input-group">
-                  <label for="state_tax_registration">Adicionar state_tax_registration</label>
-                  <input type="text" id="state_tax_registration" value="{{state_tax_registration}}"
-                    name="state_tax_registration">
-                </div>
-                {%endif%}
-                {%endif%}
-                {%endif%}
-                {% if msg and msg!="sucessful"%}
-                <p>{{msg}}</p>
-                {% endif %}
-                <div class="form-actions profile-actions">
-                  <button type="submit" class="btn-primary">Salvar Alterações do Perfil</button>
-                  <button type="button" class="btn-secondary">Cancelar</button>
-                </div>
+              </div>
+              {%endif%}
+              {%if state_tax_registration%}
+              <div class="input-group">
+                <label for="state_tax_registration">Adicionar state_tax_registration</label>
+                <p>{{state_tax_registration}}</p>
+              </div>
+              {%endif%}
+              <h2>Informações Faltantes</h2>
+
+              {%if not cnpj%}
+              <div class="input-group">
+                <label for="cnpj">Adicionar CNPJ</label>
+                <input type="text" id="cnpj" value="{{cnpj}}" name="cnpj">
+              </div>
+              {%endif%}
+
+              {%if not state_tax_registration%}
+              <div class="input-group">
+                <label for="state_tax_registration">Adicionar state_tax_registration</label>
+                <input type="text" id="state_tax_registration" value="{{state_tax_registration}}"
+                  name="state_tax_registration">
+              </div>
+              {%endif%}
+              {%endif%}
+              {%endif%}
+
+              {% if msg and msg!="sucessful"%}
+              <p>{{msg}}</p>
+              {% endif %}
+
+              <div class="form-actions profile-actions">
+                <button type="submit" class="btn-primary">Salvar Alterações do Perfil</button>
+                <button type="button" class="btn-secondary">Cancelar</button>
+              </div>
+
             </form>
           </div>
         </div>
@@ -173,11 +184,13 @@
                 <input type="text" id="cellphone1" name="cellphone1" placeholder="(00) 90000-0000"
                   value="{{cellphone1}}">
               </div>
+
               <div class="input-group">
                 <label for="cellphone2">Telefone Secundário</label>
                 <input type="text" id="cellphone2" name="cellphone2" placeholder="(00) 90000-0000"
                   value="{{cellphone2}}">
               </div>
+
               <div class="input-group">
                 <label for="landline">Telefone Fixo</label>
                 <input type="text" id="landline" name="landline" placeholder="(00) 0000-0000" value="{{landline}}">
@@ -198,6 +211,7 @@
           <div class="settings-form-card">
             <h3>Adicionar Novo Endereço</h3>
             <form id="new-address-form" class="address-form">
+
               <div class="input-row">
                 <div class="input-group">
                   <label for="street_name">Rua</label>
@@ -208,6 +222,7 @@
                   <input type="text" name="street_number" id="street_number" required>
                 </div>
               </div>
+
               <div class="input-row">
                 <div class="input-group">
                   <label for="apt">Complemento</label>
@@ -218,11 +233,13 @@
                   <input type="text" name="zip_code" id="zip_code" required>
                 </div>
               </div>
+
               <div class="input-row">
                 <div class="input-group">
                   <label for="district">Bairro</label>
                   <input type="text" name="district" id="district" required>
                 </div>
+
                 <div class="input-group">
                   <label for="city">Cidade</label>
                   <input type="text" name="city" id="city" required>
@@ -270,6 +287,8 @@
                 <div class="form-actions">
                   <button type="submit" class="btn-primary">Adicionar Endereço</button>
                 </div>
+              </div> <!-- FECHAMENTO QUE FALTAVA -->
+
             </form>
           </div>
 
@@ -293,8 +312,8 @@
             {% else %}
             <p>Você ainda não possui endereços cadastrados.</p>
             {% endif %}
-
           </div>
+
         </div>
 
         <div id="security" class="settings-section hidden-section">
@@ -313,11 +332,7 @@
           <div id="bids-container"></div>
         </div>
 
-
-
       </section>
-
-
 
     </div>
   </main>
