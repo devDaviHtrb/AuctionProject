@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function switchSection(sectionId) {
     contentSections.forEach((s) => {
+      alert(s.innerHTML)
       s.classList.add("hidden-section");
       s.classList.remove("active-section");
     });
