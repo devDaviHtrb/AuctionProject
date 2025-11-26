@@ -62,18 +62,18 @@ def restart_open() -> None:
         inactive_products = product_repository.get_inactives()
         products_timers_open.clear()
         now = datetime.now(ZoneInfo("UTC"))
+        if inactive_products:
+            for product in inactive_products:
+                if not product.start_datetime:
+                    continue
 
-        for product in inactive_products:
-            if not product.start_datetime:
-                continue
+                remaining = (product.start_datetime - now).total_seconds()
 
-            remaining = (product.start_datetime - now).total_seconds()
-
-            if remaining <= 0:
-                print(f"[RESTART_OPEN] Auction {product.product_id} should already be open.", flush=True)
-                print(f"NOW IS: {now} & STARTDATETIME: {product.start_datetime}")
-                open_auction(product.product_id)
-                continue
+                if remaining <= 0:
+                    print(f"[RESTART_OPEN] Auction {product.product_id} should already be open.", flush=True)
+                    print(f"NOW IS: {now} & STARTDATETIME: {product.start_datetime}")
+                    open_auction(product.product_id)
+                    continue
 
             start_open_timer(product.product_id, int(remaining))
             print(f"[RESTART_OPEN] Scheduled opening for {product.product_id}.", flush=True)
@@ -140,17 +140,17 @@ def restart_closes() -> None:
         active_products = product_repository.get_actives()
         products_timers_close.clear()
         now = datetime.now(ZoneInfo("UTC"))
+        if active_products:
+            for product in active_products:
+                if not product.start_datetime:
+                    continue
 
-        for product in active_products:
-            if not product.start_datetime:
-                continue
+                end_dt = product.start_datetime + timedelta(minutes=product.duration)
+                remaining = (end_dt - now).total_seconds()
 
-            end_dt = product.start_datetime + timedelta(minutes=product.duration)
-            remaining = (end_dt - now).total_seconds()
-
-            if remaining <= 0:
-                close_auction(product.product_id)
-                continue
+                if remaining <= 0:
+                    close_auction(product.product_id)
+                    continue
 
             start_close_timer(product.product_id, int(remaining))
             print(remaining, now, product.start_datetime, flush=True)

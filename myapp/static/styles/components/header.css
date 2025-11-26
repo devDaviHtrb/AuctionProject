@@ -315,7 +315,7 @@ header a{
 
 #message.active {
   opacity: 1;
-  transform: translateY(5px);
+
   color: #e63946;
 }
 
@@ -825,4 +825,7 @@ body {
 
 html, body {
   overflow-x: hidden;
+}
+
+.dropdown a.categories-header-menu{  margin-top: 0px;
 }
