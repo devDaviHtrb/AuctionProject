@@ -22,17 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (sectionId === "bidding") {
       loadBids(1);
     }
-
-    if (sectionId === "security") {
-      target.innerHTML = `
-        <h2>Segurança</h2>
-        <form action="/auth/change" method="POST" class="security-form">
-          <label for="email">Email</label>
-          <input type="email" name="email" id="email" value="${email}" required>
-          <button type="submit">Trocar senha</button>
-        </form>
-      `;
-    }
   }
 
   navItems.forEach((item) => {
@@ -50,19 +39,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (dropzone && fileInput) {
     dropzone.addEventListener("click", () => fileInput.click());
+
     dropzone.addEventListener("dragover", (e) => {
       e.preventDefault();
       dropzone.classList.add("dragover");
     });
+
     dropzone.addEventListener("dragleave", () =>
       dropzone.classList.remove("dragover")
     );
+
     dropzone.addEventListener("drop", (e) => {
       e.preventDefault();
       dropzone.classList.remove("dragover");
+
       const file = e.dataTransfer.files[0];
       if (file && file.type.startsWith("image/")) {
         fileInput.files = e.dataTransfer.files;
+
         const reader = new FileReader();
         reader.onload = (ev) => {
           document.querySelector(".avatar").src = ev.target.result;
@@ -81,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-
   const newAddressForm = document.getElementById("new-address-form");
 
   if (newAddressForm) {
@@ -92,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       fetch("/new/address", {
         method: "POST",
-        body: formData
+        body: formData,
       })
         .then((r) => r.json())
         .then((data) => {
@@ -112,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((r) => r.json())
       .then((addresses) => {
         const container = document.getElementById("addresses_container");
-        
+
         let html = `
           <h3>Meus Endereços</h3>
         `;
@@ -120,28 +113,28 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!addresses.length) {
           html += `<p>Você ainda não possui endereços cadastrados.</p>`;
         } else {
-          for (let addr of addresses) {
+          addresses.forEach((addr) => {
             html += `
               <div class="address-item">
                 <p><strong>${addr.street_name}, ${addr.street_number}</strong> ${addr.apt || ""}</p>
                 <p>${addr.district} - ${addr.city}/${addr.state}</p>
                 <p>CEP: ${addr.zip_code}</p>
-                ${addr.principal_address ? `<p><span class="badge">Principal</span></p>` : ""}
-
+                ${
+                  addr.principal_address
+                    ? `<p><span class="badge">Principal</span></p>`
+                    : ""
+                }
                 <form class="remove-address-form" data-id="${addr.address_id}" style="display:inline;">
                   <button type="submit" class="btn-danger">Remover</button>
                 </form>
               </div>
             `;
-          }
+          });
         }
 
         container.innerHTML = html;
-
-
       });
   }
-
 
   document.addEventListener("submit", function (e) {
     const form = e.target;
@@ -151,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const id = form.dataset.id;
 
       fetch(`/removeAddress/${id}`, {
-        method: "POST"
+        method: "POST",
       })
         .then((r) => r.json())
         .then((data) => {
@@ -162,5 +155,4 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(() => alert("Erro ao remover endereço."));
     }
   });
-
 });
