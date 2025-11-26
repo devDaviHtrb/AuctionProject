@@ -209,7 +209,7 @@
             opacity: 1;
         }
 
-        /* --- FAQ PAGE SPECIFIC STYLES --- */
+
 
         .hero-banner {
             background-color: var(--primary-blue);
@@ -254,7 +254,7 @@
             overflow: hidden;
         }
 
-        /* Estilos para o Acordeão (simulação via details/summary) */
+
         .faq-item summary {
             display: flex;
             justify-content: space-between;
@@ -304,7 +304,6 @@
             margin-bottom: 10px;
         }
 
-        /* Seção de Tópicos */
         .faq-categories {
             text-align: center;
             margin-bottom: 40px;
@@ -326,7 +325,7 @@
             color: var(--white);
         }
 
-        /* MEDIA QUERIES */
+
         @media (max-width: 1024px) {
             .header-content {
                 flex-wrap: wrap;
@@ -579,7 +578,6 @@
             opacity: 1;
         }
 
-        /* --- SERVICES PAGE REVISED STYLES --- */
 
         .hero-banner {
             background-color: var(--primary-blue);
@@ -665,7 +663,7 @@
             margin-bottom: 40px;
         }
 
-        /* MEDIA QUERIES */
+     
         @media (max-width: 1024px) {
             .header-content {
                 flex-wrap: wrap;
@@ -921,7 +919,7 @@
             opacity: 1;
         }
 
-        /* --- HOW IT WORKS PAGE SPECIFIC STYLES --- */
+
 
         .hero-banner {
             background-color: var(--primary-blue);
@@ -1030,7 +1028,6 @@
             margin-bottom: 40px;
         }
 
-        /* MEDIA QUERIES */
         @media (max-width: 1024px) {
             .header-content {
                 flex-wrap: wrap;
@@ -1298,7 +1295,7 @@
             opacity: 1;
         }
 
-        /* --- CONTACT PAGE FIRST DRAFT STYLES REINSTATED --- */
+
 
         .hero-banner {
             background-color: var(--primary-blue);
@@ -1370,7 +1367,7 @@
             margin: 0;
         }
 
-        /* Form Styles */
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -1407,7 +1404,7 @@
             min-height: 120px;
         }
 
-        /* CTA Section Style */
+
         .cta-footer-section {
             background-color: var(--medium-bg);
             padding: 50px 0;
@@ -1431,7 +1428,7 @@
             margin: 0 10px;
         }
 
-        /* MEDIA QUERIES */
+
         @media (max-width: 1024px) {
             .contact-grid {
                 flex-direction: column;
@@ -1514,7 +1511,6 @@
             list-style: none;
         }
 
-        /* General Buttons - Overriding base styles for more modern look */
         .btn-primary,
         .btn-secondary {
             display: inline-block;
@@ -1526,11 +1522,11 @@
             font-size: 0.95rem;
             letter-spacing: 0.5px;
             border: none;
-            /* Add border: none for button elements */
+
             cursor: pointer;
         }
 
-        /* Primary Button Style (Blue theme) */
+
         .btn-primary {
             background-color: var(--primary-blue);
             color: var(--white);
@@ -1540,7 +1536,6 @@
             background-color: #08172c;
         }
 
-        /* Secondary Button Style (Orange theme) */
         .btn-secondary {
             background-color: var(--accent-orange);
             color: var(--white);
@@ -1550,7 +1545,7 @@
             background-color: #e67e00;
         }
 
-        /* Inverse Button for white backgrounds */
+
         .btn-primary.inverse-btn {
             background-color: transparent;
             border: 2px solid var(--primary-blue);
@@ -1562,7 +1557,7 @@
             color: var(--white);
         }
 
-        /* Header styles from your CSS */
+
         .main-header {
             padding: 15px 0;
             border-bottom: 1px solid var(--medium-bg);
@@ -1638,14 +1633,14 @@
             font-weight: 600;
         }
 
-        /* Footer styles from your CSS */
+
         .main-footer {
             background-color: var(--primary-blue);
             color: var(--white);
             padding: 40px 0 20px;
             font-size: 14px;
             margin-top: 60px;
-            /* Add margin to separate from page content */
+
         }
 
         .footer-content {
@@ -1687,7 +1682,7 @@
             opacity: 1;
         }
 
-        /* --- ABOUT US PAGE SPECIFIC STYLES --- */
+
 
         .hero-banner {
             background-color: var(--primary-blue);
@@ -1794,7 +1789,7 @@
             color: var(--light-text);
         }
 
-        /* MEDIA QUERIES */
+
         @media (max-width: 1024px) {
             .header-content {
                 flex-wrap: wrap;
@@ -1831,4 +1826,66 @@
             .team-grid {
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
+        }
+
+        .page-title-section {
+            background-color: var(--medium-bg);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .page-title-section h1 {
+            font-size: 44px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        
+        .page-title-section p {
+            font-size: 16px;
+            color: var(--light-text);
+        }
+
+    
+        .policy-section {
+            padding: 60px 0;
+            line-height: 1.8; 
+        }
+
+
+        .policy-section h2 {
+            font-size: 28px;
+            color: var(--primary-blue);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-orange);
+            padding-bottom: 5px;
+        }
+        
+
+        .policy-section h3 {
+            font-size: 22px;
+            color: var(--dark-grey-text);
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        .policy-section p {
+            margin-bottom: 20px;
+        }
+
+        .policy-section ul {
+            list-style: disc;
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .policy-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .highlight-text {
+            font-weight: 600;
+            color: var(--accent-orange);
         }
