@@ -215,34 +215,35 @@
               <div class="input-row">
                 <div class="input-group">
                   <label for="street_name">Rua</label>
-                  <input type="text" name="street_name" id="street_name" required>
+                  <input type="text" name="street_name" id="street_name" required
+                    placeholder="Digite a rua (sem abreviações)">
                 </div>
                 <div class="input-group">
                   <label for="street_number">Número</label>
-                  <input type="text" name="street_number" id="street_number" required>
+                  <input type="text" name="street_number" id="street_number" required placeholder="Digite o número">
                 </div>
               </div>
 
               <div class="input-row">
                 <div class="input-group">
                   <label for="apt">Complemento</label>
-                  <input type="text" name="apt" id="apt">
+                  <input type="text" name="apt" id="apt" placeholder="Digite o complemento">
                 </div>
                 <div class="input-group">
                   <label for="zip_code">CEP</label>
-                  <input type="text" name="zip_code" id="zip_code" required>
+                  <input type="text" name="zip_code" id="zip_code" required placeholder="Digite o CEP">
                 </div>
               </div>
 
               <div class="input-row">
                 <div class="input-group">
                   <label for="district">Bairro</label>
-                  <input type="text" name="district" id="district" required>
+                  <input type="text" name="district" id="district" required placeholder="Digite o bairro">
                 </div>
 
                 <div class="input-group">
                   <label for="city">Cidade</label>
-                  <input type="text" name="city" id="city" required>
+                  <input type="text" name="city" id="city" required placeholder="Digite a cidade">
                 </div>
 
                 <div class="input-group">
@@ -323,7 +324,7 @@
             <form action="/auth/change" method="POST">
               <div class="input-group">
                 <label for="email">Email</label>
-                <input type="text" name="email" id="email" required>
+                <input type="text" name="email" id="email" required placeholder="Digite seu email">
               </div>
               <button type="submit" class="btn-primary">Mudar Senha</button>
             </form>
