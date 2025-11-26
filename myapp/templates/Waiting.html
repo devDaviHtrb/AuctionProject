@@ -8,9 +8,11 @@
     <link rel="shortcut icon"
         href="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
         type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <p>VOCE RECEBERA UM EMAIL</p>
 
     <a href="{{url_for(link, email = email) if email else url_for(link)}}">

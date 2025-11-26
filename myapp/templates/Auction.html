@@ -13,13 +13,16 @@
     <link rel="shortcut icon"
         href="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
         type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <div id="confirm-remove-bid" class="confirm-modal">
     <div class="confirm-box">
         <h3>Remover Lance</h3>
         <p>Você tem certeza que deseja remover seu(s) lance(s)?<br>
-        <strong>Atenção:</strong> se remover, você não poderá mais dar novos lances neste produto.</p>
+            <strong>Atenção:</strong> se remover, você não poderá mais dar novos lances neste produto.
+        </p>
 
         <div class="confirm-actions">
             <button id="confirm-yes" class="confirm-btn yes">Sim, remover</button>
@@ -27,11 +30,11 @@
         </div>
     </div>
 </div>
-<body>
-    {% include "components/Header.html" %}
+
+<body class="d-flex flex-column min-vh-100"> {% include "components/Header.html" %}
     <div id="notification-container"></div>
 
-    <main>
+    <main class="flex-fill">
         <div class="container item-detail-layout">
 
             <section class="main-content-area">

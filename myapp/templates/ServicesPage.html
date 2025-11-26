@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nossos Serviços - [Seu Site]</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-blue: #0C2340;
             --accent-orange: #FF8C00;
-            --light-bg: #FFFFFF; 
+            --light-bg: #FFFFFF;
             --medium-bg: #F5F5F5;
             --dark-grey-text: #333333;
             --light-text: #666;
@@ -44,8 +46,9 @@
         ul {
             list-style: none;
         }
-        
-        .btn-primary, .btn-secondary {
+
+        .btn-primary,
+        .btn-secondary {
             display: inline-block;
             padding: 12px 28px;
             border-radius: 30px;
@@ -86,7 +89,7 @@
             background-color: var(--primary-blue);
             color: var(--white);
         }
-        
+
         .btn-text {
             color: var(--primary-blue);
             font-weight: 600;
@@ -116,7 +119,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            min-width: 150px; 
+            min-width: 150px;
         }
 
         .main-header .logo span {
@@ -136,7 +139,7 @@
             width: 100%;
             padding: 12px 40px 12px 15px;
             border: 1px solid var(--medium-bg);
-            border-radius: 25px; 
+            border-radius: 25px;
             font-size: 14px;
             color: var(--dark-grey-text);
             background-color: var(--light-bg);
@@ -174,7 +177,7 @@
             font-size: 14px;
             font-weight: 600;
         }
-        
+
         .main-footer {
             background-color: var(--primary-blue);
             color: var(--white);
@@ -223,7 +226,7 @@
         }
 
         /* --- SERVICES PAGE REVISED STYLES --- */
-        
+
         .hero-banner {
             background-color: var(--primary-blue);
             color: var(--white);
@@ -242,7 +245,7 @@
             font-size: 18px;
             opacity: 0.9;
         }
-        
+
         .services-section {
             padding: 40px 0;
         }
@@ -255,7 +258,7 @@
             padding: 30px 0;
             border-bottom: 1px dashed var(--medium-bg);
         }
-        
+
         .service-feature:last-child {
             border-bottom: none;
             margin-bottom: 0;
@@ -287,27 +290,27 @@
             color: var(--dark-grey-text);
             margin-bottom: 15px;
         }
-        
+
         .cta-banner {
             background-color: var(--medium-bg);
             padding: 70px 0;
             text-align: center;
             border-top: 1px solid var(--medium-bg);
         }
-        
+
         .cta-banner h2 {
             font-size: 36px;
             color: var(--primary-blue);
             margin-bottom: 20px;
             font-weight: 700;
         }
-        
+
         .cta-banner p {
             font-size: 18px;
             color: var(--dark-grey-text);
             margin-bottom: 40px;
         }
-        
+
         /* MEDIA QUERIES */
         @media (max-width: 1024px) {
             .header-content {
@@ -315,19 +318,23 @@
                 justify-content: center;
                 gap: 15px;
             }
+
             .search-bar {
                 order: 3;
                 width: 100%;
                 max-width: 100%;
                 margin: 10px 0;
             }
+
             .main-nav {
                 order: 2;
                 margin-right: 0;
             }
+
             .main-header .logo {
                 order: 1;
             }
+
             .service-feature {
                 flex-direction: column;
                 align-items: center;
@@ -335,11 +342,12 @@
                 gap: 20px;
             }
         }
-        
+
         @media (max-width: 768px) {
             .hero-banner h1 {
                 font-size: 36px;
             }
+
             .service-icon-wrapper {
                 width: 60px;
                 height: 60px;
@@ -347,53 +355,60 @@
             }
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
-<body>
 
-   {% include "components/Header.html" %}
+<body class="d-flex flex-column min-vh-100">
+    {% include "components/Header.html" %}
 
-    <main>
-        
+    <main class="flex-fill">
+
         <section class="hero-banner">
             <div class="container">
                 <h1>Serviços para Compradores e Vendedores</h1>
                 <p>Nossas soluções foram criadas para garantir a melhor experiência em leilões online.</p>
             </div>
         </section>
-        
+
         <section class="services-section">
             <div class="container" style="max-width: 900px;">
-                <h2 style="font-size: 32px; color: var(--primary-blue); text-align: center; margin-bottom: 60px; font-weight: 700;">O que Oferecemos a Você</h2>
-                
+                <h2
+                    style="font-size: 32px; color: var(--primary-blue); text-align: center; margin-bottom: 60px; font-weight: 700;">
+                    O que Oferecemos a Você</h2>
+
                 <div class="service-feature">
                     <div class="service-icon-wrapper">
                         <i class="fas fa-gavel"></i>
                     </div>
                     <div class="service-content">
                         <h3>Plataforma de Leilões em Tempo Real</h3>
-                        <p>Participe de leilões dinâmicos com atualização de lances em milissegundos. Nosso sistema é seguro, transparente e projetado para a máxima emoção.</p>
+                        <p>Participe de leilões dinâmicos com atualização de lances em milissegundos. Nosso sistema é
+                            seguro, transparente e projetado para a máxima emoção.</p>
                         <a href="#" class="btn-text">Ver Leilões Ativos <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="service-feature">
                     <div class="service-icon-wrapper">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="service-content">
                         <h3>Análise de Mercado para Vendedores</h3>
-                        <p>Oferecemos ferramentas de análise e relatórios de mercado para ajudar os vendedores a precificar seus itens de forma otimizada e maximizar lucros.</p>
+                        <p>Oferecemos ferramentas de análise e relatórios de mercado para ajudar os vendedores a
+                            precificar seus itens de forma otimizada e maximizar lucros.</p>
                         <a href="#" class="btn-text">Acessar Painel do Vendedor <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="service-feature">
                     <div class="service-icon-wrapper">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="service-content">
                         <h3>Garantia de Autenticidade</h3>
-                        <p>Nossa equipe de curadoria verifica a procedência de itens de alto valor, oferecendo garantia total de autenticidade para a tranquilidade do comprador.</p>
+                        <p>Nossa equipe de curadoria verifica a procedência de itens de alto valor, oferecendo garantia
+                            total de autenticidade para a tranquilidade do comprador.</p>
                         <a href="#" class="btn-text">Política de Segurança <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -404,13 +419,14 @@
                     </div>
                     <div class="service-content">
                         <h3>Soluções Logísticas Integradas</h3>
-                        <p>Facilitamos a entrega com parcerias de transporte globais e embalagens seguras, cuidando da logística desde a coleta até a porta do comprador.</p>
+                        <p>Facilitamos a entrega com parcerias de transporte globais e embalagens seguras, cuidando da
+                            logística desde a coleta até a porta do comprador.</p>
                         <a href="#" class="btn-text">Detalhes de Envio <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section class="cta-banner">
             <div class="container" style="max-width: 900px;">
                 <h2>Quer Começar a Vender ou Dar um Lance?</h2>
@@ -419,10 +435,11 @@
                 <a href="#" class="btn-primary inverse-btn" style="margin-left: 20px;">Fale com um Especialista</a>
             </div>
         </section>
-        
+
     </main>
 
     {% include "components/Footer.html" %}
 
 </body>
+
 </html>

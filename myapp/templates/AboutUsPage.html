@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós - [Seu Site]</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-blue: #0C2340;
             --accent-orange: #FF8C00;
-            --light-bg: #FFFFFF; 
+            --light-bg: #FFFFFF;
             --medium-bg: #F5F5F5;
             --dark-grey-text: #333333;
             --light-text: #666;
@@ -44,9 +46,10 @@
         ul {
             list-style: none;
         }
-        
+
         /* General Buttons - Overriding base styles for more modern look */
-        .btn-primary, .btn-secondary {
+        .btn-primary,
+        .btn-secondary {
             display: inline-block;
             padding: 12px 28px;
             border-radius: 30px;
@@ -55,7 +58,8 @@
             transition: all 0.3s ease;
             font-size: 0.95rem;
             letter-spacing: 0.5px;
-            border: none; /* Add border: none for button elements */
+            border: none;
+            /* Add border: none for button elements */
             cursor: pointer;
         }
 
@@ -90,7 +94,7 @@
             background-color: var(--primary-blue);
             color: var(--white);
         }
-        
+
         /* Header styles from your CSS */
         .main-header {
             padding: 15px 0;
@@ -108,7 +112,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            min-width: 150px; 
+            min-width: 150px;
         }
 
         .main-header .logo span {
@@ -128,7 +132,7 @@
             width: 100%;
             padding: 12px 40px 12px 15px;
             border: 1px solid var(--medium-bg);
-            border-radius: 25px; 
+            border-radius: 25px;
             font-size: 14px;
             color: var(--dark-grey-text);
             background-color: var(--light-bg);
@@ -166,14 +170,15 @@
             font-size: 14px;
             font-weight: 600;
         }
-        
+
         /* Footer styles from your CSS */
         .main-footer {
             background-color: var(--primary-blue);
             color: var(--white);
             padding: 40px 0 20px;
             font-size: 14px;
-            margin-top: 60px; /* Add margin to separate from page content */
+            margin-top: 60px;
+            /* Add margin to separate from page content */
         }
 
         .footer-content {
@@ -216,7 +221,7 @@
         }
 
         /* --- ABOUT US PAGE SPECIFIC STYLES --- */
-        
+
         .hero-banner {
             background-color: var(--primary-blue);
             color: var(--white);
@@ -235,7 +240,7 @@
             font-size: 18px;
             opacity: 0.9;
         }
-        
+
         .section-about {
             padding: 40px 0;
         }
@@ -251,7 +256,7 @@
         .grid-item {
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             border-top: 5px solid var(--accent-orange);
             background-color: var(--white);
         }
@@ -292,7 +297,7 @@
             background-color: var(--white);
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
         }
 
@@ -329,100 +334,117 @@
                 justify-content: center;
                 gap: 15px;
             }
+
             .search-bar {
                 order: 3;
                 width: 100%;
                 max-width: 100%;
                 margin: 10px 0;
             }
+
             .main-nav {
                 order: 2;
                 margin-right: 0;
             }
+
             .main-header .logo {
                 order: 1;
             }
-            
+
             .mission-vision-grid {
                 grid-template-columns: 1fr;
             }
         }
-        
+
         @media (max-width: 768px) {
             .hero-banner h1 {
                 font-size: 36px;
             }
+
             .team-grid {
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
         }
     </style>
-</head>
-<body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+</head>
+
+<body class="d-flex flex-column min-vh-100">
     {% include "components/Header.html" %}
 
-    <main>
-        
+    <main class="flex-fill">
+
         <section class="hero-banner">
             <div class="container">
                 <h1>Conheça a Nossa História</h1>
                 <p>Construindo uma comunidade de leilões justa e emocionante desde 2025.</p>
             </div>
         </section>
-        
+
         <section class="section-about">
             <div class="container">
-                <h2 style="font-size: 32px; color: var(--primary-blue); text-align: center; margin-bottom: 40px; font-weight: 700;">Nosso Propósito</h2>
+                <h2
+                    style="font-size: 32px; color: var(--primary-blue); text-align: center; margin-bottom: 40px; font-weight: 700;">
+                    Nosso Propósito</h2>
                 <div class="mission-vision-grid">
-                    
+
                     <div class="grid-item">
                         <i class="fas fa-bullseye"></i>
                         <h3>Missão</h3>
-                        <p>Facilitar a compra e venda de itens únicos por meio de um sistema de leilões online transparente, seguro e acessível para todos.</p>
+                        <p>Facilitar a compra e venda de itens únicos por meio de um sistema de leilões online
+                            transparente, seguro e acessível para todos.</p>
                     </div>
-                    
+
                     <div class="grid-item">
                         <i class="fas fa-eye"></i>
                         <h3>Visão</h3>
-                        <p>Ser a plataforma líder global em leilões online, reconhecida pela excelência no serviço e pela inovação tecnológica contínua.</p>
+                        <p>Ser a plataforma líder global em leilões online, reconhecida pela excelência no serviço e
+                            pela inovação tecnológica contínua.</p>
                     </div>
-                    
+
                     <div class="grid-item">
                         <i class="fas fa-handshake"></i>
                         <h3>Valores</h3>
-                        <p>Transparência, Confiança, Comunidade, Inovação e Paixão por conectar vendedores e compradores.</p>
+                        <p>Transparência, Confiança, Comunidade, Inovação e Paixão por conectar vendedores e
+                            compradores.</p>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section class="section-about">
             <div class="container" style="max-width: 900px; text-align: center;">
-                <h2 style="font-size: 30px; color: var(--dark-grey-text); margin-bottom: 20px;">A História de Nossa Plataforma</h2>
-                <p style="font-size: 16px; margin-bottom: 25px;">Fundada por um grupo de entusiastas de antiguidades e tecnologia em 2025, a nossa plataforma nasceu da necessidade de um mercado de leilões que combinasse a emoção da disputa com a segurança do ambiente digital. Sempre focados em oferecer a melhor experiência ao usuário.</p>
-                <p style="font-size: 16px; margin-bottom: 30px;">Hoje, somos o lar de varios vendedores e itens, de colecionáveis raros a veículos e imóveis. Nosso compromisso é com você: garantir que cada lance seja justo e cada transação, impecável.</p>
+                <h2 style="font-size: 30px; color: var(--dark-grey-text); margin-bottom: 20px;">A História de Nossa
+                    Plataforma</h2>
+                <p style="font-size: 16px; margin-bottom: 25px;">Fundada por um grupo de entusiastas de antiguidades e
+                    tecnologia em 2025, a nossa plataforma nasceu da necessidade de um mercado de leilões que combinasse
+                    a emoção da disputa com a segurança do ambiente digital. Sempre focados em oferecer a melhor
+                    experiência ao usuário.</p>
+                <p style="font-size: 16px; margin-bottom: 30px;">Hoje, somos o lar de varios vendedores e itens, de
+                    colecionáveis raros a veículos e imóveis. Nosso compromisso é com você: garantir que cada lance seja
+                    justo e cada transação, impecável.</p>
                 <a href="#" class="btn-primary">Junte-se a Nós Hoje</a>
             </div>
         </section>
-        
+
         <section class="team-section">
             <div class="container">
                 <h2>Conheça a Nossa Equipe</h2>
                 <div class="team-grid">
-                    
+
                     <div class="team-member">
                         <div class="member-photo" style="background-image: url('placeholder-ceo.jpg');"></div>
                         <h4>Ana Silva</h4>
                         <p>CEO & Fundadora</p>
                     </div>
-                    
+
                     <div class="team-member">
                         <div class="member-photo" style="background-image: url('placeholder-cto.jpg');"></div>
                         <h4>Bruno Mendes</h4>
                         <p>CTO - Diretor de Tecnologia</p>
                     </div>
-                    
+
                     <div class="team-member">
                         <div class="member-photo" style="background-image: url('placeholder-cmo.jpg');"></div>
                         <h4>Carla Rocha</h4>
@@ -434,14 +456,15 @@
                         <h4>Diego Farias</h4>
                         <p>Chefe de Suporte ao Cliente</p>
                     </div>
-                    
+
                 </div>
             </div>
         </section>
-        
+
     </main>
 
     {% include "components/Footer.html" %}
 
 </body>
+
 </html>
