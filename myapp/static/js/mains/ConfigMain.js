@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const navItems = document.querySelectorAll(".nav-item[data-section]");
   const contentSections = document.querySelectorAll(".settings-section");
+  alert(contentSections)
 
   function switchSection(sectionId) {
     contentSections.forEach((s) => {
