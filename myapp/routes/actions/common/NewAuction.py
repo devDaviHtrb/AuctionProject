@@ -40,7 +40,7 @@ def new_auction() -> Tuple[Response, int]:
     for technical_feature in necessary_technical_features:
         feature_id =        technical_feature.technical_feature_id 
         feature_name =      technical_feature.technical_feature_name
-        value =             request.form.get(feature_name, None)
+        value =             request.form.get(feature_name, ' ')
         tch_feat_val_repository.save_item({
             "value":                value, #CONTENT
             "product_id":           product.product_id,

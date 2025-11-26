@@ -1,12 +1,13 @@
 const loadingOverlay = document.getElementById('loading-overlay');
 
 function showLoading() {
-    loadingOverlay.classList.add('active');
+  loadingOverlay.classList.add('active');
 }
 
 function hideLoading() {
-    loadingOverlay.classList.remove('active');
+  loadingOverlay.classList.remove('active');
 }
+
 document.addEventListener('DOMContentLoaded', async () => {
   const fileUpload = document.getElementById('file-upload');
   const previewContainer = document.getElementById('photo-preview-container');
@@ -32,39 +33,40 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   fileUpload.addEventListener('change', (e) => {
-    const newFiles = Array.from(e.target.files);
+    const selectedFiles = Array.from(e.target.files);
 
-    if (photosFiles.length + newFiles.length > 5) {
+    if (photosFiles.length + selectedFiles.length > 5) {
       alert("Você pode adicionar no máximo 5 fotos.");
       fileUpload.value = '';
       return;
     }
 
-    newFiles.forEach(file => {
+    selectedFiles.forEach(file => {
       photosFiles.push(file);
 
       const reader = new FileReader();
       reader.onload = (ev) => {
-        const div = document.createElement('div');
-        div.classList.add('photo-preview-item');
-        div.style.backgroundImage = `url('${ev.target.result}')`;
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('photo-preview-item');
+        wrapper.style.backgroundImage = `url('${ev.target.result}')`;
 
         const removeBtn = document.createElement('span');
         removeBtn.classList.add('remove-btn');
         removeBtn.innerHTML = '<i class="fas fa-times"></i>';
 
         removeBtn.addEventListener('click', () => {
-          previewContainer.removeChild(div);
+          wrapper.remove();
           photosFiles = photosFiles.filter(f => f !== file);
         });
 
-        div.appendChild(removeBtn);
-        previewContainer.appendChild(div);
+        wrapper.appendChild(removeBtn);
+        previewContainer.appendChild(wrapper);
       };
+
       reader.readAsDataURL(file);
     });
 
-    fileUpload.value = '';
+    e.target.value = '';
   });
 
   categorySelect.addEventListener('change', () => {
@@ -82,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const input = document.createElement('input');
       input.type = 'text';
-      input.name = feature.toLowerCase().replace(/\s+/g, '_');
+      input.name = feature;
       input.placeholder = feature;
       div.appendChild(input);
 
@@ -96,7 +98,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const formData = new FormData(form);
 
+   
+    formData.delete("photos");
+
+  
     photosFiles.forEach(file => formData.append('photos', file));
+
+ 
+    const startInput = document.getElementById('start-date');
+  const startVal = startInput.value;  // ex: "2025-11-25T19:47"
+
+  if (startVal) {
+
+      const withBrazilOffset = `${startVal}:00-03:00`;
+      formData.set('start_datetime', withBrazilOffset);
+  }
+
 
     try {
       const response = await fetch('/new/Auction', {

@@ -10,7 +10,7 @@ def get_missing_info(
     data = {}
     missingInfo = []
     for requiredData in datakey:
-        value = request.form.get(requiredData, None) if requiredData not in ["photo", "photos"] else request.files.get(requiredData, None)
+        value = request.form.get(requiredData, None) if requiredData not in ["photo", "photos"] else request.files.getlist(requiredData, None)
         if ((value == "" or value is None) and (requiredData not in nullAbleValues)):
             missingInfo.append(requiredData)
         else:
