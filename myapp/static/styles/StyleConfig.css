@@ -167,6 +167,7 @@ ul {
   color: var(--dark-grey-text);
   font-weight: 500;
   transition: color 0.3s ease;
+ 
 }
 
 .main-nav ul li a:hover {
@@ -612,6 +613,7 @@ ul {
   color: var(--dark-grey-text);
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s;
+  text-decoration: none;
 }
 
 .nav-item a:hover {
@@ -667,6 +669,7 @@ ul {
   display: block;
   font-weight: 600;
   margin-bottom: 8px;
+  margin-right: 8px;
   color: var(--primary-blue);
 }
 .settings-form-card input[type="text"],
@@ -1089,3 +1092,5 @@ input:checked + .slider:before {
 .address-item .btn-danger:hover {
     background: #d72626;
 }
+
+
