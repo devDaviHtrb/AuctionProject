@@ -505,12 +505,12 @@
         <section class="profile-content-layout">
 
             <div class="main-activity-feed">
-
+                {%if bids%}
                 <h2>Últimos 3 Lances</h2>
 
-
+                {%for bid in bids%}
                 <div class="activity-post-card">
-                    {%for bid in bids%}
+
                     <div class="activity-post-header">
                         <i class="fas fa-gavel" style="color: var(--light-text);"></i>{% if bid['status'] == 'top' %}
                         Você está no topo {%endif%}{% if bid['status'] == 'outbid' %} Você foi ultrapassado {%endif%}{%
@@ -527,76 +527,10 @@
                     </div>
                 </div>
                 {%endfor%}
-                <div class="activity-post-header">
-                    <i class="fas fa-gavel" style="color: var(--light-text);"></i> Você foi ultrapassado em um lance
-                    há 5 horas
-                </div>
-                <div class="activity-post-item">
-                    <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=C1" alt="Carro Clássico">
-                    <div class="activity-post-item-details">
-                        <h4>Carro Clássico Mustang 1968</h4>
-                        <p>Seu lance: R$ 85.000,00</p>
-                        <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
-                    </div>
-                </div>
-            </div>
+                {%else%}
+                <h2>Você ainda não possui lances ativos ou vencedores</h2>
+                {%endif%}
 
-
-            <div class="activity-post-card">
-                <div class="activity-post-header">
-                    <i class="fas fa-gavel" style="color: var(--primary-blue);"></i> Você deu um lance há 1 dia
-                </div>
-                <div class="activity-post-item">
-                    <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=R1" alt="Relógio de Luxo">
-                    <div class="activity-post-item-details">
-                        <h4>Relógio Suíço Chronos 1980 Edição Limitada</h4>
-                        <p>Seu lance: R$ 15.200,00</p>
-                        <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="activity-post-card">
-                <div class="activity-post-header">
-                    <i class="fas fa-gavel" style="color: var(--light-text);"></i> Você foi ultrapassado em um lance
-                    há 2 dias
-                </div>
-                <div class="activity-post-item">
-                    <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=J1" alt="Joia Rara">
-                    <div class="activity-post-item-details">
-                        <h4>Colar de Diamantes Raros</h4>
-                        <p>Seu lance: R$ 5.000,00</p>
-                        <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
-                    </div>
-                </div>
-            </div>
-
-
-
-            </div>
-
-            <div class="sidebar-stats">
-                <h3>Sobre Jonas</h3>
-                <p style="margin-bottom: 25px; font-size: 15px; color: var(--light-text);">Colecionador e investidor de
-                    arte e relógios. Ativo na plataforma Lanciare desde o lançamento, com foco em itens de luxo e
-                    raridades verificadas.</p>
-
-                <h3>Estatísticas Públicas</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li><span>Itens Vendidos</span> <span>35</span></li>
-                    <li><span>Itens Comprados</span> <span>85</span></li>
-                    <li><span>Leilões Ativos</span> <span>2</span></li>
-
-                </ul>
-
-                <h3 style="margin-top: 25px; margin-bottom: 10px; border-bottom: none; display: block;">Redes Sociais
-                </h3>
-                <div class="social-links">
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                </div>
             </div>
 
         </section>
