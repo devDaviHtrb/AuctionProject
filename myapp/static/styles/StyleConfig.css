@@ -667,6 +667,7 @@ ul {
   display: block;
   font-weight: 600;
   margin-bottom: 8px;
+  margin-right: 8px;
   color: var(--primary-blue);
 }
 .settings-form-card input[type="text"],
@@ -1090,6 +1091,4 @@ input:checked + .slider:before {
     background: #d72626;
 }
 
-label{
-  margin-right: 8 px;
-}
+
