@@ -11,7 +11,6 @@ address_bp = Blueprint("userAddress", __name__)
 @address_bp.route("/new/address", methods=["POST"])
 def user_address() -> Tuple[Response, int]:
     user_id = session.get("user_id")
-    user_adresses = addresses.query.filter_by(user_id=user_id).all()
 
     street_name = request.form.get("street_name", None)
     street_number = request.form.get("street_number", None)
