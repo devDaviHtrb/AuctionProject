@@ -1017,3 +1017,75 @@ input:checked + .slider:before {
   background-color: #143a68;
   transform: scale(1.05);
 }
+.address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.address-main {
+    margin: 0;
+}
+
+.address-info {
+    margin: 3px 0;
+    color: #444;
+}
+
+#addresses_container h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #222;
+}
+
+
+.address-item {
+    background: #ffffff;
+    border: 1px solid #dedede;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: 0.2s ease;
+}
+
+.address-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+
+.address-item p {
+    margin: 4px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+
+.address-item .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #0073ff;
+    color: #fff;
+    border-radius: 18px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+.address-item .btn-danger {
+    background: #ff3b3b;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 8px;
+    transition: 0.2s;
+}
+
+.address-item .btn-danger:hover {
+    background: #d72626;
+}

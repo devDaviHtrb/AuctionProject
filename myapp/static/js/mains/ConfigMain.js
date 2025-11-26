@@ -117,19 +117,27 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           addresses.forEach((addr) => {
             html += `
-              <div class="address-item">
-                <p><strong>${addr.street_name}, ${addr.street_number}</strong> ${addr.apt || ""}</p>
-                <p>${addr.district} - ${addr.city}/${addr.state}</p>
-                <p>CEP: ${addr.zip_code}</p>
-                ${
-                  addr.principal_address
-                    ? `<p><span class="badge">Principal</span></p>`
-                    : ""
-                }
-                <form class="remove-address-form" data-id="${addr.address_id}" style="display:inline;">
-                  <button type="submit" class="btn-danger">Remover</button>
-                </form>
-              </div>
+             <div class="address-item">
+    <div class="address-header">
+        <p class="address-main">
+            <strong>${addr.street_name}, ${addr.street_number}</strong>
+            ${addr.apt || ""}
+        </p>
+
+        ${
+          addr.principal_address
+            ? `<span class="badge">Principal</span>`
+            : ""
+        }
+    </div>
+
+    <p class="address-info">${addr.district} - ${addr.city}/${addr.state}</p>
+    <p class="address-info">CEP: ${addr.zip_code}</p>
+
+    <form class="remove-address-form" data-id="${addr.address_id}">
+        <button type="submit" class="btn-danger">Remover</button>
+    </form>
+</div>
             `;
           });
         }
