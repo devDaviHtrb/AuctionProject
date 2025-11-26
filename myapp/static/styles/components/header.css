@@ -40,6 +40,9 @@ body {
     flex-wrap: wrap;
     gap: 15px;
 }
+header a{
+  text-decoration: none;
+}
 
 .logo {
     display: flex;
