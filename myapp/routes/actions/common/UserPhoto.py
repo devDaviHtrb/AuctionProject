@@ -26,7 +26,7 @@ def update_profile_photo() -> Tuple[Response, int]:
         user.photo = url[0]
         db.session.commit()
         session["user_photo"] = url[0]
-        return redirect(url_for(CONFIG_PAGE, msg="sucessful")), 200
+        return redirect(url_for(CONFIG_PAGE, msg="sucessful"))
 
     except Exception as e:
         return redirect(url_for(CONFIG_PAGE, msg="Internal Error"))
