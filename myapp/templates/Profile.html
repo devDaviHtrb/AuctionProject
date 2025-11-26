@@ -488,16 +488,15 @@
         <section class="profile-cover">
             <div class="profile-info-bar">
                 <div class="profile-details">
-                    <!-- A foto de perfil é puxada para o topo usando margin-top negativo -->
-                    <img src="https://via.placeholder.com/130x130/808080/FFFFFF?text=J" alt="Foto de Perfil"
-                        class="profile-picture">
+
+                    <img src="{{ user.photo }}" alt="Foto de Perfil" class="profile-picture">
                     <div class="profile-meta">
                         <h1>Jonas Silva</h1>
                         <p>@jonas_lances | Membro desde Jan/2023</p>
                     </div>
-                    <!-- AÇÕES DE MENSAGEM E SEGUIR REMOVIDAS -->
+
                     <div class="profile-actions">
-                        <!-- Ações removidas conforme solicitado -->
+
                     </div>
                 </div>
             </div>
@@ -506,57 +505,74 @@
         <section class="profile-content-layout">
 
             <div class="main-activity-feed">
-                <!-- TÍTULO ALTERADO PARA REFLETIR APENAS LANCES -->
+
                 <h2>Últimos 3 Lances</h2>
 
-                <!-- CARD 1: Lance mais recente (Ultrapassado) -->
+
                 <div class="activity-post-card">
+                    {%for bid in bids%}
                     <div class="activity-post-header">
-                        <i class="fas fa-gavel" style="color: var(--light-text);"></i> Você foi ultrapassado em um lance
-                        há 5 horas
+                        <i class="fas fa-gavel" style="color: var(--light-text);"></i>{% if bid['status'] == 'top' %}
+                        Você está no topo {%endif%}{% if bid['status'] == 'outbid' %} Você foi ultrapassado {%endif%}{%
+                        if bid['status'] == 'winner' %}Você foi o ganhador{%endif%}
                     </div>
                     <div class="activity-post-item">
-                        <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=C1" alt="Carro Clássico">
+                        <img src="{{bid['image_url']}}" alt="Carro Clássico">
                         <div class="activity-post-item-details">
-                            <h4>Carro Clássico Mustang 1968</h4>
-                            <p>Seu lance: R$ 85.000,00</p>
-                            <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
+                            <h4>{{ bid['product'].product_name }}</h4>
+                            <p>Seu lance: {{ bid['bid'].bid_value }}</p>
+                            <a href="/auction/{{ bid['product'].product_room }}" class="btn-text"
+                                style="font-size: 14px;">Ver Leilão</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- CARD 2: Outro Lance dado -->
-                <div class="activity-post-card">
-                    <div class="activity-post-header">
-                        <i class="fas fa-gavel" style="color: var(--primary-blue);"></i> Você deu um lance há 1 dia
-                    </div>
-                    <div class="activity-post-item">
-                        <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=R1" alt="Relógio de Luxo">
-                        <div class="activity-post-item-details">
-                            <h4>Relógio Suíço Chronos 1980 Edição Limitada</h4>
-                            <p>Seu lance: R$ 15.200,00</p>
-                            <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
-                        </div>
+                {%endfor%}
+                <div class="activity-post-header">
+                    <i class="fas fa-gavel" style="color: var(--light-text);"></i> Você foi ultrapassado em um lance
+                    há 5 horas
+                </div>
+                <div class="activity-post-item">
+                    <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=C1" alt="Carro Clássico">
+                    <div class="activity-post-item-details">
+                        <h4>Carro Clássico Mustang 1968</h4>
+                        <p>Seu lance: R$ 85.000,00</p>
+                        <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
                     </div>
                 </div>
+            </div>
 
-                <!-- CARD 3: Lance ultrapassado mais antigo -->
-                <div class="activity-post-card">
-                    <div class="activity-post-header">
-                        <i class="fas fa-gavel" style="color: var(--light-text);"></i> Você foi ultrapassado em um lance
-                        há 2 dias
-                    </div>
-                    <div class="activity-post-item">
-                        <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=J1" alt="Joia Rara">
-                        <div class="activity-post-item-details">
-                            <h4>Colar de Diamantes Raros</h4>
-                            <p>Seu lance: R$ 5.000,00</p>
-                            <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
-                        </div>
+
+            <div class="activity-post-card">
+                <div class="activity-post-header">
+                    <i class="fas fa-gavel" style="color: var(--primary-blue);"></i> Você deu um lance há 1 dia
+                </div>
+                <div class="activity-post-item">
+                    <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=R1" alt="Relógio de Luxo">
+                    <div class="activity-post-item-details">
+                        <h4>Relógio Suíço Chronos 1980 Edição Limitada</h4>
+                        <p>Seu lance: R$ 15.200,00</p>
+                        <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
                     </div>
                 </div>
+            </div>
 
-                <!-- BOTÃO DE "CARREGAR MAIS" REMOVIDO -->
+
+            <div class="activity-post-card">
+                <div class="activity-post-header">
+                    <i class="fas fa-gavel" style="color: var(--light-text);"></i> Você foi ultrapassado em um lance
+                    há 2 dias
+                </div>
+                <div class="activity-post-item">
+                    <img src="https://via.placeholder.com/80x80/0C2340/FFFFFF?text=J1" alt="Joia Rara">
+                    <div class="activity-post-item-details">
+                        <h4>Colar de Diamantes Raros</h4>
+                        <p>Seu lance: R$ 5.000,00</p>
+                        <a href="#" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
+                    </div>
+                </div>
+            </div>
+
+
 
             </div>
 
@@ -571,7 +587,7 @@
                     <li><span>Itens Vendidos</span> <span>35</span></li>
                     <li><span>Itens Comprados</span> <span>85</span></li>
                     <li><span>Leilões Ativos</span> <span>2</span></li>
-                    <!-- ESTATÍSTICA DE SEGUIDORES REMOVIDA -->
+
                 </ul>
 
                 <h3 style="margin-top: 25px; margin-bottom: 10px; border-bottom: none; display: block;">Redes Sociais
