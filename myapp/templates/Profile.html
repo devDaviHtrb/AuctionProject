@@ -481,28 +481,7 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <header class="main-header">
-        <div class="container header-content">
-            <div class="logo">
-                <img src="https://via.placeholder.com/40x40/0C2340/FF8C00?text=L" alt="Lanciare Logo">
-                <span>Lanciare.</span>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Buscar produtos, marcas e mais...">
-                <i class="fas fa-search"></i>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Leilões</a></li>
-                    <li><a href="about.html">Sobre Nós</a></li>
-                </ul>
-                <a href="login.html" class="btn-login">
-                    <i class="fas fa-sign-in-alt"></i> Entrar
-                </a>
-            </nav>
-        </div>
-    </header>
+    {% include "components/Header.html" %}
 
     <main class="flex-fill">
 
