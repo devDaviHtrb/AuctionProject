@@ -4,6 +4,14 @@ const listContainer = document.getElementById("autocompleteList");
 let suggestions = []; 
 let currentFocus = -1;
 
+
+const userButton1 = document.getElementById('userButton');
+const dropdown = document.getElementById('dropdownMenu');
+
+userButton1.addEventListener('click', () => {
+  dropdown.classList.toggle('visible');
+});
+
 async function fetchSuggestions() {
     try {
         const response = await fetch('/get/searchs-info');
@@ -115,16 +123,9 @@ document.addEventListener("click", function (e) {
     if (!e.target.closest(".search-bar")) listContainer.innerHTML = "";
 });
 
-const userButton = document.getElementById("userButton");
-const dropdownMenu = document.getElementById("dropdownMenu");
-if (userButton)
-{userButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    dropdownMenu.classList.toggle("hidden");
-});}
 
 document.addEventListener("click", (e) => {
-    if (!dropdownMenu.contains(e.target) && !userButton.contains(e.target)) {
+    if (!dropdownMenu.contains(e.target) && !userButton1.contains(e.target)) {
         dropdownMenu.classList.add("hidden");
     }
 });

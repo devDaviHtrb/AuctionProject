@@ -117,6 +117,8 @@ header a{
     display: flex;
     align-items: center;
     gap: 25px;
+    margin-left: 50px;
+    margin-right: 50px;
 
 }
 
@@ -201,6 +203,15 @@ header a{
   transition: background 0.2s;
 }
 
+.user-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
 .user-button:hover {
   background: #f2f2f2;
 }
@@ -211,22 +222,36 @@ header a{
   border-radius: 50%;
 }
 
-.dropdown {
-  position: absolute;
-  
-  top: 70px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  width: 180px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  animation: fadeIn 0.2s ease;
-  z-index: 100;
+.user-menu-header {
+  position: relative;
+  display: inline-block;
 }
 
-.dropdown.hidden {
-  display: none;
+.dropdown {
+  position: absolute;
+  top: 100%; 
+  left: 50%;
+  transform: translateX(-50%) translateY(-5px); 
+  margin-top: 8px;
+  width: 180px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  z-index: 100;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdown.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0); 
 }
 
 .dropdown-header {
@@ -252,6 +277,19 @@ header a{
 .dropdown-item.logout {
   color: #d33;
 }
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 @keyframes fadeIn {
   from {
@@ -286,6 +324,7 @@ header a{
 }
 .input-group-header input {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  max-height: 35px;
 }
 
 .input-group-header input:focus {
