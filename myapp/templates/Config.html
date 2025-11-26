@@ -307,8 +307,13 @@
         </div>
 
         <div id="security" class="settings-section hidden-section">
-          <h2>Segurança</h2>
-          <p>Conteúdo para alterar senha e configurar 2FA.</p>
+          <form action="/auth/change" method="`POST">
+            <div class="input-group">
+              <label for="email">Email</label>
+              <input type="text" name="email" id="email" required>
+            </div>
+            <button type="submit" class="btn-primary">Mudar Senha</button>
+          </form>
         </div>
       </section>
     </div>
