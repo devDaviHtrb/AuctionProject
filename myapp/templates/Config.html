@@ -109,8 +109,8 @@
               <div class="input-group">
                 <label for="gender">Sexo</label>
                 <select id="gender" name="gender">
-                  <option value="{{gender}}">{% if gender=="male" %}Masculino{% endif %}{% if gender=="female" %}Feminino{% endif %} {% if gender=="other" %}Outro{% endif %}>Outro</option>
-                </select></option>
+                  <option value="{{gender}}">{% if gender=="male" %}Masculino{% endif %}{% if gender=="female" %}Feminino{% endif %} {% if gender=="other" %}Outro{% endif %}></option>
+                </option>
                 {% if gender=="female" or gender=="other"%}<option value="male" {% if gender=="male" %}selected{% endif %}>Masculino</option>{% endif %}
                   {% if gender=="male" or gender=="other" %}<option value="female" {% if gender=="female" %}selected{% endif %}>Feminino</option>{% endif %}
                   {% if gender=="female" or gender=="male"%}<option value="other" {% if gender=="other" %}selected{% endif %}>Outro</option>{% endif %}
