@@ -19,7 +19,7 @@ def upload_image(files, folder:str):
             urls.append(result["secure_url"])
         return urls
     except Exception as e:
-        print("Cloudinary upload error:", e)
+        print("Cloudinary upload error:", e, flush=True)
         return False
        
 

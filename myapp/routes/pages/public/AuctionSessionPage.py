@@ -9,7 +9,7 @@ auction = Blueprint("auctionPage", __name__)
 def AuctionPage(roomToken: str) -> Response:
     product = product_repository.get_a_and_status_by_room_id(roomToken)
     if (not product):
-        abort(400)
+        abort(404)
 
     product_images = product_repository.get_images(product)
 

@@ -9,7 +9,7 @@ from myapp.models.TechnicalFeaturesValues import technical_features_values
 from myapp.models.LegalInfos import legal_infos
 from myapp.setup.InitCache import cached
 from myapp.setup.InitSqlAlchemy import db
-import myapp.repositories.AddressRepository as address_repository
+import myapp.repositories.LegalInfosRepository as legal_info_repository
 import myapp.repositories.BidRepository as bids_repository
 from typing import Dict, Any, List, Optional, Tuple
 from sqlalchemy import select
@@ -27,40 +27,42 @@ def save_item(data: Dict[str, Any], legal_data:Optional[Dict[str, Any]] = None) 
     if data.get("product_status"):
         data["product_status"] = db.session.execute(
             select(product_statuses.product_status_id)
-            .where(product_statuses.product_status == data["product_status"].lower())
+            .where(product_statuses.product_status == NOT_OCCURRING)
         ).scalar()
 
     if data.get("category"):
         data["category"] = db.session.execute(
             select(categories.category_id)
-            .where(categories.category_name == data["category"].lower())
+            .where(categories.category_name == data["category"])
         ).scalar()
-    product_imgs = upload_image(data["photos"], "Users_photos")
+    valid_files = [f for f in data.get("photos", list()) if f and f.filename]
+    product_imgs = upload_image(valid_files, "Users_photos")
     
-    if product_imgs:
-        data["photos_url"] = product_imgs
-    else:
-        print("Db connection error")
-
+    print(data, flush=True)
+    data.pop("photos")
     data["first_value"] = data["min_bid"]
     new_product = products(**data)
     db.session.add(new_product)
     db.session.flush() 
 
-    if data.get("photos_url"):
-        for url in data["photos_url"]:
-            new_product_img = images(
-                image=url,
-                principal_image=True if data["photos_url"].index(url) == 0 else False,
-                product_id=new_product.product_id
+    photos_url = []
+    if product_imgs:
+        photos_url = product_imgs
+    else:
+        print("Db connection error")
+    for url in photos_url:
+        new_product_img = images(
+            image=url,
+            principal_image=True if photos_url.index(url) == 0 else False,
+            product_id=new_product.product_id
         )
-            db.session.add(new_product_img)
+        db.session.add(new_product_img)
 
     db.session.commit()
 
     if (legal_data):
         legal_data["product_id"] = new_product.product_id
-        address_repository.save_item(legal_data)
+        legal_info_repository.save_item(legal_data)
 
     return new_product
 

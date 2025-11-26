@@ -66,46 +66,48 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById("dlt-btn").style.display = "inline-block";
         }
     }
+/*
 
-    document.getElementById("dlt-btn").addEventListener("click", () => {
-        const modal = document.getElementById("confirm-remove-bid");
-        modal.classList.add("show");
-
-        const yes = document.getElementById("confirm-yes");
-        const no = document.getElementById("confirm-no");
-
+document.getElementById("dlt-btn").addEventListener("click", () => {
+    const modal = document.getElementById("confirm-remove-bid");
+    modal.classList.add("show");
     
-        no.onclick = () => modal.classList.remove("show");
-
+    const yes = document.getElementById("confirm-yes");
+    const no = document.getElementById("confirm-no");
+    
+    
+    no.onclick = () => modal.classList.remove("show");
+    
+    
+    yes.onclick = async () => {
+        modal.classList.remove("show");
         
-        yes.onclick = async () => {
-            modal.classList.remove("show");
-
-            if (!window.user.logged) {
+        if (!window.user.logged) {
                 showNotification('error', `Você nao esta logado`);
                 return;
             }
-
+            
             try {
                 const response = await fetch(`/del/bid/${window.product_id}`, {
                     method: "DELETE",
                 });
-
+                
                 const data = await response.json();
-
+                
                 if (response.ok) {
                     showNotification('bid', `Lance(s) retirado(s)`);
                 } else {
                     showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
-                }
-            } catch (err) {
-                showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
             }
-        };
-    });
+        } catch (err) {
+            showNotification('error', `Não foi possivel retirar seu(s) lance(s)`);
+        }
+    };
+});
+*/
 
 
-    function setupTimer(element, relatedButton) {
+function setupTimer(element, relatedButton) {
         const startTime = new Date(element.dataset.start).getTime();
         const durationMinutes = parseFloat(element.dataset.duration);
         const durationMs = durationMinutes * 60 * 1000;

@@ -955,3 +955,10 @@ main{
 .confirm-modal.fade-out .confirm-box {
     animation: fadeOutModal .25s ease-in forwards;
 }
+
+.soft-background {
+    width: 100%;
+    background-color: #f7f7f7;
+    border-radius: 7px;
+    padding: 10px;
+}

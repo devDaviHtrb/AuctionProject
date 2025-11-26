@@ -19,7 +19,8 @@
     <div class="confirm-box">
         <h3>Remover Lance</h3>
         <p>Você tem certeza que deseja remover seu(s) lance(s)?<br>
-        <strong>Atenção:</strong> se remover, você não poderá mais dar novos lances neste produto.</p>
+            <strong>Atenção:</strong> se remover, você não poderá mais dar novos lances neste produto.
+        </p>
 
         <div class="confirm-actions">
             <button id="confirm-yes" class="confirm-btn yes">Sim, remover</button>
@@ -27,6 +28,7 @@
         </div>
     </div>
 </div>
+
 <body>
     {% include "components/Header.html" %}
     <div id="notification-container"></div>
@@ -38,8 +40,11 @@
 
                 <div class="gallery-section">
                     <div class="main-image-display">
-                        <img id="main-photo" src="{{ product_images[0].image if product_images[0] else '#'}}"
-                            alt="Foto Principal">
+                        <div class="soft-background">
+                            <img style="max-height: 550px; width: auto; height: auto; display: block; object-fit: contain; margin: 0 auto;"
+                                id="main-photo" src="{{ product_images[0].image if product_images[0] else '#'}}"
+                                alt="Foto Principal">
+                        </div>
                     </div>
                     <div class="thumbnails">
                         <img id="" src="{{ product_images[0].image if product_images[0] else '#' }}"
@@ -66,7 +71,9 @@
                                 last_bid.username }}</a>
                             {% endif %}
                             )
-                            <button class="delete-btn" id="dlt-btn" style="display: none;"> retirar lance(s)</button>
+                            <!--
+                                <button class="delete-btn" id="dlt-btn" style="display: none;"> retirar lance(s)</button>
+                            -->
                         </p>
                         <span id="current-price" class="price-display">R$ {{ product.min_bid }}</span>
                     </div>
@@ -76,6 +83,8 @@
                         <span id="time-left" data-start="{{ product.start_datetime.isoformat() }}"
                             data-duration="{{ product.duration }}">
                         </span>
+
+
                     </div>
 
 
@@ -116,6 +125,15 @@
                         ('Número', product.street_number)
                         ] %}
 
+                        {% set non_null_attrs = [] %}
+
+                        {% for label, value in location_attrs %}
+                        {# filtra None, "", " " #}
+                        {% if value is not none and value|trim != '' %}
+                        {% set _ = non_null_attrs.append((label, value)) %}
+                        {% endif %}
+                        {% endfor %}
+
                         {% if non_null_attrs %}
                         <h3>Localização</h3>
                         <ul>
@@ -125,15 +143,6 @@
                         </ul>
                         {% endif %}
 
-                        {% set location_attrs = [
-                        ('Estado', product.state),
-                        ('Cidade', product.city),
-                        ('Bairro', product.district),
-                        ('Rua', product.street_name),
-                        ('Número', product.street_number)
-                        ] %}
-
-                        {% set non_null_attrs = location_attrs | selectattr(1) | list %}
 
                         {% if non_null_attrs %}
                         <h3>Localização</h3>
@@ -143,6 +152,7 @@
                             {% endfor %}
                         </ul>
                         {% endif %}
+
 
                         {% set process_attrs = [
                         ('Número do Processo', product_legal.process_number),
