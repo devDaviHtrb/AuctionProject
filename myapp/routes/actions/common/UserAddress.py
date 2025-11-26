@@ -7,51 +7,61 @@ from typing import Tuple
 
 address_bp = Blueprint("userAddress", __name__)
 
-@address_bp.route("/new/address", methods = ["POST"])
+
+@address_bp.route("/new/address", methods=["POST"])
 def user_address() -> Tuple[Response, int]:
     user_id = session.get("user_id")
+    user_adresses = addresses.query.filter_by(user_id=user_id).all()
+
     street_name = request.form.get("street_name", None)
     street_number = request.form.get("street_number", None)
-    apt =request.form.get("apt", None)
+    apt = request.form.get("apt", None)
     zip_code = request.form.get("zip_code", None)
-    district =request.form.get("district", None)
+    district = request.form.get("district", None)
     city = request.form.get("city", None)
     state = request.form.get("uf", None)
     principal_address = True if request.form.get("principal_address", None) else False
 
-    
-
     data = {
-        "user_id":              user_id,
-        "street_name":          street_name,
-        "street_number":        street_number,
-        "zip_code":             zip_code,
-        "district":             district,
-        "city":                 city,
-        "state":                state,
-        "principal_address":    principal_address
+        "user_id": user_id,
+        "street_name": street_name,
+        "street_number": street_number,
+        "zip_code": zip_code,
+        "district": district,
+        "city": city,
+        "state": state,
+        "principal_address": principal_address
     }
+
     missingInfo = [k for k in data if data[k] and k != "principal_address" is None]
-    if (missingInfo):
+    if missingInfo:
         return jsonify({
-            "Error":        "Missing info",
-            "MissigInfo":   missingInfo
+            "Error": "Missing info",
+            "MissigInfo": missingInfo
         }), 400
+    
     data["apt"] = apt
 
-    if(not adress_validation(
-        zip_code,
-        district,
-        state,
-        city
-    )):
+    if not adress_validation(zip_code, district, state, city):
         return redirect(url_for(CONFIG_PAGE, msg=state))
-    
+
+    if principal_address:
+        current_principal = addresses.query.filter_by(
+            user_id=user_id,
+            principal_address=True
+        ).first()
+
+        if current_principal:
+            current_principal.principal_address = False
+            address_repository.save_item(current_principal.to_dict())
+
     address_repository.save_item(data)
+
     return jsonify({
         "Address": data,
         "success": True
     }), 201
+
 
 
 
