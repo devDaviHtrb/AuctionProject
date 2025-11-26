@@ -363,7 +363,7 @@
         }
 
 
- :root {
+        :root {
             --primary-blue: #0C2340;
             --accent-orange: #FF8C00;
             --light-bg: #FFFFFF;
@@ -710,7 +710,7 @@
         }
 
 
-                :root {
+        :root {
             --primary-blue: #0C2340;
             --accent-orange: #FF8C00;
             --light-bg: #FFFFFF;
@@ -1095,7 +1095,7 @@
         }
 
 
-         :root {
+        :root {
             --primary-blue: #0C2340;
             --accent-orange: #FF8C00;
             --light-bg: #FFFFFF;
@@ -1476,7 +1476,7 @@
             }
         }
 
-          :root {
+        :root {
             --primary-blue: #0C2340;
             --accent-orange: #FF8C00;
             --light-bg: #FFFFFF;
