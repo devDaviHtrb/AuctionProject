@@ -1089,3 +1089,7 @@ input:checked + .slider:before {
 .address-item .btn-danger:hover {
     background: #d72626;
 }
+
+label{
+  margin-right: 8 px;
+}
