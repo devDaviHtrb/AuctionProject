@@ -19,15 +19,15 @@ def ProfilePage(username:str = None) -> Response:
 
     data = get_all_user_bids(user.user_id)
 
-    bids = data.get("bids", []) 
+    tbids = data.get("bids", []) 
     
     limit_bids = []#[{}]
-    for i in range(min(len(bids), 3)):
+    for i in range(min(len(tbids), 3)):
         # shit my friends, It's so amazing...
-        product = product_repository.get_by_id(bids.product_id)
+        product = product_repository.get_by_id(tbids.product_id)
         limit_bids.append({
-            "bids":     bids[i],
-            "photo":    product_repository.get_images(bids.product_id)[0],
+            "bids":     tbids[i],
+            "photo":    product_repository.get_images(tbids.product_id)[0],
             "status":   product_repository.get_status(product),
             "name":     product.product_name,
             "room":     product.product_room,
