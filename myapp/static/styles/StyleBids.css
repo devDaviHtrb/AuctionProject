@@ -741,3 +741,8 @@ ul {
         flex-grow: 1;
     }
 }
+input{
+    width: 100%;
+    border-radius: 220px;
+    margin-bottom: 5px;
+}
