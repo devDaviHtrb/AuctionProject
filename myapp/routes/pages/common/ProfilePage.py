@@ -31,6 +31,7 @@ def ProfilePage(username:str = None) -> Response:
             "status":   product_repository.get_status(product),
             "name":     product.product_name,
             "room":     product.product_room,
+            "value":    tbids[i].bid_value
 
         })
 
