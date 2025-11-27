@@ -1,4 +1,5 @@
 from myapp.models.Users import users
+from random import randint
 from myapp.models.LegalPerson import legal_persons
 from myapp.models.PhysicalPerson import physical_persons
 from myapp.models.Settings import settings
@@ -68,7 +69,7 @@ def save_item(data: Dict[str, Any]) -> users:
         cellphone1 = data.get("cellphone1", None),
         cellphone2 = data.get("cellphone2", None),
         landline = data.get("landline", None),
-        wallet = 100, #rs
+        wallet = randint(10,40), #rs
         active_auction_number = float(0),
         password_token_expiration_datetime = None,
         api_token = None,
