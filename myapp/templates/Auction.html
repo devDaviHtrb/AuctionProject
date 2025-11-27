@@ -105,7 +105,7 @@
                     </div>
 
                     <div class="seller-info">
-                        <p>Vendido por: <a href="#">{{ product_user }}</a></p>
+                        <p>Vendido por: <a href="/profile/{{ product_username }}" style="text-decoration: underline;">{{ product_user }}</a></p>
                         <p>ID do Item: #{{ product.product_id }}</p>
                     </div>
                 </div>
@@ -208,7 +208,7 @@
                     <ul id="p4" class="bid-history-list">
                         {% for current_bid in last_bids %}
                         <li class="bid-entry">
-                            <span class="bidder"><a href="/profile/{{ current_bid.username }}">
+                            <span class="bidder"><a href="/profile/{{ current_bid.username }}" style="text-decoration: underline;">
                                     {{ current_bid.username }}
                                 </a></span>
                             <span class="bid-value">R$ {{ current_bid.bid_value }}</span>
