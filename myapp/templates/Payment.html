@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pagamento - Conversão de Saldo</title>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-navy: #1E293B;
+            --accent-gold: #FFC300;
+            --light-bg: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --dark-grey-text: #4A5568;
+            --white: #FFFFFF;
+            --success-green: #38A169;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .checkout-wrapper {
+            margin-top: 30px;
+            align-self: center;
+            max-width: 960px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .header-section h1 {
+            color: var(--primary-navy);
+            font-weight: 800;
+            font-size: 40px;
+            margin-bottom: 5px;
+        }
+
+        .header-section p {
+            color: var(--dark-grey-text);
+            font-size: 18px;
+            margin-bottom: 50px;
+        }
+
+        .pricing-cards-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .price-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            flex: 1;
+            max-width: 300px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .price-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent-gold);
+        }
+
+        .price-card.recommended {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #37475a 100%);
+            color: var(--white);
+            transform: translateY(-10px);
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 10px 40px rgba(255, 195, 0, 0.4);
+        }
+
+        .price-card.recommended h2,
+        .price-card.recommended .price-tag .value {
+            color: var(--accent-gold);
+        }
+
+        .price-card.recommended .tag {
+            background-color: var(--accent-gold);
+            color: var(--primary-navy);
+            font-weight: 700;
+        }
+
+        .price-card h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-navy);
+        }
+
+        .price-tag {
+            margin: 20px 0;
+        }
+
+        .price-tag .value {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1;
+            display: block;
+        }
+
+        .price-tag .currency {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+            opacity: 0.7;
+        }
+
+        .price-card .tag {
+            font-size: 14px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background-color: var(--light-bg);
+            color: var(--primary-navy);
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--accent-gold);
+            color: var(--primary-navy);
+        }
+
+        .buy-button:hover {
+            background-color: #e6b000;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 850px) {
+            .pricing-cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .price-card {
+                max-width: 90%;
+            }
+
+            .price-card.recommended {
+                transform: none;
+            }
+
+            .checkout-wrapper {
+                padding: 20px;
+            }
+
+            .header-section h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include "components/Header.html" %}
+
+    <div class="checkout-wrapper">
+
+        <div class="header-section">
+            <i class="fas fa-coins fa-3x" style="color: var(--accent-gold); margin-bottom: 10px;"></i>
+            <h1>Selecione o Valor para Conversão</h1>
+            <p>Escolha um dos valores abaixo para adicionar saldo/créditos à sua conta.</p>
+        </div>
+
+        <div class="pricing-cards-container">
+
+
+            <div class="price-card" data-value="5.00">
+                <span class="tag">Crédito Inicial</span>
+                <h2>Adicionar R$ 5,00</h2>
+
+                <div class="price-tag">
+                    <span class="currency">R$</span>
+                    <span class="value">5</span>
+                </div>
+
+                <p style="font-size: 14px; color: var(--dark-grey-text);">
+                    Valor inicial para teste ou uso leve na plataforma.
+                </p>
+
+                <a href="https://www.asaas.com/c/okkbrf8z8hvncq20">
+                    <button class="buy-button">
+                        <i class="fas fa-arrow-right"></i> PAGAR R$ 5,00
+                    </button>
+                </a>
+            </div>
+
+
+            <div class="price-card recommended" data-value="15.00">
+                <span class="tag">Mais Vendido</span>
+                <h2>Adicionar R$ 15,00</h2>
+
+                <div class="price-tag">
+                    <span class="currency" style="color: var(--white); opacity: 0.8;">R$</span>
+                    <span class="value">15</span>
+                </div>
+
+                <p style="font-size: 14px; color: var(--white); opacity: 0.8;">
+                    Ideal para uso contínuo e equilibrado de créditos.
+                </p>
+
+                <a href="https://www.asaas.com/c/okkbrf8z8hvncq20">
+                    <button class="buy-button">
+                        <i class="fas fa-arrow-right"></i> PAGAR R$ 15,00
+                    </button>
+                </a>
+            </div>
+
+
+            <div class="price-card" data-value="50.00">
+                <span class="tag">Crédito Máximo</span>
+                <h2>Adicionar R$ 50,00</h2>
+
+                <div class="price-tag">
+                    <span class="currency">R$</span>
+                    <span class="value">50</span>
+                </div>
+
+                <p style="font-size: 14px; color: var(--dark-grey-text);">
+                    Grande conversão de valor para usuários frequentes.
+                </p>
+
+                <a href="https://www.asaas.com/c/okkbrf8z8hvncq20">
+                    <button class="buy-button">
+                        <i class="fas fa-arrow-right"></i> PAGAR R$ 50,00
+                    </button>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% include "components/Footer.html" %}
+</body>
+
+</html>

@@ -13,64 +13,69 @@
 
 </head>
 
-<body class="d-flex flex-column min-vh-100">
-    {% include "components/Header.html" %}
+</head>
 
-    <main class="flex-fill">
+<body>
 
-        <section class="profile-cover">
-            <div class="profile-info-bar">
-                <div class="profile-details">
+    <section class="profile-cover">
+        <div class="profile-info-bar">
+            <div class="profile-details">
+                <img src="{{ user.photo }}" class="profile-picture">
+                <div class="profile-meta">
+                    <h2>{{ user.name }}</h2>
+                    <p>@{{ user.name }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <img src="{{ user.photo }}" alt="Foto de Perfil" class="profile-picture">
-                    <div class="profile-meta">
-                        <h2>{{user.name}}</h1>
-                            <p>@{{user.name}}</p>
-                    </div>
+    <section class="profile-content-layout">
 
-                    <div class="profile-actions">
+        <div class="main-activity-feed">
 
+            {% if bids %}
+            <h2>Últimos 3 Lances</h2>
+
+            {% for bid in bids %}
+            <div class="activity-post-card">
+                <div class="activity-post-header">
+                    <i class="fas fa-gavel"></i>
+                    {% if bid['status'] == 'top' %}Você está no topo{% endif %}
+                    {% if bid['status'] == 'outbid' %}Você foi ultrapassado{% endif %}
+                    {% if bid['status'] == 'winner' %}Você foi o ganhador{% endif %}
+                </div>
+
+                <div class="activity-post-item">
+                    <img src="{{ bid['image_url'] }}">
+                    <div class="activity-post-item-details">
+                        <h4>{{ bid['product'].product_name }}</h4>
+                        <p>Seu lance: {{ bid['bid'].bid_value }}</p>
+                        <a href="/auction/{{ bid['product'].product_room }}" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
                     </div>
                 </div>
             </div>
-        </section>
+            {% endfor %}
 
-        <section class="profile-content-layout">
+            {% else %}
+            <h2>Você ainda não possui lances ativos ou vencedores</h2>
+            {% endif %}
+        </div>
 
-            <div class="main-activity-feed">
-                {%if bids%}
-                <h2>Últimos 3 Lances</h2>
+        <div class="sidebar-stats">
+            <h3>Informações</h3>
+            <ul>
+                <li><span>Itens Comprados</span><span>{{ bought_count }}</span></li>
+                <li><span>Lances Feitos</span><span>{{ total_bids }}</span></li>
+                <li><span>Itens Anunciados</span><span>{{ listed_items }}</span></li>
+                <li><span>Saldo</span><span>R$ {{ balance }}</span></li>
+            </ul>
 
-                {%for bid in bids%}
-                <div class="activity-post-card">
+            <a href="/meus-lances" class="btn-view-bids">
+                <i class="fas fa-list"></i> Ver todos os lances
+            </a>
+        </div>
 
-                    <div class="activity-post-header">
-                        <i class="fas fa-gavel" style="color: var(--light-text);"></i>{% if bid['status'] == 'top' %}
-                        Você está no topo {%endif%}{% if bid['status'] == 'outbid' %} Você foi ultrapassado {%endif%}{%
-                        if bid['status'] == 'winner' %}Você foi o ganhador{%endif%}
-                    </div>
-                    <div class="activity-post-item">
-                        <img src="{{bid['image_url']}}" alt="Carro Clássico">
-                        <div class="activity-post-item-details">
-                            <h4>{{ bid['product'].product_name }}</h4>
-                            <p>Seu lance: {{ bid['bid'].bid_value }}</p>
-                            <a href="/auction/{{ bid['product'].product_room }}" class="btn-text"
-                                style="font-size: 14px;">Ver Leilão</a>
-                        </div>
-                    </div>
-                </div>
-                {%endfor%}
-                {%else%}
-                <h2>Você ainda não possui lances ativos ou vencedores</h2>
-                {%endif%}
-
-            </div>
-
-        </section>
-
-    </main>
-
-    {% include 'components/Footer.html' %}
+    </section>
 
 </body>
 
