@@ -1890,3 +1890,7 @@
             font-weight: 600;
             color: var(--accent-orange);
         }
+
+        .faq-categories a{
+            text-decoration: none;
+        }
