@@ -1,11 +1,13 @@
 from flask import render_template, Blueprint, Response, session
 import myapp.repositories.UserRepository as user_repository
+#import myapp.repositories.
 
 profile = Blueprint("profilePage", __name__)
 
-@profile.route("/profile")
+@profile.route("/profile/<string:username>")
 
-def ProfilePage() -> Response:
+def ProfilePage(username:str) -> Response:
     user = user_repository.get_by_id(session["user_id"])
-    print(user)
-    return render_template("Profile.html", name=session["username"], email=user.email, photo_url = user.photo )
+
+    if(user.username == username):
+        return render_template("Profile.html")

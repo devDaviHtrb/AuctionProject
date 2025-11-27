@@ -1,260 +1,261 @@
 :root {
-            --primary-blue: #0C2340;
-            
-            --accent-orange: #FF8C00;
-          
-            --light-bg: #FFFFFF;
-            --medium-bg: #F5F5F5;
-           
-            --dark-grey-text: #333333;
-            --light-text: #666;
-            --white: #FFFFFF;
-        }
+    --primary-blue: #0C2340;
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    --accent-orange: #FF8C00;
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: var(--dark-grey-text);
-            line-height: 1.6;
-            background-color: var(--medium-bg);
-           
-        }
+    --light-bg: #FFFFFF;
+    --medium-bg: #F5F5F5;
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+    --dark-grey-text: #333333;
+    --light-text: #666;
+    --white: #FFFFFF;
+}
 
-        a {
-            text-decoration: none;
-            color: var(--primary-blue);
-            transition: color 0.3s ease;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        ul {
-            list-style: none;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark-grey-text);
+    line-height: 1.6;
+    background-color: var(--medium-bg);
 
+}
 
-        .profile-cover {
-            background-image: url('https://via.placeholder.com/1600x250/0C2340/FFFFFF?text=Fundo+do+Perfil');
-            background-size: cover;
-            background-position: center;
-            min-height: 250px;
-            position: relative;
-            margin-bottom: 40px;
-        }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        .profile-info-bar {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            padding-bottom: 20px;
-        }
+a {
+    text-decoration: none;
+    color: var(--primary-blue);
+    transition: color 0.3s ease;
+}
 
-        .profile-details {
-            display: flex;
-            align-items: flex-end;
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .profile-picture {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 6px solid var(--white);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-top: -65px;
-         
-        }
-
-        .profile-meta {
-            flex-grow: 1;
-        }
-
-        .profile-meta h1 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 0;
-        }
-
-        .profile-meta p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-
-        .profile-actions {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 5px;
-           
-        }
-
-        .profile-actions .btn-primary,
-        .profile-actions .btn-secondary {
-            padding: 8px 15px;
-            font-size: 0.85rem;
-        }
+ul {
+    list-style: none;
+}
 
 
-        .profile-content-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-         
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+.profile-cover {
+    background-image: url('https://via.placeholder.com/1600x250/0C2340/FFFFFF?text=Fundo+do+Perfil');
+    background-size: cover;
+    background-position: center;
+    min-height: 250px;
+    position: relative;
+    margin-bottom: 40px;
+}
 
-        .main-activity-feed h2,
-        .sidebar-stats h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent-orange);
-            display: inline-block;
-        }
+.profile-info-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 20px;
+}
 
-     
-        .activity-post-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+.profile-details {
+    display: flex;
+    align-items: flex-end;
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        .activity-post-header {
-            font-size: 14px;
-            color: var(--light-text);
-            font-weight: 500;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed #eee;
-        }
+.profile-picture {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 6px solid var(--white);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: -65px;
 
-        .activity-post-item {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
+}
 
-        .activity-post-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            flex-shrink: 0;
-            border: 1px solid var(--medium-bg);
-        }
+.profile-meta {
+    flex-grow: 1;
+}
 
-        .activity-post-item-details h4 {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--dark-grey-text);
-        }
+.profile-meta h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
 
-        .activity-post-item-details p {
-            font-size: 15px;
-            color: var(--light-text);
-        }
+.profile-meta p {
+    font-size: 16px;
+    opacity: 0.9;
+}
 
-  
-        .sidebar-stats {
-            padding: 20px;
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            height: fit-content;
-        }
+.profile-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 5px;
 
-        .sidebar-stats ul li {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--medium-bg);
-            font-weight: 500;
-        }
+}
 
-        .sidebar-stats ul li:last-child {
-            border-bottom: none;
-        }
+.profile-actions .btn-primary,
+.profile-actions .btn-secondary {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+}
 
-        .sidebar-stats ul li span:last-child {
-            font-weight: 700;
-            color: var(--primary-blue);
-        }
 
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
+.profile-content-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
 
-        .social-links a {
-            font-size: 24px;
-            color: var(--primary-blue);
-            transition: color 0.3s ease;
-        }
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        .social-links a:hover {
-            color: var(--accent-orange);
-        }
+.main-activity-feed h2,
+.sidebar-stats h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-orange);
+    display: inline-block;
+}
 
-  
-        @media (max-width: 1024px) {
-            .profile-content-layout {
-                grid-template-columns: 1fr;
-               
-            }
 
-            .sidebar-stats {
-                order: -1;
-                
-                margin-bottom: 20px;
-            }
+.activity-post-card {
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+}
 
-            .profile-details {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                padding-bottom: 10px;
-            }
+.activity-post-header {
+    font-size: 14px;
+    color: var(--light-text);
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+}
 
-            .profile-picture {
-                margin-top: -65px;
-            }
+.activity-post-item {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
 
-            .profile-meta h1 {
-                font-size: 30px;
-            }
+.activity-post-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border: 1px solid var(--medium-bg);
+}
 
-            .profile-actions {
-                margin-top: 15px;
-                justify-content: center;
-                width: 100%;
-            }
+.activity-post-item-details h4 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--dark-grey-text);
+}
 
-            .main-activity-feed h2,
-            .sidebar-stats h3 {
-                width: 100%;
-                text-align: center;
-            }
-        }
-        .profile-picture {
+.activity-post-item-details p {
+    font-size: 15px;
+    color: var(--light-text);
+}
+
+
+.sidebar-stats {
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.sidebar-stats ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--medium-bg);
+    font-weight: 500;
+}
+
+.sidebar-stats ul li:last-child {
+    border-bottom: none;
+}
+
+.sidebar-stats ul li span:last-child {
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-links a {
+    font-size: 24px;
+    color: var(--primary-blue);
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--accent-orange);
+}
+
+
+@media (max-width: 1024px) {
+    .profile-content-layout {
+        grid-template-columns: 1fr;
+
+    }
+
+    .sidebar-stats {
+        order: -1;
+
+        margin-bottom: 20px;
+    }
+
+    .profile-details {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    .profile-picture {
+        margin-top: -65px;
+    }
+
+    .profile-meta h1 {
+        font-size: 30px;
+    }
+
+    .profile-actions {
+        margin-top: 15px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .main-activity-feed h2,
+    .sidebar-stats h3 {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.profile-picture {
     width: 120px;
     height: 120px;
     object-fit: cover;
@@ -265,15 +266,196 @@
 
 
 
-        @media (max-width: 768px) {
-            .profile-picture {
+@media (max-width: 768px) {
+    .profile-picture {
         width: 80px;
         height: 80px;
     }
 
 
-            .activity-post-item {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
+    .activity-post-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+:root {
+    --primary-blue: #0C2340;
+    --accent-orange: #FF8C00;
+    --light-bg: #FFFFFF;
+    --medium-bg: #F5F5F5;
+    --dark-grey-text: #333333;
+    --light-text: #666;
+    --white: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark-grey-text);
+    line-height: 1.6;
+    background-color: var(--medium-bg);
+}
+
+.profile-cover {
+    background-image: url('https://via.placeholder.com/1600x250/0C2340/FFFFFF?text=Fundo+do+Perfil');
+    background-size: cover;
+    background-position: center;
+    min-height: 250px;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.profile-info-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.profile-details {
+    display: flex;
+    align-items: flex-end;
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.profile-picture {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 6px solid var(--white);
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: -65px;
+}
+
+.profile-meta h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.profile-meta p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.profile-content-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.main-activity-feed h2,
+.sidebar-stats h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-orange);
+    display: inline-block;
+}
+
+.activity-post-card {
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.activity-post-header {
+    font-size: 14px;
+    color: var(--light-text);
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+}
+
+.activity-post-item {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.activity-post-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--medium-bg);
+}
+
+.activity-post-item-details h4 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.sidebar-stats {
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.sidebar-stats ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--medium-bg);
+    font-weight: 500;
+}
+
+.sidebar-stats ul li span:last-child {
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.btn-view-bids {
+    width: 100%;
+    display: block;
+    text-align: center;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 12px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: 0.3s ease;
+}
+
+.btn-view-bids:hover {
+    background-color: var(--accent-orange);
+}
+
+@media (max-width: 1024px) {
+    .profile-content-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-details {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .main-activity-feed h2,
+    .sidebar-stats h3 {
+        width: 100%;
+        text-align: center;
+    }
+}
