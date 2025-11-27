@@ -4,7 +4,7 @@ import myapp.repositories.UserRepository as user_repository
 
 profile = Blueprint("profilePage", __name__)
 
-@profile.route("/profile/<string: username>")
+@profile.route("/profile/<string:username>")
 
 def ProfilePage(username:str) -> Response:
     user = user_repository.get_by_id(session["user_id"])
