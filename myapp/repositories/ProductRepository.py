@@ -188,7 +188,7 @@ def get_and_images_and_status_diffents_valids_randomly(
         images,
         images.product_id == products.product_id,
         isouter = True
-    ).distinct().join(
+    ).join(
         product_statuses,
         product_statuses.product_status_id == products.product_status,
         isouter=True
@@ -197,8 +197,9 @@ def get_and_images_and_status_diffents_valids_randomly(
     ).filter(
         products.product_room != product_id,
         product_statuses.product_status != CANCELED,
-        product_statuses.product_status != FINISHED
-    ).limit(limit).all()
+        product_statuses.product_status != FINISHED,
+        images.principal_image == True
+    ).distinct().limit(limit).all()
 
 def get_value_datetime_username_of_last_bids(product:products) -> Optional[bids]:
     return (
