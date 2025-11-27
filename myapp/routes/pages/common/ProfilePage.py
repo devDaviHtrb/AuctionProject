@@ -27,7 +27,7 @@ def ProfilePage(username:str = None) -> Response:
         product = product_repository.get_by_id(tbids[i].product_id)
         limit_bids.append({
             "bids":     tbids[i],
-            "photo":    product_repository.get_images(tbids[i].product_id)[0],
+            "photo":    product_repository.get_images(tbids[i])[0],
             "status":   product_repository.get_status(product),
             "name":     product.product_name,
             "room":     product.product_room,
