@@ -230,21 +230,26 @@
                             style="background-image: url('{{ current_product.image if current_product.image else " #"
                             }}');">
                         </div>
+
                         <h3>{{ current_product.product_name }}</h3>
                         <p class="price">R$ {{ current_product.min_bid }}</p>
 
+                      
                         <p class="time-left recommended-timer"
                             data-start="{{ current_product.start_datetime.isoformat() }}"
                             data-duration="{{ current_product.duration }}">
-                            <i class="far fa-clock"></i>
-                            <span class="timer-text">Carregando...</span>
-                        </p>
 
+                            <span class="timer-text">
+                                <i class="far fa-clock"></i> Carregando...
+                            </span>
+                        </p>
+            
 
                         <a href="/auction/{{ current_product.product_room }}">
                             <button class="btn-bid">DAR LANCE</button>
                         </a>
                     </div>
+
                     {% endfor %}
             </section>
             {% endif %}
