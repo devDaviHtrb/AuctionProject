@@ -95,11 +95,11 @@
       <div class="product-grid">
         {% for product in top_products %}
         <div class="product-card">
-          <div class="product-image" style="background-image: url('{{ top_products[1].photo }}');"></div>
+          <div class="product-image" style="background-image: url('{{ top_products.image }}');"></div>
           <span class="badge promo">OFERTA</span>
-          <h3>{{ product.name }}</h3>
-          <p class="price">R$ {{ product.price }}</p>
-          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ product.time }}</p>
+          <h3>{{ product.product_name }}</h3>
+          <p class="price">R$ {{ product.min_bid }}</p>
+          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ product.start_datetime }}</p>
           <button class="btn-bid">DAR LANCE</button>
         </div>
         {% endfor %}
