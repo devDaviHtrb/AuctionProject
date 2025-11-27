@@ -15,75 +15,78 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     {% include "components/Header.html" %}
 
-    <section class="profile-cover">
-        <div class="profile-info-bar">
-            <div class="profile-details">
-                <img src="{{ user.photo }}" class="profile-picture">
-                <div class="profile-meta">
-                    <h2>{{ user_param.name }}</h2>
-                    <p>
-                        @{{ user_param.username }}
-                        | {% if user_param.wallet %}R$: {{ "%.2f"|format(user_param.wallet) | replace(".", ",") }}{%
-                        endif %}
-                    </p>
+    <main class="flex-fill">
 
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="profile-content-layout">
-
-        <div class="main-activity-feed">
-
-            {% if bids %}
-            <h2>Últimos Lances</h2>
-
-            {% for bid in bids %}
-            <div class="activity-post-card">
-                <div class="activity-post-header">
-                    <i class="fas fa-gavel"></i>
-                    Produto: {{ bid['status'] }}
-                </div>
-
-                <div class="activity-post-item">
-                    <img src="{{ bid['photo'] }}">
-                    <div class="activity-post-item-details">
-                        <h4>{{ bid['name'] }}</h4>
-                        <p>Seu lance: {{ bid['bid'].bid_value }}</p>
-                        <a href="/auction/{{ bid['room'] }}" class="btn-text"
-                            style="font-size: 14px;">Ver Leilão</a>
+        <section class="profile-cover">
+            <div class="profile-info-bar">
+                <div class="profile-details">
+                    <img src="{{ user.photo }}" class="profile-picture">
+                    <div class="profile-meta">
+                        <h2>{{ user_param.name }}</h2>
+                        <p>
+                            @{{ user_param.username }}
+                            | {% if user_param.wallet %}R$: {{ "%.2f"|format(user_param.wallet) | replace(".", ",") }}{%
+                                endif %}
+                            </p>
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
-
-            {% else %}
-            <h2>Você ainda não possui lances ativos ou vencedores</h2>
-            {% endif %}
-        </div>
-
-        <div class="sidebar-stats">
-            <h3>Informações</h3>
-            <ul>
-                <li><span>Itens Comprados</span><span>{{ bought_count }}</span></li>
-                <li><span>Lances Feitos</span><span>{{ total_bids }}</span></li>
-                <li><span>Itens Anunciados</span><span>{{ listed_items }}</span></li>
-            </ul>
-
-            {% if user_param.wallet %}
-            <a href="/meus-lances" class="btn-view-bids">
-                <i class="fas fa-list"></i> Ver todos os lances
-            </a>
-            {% endif %}
-        </div>
-
-    </section>
-
-    {% include "components/Footer.html" %}
+            </section>
+            
+            <section class="profile-content-layout">
+                
+                <div class="main-activity-feed">
+                    
+                    {% if bids %}
+                    <h2>Últimos Lances</h2>
+                    
+                    {% for bid in bids %}
+                    <div class="activity-post-card">
+                        <div class="activity-post-header">
+                            <i class="fas fa-gavel"></i>
+                            Produto: {{ bid['status'] }}
+                        </div>
+                        
+                        <div class="activity-post-item">
+                            <img src="{{ bid['photo'] }}">
+                            <div class="activity-post-item-details">
+                                <h4>{{ bid['name'] }}</h4>
+                                <p>Seu lance: {{ bid['bid'].bid_value }}</p>
+                                <a href="/auction/{{ bid['room'] }}" class="btn-text"
+                                style="font-size: 14px;">Ver Leilão</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% else %}
+                    <h2>Você ainda não possui lances ativos ou vencedores</h2>
+                    {% endif %}
+                </div>
+                
+                <div class="sidebar-stats">
+                    <h3>Informações</h3>
+                    <ul>
+                        <li><span>Itens Comprados</span><span>{{ bought_count }}</span></li>
+                        <li><span>Lances Feitos</span><span>{{ total_bids }}</span></li>
+                        <li><span>Itens Anunciados</span><span>{{ listed_items }}</span></li>
+                    </ul>
+                    
+                    {% if user_param.wallet %}
+                    <a href="/meus-lances" class="btn-view-bids">
+                        <i class="fas fa-list"></i> Ver todos os lances
+                    </a>
+                    {% endif %}
+                </div>
+                
+            </section>
+            
+        </main>
+        {% include "components/Footer.html" %}
 
 </body>
 
