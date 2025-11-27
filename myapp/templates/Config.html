@@ -45,7 +45,7 @@
             <li class="nav-item" data-section="contact"><a href="#"><i class="fas fa-phone"></i> Contato</a></li>
             <li class="nav-item" data-section="addresses"><a href="#"><i class="fas fa-map-marker-alt"></i>
                 Endereços</a></li>
-            
+
             <li class="nav-item" data-section="security"><a href="#"><i class="fas fa-lock"></i> Segurança</a></li>
             <li class="nav-item separator">
               <hr>
@@ -109,11 +109,15 @@
               <div class="input-group">
                 <label for="gender">Sexo</label>
                 <select id="gender" name="gender">
-                  <option value="{{gender}}">{% if gender=="male" %}Masculino{% endif %}{% if gender=="female" %}Feminino{% endif %} {% if gender=="other" %}Outro{% endif %}</option>
-                </option>
-                {% if gender=="female" or gender=="other"%}<option value="male" {% if gender=="male" %}selected{% endif %}>Masculino</option>{% endif %}
-                  {% if gender=="male" or gender=="other" %}<option value="female" {% if gender=="female" %}selected{% endif %}>Feminino</option>{% endif %}
-                  {% if gender=="female" or gender=="male"%}<option value="other" {% if gender=="other" %}selected{% endif %}>Outro</option>{% endif %}
+                  <option value="{{gender}}">{% if gender=="male" %}Masculino{% endif %}{% if gender=="female"
+                    %}Feminino{% endif %} {% if gender=="other" %}Outro{% endif %}</option>
+                  </option>
+                  {% if gender=="female" or gender=="other" or not gender%}<option value="male" {% if gender=="male"
+                    %}selected{% endif %}>Masculino</option>{% endif %}
+                  {% if gender=="male" or gender=="other" or not gender %}<option value="female" {% if gender=="female"
+                    %}selected{% endif %}>Feminino</option>{% endif %}
+                  {% if gender=="female" or gender=="male" or not gender%}<option value="other" {% if gender=="other"
+                    %}selected{% endif %}>Outro</option>{% endif %}
                 </select>
               </div>
 
