@@ -61,12 +61,12 @@ document.addEventListener('DOMContentLoaded', function () {
         parts.push(`${seconds}s`);
         return parts.join(" ");
     }
+    /*
     if (window.user.logged) {
         if (document.getElementById("winner-user").innerHTML === window.user.username) {
             document.getElementById("dlt-btn").style.display = "inline-block";
         }
     }
-/*
 
 document.getElementById("dlt-btn").addEventListener("click", () => {
     const modal = document.getElementById("confirm-remove-bid");
@@ -107,7 +107,7 @@ document.getElementById("dlt-btn").addEventListener("click", () => {
 */
 
 
-function setupTimer(element, relatedButton) {
+    function setupTimer(element, relatedButton) {
         const startTime = new Date(element.dataset.start).getTime();
         const durationMinutes = parseFloat(element.dataset.duration);
         const durationMs = durationMinutes * 60 * 1000;
@@ -202,6 +202,7 @@ function setupTimer(element, relatedButton) {
     }
 
     if (window.user.logged) {
+        console.log(window.user.logged)
         const socket = io();
         window.socket = socket;
 
@@ -255,7 +256,7 @@ function setupTimer(element, relatedButton) {
                     ` + document.getElementById("p4").innerHTML;
                     document.getElementById("p5").innerHTML = "";
 
-                    
+
 
                     document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')})`;
                     bidInput.placeholder = `R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`;
@@ -284,7 +285,6 @@ function setupTimer(element, relatedButton) {
 
                 case 'delete':
                     sessionStorage.setItem("noScroll", "true");
-                    location.reload();
                     break;
 
             }
