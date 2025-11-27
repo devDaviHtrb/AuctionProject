@@ -1,53 +1,56 @@
 const searchInput = document.getElementById("searchInput");
 const listContainer = document.getElementById("autocompleteList");
 
-let suggestions = []; 
+let suggestions = [];
 let currentFocus = -1;
-
 
 const userButton1 = document.getElementById('userButton');
 const dropdown = document.getElementById('dropdownMenu');
 
-userButton1.addEventListener('click', () => {
-  dropdown.classList.toggle('visible');
-});
+if (userButton1 && dropdown) {
+    userButton1.addEventListener('click', () => {
+        dropdown.classList.toggle('visible');
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!dropdown.contains(e.target) && !userButton1.contains(e.target)) {
+            dropdown.classList.add("hidden");
+        }
+    });
+}
 
 async function fetchSuggestions() {
     try {
         const response = await fetch('/get/searchs-info');
-        if (!response.ok) throw new Error(`Erro: ${response.status} ${response.statusText}`);
-        // [[name, link], ...]
+        if (!response.ok) throw new Error();
         suggestions = await response.json();
         buildCategoriesList(suggestions);
     } catch (error) {
         console.error("Error :", error);
     }
 }
+fetchSuggestions();
+
 function getType(str, p1, p2) {
     let start = -1;
     for (let i = 0; i < str.length; i++) {
         if (str[i] === p1) {
-            start = i + 1; 
+            start = i + 1;
         } else if (str[i] === p2 && start !== -1) {
             return str.slice(start, i);
         }
     }
-
     return "";
 }
 
-
-fetchSuggestions();
 function buildCategoriesList(list) {
     const ul = document.getElementById("categories-ul");
     ul.innerHTML = "";
 
     list.forEach(item => {
-        console.log(getType(item[1], '?', '='))
-        if(getType(item[1], '?', '=') === "category"){
+        if (getType(item[1], '?', '=') === "category") {
             const li = document.createElement("li");
-            const a  = document.createElement("a");
-            
+            const a = document.createElement("a");
             a.textContent = item.name;
             a.href = item.link;
             a.innerHTML = item[0];
@@ -56,7 +59,6 @@ function buildCategoriesList(list) {
         }
     });
 }
-
 
 searchInput.addEventListener("input", function () {
     const query = this.value.toLowerCase();
@@ -121,11 +123,4 @@ function removeActive(items) {
 
 document.addEventListener("click", function (e) {
     if (!e.target.closest(".search-bar")) listContainer.innerHTML = "";
-});
-
-
-document.addEventListener("click", (e) => {
-    if (!dropdownMenu.contains(e.target) && !userButton1.contains(e.target)) {
-        dropdownMenu.classList.add("hidden");
-    }
 });
