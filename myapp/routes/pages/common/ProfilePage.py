@@ -38,7 +38,7 @@ def ProfilePage(username:str = None) -> Response:
         "username": user.username,
         "name":     user.name,
     }
-    if(user.username == username):
+    if(user.username == session["username"]):
         user_params["wallet"] = user.wallet
 
     all_cnt = data.get("all_bids_number", 0)
