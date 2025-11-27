@@ -45,15 +45,7 @@ def handle_join(data: Dict[str, Any]) -> None:
         "username": username if not request.cookies.get("anonymous", None) else f"AnonymousUser",
     }
 
-    # RELOAD LOCK
-    if room_id not in last_emit_times:
-        last_emit_times[room_id] = {user_id: datetime.utcnow()}
-    elif user_id not in last_emit_times[room_id]:
-        last_emit_times[room_id][user_id] = datetime.utcnow()
-    elif datetime.utcnow() - last_emit_times[room_id][user_id] > timedelta(minutes=7):
-        last_emit_times[room_id][user_id] = datetime.utcnow()
-    else:
-        return
+
 
     emit("server_content", {"response": response}, to = room_id)
 
