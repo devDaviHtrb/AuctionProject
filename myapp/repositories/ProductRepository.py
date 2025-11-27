@@ -176,6 +176,7 @@ def get_and_images_and_status_diffents_valids_randomly(
     product:products,
     limit:int = 3
 ) -> List[products]:
+    product_id = product.product_id if product else -1
     return db.session.query(
         products.product_name,
         products.product_room,
