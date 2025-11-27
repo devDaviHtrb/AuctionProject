@@ -255,12 +255,7 @@ function setupTimer(element, relatedButton) {
                     ` + document.getElementById("p4").innerHTML;
                     document.getElementById("p5").innerHTML = "";
 
-                    if (window.user.logged) {
-                        if (document.getElementById("winner-user").innerHTML === window.user.username) {
-                            document.getElementById("dlt-btn").style.display = "inline-block";
-                            location.reload();
-                        }
-                    }
+                    
 
                     document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')})`;
                     bidInput.placeholder = `R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`;
