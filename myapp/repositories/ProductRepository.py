@@ -225,3 +225,6 @@ def get_last_bid(product:products) -> Optional[bids]:
             .with_for_update()
             .first()
         )
+
+def get_bids_by_user(user:users) -> List[products]:
+    return products.query.filter_by(user_id = user.user_id).all()

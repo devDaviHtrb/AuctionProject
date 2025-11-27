@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Dict, Any
 from myapp.models.Products import products
 from myapp.setup.InitSqlAlchemy import db
 from myapp.models.Users import users
@@ -103,7 +104,21 @@ def get_winner_bids(user_id):
 
 
 
-def get_interesting_user_bids(user_id):
+def get_interesting_user_bids(user_id:int) -> Dict[str, Any]:
     active_bids = get_active_user_bids(user_id)
     winner_bids = get_winner_bids(user_id)
-    return {"bids":active_bids+winner_bids, "active_bids_number":len(active_bids), "winner_bids_number":len(winner_bids) }
+    return {
+        "bids":                 active_bids+winner_bids,
+        "active_bids_number":   len(active_bids),
+        "winner_bids_number":   len(winner_bids)
+    }
+
+def get_all_user_bids(user_id:int) -> Dict[str, Any]:
+    all_bids = bids.query.filter_by(user_id = user_id).all()
+    winner_bids = get_winner_bids(user_id)
+    return{
+        "bids":                 all_bids,
+        "all_bids_number":      len(all_bids),
+        "winner_bids_number":   len(winner_bids)
+    }
+

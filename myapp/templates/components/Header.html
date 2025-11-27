@@ -88,7 +88,7 @@
           <p class="dropdown-header">Olá, {{ user.name }}</p>
           <p class="dropdown-header">R$ {{ user.wallet }}</p>
           <hr />
-          <a href="{{url_for('profile.Profile')}}" class="dropdown-item">Perfil</a>
+          <a href="{{url_for('profilePage.ProfilePage')}}" class="dropdown-item">Perfil</a>
           <a href="{{url_for('userBids.user_bids_page')}}" class="dropdown-item">Meus Lances</a>
           <a href="{{url_for('paymentPage.pay_choice_page')}}" class="dropdown-item">Recarregar Saldo</a>
           <a href="{{url_for('configPage.ConfigPage')}}" class="dropdown-item">Configurações</a>
