@@ -62,7 +62,7 @@ def get_active_user_bids(user_id):
             if highest_global_bid and highest_global_bid.bid_id == my_bid.bid_id
             else "outbid"
         )
-        print(get_main_image(pid), flush=True)
+       
         active_bids.append({
             "bid": my_bid,
             "product": product,
