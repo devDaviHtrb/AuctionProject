@@ -176,7 +176,7 @@ def get_and_images_and_status_diffents_valids_randomly(
     product:products,
     limit:int = 3
 ) -> List[products]:
-    product_id = product.product_id if product else -1
+    product_id = product.product_room if product else '1'
     return db.session.query(
         products.product_name,
         products.product_room,
@@ -195,7 +195,7 @@ def get_and_images_and_status_diffents_valids_randomly(
     ).order_by(
         products.product_room
     ).filter(
-        products.product_room != product.product_room,
+        products.product_room != product_id,
         product_statuses.product_status != CANCELED,
         product_statuses.product_status != FINISHED
     ).distinct().limit(limit).all()
