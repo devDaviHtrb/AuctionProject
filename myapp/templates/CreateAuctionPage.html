@@ -82,7 +82,8 @@
                     <div class="input-group row-split">
                         <div class="half-width">
                             <label for="start-date">Data e Hora de Início <span class="required">*</span></label>
-                            <input type="datetime-local" id="start-date" name="start_datetime" required>
+                            <input type="datetime-local" id="start-date" name="start_datetime" required
+                                min="0000-01-01T00:00" max="9999-12-31T23:59">
                         </div>
                         <div class="half-width">
                             <label for="duration">Duração do Leilão (em minutos) <span class="required">*</span></label>
