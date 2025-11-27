@@ -64,7 +64,7 @@ def AuctionPage(roomToken: str) -> Response:
         product_images = product_images,
         products = pdts,
         product_category = category,
-        product_username = user.username
+        product_username = user.username,
         product_user = user.name,
         product_legal = legal_info,
         technical_features = technical_feature,
