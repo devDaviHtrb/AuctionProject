@@ -25,6 +25,7 @@ def change_config() -> Response:
             return redirect(url_for(CONFIG_PAGE, msg="There are an user with this username")), 400
         
     general_change_config(name, username, request)
+    print(session["gender"], flush=True)
     
 
     return redirect(url_for(CONFIG_PAGE, msg="sucessful"))
