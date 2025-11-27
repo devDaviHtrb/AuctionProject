@@ -1,40 +1,42 @@
- 
- function setupTimer(element, relatedButton) {
-    const startTime = new Date(element.dataset.start).getTime();
-    const durationMinutes = parseFloat(element.dataset.duration);
-    const durationMs = durationMinutes * 60 * 1000;
+document.addEventListener("DOMContentLoaded", () => {
 
-    let endTime = startTime + durationMs;
-    if (element.dataset.dynamicEndTime) {
-        endTime = parseInt(element.dataset.dynamicEndTime);
+    function formatTime(ms) {
+        const sec = Math.floor(ms / 1000);
+        const h = Math.floor(sec / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = sec % 60;
+
+        return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
     }
 
-    function updateTimer() {
-        const now = Date.now();
+    function updateBidTimers() {
+        const timers = document.querySelectorAll(".timer-countdown");
 
-        if (element.dataset.dynamicEndTime) {
-            endTime = parseInt(element.dataset.dynamicEndTime);
-        }
+        timers.forEach(timer => {
+            const startISO = timer.dataset.start;
+            const durationMin = parseInt(timer.dataset.duration);
 
-        if (now < startTime) {
-            const diff = startTime - now;
-            element.textContent = `Começa em ${formatTime(diff)}`;
-        } else if (now >= startTime && now <= endTime) {
-            const diff = endTime - now;
-            element.textContent = `Tempo restante: ${formatTime(diff)}`;
-        } else {
-            element.textContent = "ENCERRADO";
-            clearInterval(interval);
-        }
+            if (!startISO || !durationMin) return;
+
+            const start = new Date(startISO).getTime();
+            const end = start + durationMin * 60 * 1000;
+            const now = Date.now();
+
+            if (now < start) {
+                timer.textContent = `Começa em ${formatTime(start - now)}`;
+                timer.style.color = "#007bff";
+            }
+            else if (now <= end) {
+                timer.textContent = `Restam ${formatTime(end - now)}`;
+                timer.style.color = "#28a745";
+            }
+            else {
+                timer.textContent = "Encerrado";
+                timer.style.color = "#dc3545";
+            }
+        });
     }
 
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-}
-
- 
- document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".timer-countdown").forEach(timer => {
-        setupTimer(timer, null);
-    });
+    updateBidTimers();
+    setInterval(updateBidTimers, 1000);
 });
