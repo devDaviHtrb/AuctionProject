@@ -96,11 +96,20 @@
         {% for product in top_products %}
         <div class="product-card">
           <div class="product-image" style="background-image: url('{{ product.image }}');"></div>
+
           <h3>{{ product.product_name }}</h3>
           <p class="price">R$ {{ product.min_bid }}</p>
-          <p class="time-left"><i class="far fa-clock"></i> Tempo: {{ product.start_datetime }}</p>
+
+  
+          <p class="recommended-timer" data-start="{{ product.start_datetime }}"
+            data-duration="{{ product.duration_minutes }}"
+            data-dynamic-end-time="{{ product.dynamic_end_time if product.dynamic_end_time else '' }}">
+            <span class="timer-text">Carregando...</span>
+          </p>
+
           <button class="btn-bid">DAR LANCE</button>
         </div>
+
         {% endfor %}
         <div class="view-all">
           <a href="/products" class="btn-text">VER TODOS OS LEILÕES <i class="fas fa-arrow-right"></i></a>
