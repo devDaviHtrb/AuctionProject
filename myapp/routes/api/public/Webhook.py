@@ -52,7 +52,7 @@ def payments_webhook() -> Tuple[Response, int]:
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "access_token": SANDBOX_API_TOKEN
+        "access_token": API_TOKEN
     }
 
     response = requests.get(url, headers=headers)
