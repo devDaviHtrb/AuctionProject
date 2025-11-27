@@ -227,7 +227,7 @@
                     {% for current_product in products %}
                     <div class="product-card">
                         <div class="product-image"
-                            style="background-image: url('{{ current_product.image if current_product.image }}');">
+                            style="background-image: url('{{ current_product.image if current_product.image else "#" }}');">
                         </div>
                         <h3>{{ current_product.product_name }}</h3>
                         <p class="price">R$ {{ current_product.min_bid }}</p>

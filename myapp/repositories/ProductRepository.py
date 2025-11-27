@@ -176,7 +176,14 @@ def get_and_images_and_status_diffents_valids_randomly(
     product:products,
     limit:int = 3
 ) -> List[products]:
-    return products.query.join(
+    return products.query(
+        products.product_name,
+        products.product_room,
+        products.min_bid,
+        product.start_datetime,
+        product.duration,
+        images.image
+    ).join(
         images,
         images.product_id == products.product_id,
         isouter = True

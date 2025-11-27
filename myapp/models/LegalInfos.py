@@ -10,5 +10,5 @@ class legal_infos(db.Model):
     defendant =db.Column(db.String(255), nullable=False)
     judge_name =db.Column(db.String(255), nullable=False)
     extra_notes =  db.Column(db.Text, nullable=True)
-    product_id = db.Column(db.Integer, ForeignKey("products.product_id"))
+    product_id = db.Column(db.Integer, ForeignKey("products.product_id", ondelete="CASCADE"))
     

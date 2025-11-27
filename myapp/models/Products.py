@@ -25,5 +25,5 @@ class products(db.Model):
     #changes
     end_datetime = db.Column(db.DateTime(timezone=True), nullable=True)
     duration = db.Column(db.Integer, nullable = False) # In Seconds
-    first_value = db.Column(db.Integer, nullable = False, default = 0)
+    first_value = db.Column(db.DECIMAL(12, 2), nullable = False, default = float(0))
 
