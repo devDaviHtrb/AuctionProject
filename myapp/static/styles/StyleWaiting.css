@@ -1,0 +1,47 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    background: #f7f7f7;
+    color: #333;
+}
+
+
+body.d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+body p {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+
+body a {
+    font-size: 1.1rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+body a:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 500px) {
+    body p {
+        font-size: 1.2rem;
+    }
+
+    body a {
+        font-size: 1rem;
+    }
+}
