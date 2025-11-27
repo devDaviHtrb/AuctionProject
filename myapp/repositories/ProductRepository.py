@@ -180,8 +180,8 @@ def get_and_images_and_status_diffents_valids_randomly(
         products.product_name,
         products.product_room,
         products.min_bid,
-        product.start_datetime,
-        product.duration,
+        products.start_datetime,
+        products.duration,
         images.image
     ).join(
         images,
