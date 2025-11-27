@@ -22,7 +22,7 @@ def ProfilePage(username:str = None) -> Response:
     tbids = data.get("bids", []) 
     
     limit_bids = []#[{}]
-    for i in range(min(len(tbids), 3, -1, -1)):
+    for i in range(min(len(tbids), 3)-1, -1, -1):
         # shit my friends, It's so amazing...
         product = product_repository.get_by_id(tbids[i].product_id)
         limit_bids.append({
