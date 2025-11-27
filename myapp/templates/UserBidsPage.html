@@ -67,7 +67,7 @@
                         {% if bid['status'] == 'top' %}leading-bid{% endif %}
                         {% if bid['status'] == 'outbid' %}active-bid{% endif %}">
 
-                        <div class="bid-item-photo" style="background-image: url({{ bid['img_url'] }});"></div>
+                        <div class="bid-item-photo" style="background-image: url({{ bid['image_url'] }});"></div>
 
                         <div class="bid-item-details">
                             <h3>{{ bid['product'].product_name }}</h3>
