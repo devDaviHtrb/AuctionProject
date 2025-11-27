@@ -235,3 +235,6 @@ def get_last_bid(product:products) -> Optional[bids]:
 
 def get_bids_by_user(user:users) -> List[products]:
     return products.query.filter_by(user_id = user.user_id).all()
+
+def get_any() -> products:
+    return products.query.first()
