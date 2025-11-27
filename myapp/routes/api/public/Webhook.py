@@ -10,7 +10,7 @@ import requests
 
 #===================== API =====================
 URL_API =               Config.URL_API
-SANDBOX_URL_API =       Config.SANDBOX_URL_API
+SANDBOX_URL_API =       Config.URL_API
 API_TOKEN =             Config.API_TOKEN
 SANDBOX_API_TOKEN =     Config.SANDBOX_API_TOKEN
 ASAAS_WALLET_ID =       Config.ASAAS_WALLET_ID
@@ -47,7 +47,7 @@ def payments_webhook() -> Tuple[Response, int]:
 
     status = payment_event
 
-    url = SANDBOX_URL_API + f"/customers/{customer_id}"
+    url = URL_API + f"/customers/{customer_id}"
 
     headers = {
         "accept": "application/json",
