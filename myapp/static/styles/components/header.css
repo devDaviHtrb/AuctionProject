@@ -633,7 +633,7 @@ body {
 
 .categories-header-menu {
   position: absolute;
-  top: 120%;
+  top: 90%;
   left: 0;
   min-width: 200px;
   background: var(--white);
