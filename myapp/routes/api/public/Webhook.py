@@ -52,7 +52,7 @@ def payments_webhook() -> Tuple[Response, int]:
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "access_token": SANDBOX_API_TOKEN
+        "access_token": API_TOKEN
     }
 
     response = requests.get(url, headers=headers)
@@ -61,6 +61,7 @@ def payments_webhook() -> Tuple[Response, int]:
     user_doc =      response_data.get("cpfCnpj", None)
     user_email =    response_data.get("email", None)
 
+    print(user_doc, user_email, flush=True)
 
     user = None
     if(user_doc):
