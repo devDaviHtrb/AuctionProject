@@ -90,15 +90,20 @@
                             </div>
 
                             <div class="time-status">
-                                {% if bid['status'] == 'top' %}
-                                <i class="far fa-clock"></i>
-                                <span class="time-left-bid leading">Você está ganhando! Tempo: 00h 45m 12s</span>
-                                {% endif %}
+                                <div class="bid-timer">
+                                    <i class="far fa-clock"></i>
+                                    {% if bid['status'] == 'top' %}
+                                    <span class="time-left-bid leading">Você está ganhando! </span>
+                                    {% else %}
+                                    <span class="time-left-bid leading">Você está perdendo! </span>
+                                    {% endif %}
 
-                                {% if bid['status'] == 'outbid' %}
-                                <i class="far fa-clock"></i>
-                                <span class="time-left-bid">Você está perdendo! Tempo: 00h 45m 12s</span>
-                                {% endif %}
+                                    <span class="timer-countdown"
+                                        data-start="{{ bid['product'].start_datetime.isoformat() }}"
+                                        data-duration="{{ bid['product'].duration }}">
+                                    </span>
+                                </div>
+
 
                                 {% if bid['status'] == 'winner' %}
                                 <i class="far fa-clock"></i>
@@ -130,8 +135,9 @@
             </div>
         </div>
     </main>
-
+    <script></script>
     {% include 'components/Footer.html' %}
+    <script src="{{ url_for('static', filename='js/mains/BidsMain.js') }}"></script>
 </body>
 
 </html>
