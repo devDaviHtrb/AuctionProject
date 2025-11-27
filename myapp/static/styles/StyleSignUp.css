@@ -885,3 +885,22 @@ footer {
   border-color: #c0392b;
   box-shadow: 0 0 6px rgba(192, 57, 43, 0.3);
 }
+body.auth-body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f5f5f5;
+}
+
+.auth-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 800px;
+}
