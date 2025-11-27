@@ -23,5 +23,4 @@ def change_pp_data(request, current_user):
             
     physical_person.gender = gender
     session["gender"] = gender
-    print(session["gender"], flush=True)
-    print(gender, flush=True)
+
