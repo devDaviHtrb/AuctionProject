@@ -231,7 +231,7 @@ function setupTimer(element, relatedButton) {
                     break;
 
                 case 'bid':
-                    showNotification('bid', `<a href="/profile/${response.username}" style="text-decoration: underline;">${response.username}</a> deu um lance de R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`);
+                    showNotification('bid', `${response.username} deu um lance de R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`);
 
                     document.getElementById("p2").innerHTML = `Seu Lance (Mínimo R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')})`;
                     bidInput.placeholder = `R$ ${(parseFloat(response.value) + 1).toFixed(2).replace('.', ',')}`;
