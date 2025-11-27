@@ -10,7 +10,7 @@ def HomePage() -> Response:
         "Index.html",
         # fix it
         top_products = get_and_images_and_status_diffents_valids_randomly(
-            get_any(),
+            None,
             4
         )
     )
