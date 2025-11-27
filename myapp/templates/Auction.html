@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanciare - Detalhes do Leilão</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght[400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{  url_for('static', filename='styles/components/header.css')  }}">
+    <link rel="stylesheet" href="{{  url_for('static', filename='styles/StyleAuction.css')  }}">
+    <link rel="shortcut icon"
+        href="https://res.cloudinary.com/dnet6nodm/image/upload/v1761875332/Users_photos/frijvnfjk7rlwtwxktd5.png"
+        type="image/x-icon">
+
+
+</head>
+
+<div id="confirm-remove-bid" class="confirm-modal">
+    <div class="confirm-box">
+        <h3>Remover Lance</h3>
+        <p>Você tem certeza que deseja remover seu(s) lance(s)?<br>
+            <strong>Atenção:</strong> se remover, você não poderá mais dar novos lances neste produto.
+        </p>
+
+        <div class="confirm-actions">
+            <button id="confirm-yes" class="confirm-btn yes">Sim, remover</button>
+            <button id="confirm-no" class="confirm-btn no">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<body>
+    {% include "components/Header.html" %}
+    <div id="notification-container"></div>
+
+    <main class="flex-fill">
+        <div class="container item-detail-layout">
+
+            <section class="main-content-area">
+
+                <div class="gallery-section">
+                    <div class="main-image-display">
+                        <div class="soft-background">
+                            <img style="max-height: 550px; max-width: 700px; height: auto; display: block; object-fit: contain; margin: 0 auto;"
+                                id="main-photo" src="{{ product_images[0].image if product_images[0] else '#'}}"
+                                alt="Foto Principal">
+                        </div>
+                    </div>
+                    <div class="thumbnails">
+                        <img id="" src="{{ product_images[0].image if product_images[0] else '#' }}"
+                            class="thumb active">
+                        {% for image in product_images[1:] %}
+                        <img src="{{ image.image }}" class="thumb">
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <p class="item-category"><a href="/categories">Categorias</a> / <a href="#">{{ product_category
+                            }}</a></p>
+                    <h1 id="item-title">{{ product.product_name }}</h1>
+
+                    <div class="current-bid-box">
+                        <p id="p3" class="item-category">Lance Atual:
+                            (
+                            {% if not last_bid %}
+                            <a id="winner-user" href="#" style="text-decoration: none;">nenhum lance</a>
+                            {% else %}
+                            <a id="winner-user" target="_blank" href="/profile/{{ last_bid.username }}">{{
+                                last_bid.username }}</a>
+                            {% endif %}
+                            )
+                            <!--
+                                <button class="delete-btn" id="dlt-btn" style="display: none;"> retirar lance(s)</button>
+                            -->
+                        </p>
+                        <span id="current-price" class="price-display">R$ {{ product.min_bid }}</span>
+                    </div>
+
+                    <div class="bid-timer">
+                        <i class="far fa-clock"></i>
+                        <span id="time-left" data-start="{{ product.start_datetime.isoformat() }}"
+                            data-duration="{{ product.duration }}">
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="bid-controls">
+                        <div class="bid-input-group">
+                            <label id="p2" for="bid-amount">Seu Lance (Mínimo R$ {{ product.min_bid + 1 }})</label>
+                            <input type="number" id="bid-amount" placeholder="R$ {{ product.min_bid + 1 }}"
+                                step="50.00">
+                            <button class="btn-bid submit-bid-btn"><i class="fas fa-gavel"></i> DAR LANCE</button>
+                        </div>
+                        {% if user %}
+                        <p class="bid-policy">Você possui R$ {{ user.wallet }} em sua conta</p>
+                        {% else %}
+                        <p class="bid-policy">Você precisa estar logado para fazer um lance.</p>
+                        {% endif%}
+                    </div>
+
+                    <div class="seller-info">
+                        <p>Vendido por: <a href="#">{{ product_user }}</a></p>
+                        <p>ID do Item: #{{ product.product_id }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="details-and-history">
+
+                <div class="item-description-panel">
+                    <h2>Detalhes do Item</h2>
+                    <div class="description-content">
+                        <h3>Descrição Completa</h3>
+                        <p id="item-description">{{ product.description }}</p>
+
+                        {% set location_attrs = [
+                        ('Estado', product.state),
+                        ('Cidade', product.city),
+                        ('Bairro', product.district),
+                        ('Rua', product.street_name),
+                        ('Número', product.street_number)
+                        ] %}
+
+                        {% set non_null_attrs = [] %}
+
+                        {% for label, value in location_attrs %}
+                        {# filtra None, "", " " #}
+                        {% if value is not none and value|trim != '' %}
+                        {% set _ = non_null_attrs.append((label, value)) %}
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if non_null_attrs %}
+                        <h3>Localização</h3>
+                        <ul>
+                            {% for label, value in non_null_attrs %}
+                            <li>{{ label }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+
+                        {% if non_null_attrs %}
+                        <h3>Localização</h3>
+                        <ul>
+                            {% for label, value in non_null_attrs %}
+                            <li>{{ label }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+
+                        {% set process_attrs = [
+                        ('Número do Processo', product_legal.process_number),
+                        ('Tribunal', product_legal.court),
+                        ('Autor', product_legal.plaintiff),
+                        ('Réu', product_legal.defendant),
+                        ('Juiz', product_legal.judge_name),
+                        ('Observações', product_legal.extra_notes)
+                        ] %}
+
+                        {% set non_null_process = process_attrs | selectattr(1) | list %}
+
+                        {% if non_null_process %}
+                        <h3>Processo</h3>
+                        <ul>
+                            {% for label, value in non_null_process %}
+                            <li>{{ label }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        {% set ns = namespace(items=[]) %}
+                        {% for current in technical_features %}
+                        {% set _ = ns.items.append((current.technical_feature_name, current.value)) %}
+                        {% endfor %}
+
+                        {% set technical_features_content = ns.items %}
+
+
+                        {% set non_null_process = technical_features_content | selectattr(1) | list %}
+
+                        {% if non_null_process %}
+                        <h3>Especificações Técnicas</h3>
+                        <ul>
+                            {% for label, value in non_null_process %}
+                            <li>{{ label }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <div class="bids-history-panel">
+                    <h2>Histórico de Lances</h2>
+                    <div id="p5">
+                        {% if not last_bid %}
+                        <p id="p5" class="no-bids">Seja o primeiro a dar um lance!</p>
+                        {% endif %}
+                    </div>
+                    <ul id="p4" class="bid-history-list">
+                        {% for current_bid in last_bids %}
+                        <li class="bid-entry">
+                            <span class="bidder"><a href="/profile/{{ current_bid.username }}">
+                                    {{ current_bid.username }}
+                                </a></span>
+                            <span class="bid-value">R$ {{ current_bid.bid_value }}</span>
+                            <span class="bid-time">{{ current_bid.bid_datetime.strftime('%d %b %Y, %H:%M') }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </section>
+
+            {% if products %}
+            <section class="recommendations-section">
+                <h2>Você Também Pode Gostar</h2>
+                <div class="product-grid recommended-grid">
+                    {% for current_product in products %}
+                    <div class="product-card">
+                        <div class="product-image"
+                            style="background-image: url('{{ current_product.image if current_product.image else "#" }}');">
+                        </div>
+                        <h3>{{ current_product.product_name }}</h3>
+                        <p class="price">R$ {{ current_product.min_bid }}</p>
+
+                        <p class="time-left recommended-timer"
+                            data-start="{{ current_product.start_datetime.isoformat() }}"
+                            data-duration="{{ current_product.duration }}">
+                            <i class="far fa-clock"></i>
+                            <span class="timer-text">Carregando...</span>
+                        </p>
+
+                        <a href="/auction/{{ current_product.product_room }}">
+                            <button class="btn-bid">DAR LANCE</button>
+                        </a>
+                    </div>
+                    {% endfor %}
+            </section>
+            {% endif %}
+        </div>
+    </main>
+
+    {% include "components/Footer.html" %}
+</body>
+<script>
+    window.user = {
+        logged: {{ 'true' if user else 'false' }},
+    username: "{{ user.name if user else '' }}"
+    };
+    window.roomId = {{ product.product_room | tojson }};
+    window.product_id = {{ product.product_id }}
+</script>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="{{  url_for('static', filename='js/mains/AuctionMain.js')  }}"></script>
+
+</html>
