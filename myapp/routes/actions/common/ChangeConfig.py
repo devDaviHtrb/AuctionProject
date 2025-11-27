@@ -26,6 +26,7 @@ def change_config() -> Response:
         
     general_change_config(name, username, request)
     print(session["gender"], flush=True)
+    print(session["user_type"], flush=True)
     
 
     return redirect(url_for(CONFIG_PAGE, msg="sucessful"))
