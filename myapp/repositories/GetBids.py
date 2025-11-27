@@ -92,7 +92,7 @@ def get_winner_bids(user_id):
     winner_bids = []
     
     for bid, product in rows:
-        print(get_main_image(bid.product_id), flush=True)
+       
         winner_bids.append({
             "bid": bid,
             "product": product,
