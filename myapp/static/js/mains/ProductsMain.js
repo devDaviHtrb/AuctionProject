@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 timerElement.textContent = "ENCERRADO";
                 timerElement.style.color = "#dc3545";
                 if (buttonElement) {
-                    buttonElement.disabled = true;
+                    buttonElement.disabled = false;
                     buttonElement.textContent = "ENCERRADO";
                 }
 
