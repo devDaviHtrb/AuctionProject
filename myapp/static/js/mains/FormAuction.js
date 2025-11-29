@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       dynamicContainer.innerHTML = '';
       previewContainer.innerHTML = '';
       photosFiles = [];
+      window.location.href = "/";
 
     } catch (err) {
       console.error(err);
