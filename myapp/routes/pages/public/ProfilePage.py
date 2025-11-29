@@ -38,6 +38,7 @@ def ProfilePage(username:str = None) -> Response:
     user_params = {
         "username": user.username,
         "name":     user.name,
+        "photo":    user.photo
     }
     if(session.get("username", None) and user.username == session["username"]):
         user_params["wallet"] = user.wallet
