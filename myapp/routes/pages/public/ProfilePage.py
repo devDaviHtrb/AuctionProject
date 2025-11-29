@@ -10,7 +10,7 @@ profile = Blueprint("profilePage", __name__)
 
 def ProfilePage(username:str = None) -> Response:
     user = None
-    if not username:
+    if not username and session.get("user_id",  None):
         user_id = session["user_id"]
         user = user_repository.get_by_id(user_id)
         username = user.username
@@ -39,7 +39,7 @@ def ProfilePage(username:str = None) -> Response:
         "username": user.username,
         "name":     user.name,
     }
-    if(user.username == session["username"]):
+    if(session.get("username", None) and user.username == session["username"]):
         user_params["wallet"] = user.wallet
 
     all_cnt = data.get("all_bids_number", 0)
