@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil - {user_param.username} </title>
+    <title>Perfil</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -54,8 +54,7 @@
                     <div class="activity-post-item-details">
                         <h4>{{ bid['name'] }}</h4>
                         <p>Seu lance: {{ bid['value'] }}</p>
-                        <a href="/auction/{{ bid['room'] }}" class="btn-text"
-                            style="font-size: 14px;">Ver Leilão</a>
+                        <a href="/auction/{{ bid['room'] }}" class="btn-text" style="font-size: 14px;">Ver Leilão</a>
                     </div>
                 </div>
             </div>
