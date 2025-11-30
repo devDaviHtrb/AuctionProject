@@ -105,10 +105,10 @@
             data-dynamic-end-time="">
             <span class="timer-text">Carregando...</span>
           </p>
-
-          <button class="btn-bid"><a href="/auction/{{product.product_room}}" style="text-decoration: none;">DAR
-              LANCE</a></button>
-        </div>
+          <a href="/auction/{{product.product_room}}">
+            <button class="btn-bid">DAR
+              LANCE</button>
+        </div></a>
 
         {% endfor %}
         <div class="view-all">
