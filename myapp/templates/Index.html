@@ -100,14 +100,13 @@
           <h3>{{ product.product_name }}</h3>
           <p class="price">R$ {{ product.min_bid }}</p>
 
-  
-          <p class="recommended-timer" data-start="{{ product.start_datetime }}"
-            data-duration="{{ product.duration }}"
+
+          <p class="recommended-timer" data-start="{{ product.start_datetime }}" data-duration="{{ product.duration }}"
             data-dynamic-end-time="">
             <span class="timer-text">Carregando...</span>
           </p>
 
-          <button class="btn-bid">DAR LANCE</button>
+          <button class="btn-bid"><a href="/auction/product.room" style="text-decoration: none;">DAR LANCE</a></button>
         </div>
 
         {% endfor %}
