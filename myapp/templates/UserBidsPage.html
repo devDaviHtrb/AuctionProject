@@ -95,7 +95,12 @@
                                     {% if bid['status'] == 'top' %}
                                     <span class="time-left-bid leading">Você está ganhando! </span>
                                     {% else %}
+                                    {% if bid['status'] == 'winner' %}
+                                    <i class="far fa-clock"></i>
+                                    <span class="time-left-bid">Você Ganhou! Finalizado</span>
+                                    {% else %}
                                     <span class="time-left-bid leading">Você está perdendo! </span>
+                                    {% endif %}
                                     {% endif %}
 
                                     <span class="timer-countdown"
@@ -105,10 +110,7 @@
                                 </div>
 
 
-                                {% if bid['status'] == 'winner' %}
-                                <i class="far fa-clock"></i>
-                                <span class="time-left-bid">Você Ganhou! Finalizado</span>
-                                {% endif %}
+
                             </div>
                         </div>
 
