@@ -92,7 +92,7 @@
                             <div class="time-status">
                                 <div class="bid-timer">
                                     <i class="far fa-clock"></i>
-                                    {% if bid['status'] == 'top' %}
+                                    {% if bid['status'] == 'top' and bid['bid'].winner == False%}
                                     <span class="time-left-bid leading">Você está ganhando! </span>
                                     {% else %}
                                     {% if bid['bid'].winner == True %}
