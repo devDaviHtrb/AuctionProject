@@ -105,19 +105,35 @@ def get_winner_bids(user_id):
 
 
 
-def get_interesting_user_bids(user_id: int, page: int) -> Dict[str, Any]:
+def get_interesting_user_bids(user_id: int, page: int, status="active", sort="time"):
     active_bids = get_active_user_bids(user_id)
     winner_bids = get_winner_bids(user_id)
 
-    all_bids = active_bids + winner_bids
 
-    pagination = paginate_list(all_bids, page, per_page=3)
+    if status == "active":
+        bids_list = active_bids
+    elif status == "winner":
+        bids_list = winner_bids
+    else:
+        bids_list = active_bids + winner_bids
+
+
+    if sort == "value":
+        bids_list.sort(key=lambda b: b["bid"].bid_value, reverse=True)
+
+    elif sort == "date":
+        bids_list.sort(key=lambda b: b["bid"].created_at, reverse=True)
+
+    else:  
+        bids_list.sort(key=lambda b: b["product"].start_datetime)
+
+    pagination = paginate_list(bids_list, page, per_page=10)
 
     return {
         "bids": pagination["items"],
         "active_bids_number": len(active_bids),
         "winner_bids_number": len(winner_bids),
-        "pagination": pagination
+        "pagination": pagination,
     }
 
 def get_all_user_bids(user_id:int) -> Dict[str, Any]:
