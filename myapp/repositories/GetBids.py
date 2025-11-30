@@ -127,7 +127,7 @@ def get_interesting_user_bids(user_id: int, page: int, status="active", sort="ti
     else:  
         bids_list.sort(key=lambda b: b["product"].start_datetime)
 
-    pagination = paginate_list(bids_list, page, per_page=10)
+    pagination = paginate_list(bids_list, page, per_page=3)
 
     return {
         "bids": pagination["items"],
