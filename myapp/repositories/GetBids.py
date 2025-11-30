@@ -48,7 +48,7 @@ def get_active_user_bids(user_id):
         my_bid = data["bid"]
         product = data["product"]
 
-        if product.product_status == 3:
+        if product.product_status in [2,3,4,5]:
             continue
 
         highest_global_bid = (
@@ -85,7 +85,6 @@ def get_winner_bids(user_id):
         .filter(
             bids.user_id == user_id,
             bids.winner == True,
-            products.product_status == 4
         )
         .all()
     )
