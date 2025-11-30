@@ -6,6 +6,7 @@ from myapp.models.Users import users
 from myapp.models.Bids import bids
 from myapp.models.Images import images
 from myapp.models.Categories import categories
+from myapp.utils.Paginate import paginate_list
 
 
 def get_main_image(product_id):
@@ -105,13 +106,19 @@ def get_winner_bids(user_id):
 
 
 
-def get_interesting_user_bids(user_id:int) -> Dict[str, Any]:
+def get_interesting_user_bids(user_id: int, page: int) -> Dict[str, Any]:
     active_bids = get_active_user_bids(user_id)
     winner_bids = get_winner_bids(user_id)
+
+    all_bids = active_bids + winner_bids
+
+    pagination = paginate_list(all_bids, page, per_page=3)
+
     return {
-        "bids":                 active_bids+winner_bids,
-        "active_bids_number":   len(active_bids),
-        "winner_bids_number":   len(winner_bids)
+        "bids": pagination["items"],
+        "active_bids_number": len(active_bids),
+        "winner_bids_number": len(winner_bids),
+        "pagination": pagination
     }
 
 def get_all_user_bids(user_id:int) -> Dict[str, Any]:
