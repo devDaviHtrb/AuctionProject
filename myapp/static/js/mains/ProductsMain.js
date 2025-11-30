@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     let totalPages = 1;
     let filters = {
-        category: null,
+        category: category,
         status: null,
         price_range: null,
         name: null,
