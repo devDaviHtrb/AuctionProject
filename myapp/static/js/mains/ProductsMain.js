@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     let totalPages = 1;
     let filters = {
-        category: category,
+        category: new URLSearchParams(window.location.search).get('category') || null,
         status: null,
         price_range: null,
         name: null,
