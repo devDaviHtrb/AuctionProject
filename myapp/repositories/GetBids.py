@@ -122,7 +122,7 @@ def get_interesting_user_bids(user_id: int, page: int, status="active", sort="ti
         bids_list.sort(key=lambda b: b["bid"].bid_value, reverse=True)
 
     elif sort == "date":
-        bids_list.sort(key=lambda b: b["bid"].created_at, reverse=True)
+        bids_list.sort(key=lambda b: b["bid"].datetime, reverse=True)
 
     else:  
         bids_list.sort(key=lambda b: b["product"].start_datetime)
