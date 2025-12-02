@@ -11,8 +11,9 @@ COPY . .
 
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5000
+
+ENV PORT=5000
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--worker-class", "eventlet", "-w", "1", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port", "5000"]

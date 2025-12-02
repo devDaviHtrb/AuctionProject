@@ -6,11 +6,15 @@ home = Blueprint("homePage", __name__)
 
 @home.route("/")
 def HomePage() -> Response:
+    products = get_and_images_and_status_diffents_valids_randomly(
+        None,
+        4
+    )
+    if not products:
+        products = []
+
     return render_template(  
         "Index.html",
         # fix it
-        top_products = get_and_images_and_status_diffents_valids_randomly(
-            None,
-            4
-        )
+        top_products = products
     )

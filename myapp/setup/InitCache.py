@@ -104,7 +104,7 @@ def cached(timeout: int = 300) -> Callable[[Callable[..., Any]], Callable[..., A
             # FROM REDIS CACHE VERSION
             return result
             """
-            pass
+            return func(*args, **kwargs)
 
         return wrapper
     return decorator
