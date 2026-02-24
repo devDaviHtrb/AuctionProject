@@ -1170,3 +1170,7 @@ Provides helper functions to extract endpoints from Blueprints.
     The application will be available at: http://localhost:5000
 
 ## The Team
+	Davi Henrique Teixeira Ribeiro: Back-end develop and project architeture
+	Arthur Henrique: Back-end develop and db integration.
+	Gabriel Nascimento Correia: Database develop, security and deploy
+	Giulia De Jesus: Front-end and Design
